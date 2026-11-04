@@ -81,7 +81,7 @@ ORIGIN_AT_JOINT = 'left_shoulder_pitch_joint'
 #
 # EXO-130: y_hint is now the SEED of the rotation about Z, not the answer. The rotation is a
 # free parameter of the design and it decides where the three stator inserts, the actuator
-# cutout and the rotor index notch sit under the link that lands on them, so it is SOLVED
+# cutout and the rotor key sit under the link that lands on them, so it is SOLVED
 # (armgen.solve_module_spins) once the frames are built: the measured pose is kept wherever
 # it already clears, and moved only where it does not. The build report prints the angle
 # chosen at every joint and the window it came from.
@@ -268,7 +268,7 @@ def arm_frames(joints, by_child, shift=(0.0, 0.0, 0.0)):
 
     `y_hint` in JOINTS is the SEED - the rotation about the module axis measured in the exo
     STEP. The rotation itself is SOLVED (EXO-130): it decides where the three stator inserts,
-    the actuator cutout and the rotor index notch sit under the link that lands on them, and
+    the actuator cutout and the rotor key sit under the link that lands on them, and
     a joint is the stator end of one link and the rotor end of the next, so the whole chain
     is solved at once and then re-proved closed on the solved frames.
 
@@ -283,7 +283,7 @@ def arm_frames(joints, by_child, shift=(0.0, 0.0, 0.0)):
     return frames, spins, armgen.spin_chain_check(frames, SPIN_LINKS, spins)
 
 
-JOIN_OVERLAP = 1.0   # mm a stop block / index tab extends up INTO the pad so the join overlaps in volume
+JOIN_OVERLAP = 1.0   # mm a stop block / key peg extends up INTO the pad so the join overlaps in volume
 
 
 def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
@@ -354,14 +354,15 @@ def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
     sk.loop(info['corner_cut'])
     sk.extrude(1, info['corner_cut_w'], CUT, body)
 
-    # --- stop block (ring sector below the pad face) and index tab, joined with overlap ---
+    # --- stop block (ring sector below the pad face) and key pegs (EXO-364), joined with overlap ---
     stop_h, half, ang = spec['stop_h'], spec['stop_half'], spec['stop_angle']
     sk = PlaneSketch(comp, 'stop block', FA.point([0, 0, (JOIN_OVERLAP - stop_h) / 2]), ex, ey)
     sk.loop(g.stop_block_outline(ang, half, g.STOP_R_IN, pad_r))
     sk.extrude(1, stop_h + JOIN_OVERLAP, JOIN, body)
-    sk = PlaneSketch(comp, 'index tab', FA.point([0, 0, (JOIN_OVERLAP - g.TAB_H) / 2]), ex, ey)
-    sk.loop(g.rect_outline(-g.TAB_W / 2, g.TAB_R_IN, g.TAB_W / 2, g.TAB_R_OUT))
-    sk.extrude(1, g.TAB_H + JOIN_OVERLAP, JOIN, body)
+    sk = PlaneSketch(comp, 'key pegs', FA.point([0, 0, (JOIN_OVERLAP - g.KEY_PEG_H) / 2]), ex, ey)
+    for c in g.key_centres():
+        sk.circle(c, g.KEY_PEG_R)
+    sk.extrude(len(g.KEY_ANGLES), g.KEY_PEG_H + JOIN_OVERLAP, JOIN, body)
 
     # --- rotor-side cuts: 4x M3 through the pad ---
     sk = PlaneSketch(comp, 'rotor holes', FA.point([0, 0, g.PAD_T / 2]), ex, ey)
@@ -698,8 +699,9 @@ def ensure_stop_module(design, rep=None):
 #     screws 45/135/225/315, hex pockets phase = angle + 30, pegs 22.5 + k*45 - and an
 #     8-fold pattern is 4-fold too), so the two parts go together in any of four
 #     orientations 90 deg apart and all four are the same part.
-#     The index notch, which fixes the LINK's orientation on the rotor face, is on the
-#     upper part's rim and is untouched.
+#     The index notch, which fixed the LINK's orientation on the rotor face, was on the
+#     upper part's rim; EXO-364 fills it in `module_rotor_final` and cuts the three key
+#     sockets instead (`armgen.KEY_*`).
 #
 # Every number below is MEASURED off `sensor module 2` (EXO-226) and re-measured on the
 # result by `measure_rotor_v3`. Nothing the links or the stator touch moves: rotor face
@@ -1508,7 +1510,19 @@ V3_PROBES = [
     ('upper: air outside r 15.05', 'upper', 15.07, 157.5, -6.0, False),
     ('upper: race shoulder solid above -5.001', 'upper', 16.5, 0.0, -4.98, True),
     ('upper: air below the shoulder', 'upper', 16.5, 0.0, -5.02, False),
-    ('upper: index notch still cut', 'upper', 16.0, 90.0, -0.5, False),
+    # EXO-364: the notch is filled and the three key sockets are cut (45/135/225, 315 solid)
+    ('upper: old index notch filled', 'upper', 16.0, 90.0, -0.5, True),
+    ('upper: old notch filled at its floor', 'upper', 17.5, 91.0, -1.45, True),
+    ('upper: old notch edge filled', 'upper', 15.0, 82.5, -0.05, True),
+    ('upper: rim still r 18 at +Y', 'upper', 18.02, 90.0, -0.5, False),
+    ('upper: nothing above the rotor face at +Y', 'upper', 16.0, 90.0, 0.05, False),
+    ('upper: key socket open at the face, 45', 'upper', 15.0, 45.0, -0.1, False),
+    ('upper: key socket open at the bottom, 135', 'upper', 15.0, 135.0, -1.25, False),
+    ('upper: key socket edge open, 225', 'upper', 16.6, 225.0, -0.6, False),
+    ('upper: key socket floor solid', 'upper', 15.0, 225.0, -1.35, True),
+    ('upper: key socket wall solid outside', 'upper', 16.7, 45.0, -0.6, True),
+    ('upper: key socket wall solid inside', 'upper', 13.3, 135.0, -0.6, True),
+    ('upper: no socket at 315', 'upper', 15.0, 315.0, -0.6, True),
     ('lower: nothing above the joint face', 'lower', 4.0, 0.0, -6.9, False),
     ('lower: web solid under the joint face', 'lower', 4.5, 0.0, -7.1, True),
     ('lower: web solid on the axis', 'lower', 2.0, 0.0, -9.5, True),
@@ -1671,6 +1685,12 @@ def ensure_v3_module(design, rep=None):
         if rep is not None:
             rep('%s was here but is WRONG (%s) - discarded and re-made' % (MODULE_V3_NAME, bad))
         comp.name = MODULE_V3_NAME + ' (rejected)'
+        # EXO-364: the rejected copy's printed parts give up their names too, so the re-made
+        # module's parts get the exact names (Fusion names are unique per document).
+        for i in range(comp.occurrences.count):
+            pc = comp.occurrences.item(i).component
+            if pc.name in V3_PART_ORDER:
+                pc.name = pc.name + ' (rejected)'
         if occ is not None:
             occ.deleteMe()
 
@@ -1759,6 +1779,20 @@ ROTOR_M3_Z0 = -13.3            # M3 holes re-cut from below the part
 ROTOR_SOCKET_DEPTH = 1.3       # sockets 1.3 deep off the joint face (as v3)
 ROTOR_PEG = (1.2, 0.2)         # pegs 1.2 proud of the face, root 0.2 into the solid (as v3)
 ROTOR_UPPER_CUT = (-10.5, 20.0)  # upper part: everything from z -10.5 up to the face, r < 20
+# EXO-364: the ROTOR KEY replaces the index notch. The notch (measured on the module copy:
+# x -2.018..1.982, y 14.746 out through the r 18 rim, z -1.5..0, centred on +Y) is FILLED with
+# a ring sector r NOTCH_FILL_R..18.0 (the rim radius, so the rim stays one cylinder) about
+# +Y +/- NOTCH_FILL_HALF over z -1.6..0 (0.1 under the notch floor), and the top gets three
+# O3.3 x 1.3 sockets (`armgen.KEY_SOCKET_R` / `KEY_SOCKET_D`) at r 15.0, 45/135/225 deg;
+# 315 stays solid. The link's three O3.0 x 1.2 pegs go in with 0.15 radial / 0.1 axial
+# clearance:  URDF q = 0  <->  the empty key position at module 315 deg  <->  link as drawn.
+# Walls (centre distances minus radii): socket to the r 18 rim 1.35, to an O3.2 M3 hole at
+# r 11 7.364, to an O5 head column at r 6 (same angle) 4.850; floor -1.3 sits 3.701 above
+# the race shoulder -5.001.
+ROTOR_RIM_R = 18.0
+NOTCH_FILL_R = 14.5
+NOTCH_FILL_HALF = 10.0         # deg: at r 14.5 that is x +/- 2.518, over the notch's 2.018
+NOTCH_FILL_Z = (-1.6, 0.0)
 
 
 def module_rotor_final(comp, rep=None):
@@ -1828,10 +1862,20 @@ def module_rotor_final(comp, rep=None):
             _circles(pegs, V3_PEG_R), len(pegs), JOIN)),
         ('upper journal O%.1f' % (2 * ROTOR_JOURNAL_R), _ring_join(
             up, dz_up, ROTOR_RING_IN, ROTOR_JOURNAL_R, J, ROTOR_SHOULDER_Z, 'rotor journal upper')),
+        # EXO-364: index notch filled, three key sockets cut (header above)
+        ('upper index notch filled', _combine_feature(
+            up, 'rotor notch fill', dz_up, NOTCH_FILL_Z[0], NOTCH_FILL_Z[1],
+            lambda sk: sk.loop(armgen.stop_block_outline(90.0, NOTCH_FILL_HALF, NOTCH_FILL_R,
+                                                         ROTOR_RIM_R)), 1, JOIN)),
+        ('upper key sockets', _combine_feature(
+            up, 'rotor key sockets', dz_up, -armgen.KEY_SOCKET_D, 0.1,
+            _circles(armgen.key_centres(), armgen.KEY_SOCKET_R), len(armgen.KEY_ANGLES), CUT)),
     ]
     ring = math.pi * (ROTOR_JOURNAL_R ** 2 - boss_r ** 2)
     expect = {moved[4][0]: ring * (J - ROTOR_FLANGE_Z), moved[8][0]: ring * (ROTOR_SHOULDER_Z - J),
               moved[5][0]: math.pi * (18.0 ** 2 - boss_r ** 2) * (ROTOR_V3_SHOULDER_Z - ROTOR_SHOULDER_Z)}
+    # the socket cut: three cylinders O3.3 x 1.3 in solid (the 0.1 mouth is in air)
+    expect[moved[10][0]] = -len(armgen.KEY_ANGLES) * math.pi * armgen.KEY_SOCKET_R ** 2 * armgen.KEY_SOCKET_D
     for what, want in expect.items():
         got = dict(moved)[what]
         if abs(got - want) > 0.01:

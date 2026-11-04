@@ -10,9 +10,9 @@ each in its own component frame: **module z = file z - 7.5** (the rotor face is 
 
 | File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | Through-holes |
 |---|---|---|---|---|---|
-| `top.3mf` | upper rotor part (`inner_top`) | 36.000 x 35.996 x 8.200 | 5786.178 | 5786.431 | 8 |
+| `top.3mf` | upper rotor part (`inner_top`), rotor key sockets (EXO-364) | 36.000 x 35.999 x 8.200 | 5772.270 | 5772.377 | 8 |
 | `bottom.3mf` | lower rotor part, on the servo horn (`inner_bottom`) | 35.000 x 34.995 x 6.200 | 3865.634 | 3865.869 | 8 |
-| `rotor.bambu.3mf` | Bambu Studio plate: `top` rotor face down, `bottom` O35 plate down, supports on (tree auto), EXO-294 ids | - | - | - | - |
+| `rotor.bambu.3mf` | Bambu Studio plate: `top` rotor face down (sockets on the bed, 881.5 mm2), `bottom` O35 plate down, supports on (tree auto), EXO-294 ids; `tools/bambu_plate_exo343.py --plate rotor` (EXO-364) | - | - | - | - |
 
 Module z, all read back off the exported meshes (EXO-333 record):
 
@@ -25,7 +25,9 @@ Module z, all read back off the exported meshes (EXO-333 record):
 - **Nut pockets 5.6 AF** (ISO 4032 M3), flats radial, r 11, z -13.2..-10.6, from the
   bottom's underside. Pocket-to-journal wall **1.156**, socket-to-journal wall **1.200**.
 - Top: four **O5 head columns** through to the rotor face (r 6), 4 x O3.2 M3 at r 11,
-  eight **O3.0 pegs** (r 12.2, 1.2 tall, down to -8.2), the index notch. Bottom: horn bore
+  eight **O3.0 pegs** (r 12.2, 1.2 tall, down to -8.2), and the **rotor key** (EXO-364): three
+  **O3.3 x 1.3 sockets** in the rotor face at r 15.0, 45/135/225 deg (315 empty; the old index
+  notch is filled). Bottom: horn bore
   r 8.1 (0.3 above the servo top), 4 x O2.2 horn holes, 4 x O3.2, eight **O3.3 sockets**
   1.3 deep (floor -8.3).
 - Assembly: horn screws (M2 x 6) through the bottom into the horn first, through the top's
@@ -39,7 +41,7 @@ High-refinement 3MF exports from `exo generated`; read back with `tools/verify_3
 
 | File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) |
 |---|---|---|---|---|
-| `link_12.3mf` | `g_link_12` of `generated_R_arm_general` (J1 rotor -> J2 stator) | 58.498 x 74.514 x 63.529 | 40392.766 | 40398.023 |
+| `link_12.3mf` | `g_link_12` of `generated_R_arm_general` (J1 rotor -> J2 stator), key pegs (EXO-364) | 58.498 x 74.514 x 63.529 | 40406.203 | 40411.590 |
 | `stator.3mf` | 15 deg stop-block stator + assembly mark (component `stator EXO-341 export`) | 53.999 x 54.000 x 24.100 | 25680.834 | 25684.494 |
 | `link.bambu.3mf` | Bambu Studio plate (EXO-343): 2x stator underside down; link_12 rotated (baked) onto the J2 pad's outer face, 58.5 tall; settings = `rotor.bambu.3mf`; built by `tools/bambu_plate_exo343.py` | - | - | - |
 
@@ -51,7 +53,8 @@ High-refinement 3MF exports from `exo generated`; read back with `tools/verify_3
   -32.5..-24.5): centre (-24.492, -240.775, -2.817), normal +X. J2 origin
   (0.0076, -240.7704, -2.8187), X_J2 (0, -0.2757, -0.9612), Y_J2 (-0.0002, 0.9612, -0.2757).
   Holes 4 x O3.2 r 11 (J1), 3 x O3.2 r 19.25 at 0/180/270 (J2), cutout x +-10, y -9.5..24.5,
-  index tab 3.6 x 2.75 x 1.2 at J1 +Y.
+  rotor key (EXO-364): three O3.0 x 1.2 pegs at r 15.0, J1 45/135/225 deg (315 empty), into
+  the top's sockets (0.15 radial, 0.1 axial); the index tab is gone.
 - **Assembly mark** (`armgen.ALIGN_MARK_*`): a 0.6 wide x 0.4 deep radial line at module
   **+Y** (connector side, no insert) on both mating faces: stator underside r 24.5..27 (out
   through the rim), link pad face r 24.5..27.6 (0.6 stays visible outside the stator). Line
@@ -61,12 +64,12 @@ High-refinement 3MF exports from `exo generated`; read back with `tools/verify_3
 
 | File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) |
 |---|---|---|---|---|
-| `link_23.3mf` | `g_link_23` of `generated_R_arm_general` (J2 rotor -> J3 stator), ARM coordinates, with the assembly mark | 62.504 x 60.246 x 105.699 | 45818.953 | 45829.010 |
+| `link_23.3mf` | `g_link_23` of `generated_R_arm_general` (J2 rotor -> J3 stator), ARM coordinates, with the assembly mark and key pegs (EXO-364) | 62.504 x 60.246 x 105.699 | 45832.391 | 45842.577 |
 | `joints4.bambu.3mf` | Bambu Studio plate: 4x stator (underside down), 4x top (rotor face down), 4x bottom (O35 plate down) as `rotor.bambu.3mf`, + link_23 standing on its J3 flange end face (62.5 tall, J2 pad on supports); settings = `rotor.bambu.3mf`; layout 229.5 x 216.75, margins >= 13.25, gaps >= 10.5; `tools/bambu_plate_exo343.py --plate joints4` | - | - | - |
 
 - **Link 23** (arm coords): J2 rotor face centre (0.008, -240.770, -2.819), normal +X;
   J3 stator-pad face centre (0.004, -247.015, -81.518), normal -Z. Rotor pad 4 x O3.2 r 11,
-  tab at J2 +Y, stop block r 20..27, -55..+69 deg; stator pad 3 x O3.2 r 19.25 at
+  key pegs at J2 45/135/225 deg (EXO-364), stop block r 20..27, -55..+69 deg; stator pad 3 x O3.2 r 19.25 at
   0/180/270, XL330 cutout; mark at J3 +Y, r 24.5..27.6 (EXO-346).
 
 ## Everything on one plate (EXO-348, 2026-10-22)
@@ -97,6 +100,10 @@ r 19.25 unchanged; the exposed shoulder is then r 19.25..R). 42.7 / 42.9
 | `stator_d42.6.3mf` | O42.6000, z -3.5..3.5 | 53.999 x 54.000 x 24.100 | 25443.948 | 25447.461 |
 | `stator_dia.bambu.3mf` | Bambu plate: the five, underside down, bore + label up, rows of 3 + 2, gaps 10.5; settings = `rotor.bambu.3mf`; `tools/bambu_plate_exo343.py --plate stator_dia` | - | - | - |
 | `stator_dia_low.bambu.3mf` | Bambu plate (EXO-358): stator_d41.8 .. 42.4 (7), underside down, rows of 3 + 3 + 1, gaps 10.5, margins 36.5; settings = `rotor.bambu.3mf`; `tools/bambu_plate_exo343.py --plate stator_dia_low` | - | - | - |
+
+## Rotor key (EXO-364, 2026-11-04)
+
+The index notch / tab is replaced by three pegs on every link's rotor pad (O3.0 x 1.2) into three sockets in the rotor top (O3.3 x 1.3), r 15.0 at module 45/135/225 deg, 315 empty: the link goes on one way only (URDF q = 0 <-> empty position at 315 <-> link as drawn). `top.3mf`, `link_12.3mf`, `link_23.3mf` re-exported; `rotor`, `link`, `joints4`, `all` plates rebuilt (same layouts and settings, stator unchanged O42.1). Print a new top with new links: old tops (notch) and old links (tab) do not mate with the new parts.
 
 ## Other files
 

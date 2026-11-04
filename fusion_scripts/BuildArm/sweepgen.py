@@ -404,8 +404,8 @@ def sweep_route(R_ab, t_ab, pad_r, width, thickness=RIBBON_T, web=LAND_WEB,
     stop_margins = []
     if pad_trim is not None:
         # the chord takes material off the pad, so the two features that live ON the pad have
-        # to survive it whole: the link's own stop, and the index tab that keys the pad to
-        # the rotor. A chord that would cut either is a refusal, by name.
+        # to survive it whole: the link's own stop, and the three key pegs that key the pad to
+        # the rotor (EXO-364). A chord that would cut either is a refusal, by name.
         _ang = STOP_ANGLE if stop_angle is None else stop_angle
         # EXO-208: the stop is no longer always a thin +/-5 deg sliver - the rule hands J4
         # 165 deg of arc - so the chord is checked against the WHOLE outline, not against
@@ -414,9 +414,7 @@ def sweep_route(R_ab, t_ab, pad_r, width, thickness=RIBBON_T, web=LAND_WEB,
         # `stop_block_points` is the same discretisation `link_samples` uses.
         _checks = [('the link\'s stop block at %.3f +/- %.3f deg' % (_ang, stop_half),
                     g.stop_block_points(_ang, stop_half, pad_r), STOP_CHORD_MARGIN)]
-        _checks.append(('the index tab',
-                        [(x_, y_) for x_ in (-g.TAB_W / 2.0, g.TAB_W / 2.0)
-                         for y_ in (g.TAB_R_IN, g.TAB_R_OUT)], 0.0))
+        _checks.append(('the key pegs', g.key_peg_points(), 0.0))
         for _what, _pts, _need in _checks:
             _d = min(px * pad_trim[0] + py * pad_trim[1] - pad_trim[2] for px, py in _pts)
             if _need > 0.0:
@@ -996,7 +994,7 @@ def sweep_route(R_ab, t_ab, pad_r, width, thickness=RIBBON_T, web=LAND_WEB,
 
 # ---------------- the rotor pad against the NEXT module's body (EXO-181) ----------------
 # The ribbon has been measured against module B since EXO-144 and the landing plate since
-# EXO-178. The link's own ROTOR JOIN - the pad disk, the stop block and the index tab, all of
+# EXO-178. The link's own ROTOR JOIN - the pad disk, the stop block and the key pegs, all of
 # them inside r `pad_r` about axis A - never has been. It did not show on G1's first five
 # links because module B stands 38 to 45 mm clear of every one of them. On J6->J7 it does:
 # the two axes are 46.00 mm apart and perpendicular, so J6's r 27 pad reaches straight into
@@ -1030,11 +1028,11 @@ def rotor_join_clearance(num, pad_r, trim=None, z_lo=None, n_theta=ROTOR_JOIN_N_
     point it happens at. 0.0 means they share space.
 
     The join is everything inside r `pad_r` about axis A over the pad's own z band, from the
-    bottom of the stop block / index tab up to the top of the pad. Its distance to module B is
+    bottom of the stop block / key pegs up to the top of the pad. Its distance to module B is
     attained on its BOUNDARY - the pad rim, and the chord face when there is one - and only
     the z nearest module B's axis can be the nearest, so that z is solved rather than scanned.
     """
-    z_lo = -max(g.STOP_H, g.TAB_H) if z_lo is None else z_lo
+    z_lo = -max(g.STOP_H, g.KEY_PEG_H) if z_lo is None else z_lo
     z_star = max(z_lo, min(g.PAD_T, num['axial']))
     best, at = None, None
 
@@ -1091,7 +1089,7 @@ def solve_pad_trim(num, pad_r, ring=None, margin=None):
                        'no chord' % (gap0, g.MIN_CLEARANCE))
         return None, info
     w_off, axial = num['w_off'], num['axial']
-    z_lo = -max(g.STOP_H, g.TAB_H)
+    z_lo = -max(g.STOP_H, g.KEY_PEG_H)
     z_star = max(z_lo, min(g.PAD_T, axial))
     d2 = need ** 2 - (z_star - axial) ** 2
     if d2 <= 0.0:
@@ -1212,7 +1210,7 @@ def cut_gap(route, step=0.25, margin=None):
 # NON-plate material owes it MIN_CLEARANCE on top (`actuator_check` passes that margin
 # explicitly; the mating OPENING itself grows by `ACT_OPEN_MARGIN` = 0, EXO-193). The
 # landing plate is the one part the opening is cut THROUGH; every other
-# solid the builder makes (ribbon, its EXO-151 collar, rotor pad, stop block, index tab) is
+# solid the builder makes (ribbon, its EXO-151 collar, rotor pad, stop block, key pegs) is
 # sampled here, in pure Python, before anything is built, and refused BY NAME if it is inside.
 COLLAR_PART = 'fillet collar'   # the EXO-151/EXO-183 blend; a tangent to the plate, not
                                 # a body, so `actuator_check` bars it against the XL330's
@@ -1292,10 +1290,9 @@ def link_samples(route, step=ACT_STEP, collar=None):
                                       step=step):
         for z in (-g.STOP_H, 0.0):
             out.append(('stop block', [x, y, z]))
-    for sg in g.rect_outline(-g.TAB_W / 2.0, g.TAB_R_IN, g.TAB_W / 2.0, g.TAB_R_OUT):
-        for (x, y) in g._seg_points(sg, step):
-            for z in (-g.TAB_H, 0.0):
-                out.append(('index tab', [x, y, z]))
+    for (x, y) in g.key_peg_points(step):
+        for z in (-g.KEY_PEG_H, 0.0):
+            out.append(('key pegs', [x, y, z]))
     return out
 
 
@@ -1303,7 +1300,7 @@ def actuator_check(route, m=None, step=ACT_STEP):
     """Every non-plate solid of the route against the actuator's exclusion volume (EXO-187).
 
     `m` defaults to MIN_CLEARANCE and stays there for every BODY the builder makes - the
-    ribbon, the rotor pad, the stop block, the index tab: none of them mates with the
+    ribbon, the rotor pad, the stop block, the key pegs: none of them mates with the
     actuator, so each owes it a real 1 mm.
 
     The EXO-151/EXO-183 COLLAR is the exception, and its bar is the XL330's own box
@@ -1485,7 +1482,7 @@ def hole_rings(route, ring=None):
       * rotor pad, OUTER face and ROTOR-SIDE face - the ribbon is the pad's own thickness
         and leaves the pad IN ITS PLANE, and it is not allowed to turn out of that plane
         before `s_flat` (past the rim). Both faces are therefore flat over the whole disk,
-        and the only things that bound them are the rim, the other holes, the index tab and
+        and the only things that bound them are the rim, the other holes, the key pegs and
         the link's own stop block.
       * landing plate, FAR face (the one that bolts to module B) - the ribbon dies `BURY`
         mm inside the plate and never reaches it, so that face is flat over the whole
@@ -1513,9 +1510,7 @@ def hole_rings(route, ring=None):
                     bounds.append(('the hole at %.0f deg' % b,
                                    math.hypot(ox - x, oy - y) - g.HOLE_R))
             if face == 'rotor-side':
-                bounds.append(('the index tab at r %.2f' % g.TAB_R_IN,
-                               g._rect_point_dist((x, y), -g.TAB_W / 2.0, g.TAB_W / 2.0,
-                                                  g.TAB_R_IN, g.TAB_R_OUT)))
+                bounds.append(('the key pegs at r %.1f' % g.KEY_R, g.key_peg_dist((x, y))))
                 bounds.append(('the stop block at %.0f +/- %.0f deg' % (stop_ang, stop_half),
                                g._sector_point_dist((x, y), g.STOP_R_IN, pad_r, stop_ang,
                                                     stop_half)))

@@ -1367,11 +1367,16 @@ for _lab, _geo, _rt in _L124:
     close('%s: the pad outer face stays flat past every hole edge + the ring' % _lab,
           1.0 if _reach >= armgen.rotor_flat_needed(_geo['u']) - 1e-9
           or _reach >= _rt['rotor_join']['pad_r'] else 0.0, 1.0, 0)
-# the index tab is what every link is held to - the number Esteban's own walk reported
-close('the tightest ring on all four links is the index tab (TAB_R_IN - r_hole - HOLE_R)',
-      min(h['ring'] for _l, _g, _r in _L124 for h in armgen.hole_flat_rings(_r)
-          if h['seating'] and h['bound'].startswith('the index tab')),
-      armgen.TAB_R_IN - armgen.ROTOR_HOLE_RADIUS - armgen.HOLE_R, 1e-9)
+# EXO-364: the index tab (which held every link to 2.35 mm) is gone; the key pegs sit 7.507
+# off every M3 hole edge, so they never bound a ring - and no hole is bound by a tab any more
+_KP = armgen.KEY_R ** 2 + armgen.ROTOR_HOLE_RADIUS ** 2 - 2 * armgen.KEY_R * armgen.ROTOR_HOLE_RADIUS * math.cos(math.radians(45.0))
+close('EXO-364: no ring is bound by a tab; where the key pegs bound one it is 7.514',
+      [len([h for _l, _g, _r in _L124 for h in armgen.hole_flat_rings(_r) if 'tab' in h['bound']]),
+       min(h['ring'] for _l, _g, _r in _L124 for h in armgen.hole_flat_rings(_r)
+           if h['seating'] and h['bound'].startswith('the key pegs'))],
+      [0, math.sqrt(_KP) - armgen.KEY_PEG_R - armgen.HOLE_R], 1e-9)
+close('EXO-364: peg edge to M3 hole edge = sqrt(15^2 + 11^2 - 2*15*11*cos 45) - 1.5 - 1.6',
+      math.sqrt(_KP) - armgen.KEY_PEG_R - armgen.HOLE_R, 7.5139, 1e-4)
 # link_45, the pair that made the rule: both defects, solved
 _ring45 = dict(((h['pad'], h['angle'], h['face']), h) for h in armgen.hole_flat_rings(r45))
 _stag45 = (armgen.PAD_T / 2.0) * math.tan(math.radians(g45['rise_theta_deg']) / 2.0)
@@ -1419,14 +1424,15 @@ for _bad, _what in (
         print('ok  %-48s raises: %s' % (_what, str(e)[:70]))
     else:
         fails.append('%s was accepted' % _what)
-# and the guard in route_path is the proof the solve worked, at any ring
+# and the guard in route_path is the proof the solve worked, at any ring. EXO-364: 8.0, not
+# 6.0 - without the index tab (2.35) the rotor-side rings run to the key pegs' 7.514
 for _lab, _geo, _rt in _L124:
     try:
-        armgen.check_hole_flat_rings(_rt, ring=6.0)
+        armgen.check_hole_flat_rings(_rt, ring=8.0)
     except ValueError as e:
-        print('ok  %-48s refuses at ring 6.0: %s' % (_lab, str(e)[:55]))
+        print('ok  %-48s refuses at ring 8.0: %s' % (_lab, str(e)[:55]))
     else:
-        fails.append('%s accepted a 6 mm ring it does not have' % _lab)
+        fails.append('%s accepted an 8 mm ring it does not have' % _lab)
 
 
 # ---------------- EXO-130: the module's rotation about its own axis, SOLVED ----------------
@@ -2193,10 +2199,8 @@ for _r in (armgen.STOP_R_IN, 27.0):
         close('EXO-181: the stop block at r %.0f, %+.0f, is kept whole' % (_r, _k),
               _r * math.cos(_a2) * _TR[0] + _r * math.sin(_a2) * _TR[1] - _TR[2] >= 0.0,
               True, 0)
-for _x in (-armgen.TAB_W / 2.0, armgen.TAB_W / 2.0):
-    for _y in (armgen.TAB_R_IN, armgen.TAB_R_OUT):
-        close('EXO-181: the index tab corner (%.1f, %.1f) is kept' % (_x, _y),
-              _x * _TR[0] + _y * _TR[1] - _TR[2] >= 0.0, True, 0)
+close('EXO-364: every key peg outline point is on the kept side of the chord',
+      min(_x * _TR[0] + _y * _TR[1] - _TR[2] for _x, _y in armgen.key_peg_points()) >= 0.0, True, 0)
 # and the chord is solved from the pair, not chosen
 close('EXO-181: the chord is a function of the pair and the pad radius alone',
       list(sweepgen.solve_pad_trim(*_PADS['link_67'])[0]), list(_TR), 0)
@@ -2335,8 +2339,8 @@ close('EXO-187: the two links that arrive from below the plate report a cable ex
       [False, True, False, True, False, False], 0)
 # the sample set covers every solid the builder makes except the plate
 _parts = set(p for p, _q in sweepgen.link_samples(_AR['link_23']))
-close('EXO-187: the samples cover ribbon, collar, rotor pad, stop block and index tab',
-      sorted(_parts) == ['fillet collar', 'index tab', 'ribbon', 'rotor pad', 'stop block'],
+close('EXO-187: the samples cover ribbon, collar, rotor pad, stop block and key pegs',
+      sorted(_parts) == ['fillet collar', 'key pegs', 'ribbon', 'rotor pad', 'stop block'],
       True, 0)
 
 # ---------------- EXO-204 / EXO-208: the limited joint ----------------
@@ -2375,16 +2379,20 @@ close('EXO-208: 15 deg is J1\'s own ceiling, to inside the measurement tolerance
       armgen.JOINT_STOP_DEG
       - (360.0 - math.degrees(_J1U['upper'] - _J1U['lower'])) / 2.0,
       0.0, math.degrees(armgen.LINK_STOP_B_TOL))
-# the zero pose. The rotor notch is x -2.018..1.982, r 14.746..17.891, 1.5 deep - centred on
-# module +Y to 0.06 deg - and the link's index tab is the rectangle that mates with it. That
-# ONE orientation (the four M3 holes are 90 deg symmetric) is what makes 'as drawn' = q = 0.
-close('EXO-204: the link\'s index tab is centred on module +Y, like the rotor\'s notch',
-      [(-armgen.TAB_W / 2.0 + armgen.TAB_W / 2.0) / 2.0,
-       math.degrees(math.atan2((armgen.TAB_R_IN + armgen.TAB_R_OUT) / 2.0, 0.0))],
-      [0.0, 90.0], 1e-9)
-close('EXO-204: and it fits inside the measured notch, 0.2 mm per side, 0.3 shallower',
-      [armgen.TAB_W, armgen.TAB_R_IN, armgen.TAB_R_OUT, armgen.TAB_H],
-      [4.0 - 0.4, 14.75 + 0.2, 17.89 - 0.19, 1.5 - 0.3], 0.02)
+# the zero pose (EXO-364). The link's three key pegs go into the rotor top's three sockets
+# at r 15, 45/135/225 deg; 315 is empty. 3 of 4 positions of a 90 deg pattern fit ONE way
+# (the four M3 holes are 90 deg symmetric), which is what makes 'as drawn' = q = 0.
+close('EXO-364: key at r 15, 45/135/225, 315 empty',
+      [armgen.KEY_R] + list(armgen.KEY_ANGLES) + [armgen.KEY_EMPTY_ANGLE], [15.0, 45.0, 135.0, 225.0, 315.0], 0)
+close('EXO-364: the pattern fits one way only (no other 90 deg turn maps it onto itself)',
+      [sorted((a + t) % 360.0 for a in armgen.KEY_ANGLES) == sorted(armgen.KEY_ANGLES)
+       for t in (90.0, 180.0, 270.0)], [False] * 3, 0)
+close('EXO-364: peg O3.0 x 1.2 into socket O3.3 x 1.3: 0.15 radial, 0.1 axial',
+      [armgen.KEY_SOCKET_R - armgen.KEY_PEG_R, armgen.KEY_SOCKET_D - armgen.KEY_PEG_H,
+       2 * armgen.KEY_PEG_R, armgen.KEY_PEG_H], [0.15, 0.1, 3.0, 1.2], 1e-9)
+close('EXO-364: the pegs stay inside r 18 and 3.5 inside the stop block arc r 20',
+      [armgen.KEY_R + armgen.KEY_PEG_R, armgen.STOP_R_IN - armgen.KEY_R - armgen.KEY_PEG_R],
+      [16.5, 3.5], 1e-9)
 
 _L1 = armgen.limited_joint(_J1U, -1, 26.0)          # J1 as the arm actually builds it
 _L1P = armgen.limited_joint(_J1U, +1, 26.0)         # the same joint with the axis flipped

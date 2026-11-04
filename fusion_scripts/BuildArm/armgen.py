@@ -137,7 +137,7 @@ def module_frame(joint_name, joints, by_child, axis_sign=1, y_hint=(0, 0, 1), sp
 
     `spin_deg` is the module's rotation about its OWN axis - the one thing the URDF does not
     fix. It is not a taste: it decides where the three stator inserts, the actuator cutout,
-    the rotor index notch and the stop block sit relative to the link that lands on them, and
+    the rotor key and the stop block sit relative to the link that lands on them, and
     it is SOLVED by `solve_module_spins` (EXO-130). `y_hint` is the seed the solve starts
     from - the pose measured in the exo STEP - and `spin_deg` is how far the solve had to
     move off it; 0 means the measured pose already cleared everything.
@@ -192,9 +192,37 @@ STOP_R_IN, STOP_R_OUT = 20.0, 26.0   # link stop block: ring sector
 STOP_HALF_ANGLE = 5.0       # deg; block is +/-5 deg wide, centred on module +X
 STOP_ANGLE = 0.0            # deg, centre of the block, measured from module +X
 STOP_H = 3.6                # protrudes 3.6 below the pad face (stator top is at -4.0)
-# Index tab: mates with the rotor's notch (4.0 wide x 3.15 radial x 1.5 deep at +Y,
-# radial span 14.75..17.89). Tab is 0.2 mm smaller per side and 0.3 mm shallower.
-TAB_W, TAB_R_IN, TAB_R_OUT, TAB_H = 3.6, 14.95, 17.7, 1.2
+# EXO-364: ROTOR KEY. The index notch / tab pair is gone. The link's rotor pad carries three
+# O3.0 x 1.2 PEGS on its rotor-side face, into three O3.3 x 1.3 SOCKETS in the rotor top
+# (`BuildArm.module_rotor_final`), at r 15.0 and module angles 45 / 135 / 225; 315 is left
+# empty, so the 3-of-4 pattern fits one way only (like the stator's three inserts).
+# 0.15 radial and 0.1 axial clearance. The pegs sit between the M3 holes (r 11, 0/90/180/270)
+# and the link stop block (r >= STOP_R_IN 20): 7.514 to an M3 hole edge, 6.364 to an O5.5
+# M3 head, 3.5 radially to the stop block's inner arc.
+KEY_R = 15.0                       # peg / socket circle, module frame
+KEY_ANGLES = (45.0, 135.0, 225.0)  # deg; 315 is the empty position
+KEY_EMPTY_ANGLE = 315.0
+KEY_PEG_R, KEY_PEG_H = 1.5, 1.2    # link: O3.0, 1.2 proud of the pad's rotor-side face
+KEY_SOCKET_R, KEY_SOCKET_D = 1.65, 1.3   # rotor top: O3.3, 1.3 deep off the rotor face z 0
+
+
+def key_centres():
+    """(x, y) of the three key pegs / sockets in the module frame."""
+    return [(KEY_R * math.cos(math.radians(a)), KEY_R * math.sin(math.radians(a)))
+            for a in KEY_ANGLES]
+
+
+def key_peg_points(step=0.25):
+    """Points on the outlines of the three pegs (module frame, pad plane)."""
+    n = max(8, int(2.0 * math.pi * KEY_PEG_R / step) + 1)
+    return [(cx + KEY_PEG_R * math.cos(2.0 * math.pi * k / n),
+             cy + KEY_PEG_R * math.sin(2.0 * math.pi * k / n))
+            for cx, cy in key_centres() for k in range(n)]
+
+
+def key_peg_dist(p):
+    """Distance from a point (module frame) to the nearest key peg, negative inside."""
+    return min(math.hypot(p[0] - cx, p[1] - cy) for cx, cy in key_centres()) - KEY_PEG_R
 
 STATOR_PAD_R = 27.0
 STATOR_UNDERSIDE_Z = -24.5  # module z of the stator's underside
@@ -215,7 +243,7 @@ MODULE_R = 27.0             # stator outer radius (for the clearance check)
 # lines continue each other and are seen at the rim before the screws go in. At 90 deg the
 # actuator opening reaches y 24.5, so the line starts INSIDE the opening (R_IN 23.5 removes
 # nothing there) and runs out through the stator rim r 27 to R_OUT 27.6 (0.6 of it stays
-# visible on the pad outside the stator). Rotor side: none, the tab/notch keys it.
+# visible on the pad outside the stator). Rotor side: none, the three key pegs (EXO-364) key it.
 ALIGN_MARK_ANGLE = 90.0     # deg, module frame
 ALIGN_MARK_W = 0.6          # mm, tangential width
 ALIGN_MARK_D = 0.4          # mm, depth into each face
@@ -1004,15 +1032,13 @@ def stop_block_outline(ang, half, r_in=STOP_R_IN, r_out=ROTOR_PAD_R):
 # ZERO POSE. URDF q = 0 is the pose every module frame in this file is built at
 # (`joint_world_pose` walks the chain with no joint angles applied), so the link AS DRAWN in
 # the module frame is the link at q = 0. That drawing is realisable on the real rotor in
-# exactly one orientation: the rotor's four M3 holes are 90 deg symmetric and the INDEX
-# NOTCH breaks the tie. Measured on `sensor module 2`'s rotor face disk (`Component2` on
-# the original, `inner_top` on a v3 copy - EXO-242, `MODULE_PART_RENAME`): the
-# notch is x -2.018 .. 1.982, r 14.746 .. 17.891, 1.5 deep - centred on module +Y (90.06
-# deg, i.e. +Y to 0.06 deg). TAB_W / TAB_R_IN / TAB_R_OUT draw the link's mating tab on +Y
-# too. So the convention this rule is written to, and the one the whole generator already
+# exactly one orientation: the rotor's four M3 holes are 90 deg symmetric and the ROTOR
+# KEY breaks the tie (EXO-364; before it, the index notch at +Y did): three pegs on the
+# link's rotor pad into three sockets in the rotor top at KEY_ANGLES 45 / 135 / 225, with
+# 315 empty. So the convention this rule is written to, and the one the whole generator
 # assumes, is
 #
-#     URDF q = 0  <->  the rotor's index notch at module +Y  <->  the link as drawn.
+#     URDF q = 0  <->  the empty key position at module 315 deg  <->  the link as drawn.
 #
 # AXIS SIGN. The module frame's Z is `axis_sign` * the URDF axis (`module_frame`), so a URDF
 # rotation of q is a rotation of axis_sign * q about module +Z. J1 is axis_sign = -1: its
@@ -1075,7 +1101,7 @@ TWO_PI = 2.0 * math.pi
 # joint stop leaves 15 deg - not because a printed part said so. Section is no longer the
 # binding argument either: at the block's root radius STOP_R_IN = 20 a 15 deg arc is a
 # 5.22 mm chord over the 3.6 mm it stands proud, 18.8 mm2 in shear, comfortably past the
-# index tab's 3.6 mm and LAND_WEB's 3.0.)
+# old index tab's 3.6 mm and LAND_WEB's 3.0.)
 #
 # B_TOL is the resolution the comparison is worth. `a` was measured off a STEP whose two
 # edges of ONE nominal 20.000 deg block come out at 158.0026 and 178.0019 - 0.0026 deg of
@@ -2684,7 +2710,7 @@ def route_corner_cut(route, runs=None):
 
 HULL_SLICES = 24            # strips per disk / slab; see route_hulls
 HULL_STEP = 0.5             # mm between sampled points of the slab outline
-STOP_BLOCK_Z = -STOP_H      # deepest the link stop block and the index tab reach below the
+STOP_BLOCK_Z = -STOP_H      # deepest the link stop block and the key pegs reach below the
                             # rotor pad's rotor-side plane (BuildArm builds both from LINKS;
                             # every exo link's block is at most this deep)
 
@@ -2779,7 +2805,7 @@ def route_hulls(route, runs, w_env):
     sampled clearance stays a LOWER bound. Each box is (s range, z range, (w centre, w half))
     in the link frame.
 
-    In order: the rotor pad disk (with the stop block and index tab under it), the rotor
+    In order: the rotor pad disk (with the stop block and key pegs under it), the rotor
     join's own material, one box per run - the run's own boundaries across, and along it from
     whatever bounds it at each end - and the run's buried end inside the slab. EXO-102 found
     the pad disk, the buried end and the stator slab all missing, so the sampler stopped being
@@ -2999,8 +3025,8 @@ def render_route(route):
 #   * the line of constant s where the ribbon LEAVES that face's own plane (the ramp's
 #     lift-off tangent, the shoulder L's elbow fillet, the ledge join's round), across the
 #     plan band and no wider;
-#   * on the rotor-side face, the link's own stop block and index tab, which stand proud of
-#     it - the index tab at TAB_R_IN is what holds link_12 / link_23 / link_34 to 2.35 mm;
+#   * on the rotor-side face, the link's own stop block and key pegs, which stand proud of
+#     it (EXO-364: the pegs are 7.514 off every hole edge; the old index tab held links to 2.35 mm);
 #   * on a slab face, the run's footprint with the fillet or the corner round beside it;
 #   * the actuator cutout, in the TRUE stator frame B where it is cut.
 # `tools/bridge_scripts/check_hole_margins.py` measures the same rings on the BUILT body,
@@ -3256,7 +3282,7 @@ def land_radius_fit(nominal, y_end, depth, inserts, x_lo, x_hi, what, ring=None)
 
 def rotor_hole_stations(route):
     """Every rotor-pad screw hole, as a dict: `angle`, `module` = (x, y) in the MODULE frame
-    (where the stop block and the index tab are), `sw` = (s, w) in the route's own frame,
+    (where the stop block and the key pegs are), `sw` = (s, w) in the route's own frame,
     `at` = a point on the hole's axis and `axis` = its direction, both in the pad frame's
     (s, w, z) - which is what a measurement of the built body matches on."""
     u, w = route['u'], route['w']
@@ -3339,10 +3365,8 @@ def hole_flat_rings(route, ring=None, stop=None):
                                math.hypot(other['module'][0] - mx, other['module'][1] - my)
                                - HOLE_R))
             if face == 'rotor-side':
-                # the link's own stop block and index tab stand proud of this face
-                bounds.append(('the index tab at r %.2f' % TAB_R_IN,
-                               _rect_point_dist((mx, my), -TAB_W / 2.0, TAB_W / 2.0,
-                                                TAB_R_IN, TAB_R_OUT)))
+                # the link's own stop block and key pegs (EXO-364) stand proud of this face
+                bounds.append(('the key pegs at r %.1f' % KEY_R, key_peg_dist((mx, my))))
                 # EXO-218: the stop is one solid sector again, so that is what a screw
                 # head is measured to.
                 bounds.append(('the stop block at r %.1f..%.1f, %.2f +/- %.2f deg'
@@ -3517,7 +3541,7 @@ def route(frame_a, frame_b, pad_r=ROTOR_PAD_R, placement=None, patterns=PATTERNS
 # The URDF fixes a joint's position and its axis. It does not fix the module's rotation ABOUT
 # that axis, and that rotation is not cosmetic: it carries the three stator inserts
 # (INSERT_ANGLES, a 90 deg gap between 180 and 270 and another between 270 and 0), the
-# actuator cutout, the rotor's index notch and the stator's own stop block. Until now it was
+# actuator cutout, the rotor key and the stator's own stop block. Until now it was
 # a hand-set `y_hint` copied from the exo STEP, and at J5 that put the 270 deg insert exactly
 # under the middle of link_45's landing - which is why EXO-124 had to solve the land fillet
 # down to r 0.150 to keep the seat.
@@ -3576,7 +3600,7 @@ def spin_feasible(R_ab, t_ab, pad_r, width, spin_deg, placement=None, patterns=P
 def stator_ring_margin(spec):
     """The smallest flat seating ring on the STATOR pad of this link, mm beyond the hole
     edge. This is what the stator module's rotation actually moves - the rotor pad's four
-    holes are 90 deg symmetric and its index tab and stop block turn WITH them - so it is the
+    holes are 90 deg symmetric and its key pegs and stop block turn WITH them - so it is the
     number the solve maximises inside a feasible window."""
     return min(h['ring'] for h in spec['geometry']['hole_rings']
                if h['pad'] == 'stator' and h['seating'])

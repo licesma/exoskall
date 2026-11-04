@@ -6,6 +6,7 @@
     python3 -I tools/bambu_plate_exo343.py --plate all          # all.bambu.3mf (EXO-348): joints4 + link_12
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia   # stator_dia.bambu.3mf (EXO-355): O42.2..42.6 stators
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia_low  # stator_dia_low.bambu.3mf (EXO-358): O41.8..42.4
+    python3 -I tools/bambu_plate_exo343.py --plate rotor        # rotor.bambu.3mf (EXO-338 layout, rebuilt EXO-364)
     python3 -I tools/bambu_plate_exo343.py --plate rotor_head   # rotor_head.bambu.3mf (EXO-352): bottom_h0.5 + bottom_h1.0
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
@@ -119,7 +120,15 @@ SDIA_LOW_LAYOUT = [
     ('stator_d42.3', 'stator_d42.3', None, (192.5, 128.0)),
     ('stator_d42.4', 'stator_d42.4', None, (128.0, 63.5)),
 ]
+# rotor (EXO-338, layout read off the file it built; rebuilt by EXO-364 with the keyed top):
+# top rotor face down ('flipX', = the key sockets on the bed), bottom O35 plate down, 46 apart.
+# NOTE rotor.bambu.3mf is also SETTINGS_SRC: its settings are read before it is rewritten.
+ROTOR_LAYOUT = [
+    ('top', 'top', 'flipX', (105.0, 128.0)),
+    ('bottom', 'bottom', None, (151.0, 128.0)),
+]
 PLATES = {
+    'rotor': (os.path.join(PARTS, 'rotor.bambu.3mf'), 'rotor', ROTOR_LAYOUT),
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
     'all': (os.path.join(PARTS, 'all.bambu.3mf'), 'all', ALL_LAYOUT),
@@ -127,8 +136,9 @@ PLATES = {
     'rotor_head': (os.path.join(PARTS, 'rotor_head.bambu.3mf'), 'rotor_head', HEAD_LAYOUT),
     'stator_dia_low': (os.path.join(PARTS, 'stator_dia_low.bambu.3mf'), 'stator_dia_low', SDIA_LOW_LAYOUT),
 }
-SOURCE_V = {'stator': 25680.834, 'link_12': 40392.766, 'top': 5786.178, 'bottom': 3865.634,
-            'link_23': 45818.953, 'stator_d42.2': 25630.734, 'stator_d42.3': 25584.431,
+# EXO-364: top / link_12 / link_23 re-exported with the rotor key (was 5786.178 / 40392.766 / 45818.953)
+SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom': 3865.634,
+            'link_23': 45832.391, 'stator_d42.2': 25630.734, 'stator_d42.3': 25584.431,
             'stator_d42.4': 25537.812, 'stator_d42.5': 25491.064, 'stator_d42.6': 25443.948}
 SOURCE_V.update({'stator_d41.8': 25815.537, 'stator_d41.9': 25769.600, 'stator_d42.0': 25723.026,
                  'stator_d42.1': 25677.170})   # EXO-358

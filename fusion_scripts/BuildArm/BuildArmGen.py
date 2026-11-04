@@ -9,7 +9,7 @@ One body primitive and one landing primitive, for every link:
   * the landing is a wrapping plate on every stator: the disk, a tongue centred on the
     plate's own axis and wide enough to carry the ribbon, the three insert holes and the
     actuator cutout.
-  * the rotor join is the pad disk, its four M3 holes, the stop block and the index tab,
+  * the rotor join is the pad disk, its four M3 holes, the stop block and the key pegs,
     as before.
 
 Everything is created under a NEW root component `generated_R_arm_general`, so the
@@ -171,8 +171,8 @@ def report_limits(rep, spec, limits, order, unbuilt=()):
         'in the copy `%s`; the same at every joint. The link stop is generated: its ARC is '
         'what is left of the circle after the joint stop and the URDF\'s own range, and its '
         'ANGLE is the one that makes the rotor touch at exactly `lower`. Zero pose: URDF '
-        'q = 0 is the link as drawn, which is the one orientation the rotor\'s index notch '
-        '(module +Y, measured) allows. The joint stop is the MINIMUM: b >= a = %.1f deg '
+        'q = 0 is the link as drawn, which is the one orientation the rotor key allows '
+        '(EXO-364: three pegs at 45/135/225 deg, the empty position at 315 deg). The joint stop is the MINIMUM: b >= a = %.1f deg '
         '(+/- %.3f measurement tolerance), so the widest range this module can limit is '
         '%.4f deg.'
         % (armgen.JOINT_STOP_DEG, armgen.JOINT_STOP_R_IN, armgen.MODULE_R,
@@ -644,7 +644,7 @@ def _merge(comp, body, tool_feature, op, step, name):
 
 
 def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
-    """The whole link: ribbon + rotor pad + landing plate + stop block + tab, then the cuts."""
+    """The whole link: ribbon + rotor pad + landing plate + stop block + key pegs, then the cuts."""
     g = armgen
     NEW = adsk.fusion.FeatureOperations.NewBodyFeatureOperation
     JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
@@ -683,11 +683,17 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
     body = _merge(comp, body, sk.extrude(1, stop_h + BuildArm.JOIN_OVERLAP, NEW), JOIN,
                   'stop block', name)
 
-    sk = BuildArm.PlaneSketch(comp, name + ' index tab',
-                              FA.point([0, 0, (BuildArm.JOIN_OVERLAP - g.TAB_H) / 2]), ex, ey)
-    sk.loop(g.rect_outline(-g.TAB_W / 2, g.TAB_R_IN, g.TAB_W / 2, g.TAB_R_OUT))
-    body = _merge(comp, body, sk.extrude(1, g.TAB_H + BuildArm.JOIN_OVERLAP, NEW), JOIN,
-                  'index tab', name)
+    # EXO-364: the rotor key. Three O3.0 pegs, KEY_PEG_H proud of the rotor-side face z 0
+    # (rooted JOIN_OVERLAP into the pad), at KEY_R / KEY_ANGLES 45, 135, 225 in the module
+    # frame A, into the three O3.3 x 1.3 sockets of the rotor top; 315 is empty, so
+    #     URDF q = 0  <->  the empty key position at module 315 deg  <->  the link as drawn.
+    # (Replaces the EXO-204 index tab at +Y, `TAB_*`.)
+    sk = BuildArm.PlaneSketch(comp, name + ' key pegs',
+                              FA.point([0, 0, (BuildArm.JOIN_OVERLAP - g.KEY_PEG_H) / 2]), ex, ey)
+    for c in g.key_centres():
+        sk.circle(c, g.KEY_PEG_R)
+    body = _merge(comp, body, sk.extrude(len(g.KEY_ANGLES), g.KEY_PEG_H + BuildArm.JOIN_OVERLAP, NEW),
+                  JOIN, 'key pegs', name)
 
     sk = BuildArm.PlaneSketch(comp, name + ' landing plate',
                               FS.point([0, 0, z_slab_mid]), sx, sy)
@@ -1204,7 +1210,7 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
         start = route.get('y_round', route['y_end']) - rad['r_out']
         rep('  %s' % gname)
         rep('    guard 1 (EXO-77/84): lowest material inside r %.1f of the pad axis z %.3f mm '
-            '(the link stop block / index tab, %.1f mm deep; no blend is below the pad plane '
+            '(the link stop block / key pegs, %.1f mm deep; no blend is below the pad plane '
             'by construction)' % (armgen.STATOR_PAD_R, zmin, -zmin if zmin else 0.0))
         rep('    guard 2 (EXO-79): the outer round starts %.3f mm from the plate axis, '
             'need >= %.1f + %.1f = %.1f -> %s'
