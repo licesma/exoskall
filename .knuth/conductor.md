@@ -35,8 +35,12 @@ None defined. No VPT.
 
 ## Repo facts
 
-- **Not a git repository.** Never commit; never assume a clean tree. Don't move or
-  rename the reference assets.
+- **Git repo, origin github.com/licesma/exoskall** (`main`, SSH key via `core.sshCommand`).
+  Commit and push after every finished issue; message = issue id and title
+  (e.g. `EXO-361 Git: init repo, ...`). Never force-push. `.gitignore` keeps vendor
+  `gento_luna/` (except `gento_luna/exo/` notes/screenshots/text exports), `archive/`,
+  and CAD binaries out; nothing over 50 MB. Don't move or rename the reference assets.
+  (Replaces EXO-9's "not a git repository" rule.)
 - `gento_luna/` = vendor drop (PDFs, DriveMaster tool, URDF + meshes) + `exo/` (our notes,
   exports, screenshots). `fusion_scripts/` = Fusion add-in scripts.
 - Exo joint doc: `.knuth/docs/exo-joint.md`. Change list: `gento_luna/exo/NOTES.md`.
