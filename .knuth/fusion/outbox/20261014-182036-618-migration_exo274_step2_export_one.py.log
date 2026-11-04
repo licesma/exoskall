@@ -1,8 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-item 34 side0 v3 kind=f3d
-doc: side0 ver=3 modified=False (open 3.1s)
-export execute=True (3.1s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/34_side0_v3.f3d (258703 bytes)
-closed=['side0']; remaining open docs=0; 3.8s
-bridge: OK in 3.8s

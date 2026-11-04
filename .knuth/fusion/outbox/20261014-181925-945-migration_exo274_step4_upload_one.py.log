@@ -1,7 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-item 14 upload started: cases.f3d -> G1 exeskeleton/root
-item 14 uploaded as 'cases' (26s)
-counts: {'blocked_assembly': 8, 'uploaded': 22, 'upload_failed': 2, 'pending': 3}
-active hub/project: Team hub - Rodrigo Andrade / G1 exeskeleton (28s)
-bridge: OK in 28.5s

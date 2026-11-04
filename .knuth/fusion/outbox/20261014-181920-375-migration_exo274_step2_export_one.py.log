@@ -1,8 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-item 14 cases v10 kind=f3d
-doc: cases ver=10 modified=False (open 4.1s)
-export execute=True (4.2s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/14_cases_v10.f3d (2577093 bytes)
-closed=['cases']; remaining open docs=0; 5.1s
-bridge: OK in 5.1s

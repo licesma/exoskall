@@ -1,9 +1,0 @@
-OK
-generated_R_arm_luna: 0 light bulb(s) switched on
-luna slides: R1 -38.000 mm, R2 +29.501 mm, R3 -37.001 mm, R4 +0.000 mm, R5 -38.000 mm, R6 -38.000 mm, R7 +0.000 mm
-  luna_arm_iso           -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/exo218_luna_arm_iso.png (True)
-  luna_shoulder          -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/exo218_luna_shoulder.png (True)
-  luna_wrist             -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/exo218_luna_wrist.png (True)
-G1 iso already taken at this geometry - skipping its solve (EXO-218)
-EXO-218 screenshots done; nothing was posed and every root occurrence is visible again
-bridge: OK in 11.3s

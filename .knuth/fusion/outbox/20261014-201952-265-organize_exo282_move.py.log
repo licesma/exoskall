@@ -1,5 +1,0 @@
-OK
-move apriltag support D_GhGn -> body mount: True
-verify apriltag support: in dest=1 gone from src=True (7s)
-verified 1/1
-bridge: OK in 7.1s

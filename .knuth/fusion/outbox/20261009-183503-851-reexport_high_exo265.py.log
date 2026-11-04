@@ -1,6 +1,0 @@
-OK
-original 'sensor module 2' v12 isModified=False
-upper: 'Component2'/'Body1' V=6473.293 refinement 0 -> True /Users/esteban/repos/exo/parts/manual_inner_top.3mf
-lower: 'Component3'/'Body1' V=2950.793 refinement 0 -> True /Users/esteban/repos/exo/parts/manual_inner_bottom.3mf
-original isModified after: False
-bridge: OK in 3.5s

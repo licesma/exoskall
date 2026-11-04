@@ -1,7 +1,0 @@
-OK
-projects named G1 exeskeleton in Estebans: 1
-root files=[] folders=['cuff']
-step1 already done; not re-checking emptiness
-active hub/project: Team hub - Rodrigo Andrade / G1 exeskeleton
-{'hub_id': 'a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0', 'hub_name': 'Estebans', 'project_id': 'a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ', 'project_name': 'G1 exeskeleton', 'root_folder_id': 'urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A', 'cuff_folder_id': 'urn:adsk.wipprod:fs.folder:co.BtB2DO-hTDep7RhsJadR0A'}
-bridge: OK in 2.5s

@@ -1,9 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-opened sensor module in 1.2s
-close: 4 : An API Object refers to a deleted Object
-close: 4 : An API Object refers to a deleted Object
-sensor module ocXT v1: comps 6 bodies 31 occ 5 linked 2 joints 0 asBuilt 0 rg 0 health [] (2.6s)
-  5972K159_Ball Bearing:1 | owner=None | 5972K159_Ball Bearing z82o v1 | extra->khSi | joints=0 rg=0
-  XL330:1 | owner=None | XL330 VtO- v1 | extra->zU49 | joints=0 rg=0
-bridge: OK in 2.6s

@@ -1,7 +1,0 @@
-OK
-item 2 arm complete v35 kind=f3z
-doc: arm complete ver=35 modified=False (open 0.2s)
-export execute=True (11.2s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/02_arm_complete_v35.f3z.f3d (83260404 bytes)
-closed=[]; remaining open docs=10; 11.4s
-bridge: OK in 11.4s

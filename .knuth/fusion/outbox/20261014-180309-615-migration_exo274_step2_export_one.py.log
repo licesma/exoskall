@@ -1,7 +1,0 @@
-OK
-item 27 wristband_2.0 v1 kind=f3d
-doc: wristband_2.0 ver=1 modified=False (open 3.1s)
-export execute=True (3.3s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/27_wristband_2.0_v1.f3d (4772574 bytes)
-closed=['wristband_2.0']; remaining open docs=10; 4.5s
-bridge: OK in 4.5s

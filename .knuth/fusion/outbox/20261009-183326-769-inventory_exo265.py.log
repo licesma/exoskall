@@ -1,8 +1,0 @@
-OK
-doc 0: '5972K159_Ball Bearing.f3d ' saved=True
-doc 1: 'sensor module 2' saved=True
-doc 2: 'exo generated' saved=True
-   occ 'sensor module 2:1' comp 'sensor module 2' referenced=True children=16
-   occ 'sensor module 2 v3:1' comp 'sensor module 2 v3' referenced=False children=14
-doc 3: 'tool_organizer_exo258' saved=True
-bridge: OK in 0.5s

@@ -1,7 +1,0 @@
-OK
-item 12 arm complete_Camera support v1 kind=f3d
-doc: arm complete_Camera support ver=1 modified=False (open 3.8s)
-export execute=True (3.9s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/12_arm_complete_Camera_support_v1.f3d (143093 bytes)
-closed=['arm complete_Camera support']; remaining open docs=10; 4.6s
-bridge: OK in 4.8s

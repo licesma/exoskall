@@ -1,8 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-item 35 hook v3 kind=f3d
-doc: hook ver=3 modified=False (open 3.6s)
-export execute=True (3.6s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/35_hook_v3.f3d (159392 bytes)
-closed=['hook']; remaining open docs=0; 4.2s
-bridge: OK in 4.2s

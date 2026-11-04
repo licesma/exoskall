@@ -1,5 +1,0 @@
-OK
-root sensor module 2 bulb=False; nested bulbs=[True, True, True, True, True, True, True]
-after root bulb=False       ; nested bulbs=[True, True, True, True, True, True, True]
-after root bulb=True        ; nested bulbs=[True, True, True, True, True, True, True]
-bridge: OK in 0.2s

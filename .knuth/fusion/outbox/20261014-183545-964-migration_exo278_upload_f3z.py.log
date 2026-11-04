@@ -1,5 +1,0 @@
-OK
-arm 2.f3z (5041031 B) upload started via uploadFile as arm 2.f3z
-arm 2.f3z uploaded as 'XL330' id=urn:adsk.wipprod:dm.lineage:VtO-MkfaRleYqpo3jRa1XA (10s)
-f3z statuses: [('sensor module test.f3z', 'uploaded'), ('arm 2.f3z', 'uploaded'), ('arm.f3z', 'pending'), ('exo generated.f3z', 'pending'), ('wrist_sketch3_with_straps.f3z', 'pending'), ('arm complete.f3z', 'pending'), ('arm complete v1.f3z', 'pending'), ('arm test.f3z', 'pending'), ('arm complete luna.f3z', 'pending')] (13s)
-bridge: OK in 12.8s

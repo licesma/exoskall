@@ -1,7 +1,0 @@
-OK
-item 29 writst mount v1 kind=f3d
-doc: writst mount ver=1 modified=False (open 1.2s)
-export execute=True (1.3s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/29_writst_mount_v1.f3d (771735 bytes)
-closed=['writst mount']; remaining open docs=10; 2.0s
-bridge: OK in 2.0s

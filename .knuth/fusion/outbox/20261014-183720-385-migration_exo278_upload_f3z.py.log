@@ -1,5 +1,0 @@
-OK
-arm test.f3z (91824182 B) upload started via uploadFile as arm test.f3z
-arm test.f3z uploaded as 'M4 x 0.7mm Thread HEX NUT' id=urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g (25s)
-f3z statuses: [('sensor module test.f3z', 'uploaded'), ('arm 2.f3z', 'uploaded'), ('arm.f3z', 'uploaded'), ('exo generated.f3z', 'uploaded'), ('wrist_sketch3_with_straps.f3z', 'uploaded'), ('arm complete.f3z', 'uploaded'), ('arm complete v1.f3z', 'uploaded'), ('arm test.f3z', 'uploaded'), ('arm complete luna.f3z', 'pending')] (28s)
-bridge: OK in 28.1s

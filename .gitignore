@@ -17,3 +17,5 @@ node_modules/
 /gento_luna/exo/exports/**/*.f3d
 /gento_luna/exo/exports/**/*.f3z
 /gento_luna/exo/exports/**/*.mp4
+.claude/
+.knuth/

@@ -1,8 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-actions [{'occ': '5972K159_Ball Bearing:1', 'from': 'z82o', 'to': 'khSi', 'ok': True}, {'occ': 'XL330:1', 'from': 'VtO-', 'to': 'zU49', 'ok': True}]
-before {'components': 6, 'bodies': 31, 'occurrences': 5, 'linked': 2, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0}
-after  {'components': 6, 'bodies': 31, 'occurrences': 5, 'linked': 2, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0} refs [('zU49', 1, False), ('khSi', 1, False)]
-save route a -> True (isModified pre True, post False)
-sensor module ocXT route a: v1 -> in-doc v2, after close v2, isModified_post False, open after [] (16.7s)
-bridge: OK in 16.8s

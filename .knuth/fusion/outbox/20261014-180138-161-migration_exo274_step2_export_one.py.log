@@ -1,7 +1,0 @@
-OK
-item 24 right v9 kind=f3d
-doc: right ver=9 modified=False (open 13.1s)
-export execute=True (14.6s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/24_right_v9.f3d (66457186 bytes)
-closed=['right']; remaining open docs=10; 16.5s
-bridge: OK in 16.5s

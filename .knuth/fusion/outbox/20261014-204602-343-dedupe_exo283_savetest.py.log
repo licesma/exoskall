@@ -1,8 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-actions [{'occ': '5972K159_Ball Bearing:1', 'from': 'bYhy', 'to': 'khSi', 'ok': True}]
-before {'components': 6, 'bodies': 31, 'occurrences': 5, 'linked': 2, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0}
-after  {'components': 6, 'bodies': 31, 'occurrences': 5, 'linked': 2, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0} refs [('khSi', 1, False), ('zU49', 1, False)]
-save route a -> True (isModified pre True, post False)
-sensor module pGmH route a: v1 -> in-doc v2, after close v2, isModified_post False, open after [] (15.6s)
-bridge: OK in 15.6s

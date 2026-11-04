@@ -1,6 +1,0 @@
-OK
-item 2 upload started: arm complete.f3d -> G1 exeskeleton/root
-item 2 upload FAILED
-counts: {'skipped_modified': 1, 'upload_failed': 1, 'pending': 33}
-active hub/project: Team hub - Rodrigo Andrade / G1 exeskeleton (12s)
-bridge: OK in 12.2s

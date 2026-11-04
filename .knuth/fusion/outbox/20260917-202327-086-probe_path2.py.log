@@ -1,6 +1,0 @@
-OK
-createPath(coll,False) -> count=3
-createPath(l1,True) -> count=1
-profiles=1
-sweep bodies=1 faces=10 vol=20.340
-bridge: OK in 1.6s

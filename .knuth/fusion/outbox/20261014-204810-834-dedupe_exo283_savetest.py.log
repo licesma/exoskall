@@ -1,8 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-actions [{'ref': 'ocXT', 'from_v': 1, 'to_v': 2, 'ok': True}]
-before {'components': 66, 'bodies': 264, 'occurrences': 101, 'linked': 21, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0}
-after  {'components': 66, 'bodies': 264, 'occurrences': 101, 'linked': 21, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0} refs [('ocXT', 2, False)]
-save route a -> True (isModified pre True, post False)
-arm 2 route a: v1 -> in-doc v2, after close v2, isModified_post False, open after [] (16.1s)
-bridge: OK in 16.1s

@@ -1,7 +1,0 @@
-OK
-item 23 pan_head_philip_mc_screw_m1-6 v1 kind=f3d
-doc: pan_head_philip_mc_screw_m1-6 ver=1 modified=False (open 4.6s)
-export execute=True (4.7s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/23_pan_head_philip_mc_screw_m1-6_v1.f3d (4618534 bytes)
-closed=['pan_head_philip_mc_screw_m1-6']; remaining open docs=10; 5.4s
-bridge: OK in 5.4s

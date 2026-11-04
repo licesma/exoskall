@@ -1,7 +1,0 @@
-OK
-before: root bodies 1, base features 1, occurrences ['bearing_5972K159_exo261', 'XL330_exo261']
-updateBody: True
-after: root bodies 1 ('Body1'), bbox mm 200.00 x 200.00 x 80.00, volume 354975 mm3, faces 1774
-occurrences kept: ['bearing_5972K159_exo261', 'XL330_exo261']
-SAVED: "tool_organizer_exo258" in project "G1 exeskeleton", folder "G1 exeskeleton"
-bridge: OK in 9.6s

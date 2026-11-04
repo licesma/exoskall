@@ -1,5 +1,0 @@
-OK
-exporting 'Body1' of 'tool_organizer_exo258' (version 4): 200.00 x 200.00 x 80.00 mm, volume 354975 mm3; NOT exported: ['bearing_5972K159_exo261', 'XL330_exo261']
-mesh refinement: 1
-3MF export: True -> /Users/esteban/repos/exo/parts/tool_organizer.3mf
-bridge: OK in 3.8s

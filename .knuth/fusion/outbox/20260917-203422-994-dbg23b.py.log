@@ -1,7 +1,0 @@
-OK
-after pad bodies=1
-main v=30603 bb=(0.00,-267.77,-77.52)-(32.33,-213.77,24.18)
-blk  v=264 bb=(-3.59,-250.89,-29.80)-(1.01,-241.47,-21.36)
-interference count=1 vol=57.421
-after combine bodies=1 v=30809
-bridge: OK in 22.7s

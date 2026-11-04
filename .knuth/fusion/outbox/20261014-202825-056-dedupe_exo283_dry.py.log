@@ -1,7 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-opened wrist_sketch3_with_straps in 2.5s
-close: 4 : An API Object refers to a deleted Object
-wrist_sketch3_with_straps v1: comps 3 bodies 3 occ 2 linked 1 joints 0 asBuilt 0 rg 0 health [] (3.4s)
-  writst mount_e:1 | owner=None | writst mount_e eKtc v1 | kept | joints=0 rg=0
-bridge: OK in 3.4s

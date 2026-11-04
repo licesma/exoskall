@@ -1,3 +1,0 @@
-OK
-{"start": {"time": "2026-10-14 20:18:51", "active_hub": "Team hub - Rodrigo Andrade", "active_hub_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEz", "active_project": "G1 exeskeleton", "active_project_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjYwMjAyMTA0NTg3NDkzMQ", "active_doc": "cases", "open_docs": ["writst mount", "wrist_sketch3_with_straps", "wrist_sketch3_with_straps", "cases"]}, "root_folders": [["cuff", "urn:adsk.wipprod:fs.folder:co.BtB2DO-hTDep7RhsJadR0A"]], "api": {"DataFolder.move": false, "DataFile.move": true, "DataFolders.add": true, "DataFolder.deleteMe": true, "DataFile.deleteMe": true}, "root_file_count_start": 58}
-bridge: OK in 3.4s

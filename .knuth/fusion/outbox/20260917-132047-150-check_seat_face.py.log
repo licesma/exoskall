@@ -1,9 +1,0 @@
-OK
-For the J5 stator-pad holes: which side is the module on, so where does the head bear?
-  hole (87.3,-268.1,-196.5) dir +1: first solid at 10.75 mm = Component1
-  hole (87.3,-268.1,-196.5) dir -1: nothing out to 20 mm  <-- HEAD SIDE
-  hole (87.3,-248.9,-177.3) dir +1: first solid at 10.75 mm = Component1
-  hole (87.3,-248.9,-177.3) dir -1: nothing out to 20 mm  <-- HEAD SIDE
-  hole (87.3,-248.9,-215.8) dir +1: first solid at 10.75 mm = Component1
-  hole (87.3,-248.9,-215.8) dir -1: nothing out to 20 mm  <-- HEAD SIDE
-bridge: OK in 3.1s

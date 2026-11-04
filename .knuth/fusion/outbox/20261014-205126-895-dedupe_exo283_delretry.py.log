@@ -1,5 +1,0 @@
-OK
-bridge: no active Fusion design - design is None
-versions: [1]
-zs1g ok=None errs=['2 : InternalValidationError : res', '2 : InternalValidationError : res']
-bridge: OK in 35.0s

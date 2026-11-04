@@ -1,7 +1,0 @@
-OK
-item 32 cuff v17 kind=f3d
-doc: cuff ver=17 modified=False (open 5.9s)
-export execute=True (6.3s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/32_cuff_v17.f3d (2740208 bytes)
-closed=['cuff']; remaining open docs=10; 8.1s
-bridge: OK in 8.1s

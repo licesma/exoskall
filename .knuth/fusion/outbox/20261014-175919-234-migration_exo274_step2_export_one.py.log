@@ -1,7 +1,0 @@
-OK
-item 16 Direct-Adapter-Mount v1 kind=f3d
-doc: Direct-Adapter-Mount ver=1 modified=False (open 3.0s)
-export execute=True (3.1s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/16_Direct-Adapter-Mount_v1.f3d (1496785 bytes)
-closed=['Direct-Adapter-Mount']; remaining open docs=10; 4.0s
-bridge: OK in 4.0s

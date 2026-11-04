@@ -1,7 +1,0 @@
-OK
-  3 printed part(s) of the legacy module renamed "... (legacy v3)"
-parts renamed: stator (1) -> stator, inner_top (1) -> inner_top, inner_bottom (1) -> inner_bottom
-ensure_v3_module: already in the document, parts named stator / inner_top / inner_bottom, stop block measured 160.50223..175.50227 deg (arc 15.00005) and all 43 rotor probes read back
-SAVED: "exo generated" in project "G1 exeskeleton", folder "exo upper body"
-isModified=False
-bridge: OK in 1.0s

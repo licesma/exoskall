@@ -1,7 +1,0 @@
-OK
-item 18 inspire_link v1 kind=f3d
-doc: inspire_link ver=1 modified=False (open 3.4s)
-export execute=True (3.4s)
-exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/18_inspire_link_v1.f3d (29714 bytes)
-closed=['inspire_link']; remaining open docs=10; 4.7s
-bridge: OK in 4.7s
