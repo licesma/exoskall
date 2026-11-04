@@ -4,8 +4,6 @@
     python3 -I tools/bambu_plate_exo343.py                      # link.bambu.3mf: 2x stator + link_12
     python3 -I tools/bambu_plate_exo343.py --plate joints4      # joints4.bambu.3mf (EXO-345)
     python3 -I tools/bambu_plate_exo343.py --plate all          # all.bambu.3mf (EXO-348): joints4 + link_12
-    python3 -I tools/bambu_plate_exo343.py --plate stator_dia   # stator_dia.bambu.3mf (EXO-355): O42.2..42.6 stators
-    python3 -I tools/bambu_plate_exo343.py --plate stator_dia_low  # stator_dia_low.bambu.3mf (EXO-358): O41.8..42.4
     python3 -I tools/bambu_plate_exo343.py --plate rotor_head   # rotor_head.bambu.3mf (EXO-352): bottom_h0.5 + bottom_h1.0
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
@@ -38,8 +36,8 @@ Orientation is BAKED INTO THE MESH; build items are pure translations. Per layou
   all (EXO-348): the 14 objects of joints4 + link_12, print orientations unchanged (no XY
              rotation needed). Positions from a bottom-left greedy packer over bbox footprints
              (gap 11, margin 9, exclude zone 18x28 blocked), then shifted +0.88 / +2.75 to centre.
-  stator_dia (EXO-350, EXO-355): stator_d42.2 .. 42.6 as exported (underside on the bed, bore and
-             the "42.x" label on the top face up), rows of 3 + 2 at 64.5 pitch (gap 10.5).
+  stator_dia / stator_dia_low (EXO-350/355/358): the seat-test plates; removed by EXO-363 (O42.2
+             chosen), plates and test stators in parts/archive/2026-10-tests/ (see INDEX.md).
 """
 import math, os, sys, uuid, zipfile
 import xml.etree.ElementTree as ET
@@ -93,39 +91,17 @@ ALL_LAYOUT = [
     ('bottom_3', 'bottom', None, (186.38, 215.25)),
     ('bottom_4', 'bottom', None, (92.38, 226.76)),
 ]
-# stator_dia (EXO-355): five stators 54 x 54, rows of 3 + 2 at 64.5 pitch (gap 10.5), centred on 128/128.
-SDIA_LAYOUT = [
-    ('stator_d42.2', 'stator_d42.2', None, (63.5, 160.25)),
-    ('stator_d42.3', 'stator_d42.3', None, (128.0, 160.25)),
-    ('stator_d42.4', 'stator_d42.4', None, (192.5, 160.25)),
-    ('stator_d42.5', 'stator_d42.5', None, (95.75, 95.75)),
-    ('stator_d42.6', 'stator_d42.6', None, (160.25, 95.75)),
-]
 # rotor_head (EXO-352): bottom_h0.5 / bottom_h1.0 as exported (O35 plate down, as rotor.bambu.3mf),
 # 35 x 35, pitch 45.5 -> gap 10.5, centred on 128/128.
 HEAD_LAYOUT = [
     ('bottom_h0.5', 'bottom_h0.5', None, (105.25, 128.0)),
     ('bottom_h1.0', 'bottom_h1.0', None, (150.75, 128.0)),
 ]
-# stator_dia_low (EXO-358): stator_d41.8 / 41.9 / 42.0 / 42.1 + the existing stator_d42.2 / 42.3 / 42.4,
-# as exported (underside on the bed), rows of 3 + 3 + 1 at 64.5 pitch (gap 10.5), centred on 128/128
-# (4 across would be 247.5 wide, margins 4.25 < MARGIN).
-SDIA_LOW_LAYOUT = [
-    ('stator_d41.8', 'stator_d41.8', None, (63.5, 192.5)),
-    ('stator_d41.9', 'stator_d41.9', None, (128.0, 192.5)),
-    ('stator_d42.0', 'stator_d42.0', None, (192.5, 192.5)),
-    ('stator_d42.1', 'stator_d42.1', None, (63.5, 128.0)),
-    ('stator_d42.2', 'stator_d42.2', None, (128.0, 128.0)),
-    ('stator_d42.3', 'stator_d42.3', None, (192.5, 128.0)),
-    ('stator_d42.4', 'stator_d42.4', None, (128.0, 63.5)),
-]
 PLATES = {
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
     'all': (os.path.join(PARTS, 'all.bambu.3mf'), 'all', ALL_LAYOUT),
-    'stator_dia': (os.path.join(PARTS, 'stator_dia.bambu.3mf'), 'stator_dia', SDIA_LAYOUT),
     'rotor_head': (os.path.join(PARTS, 'rotor_head.bambu.3mf'), 'rotor_head', HEAD_LAYOUT),
-    'stator_dia_low': (os.path.join(PARTS, 'stator_dia_low.bambu.3mf'), 'stator_dia_low', SDIA_LOW_LAYOUT),
 }
 SOURCE_V = {'stator': 25680.834, 'link_12': 40392.766, 'top': 5786.178, 'bottom': 3865.634,
             'link_23': 45818.953, 'stator_d42.2': 25630.734, 'stator_d42.3': 25584.431,

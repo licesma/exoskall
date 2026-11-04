@@ -40,12 +40,14 @@ High-refinement 3MF exports from `exo generated`; read back with `tools/verify_3
 | File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) |
 |---|---|---|---|---|
 | `link_12.3mf` | `g_link_12` of `generated_R_arm_general` (J1 rotor -> J2 stator) | 58.498 x 74.514 x 63.529 | 40392.766 | 40398.023 |
-| `stator.3mf` | 15 deg stop-block stator + assembly mark (component `stator EXO-341 export`) | 53.999 x 54.000 x 24.100 | 25680.834 | 25684.494 |
+| `stator.3mf` | 15 deg stop-block stator + assembly mark, bearing seat **O42.2** (component `stator EXO-341 export`, EXO-363) | 53.999 x 54.000 x 24.100 | 25634.842 | 25638.147 |
 | `link.bambu.3mf` | Bambu Studio plate (EXO-343): 2x stator underside down; link_12 rotated (baked) onto the J2 pad's outer face, 58.5 tall; settings = `rotor.bambu.3mf`; built by `tools/bambu_plate_exo343.py` | - | - | - |
 
-- **Stator**: own frame, **module z = file z - 7.5** (underside file z -17.0). Bore O42.10
-  (r 21.05), 3 x O4.0 inserts r 19.25 at 0/180/270, "0" label: identical to the previous
-  file (`archive/2026-10-tests/stator_pre_exo341.3mf`); only the mark is new.
+- **Stator**: own frame, **module z = file z - 7.5** (underside file z -17.0). Bearing seat
+  **O42.2** (r 21.10, file z -3.5..3.5, EXO-363; was O42.10, now
+  `archive/2026-10-tests/stator_d42.1_pre_exo363.3mf`), 3 x O4.0 inserts r 19.25 at
+  0/180/270, "0" label, assembly mark (EXO-341). Every vertex outside the seat equals the
+  previous file.
 - **Link**: ARM coordinates. J1 rotor face (rotor pad z 0..8 in J1): centre
   (0, -200.430, 0), axis (0.0002, -0.9612, 0.2757). J2 stator-pad face (J2 z -24.5, pad
   -32.5..-24.5): centre (-24.492, -240.775, -2.817), normal +X. J2 origin
@@ -73,30 +75,11 @@ High-refinement 3MF exports from `exo generated`; read back with `tools/verify_3
 
 - `all.bambu.3mf`: **one plate**, 14 objects = `joints4.bambu.3mf` (4x stator, 4x top, 4x bottom, link_23) + link_12 as in `link.bambu.3mf`, same print orientations (meshes identical), no XY rotation; layout 236.24 x 232.51, margins >= 9.88, gaps >= 10.99; settings = `rotor.bambu.3mf`; `tools/bambu_plate_exo343.py --plate all`.
 
-## Stator bearing-seat test, O41.8..42.6 (EXO-350, EXO-355, EXO-358, 2026-11-03)
+## Stator bearing-seat test (EXO-350/355/358): result O42.2
 
-`stator.3mf` (seat O42.10) grips the 5972K159 outer race too hard to remove. Copies of
-`stator EXO-341 export` with only the seat enlarged (file z -3.5..3.5 = module -11..-4; shoulder
-below, stop block, inserts, "0", mark, pocket, r 27 rim unchanged) and "42.x" debossed 0.4 on
-the top face at -Y. Components `stator d42.x export` in `exo generated` (bulb off);
-`tools/bridge_scripts/build_stator_dia_exo350.py`. Same frame as `stator.3mf`. Below 42.1 the
-seat is made smaller by unioning a ring r R..21.10 over z -3.5..3.5 (shoulder z -3.5 and step bore
-r 19.25 unchanged; the exposed shoulder is then r 19.25..R). 42.7 / 42.9
-(EXO-350) were dropped by EXO-355 and are in `archive/2026-10-tests/`.
+Note: `link`/`joints4`/`all.bambu.3mf` still carry the O42.1 stator until they are rebuilt (EXO-364).
 
-| File | Seat (mesh fit) | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) |
-|---|---|---|---|---|
-| `stator_d41.8.3mf` | O41.8000, z -3.5..3.5 (ring unioned, EXO-358) | 53.999 x 54.000 x 24.100 | 25815.537 | 25819.058 |
-| `stator_d41.9.3mf` | O41.9000, z -3.5..3.5 (ring unioned, EXO-358) | 53.999 x 54.000 x 24.100 | 25769.600 | 25773.105 |
-| `stator_d42.0.3mf` | O42.0000, z -3.5..3.5 (ring unioned, EXO-358) | 53.999 x 54.000 x 24.100 | 25723.026 | 25726.534 |
-| `stator_d42.1.3mf` | O42.1000 = `stator.3mf` + label only (EXO-358) | 53.999 x 54.000 x 24.100 | 25677.170 | 25680.827 |
-| `stator_d42.2.3mf` | O42.2000, z -3.5..3.5 | 53.999 x 54.000 x 24.100 | 25630.734 | 25634.005 |
-| `stator_d42.3.3mf` | O42.3000, z -3.5..3.5 | 53.999 x 54.000 x 24.100 | 25584.431 | 25587.709 |
-| `stator_d42.4.3mf` | O42.4000, z -3.5..3.5 | 53.999 x 54.000 x 24.100 | 25537.812 | 25541.092 |
-| `stator_d42.5.3mf` | O42.5000, z -3.5..3.5 | 53.999 x 54.000 x 24.100 | 25491.064 | 25494.326 |
-| `stator_d42.6.3mf` | O42.6000, z -3.5..3.5 | 53.999 x 54.000 x 24.100 | 25443.948 | 25447.461 |
-| `stator_dia.bambu.3mf` | Bambu plate: the five, underside down, bore + label up, rows of 3 + 2, gaps 10.5; settings = `rotor.bambu.3mf`; `tools/bambu_plate_exo343.py --plate stator_dia` | - | - | - |
-| `stator_dia_low.bambu.3mf` | Bambu plate (EXO-358): stator_d41.8 .. 42.4 (7), underside down, rows of 3 + 3 + 1, gaps 10.5, margins 36.5; settings = `rotor.bambu.3mf`; `tools/bambu_plate_exo343.py --plate stator_dia_low` | - | - | - |
+Seats O41.8..42.6 printed: 42.1 refuses the 5972K159 outer race, **42.2 holds it, tight and removable** -> `stator.3mf` (EXO-363); test stators and their two plates in `archive/2026-10-tests/` (INDEX.md).
 
 ## Other files
 

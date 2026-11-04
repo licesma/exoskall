@@ -52,3 +52,15 @@
 - `stator_d42.7.3mf`: stator seat test, O42.7 (r 21.35, file z -3.5..3.5), label "42.7"; mesh V 25397.344 (EXO-350), dropped from the set by EXO-355
 - `stator_d42.9.3mf`: stator seat test, O42.9 (r 21.45, file z -3.5..3.5), label "42.9"; mesh V 25302.813 (EXO-350), dropped from the set by EXO-355
 - `stator_dia_exo350.bambu.3mf`: the EXO-350 plate (stator_d42.3/.5/.7/.9, 2x2), replaced by the five-stator `parts/stator_dia.bambu.3mf` (EXO-355)
+- `stator_d42.1_pre_exo363.3mf`: `parts/stator.3mf` before EXO-363: seat O42.10 (r 21.05), EXO-341 mark, "0" label; mesh V 25680.834; replaced by the O42.2 seat
+- `stator_d41.8.3mf`: stator seat test, O41.8 (r 20.90, file z -3.5..3.5), label "41.8"; mesh V 25815.537 (EXO-358)
+- `stator_d41.9.3mf`: stator seat test, O41.9 (r 20.95, file z -3.5..3.5), label "41.9"; mesh V 25769.600 (EXO-358)
+- `stator_d42.0.3mf`: stator seat test, O42.0 (r 21.00, file z -3.5..3.5), label "42.0"; mesh V 25723.026 (EXO-358)
+- `stator_d42.1.3mf`: stator seat test, O42.1 (r 21.05, file z -3.5..3.5), label "42.1"; mesh V 25677.170 (EXO-358); refused the race (the printed nominal)
+- `stator_d42.2.3mf`: stator seat test, O42.2 (r 21.10, file z -3.5..3.5), label "42.2"; mesh V 25630.734 (EXO-355); CHOSEN: tight and removable -> parts/stator.3mf (EXO-363)
+- `stator_d42.3.3mf`: stator seat test, O42.3 (r 21.15, file z -3.5..3.5), label "42.3"; mesh V 25584.431 (EXO-350)
+- `stator_d42.4.3mf`: stator seat test, O42.4 (r 21.20, file z -3.5..3.5), label "42.4"; mesh V 25537.812 (EXO-355)
+- `stator_d42.5.3mf`: stator seat test, O42.5 (r 21.25, file z -3.5..3.5), label "42.5"; mesh V 25491.064 (EXO-350)
+- `stator_d42.6.3mf`: stator seat test, O42.6 (r 21.30, file z -3.5..3.5), label "42.6"; mesh V 25443.948 (EXO-355)
+- `stator_dia.bambu.3mf`: plate stator_d42.2 .. 42.6 (EXO-355), archived by EXO-363
+- `stator_dia_low.bambu.3mf`: plate stator_d41.8 .. 42.4 (EXO-358), archived by EXO-363
