@@ -1,0 +1,402 @@
+OK
+Module axis direction, the one thing the URDF does not fix (EXO-158):
+  J1  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J2  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J3  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J4  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J5  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J6  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -5.85e-17): the sign is free and is solved by the link. 5 of 6 links route at this combination, total centre line 326.278 mm; refused: link_67
+  J7  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -9.42e-17): the sign is free and is solved by the link. 5 of 6 links route at this combination, total centre line 326.278 mm; refused: link_67
+
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+Method: one ribbon swept on a 3D centre line + one wrapping landing plate (EXO-144), spun by the encoder rule (EXO-150). Ribbon thickness 8.0 mm, bend r 15.0, wall r min 5.0, land web 3.0 mm - defaults, none measured off a hand-built link.
+Origin at: left_shoulder_pitch_joint
+
+Module rotation about its own axis, FIXED BY THE LINK (EXO-150): +Y - the encoder / connector side - faces the direction the link arrives from at that stator pad, and the landing plate then extends the pad outward exactly where the encoder overhangs. The hole / cutout solve is a CHECK.
+  J1     +0.000 deg - nobody's stator end: the measured pose is kept (EXO-150)
+  J2   +343.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands -22.136 deg off it (the plate takes -13.831 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 5.500 mm (need 3.0); cutout reach 24.500 mm; landing y 34.000, drop +0.000 mm
+  J3   +179.989 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 0.00), so the tongue and the encoder both point + z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +27.500 mm
+  J4   +269.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 80.52), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands -11.655 deg off it (the plate takes -15.783 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 48.018 mm (need 3.0); cutout reach 24.500 mm; landing y 76.518, drop +0.000 mm
+  J5   +179.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 1.89), so the tongue and the encoder both point + z_A
+      encoder +Y is 8.54e-07 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +29.388 mm
+  J6     +0.000 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 5.500 mm (need 3.0); cutout reach 24.500 mm; landing y 34.000, drop +0.000 mm
+  J7   +180.000 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 0.00), so the tongue and the encoder both point + z_A
+      the spin is fixed, but the ROUTE refuses this pair: no placement of the level change fits this pair: on the final leg, the final leg holds 0.00 mm of straight between s 28.00 (the rotor pad flat) and the plate, and the 27.50 mm level change needs 29.90 mm at r 15.0; on the lateral leg, the lateral leg holds 6.53 mm of straight between l 28.00 (the rotor pad flat) and the plan turn, and the 27.50 mm level change needs 29.90 mm at r 15.0; on the split leg, the lateral leg took 0.72 mm of the 27.50 mm level change and the final leg holds 0.00 mm of straight for the remaining 26.78 mm, which needs 29.83 mm at r 15.0
+
+Where the level change is taken (EXO-158): the route has a plan turn and a level change to make and the ORDER is no longer fixed - each placement (final, lateral, split) is sized in full and the first feasible one is taken, so a pair the old fixed order could already take keeps exactly the route it had.
+  link_12  the final leg (the run between the pad and the plate)
+      final   leg: route 28.500 mm long
+      lateral leg: there is no lateral leg: the plate takes the whole 13.83 mm offset and the route leaves straight along u
+      split   leg: there is no lateral leg: the plate takes the whole 13.83 mm offset and the route leaves straight along u
+  link_23  the final leg (the run between the pad and the plate)
+      final   leg: route 113.108 mm long
+      lateral leg: route 112.623 mm long
+      split   leg: route 112.623 mm long
+  link_34  the final leg (the run between the pad and the plate)
+      final   leg: route 28.500 mm long
+      lateral leg: there is no lateral leg: the plate takes the whole 15.78 mm offset and the route leaves straight along u
+      split   leg: there is no lateral leg: the plate takes the whole 15.78 mm offset and the route leaves straight along u
+  link_45  the final leg (the run between the pad and the plate)
+      final   leg: route 104.738 mm long
+      lateral leg: route 103.389 mm long
+      split   leg: route 103.389 mm long
+  link_56  the final leg (the run between the pad and the plate)
+      final   leg: route 51.432 mm long
+      lateral leg: there is no lateral leg: the plate takes the whole -0.00 mm offset and the route leaves straight along u
+      split   leg: there is no lateral leg: the plate takes the whole -0.00 mm offset and the route leaves straight along u
+  link_67  REFUSED (J6 -> J7, ribbon 25 mm on a r 27 pad): no placement of the level change fits this pair: on the final leg, the final leg holds 0.00 mm of straight between s 28.00 (the rotor pad flat) and the plate, and the 27.50 mm level change needs 29.90 mm at r 15.0; on the lateral leg, the lateral leg holds 6.53 mm of straight between l 28.00 (the rotor pad flat) and the plan turn, and the 27.50 mm level change needs 29.90 mm at r 15.0; on the split leg, the lateral leg took 0.72 mm of the 27.50 mm level change and the final leg holds 0.00 mm of straight for the remaining 26.78 mm, which needs 29.83 mm at r 15.0
+
+Deleted previous: generated_R_arm_general
+Component: generated_R_arm_general
+
+link_12 -> g_link_12: 3 features, 35 faces, volume 40442 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 13.831 mm)
+    no side S: the landing is level with the pad plane
+    landing y 34.00 (tongue to 38.00), plate blends r 15.0/38.8, cutout web 5.50 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 10.000
+      inside  concave edge   2.03 mm long at (s   24.50, w   26.00, z    6.99)
+      inside  concave edge  52.00 mm long at (s   24.50, w   -0.00, z    8.00)
+      inside  concave edge  13.01 mm long at (s   24.50, w   27.39, z   12.27)
+      outside convex  edge  52.00 mm long at (s   32.50, w    0.00, z    0.00)
+      inside : 3 edge(s) at r 3.000
+      pad    : no such edge on this link
+      outside: 1 edge(s) at r 10.000
+link_23 -> g_link_23: 3 features, 41 faces, volume 44744 mm3
+    ribbon 25 x 8.0 mm, 6 path segments
+    plan turn 14.10 deg, r 17.5, s 22.74 -> 27.00 (offset -6.24 mm taken here)
+    level change +27.500 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.896 mm of straight run at r 15.0)
+      final   leg: route 113.108 mm long
+      lateral leg: route 112.623 mm long
+      split   leg: route 112.623 mm long
+    side S +27.50 mm at 85.22 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.90
+    landing y 31.50 (tongue to 35.50), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 7.500 (asked 10.0; reduced to 7.500 by EXO-79: the tongue ends 35.500 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
+      outside convex  edge  25.00 mm long at (s   78.70, w   -6.24, z   35.50)
+      pad     concave edge   8.00 mm long at (s   26.25, w    6.32, z    4.00)
+      pad     concave edge   8.00 mm long at (s   20.17, w  -17.95, z    4.00)
+      inside : no such edge on this link
+      pad    : 2 edge(s) at r 3.000
+      outside: 1 edge(s) at r 7.500
+link_34 -> g_link_34: 3 features, 35 faces, volume 58685 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 15.783 mm)
+    no side S: the landing is level with the pad plane
+    landing y 76.52 (tongue to 80.52), plate blends r 15.0/40.8, cutout web 48.02 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 10.000
+      outside convex  edge  52.00 mm long at (s   32.50, w   -0.00, z   -0.00)
+      inside  concave edge  13.90 mm long at (s   24.50, w   27.58, z   53.64)
+      inside  concave edge  52.00 mm long at (s   24.50, w   -0.00, z    8.00)
+      inside : 2 edge(s) at r 3.000
+      pad    : no such edge on this link
+      outside: 1 edge(s) at r 10.000
+link_45 -> g_link_45: 3 features, 44 faces, volume 56644 mm3
+    ribbon 44 x 8.0 mm, 6 path segments
+    plan turn 25.61 deg, r 27.0, s 15.33 -> 27.00 (offset -10.00 mm taken here)
+    level change +29.388 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.994 mm of straight run at r 15.0)
+      final   leg: route 104.738 mm long
+      lateral leg: route 103.389 mm long
+      split   leg: route 103.389 mm long
+    side S +29.39 mm at 88.83 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.99
+    landing y 31.50 (tongue to 35.50), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 7.500 (asked 10.0; reduced to 7.500 by EXO-79: the tongue ends 35.500 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
+      outside convex  edge  44.00 mm long at (s   75.50, w  -10.00, z   37.39)
+      pad     concave edge   8.00 mm long at (s    4.61, w  -26.60, z    4.00)
+      pad     concave edge   8.00 mm long at (s   23.62, w   13.07, z    4.00)
+      inside : no such edge on this link
+      pad    : 2 edge(s) at r 3.000
+      outside: 1 edge(s) at r 7.500
+link_56 -> g_link_56: 4 features, 37 faces, volume 32668 mm3
+    ribbon 25 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset -0.000 mm)
+    no side S: the landing is level with the pad plane
+    landing y 34.00 (tongue to 38.00), plate blends r 15.0/15.0, cutout web 5.50 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 10.000
+      inside  concave edge   1.75 mm long at (s   24.50, w   12.50, z    7.13)
+      inside  concave edge  25.00 mm long at (s   24.50, w   -0.00, z    8.00)
+      inside  concave edge   1.75 mm long at (s   24.50, w  -12.50, z    7.13)
+      inside  concave edge  12.85 mm long at (s   24.50, w  -13.86, z   12.49)
+      inside  concave edge  12.85 mm long at (s   24.50, w   13.86, z   12.49)
+      outside convex  edge  25.00 mm long at (s   32.50, w   -0.00, z    0.00)
+      pad     concave edge   8.00 mm long at (s   23.93, w   12.50, z    4.00)
+      pad     concave edge   8.00 mm long at (s   23.93, w  -12.50, z    4.00)
+      inside : 5 edge(s) at r 0.070 - REDUCED from 3.000: Fusion refuses the larger radius on this geometry
+      pad    : 1 edge(s) at r 3.000
+      outside: 1 edge(s) at r 10.000
+
+  J1  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J2  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J3  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J4  axis vs URDF 0.00e+00 deg, origin vs URDF 1.39e-14 mm
+  J5  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J6  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J7  axis vs URDF 0.00e+00 deg, origin vs URDF 1.39e-14 mm
+
+EXO-151 guards, measured on the filleted solids:
+  g_link_12
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.146 mm, need 2.00 -> OK
+      worst opening: z -0.000 at (s 0.00, w -11.00, z 4.00), bound 3.950 mm from the axis
+  g_link_23
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+      worst opening: z -0.000 at (s 3.03, w 10.57, z 4.00), bound 3.950 mm from the axis
+  g_link_34
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 70.518 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+      worst opening: z -0.000 at (s -0.00, w 11.00, z 4.00), bound 3.950 mm from the axis
+  g_link_45
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.147 mm, need 2.00 -> OK
+      worst opening: z -0.000 at (s 0.00, w 11.00, z 4.00), bound 3.950 mm from the axis
+  g_link_56
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+      worst opening: z 0.000 at (s 11.00, w 0.00, z 4.00), bound 3.950 mm from the axis
+
+Interference: 299 bodies, 67 hit(s): 3 FAIL, 15 sliver(s), 49 module-internal
+    FAIL 5972K159_Ball Bearing/Body1 <-> Component1/Body1 volume=6.6 mm3 bbox=x[173.08,174.40] y[-258.08,-252.88] z[-204.63,-200.55]
+    FAIL Component1/Body1 <-> 5972K159_Ball Bearing/Body1 volume=6.6 mm3 bbox=x[179.17,180.48] y[-256.96,-252.88] z[-205.75,-200.55]
+    FAIL Component1/Body1 <-> Component1/Body1 volume=533.5 mm3 bbox=x[173.08,180.49] y[-267.76,-252.88] z[-215.43,-200.54]
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_56/g_link_56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_56/g_link_56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_56/g_link_56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+
+  g_link_12 vs link_12: volume 38614 -> 40442 mm3 (+4.7 %), faces 32 -> 35; the two solids share 36721 mm3, symmetric difference 5614 mm3 (15 % of the old link); largest distance from a new vertex to the nearest old vertex 14.17 mm; largest bounding-box corner move 5.41 mm
+  g_link_23 vs link_23: volume 48612 -> 44744 mm3 (-8.0 %), faces 46 -> 41; the two solids share 29309 mm3, symmetric difference 34738 mm3 (71 % of the old link); largest distance from a new vertex to the nearest old vertex 23.13 mm; largest bounding-box corner move 12.25 mm
+  g_link_34 vs link_34: volume 59501 -> 58685 mm3 (-1.4 %), faces 33 -> 35; the two solids share 56166 mm3, symmetric difference 5855 mm3 (10 % of the old link); largest distance from a new vertex to the nearest old vertex 16.90 mm; largest bounding-box corner move 0.00 mm
+  g_link_45 vs link_45: volume 55813 -> 56644 mm3 (+1.5 %), faces 39 -> 44; the two solids share 41869 mm3, symmetric difference 28721 mm3 (51 % of the old link); largest distance from a new vertex to the nearest old vertex 15.58 mm; largest bounding-box corner move 4.50 mm
+  g_link_56: no link_56 in this document to compare against
+BuildArmGen finished with 3 interference FAIL(s).
+
+Module axis direction, the one thing the URDF does not fix (EXO-158):
+  J1  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J2  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J3  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J4  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J5  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J6  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -5.85e-17): the sign is free and is solved by the link. 5 of 6 links route at this combination, total centre line 326.278 mm; refused: link_67
+  J7  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -9.42e-17): the sign is free and is solved by the link. 5 of 6 links route at this combination, total centre line 326.278 mm; refused: link_67
+
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+Method: one ribbon swept on a 3D centre line + one wrapping landing plate (EXO-144), spun by the encoder rule (EXO-150). Ribbon thickness 8.0 mm, bend r 15.0, wall r min 5.0, land web 3.0 mm - defaults, none measured off a hand-built link.
+Origin at: left_shoulder_pitch_joint
+
+Module rotation about its own axis, FIXED BY THE LINK (EXO-150): +Y - the encoder / connector side - faces the direction the link arrives from at that stator pad, and the landing plate then extends the pad outward exactly where the encoder overhangs. The hole / cutout solve is a CHECK.
+  J1     +0.000 deg - nobody's stator end: the measured pose is kept (EXO-150)
+  J2   +343.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands -22.136 deg off it (the plate takes -13.831 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 5.500 mm (need 3.0); cutout reach 24.500 mm; landing y 34.000, drop +0.000 mm
+  J3   +179.989 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 0.00), so the tongue and the encoder both point + z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +27.500 mm
+  J4   +269.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 80.52), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands -11.655 deg off it (the plate takes -15.783 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 48.018 mm (need 3.0); cutout reach 24.500 mm; landing y 76.518, drop +0.000 mm
+  J5   +179.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 1.89), so the tongue and the encoder both point + z_A
+      encoder +Y is 8.54e-07 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +29.388 mm
+  J6     +0.000 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 5.500 mm (need 3.0); cutout reach 24.500 mm; landing y 34.000, drop +0.000 mm
+  J7   +180.000 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 0.00), so the tongue and the encoder both point + z_A
+      the spin is fixed, but the ROUTE refuses this pair: no placement of the level change fits this pair: on the final leg, the final leg holds 0.00 mm of straight between s 28.00 (the rotor pad flat) and the plate, and the 27.50 mm level change needs 29.90 mm at r 15.0; on the lateral leg, the lateral leg holds 6.53 mm of straight between l 28.00 (the rotor pad flat) and the plan turn, and the 27.50 mm level change needs 29.90 mm at r 15.0; on the split leg, the lateral leg took 0.72 mm of the 27.50 mm level change and the final leg holds 0.00 mm of straight for the remaining 26.78 mm, which needs 29.83 mm at r 15.0
+
+Where the level change is taken (EXO-158): the route has a plan turn and a level change to make and the ORDER is no longer fixed - each placement (final, lateral, split) is sized in full and the first feasible one is taken, so a pair the old fixed order could already take keeps exactly the route it had.
+  link_12  the final leg (the run between the pad and the plate)
+      final   leg: route 28.500 mm long
+      lateral leg: there is no lateral leg: the plate takes the whole 13.83 mm offset and the route leaves straight along u
+      split   leg: there is no lateral leg: the plate takes the whole 13.83 mm offset and the route leaves straight along u
+  link_23  the final leg (the run between the pad and the plate)
+      final   leg: route 113.108 mm long
+      lateral leg: route 112.623 mm long
+      split   leg: route 112.623 mm long
+  link_34  the final leg (the run between the pad and the plate)
+      final   leg: route 28.500 mm long
+      lateral leg: there is no lateral leg: the plate takes the whole 15.78 mm offset and the route leaves straight along u
+      split   leg: there is no lateral leg: the plate takes the whole 15.78 mm offset and the route leaves straight along u
+  link_45  the final leg (the run between the pad and the plate)
+      final   leg: route 104.738 mm long
+      lateral leg: route 103.389 mm long
+      split   leg: route 103.389 mm long
+  link_56  the final leg (the run between the pad and the plate)
+      final   leg: route 51.432 mm long
+      lateral leg: there is no lateral leg: the plate takes the whole -0.00 mm offset and the route leaves straight along u
+      split   leg: there is no lateral leg: the plate takes the whole -0.00 mm offset and the route leaves straight along u
+  link_67  REFUSED (J6 -> J7, ribbon 25 mm on a r 27 pad): no placement of the level change fits this pair: on the final leg, the final leg holds 0.00 mm of straight between s 28.00 (the rotor pad flat) and the plate, and the 27.50 mm level change needs 29.90 mm at r 15.0; on the lateral leg, the lateral leg holds 6.53 mm of straight between l 28.00 (the rotor pad flat) and the plan turn, and the 27.50 mm level change needs 29.90 mm at r 15.0; on the split leg, the lateral leg took 0.72 mm of the 27.50 mm level change and the final leg holds 0.00 mm of straight for the remaining 26.78 mm, which needs 29.83 mm at r 15.0
+
+Deleted previous: generated_R_arm_general
+Component: generated_R_arm_general
+
+link_12 -> g_link_12: 3 features, 35 faces, volume 40442 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 13.831 mm)
+    no side S: the landing is level with the pad plane
+    landing y 34.00 (tongue to 38.00), plate blends r 15.0/38.8, cutout web 5.50 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 10.000
+      inside  concave edge   2.03 mm long at (s   24.50, w   26.00, z    6.99)
+      inside  concave edge  52.00 mm long at (s   24.50, w   -0.00, z    8.00)
+      inside  concave edge  13.01 mm long at (s   24.50, w   27.39, z   12.27)
+      outside convex  edge  52.00 mm long at (s   32.50, w    0.00, z    0.00)
+      inside : 3 edge(s) at r 3.000
+      pad    : no such edge on this link
+      outside: 1 edge(s) at r 10.000
+link_23 -> g_link_23: 3 features, 41 faces, volume 44744 mm3
+    ribbon 25 x 8.0 mm, 6 path segments
+    plan turn 14.10 deg, r 17.5, s 22.74 -> 27.00 (offset -6.24 mm taken here)
+    level change +27.500 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.896 mm of straight run at r 15.0)
+      final   leg: route 113.108 mm long
+      lateral leg: route 112.623 mm long
+      split   leg: route 112.623 mm long
+    side S +27.50 mm at 85.22 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.90
+    landing y 31.50 (tongue to 35.50), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 7.500 (asked 10.0; reduced to 7.500 by EXO-79: the tongue ends 35.500 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
+      outside convex  edge  25.00 mm long at (s   78.70, w   -6.24, z   35.50)
+      pad     concave edge   8.00 mm long at (s   26.25, w    6.32, z    4.00)
+      pad     concave edge   8.00 mm long at (s   20.17, w  -17.95, z    4.00)
+      inside : no such edge on this link
+      pad    : 2 edge(s) at r 3.000
+      outside: 1 edge(s) at r 7.500
+link_34 -> g_link_34: 3 features, 35 faces, volume 58685 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 15.783 mm)
+    no side S: the landing is level with the pad plane
+    landing y 76.52 (tongue to 80.52), plate blends r 15.0/40.8, cutout web 48.02 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 10.000
+      outside convex  edge  52.00 mm long at (s   32.50, w   -0.00, z   -0.00)
+      inside  concave edge  13.90 mm long at (s   24.50, w   27.58, z   53.64)
+      inside  concave edge  52.00 mm long at (s   24.50, w   -0.00, z    8.00)
+      inside : 2 edge(s) at r 3.000
+      pad    : no such edge on this link
+      outside: 1 edge(s) at r 10.000
+link_45 -> g_link_45: 3 features, 44 faces, volume 56644 mm3
+    ribbon 44 x 8.0 mm, 6 path segments
+    plan turn 25.61 deg, r 27.0, s 15.33 -> 27.00 (offset -10.00 mm taken here)
+    level change +29.388 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.994 mm of straight run at r 15.0)
+      final   leg: route 104.738 mm long
+      lateral leg: route 103.389 mm long
+      split   leg: route 103.389 mm long
+    side S +29.39 mm at 88.83 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.99
+    landing y 31.50 (tongue to 35.50), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 7.500 (asked 10.0; reduced to 7.500 by EXO-79: the tongue ends 35.500 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
+      outside convex  edge  44.00 mm long at (s   75.50, w  -10.00, z   37.39)
+      pad     concave edge   8.00 mm long at (s    4.61, w  -26.60, z    4.00)
+      pad     concave edge   8.00 mm long at (s   23.62, w   13.07, z    4.00)
+      inside : no such edge on this link
+      pad    : 2 edge(s) at r 3.000
+      outside: 1 edge(s) at r 7.500
+link_56 -> g_link_56: 4 features, 37 faces, volume 32668 mm3
+    ribbon 25 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset -0.000 mm)
+    no side S: the landing is level with the pad plane
+    landing y 34.00 (tongue to 38.00), plate blends r 15.0/15.0, cutout web 5.50 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+    rounding (EXO-151): inside r 3.000, outside r 10.000
+      inside  concave edge   1.75 mm long at (s   24.50, w   12.50, z    7.13)
+      inside  concave edge  25.00 mm long at (s   24.50, w   -0.00, z    8.00)
+      inside  concave edge   1.75 mm long at (s   24.50, w  -12.50, z    7.13)
+      inside  concave edge  12.85 mm long at (s   24.50, w  -13.86, z   12.49)
+      inside  concave edge  12.85 mm long at (s   24.50, w   13.86, z   12.49)
+      outside convex  edge  25.00 mm long at (s   32.50, w   -0.00, z    0.00)
+      pad     concave edge   8.00 mm long at (s   23.93, w   12.50, z    4.00)
+      pad     concave edge   8.00 mm long at (s   23.93, w  -12.50, z    4.00)
+      inside : 5 edge(s) at r 0.070 - REDUCED from 3.000: Fusion refuses the larger radius on this geometry
+      pad    : 1 edge(s) at r 3.000
+      outside: 1 edge(s) at r 10.000
+
+  J1  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J2  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J3  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J4  axis vs URDF 0.00e+00 deg, origin vs URDF 1.39e-14 mm
+  J5  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J6  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J7  axis vs URDF 0.00e+00 deg, origin vs URDF 1.39e-14 mm
+
+EXO-151 guards, measured on the filleted solids:
+  g_link_12
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.146 mm, need 2.00 -> OK
+      worst opening: z -0.000 at (s 0.00, w -11.00, z 4.00), bound 3.950 mm from the axis
+  g_link_23
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+      worst opening: z -0.000 at (s 3.03, w 10.57, z 4.00), bound 3.950 mm from the axis
+  g_link_34
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 70.518 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+      worst opening: z -0.000 at (s -0.00, w 11.00, z 4.00), bound 3.950 mm from the axis
+  g_link_45
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.147 mm, need 2.00 -> OK
+      worst opening: z -0.000 at (s 0.00, w 11.00, z 4.00), bound 3.950 mm from the axis
+  g_link_56
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / index tab, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
+    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 2.350 mm, smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+      worst opening: z 0.000 at (s 11.00, w 0.00, z 4.00), bound 3.950 mm from the axis
+
+Interference: 299 bodies, 67 hit(s): 3 FAIL, 15 sliver(s), 49 module-internal
+    FAIL 5972K159_Ball Bearing/Body1 <-> Component1/Body1 volume=6.6 mm3 bbox=x[173.08,174.40] y[-258.08,-252.88] z[-204.63,-200.55]
+    FAIL Component1/Body1 <-> 5972K159_Ball Bearing/Body1 volume=6.6 mm3 bbox=x[179.17,180.48] y[-256.96,-252.88] z[-205.75,-200.55]
+    FAIL Component1/Body1 <-> Component1/Body1 volume=533.5 mm3 bbox=x[173.08,180.49] y[-267.76,-252.88] z[-215.43,-200.54]
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_56/g_link_56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_56/g_link_56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_56/g_link_56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+
+  g_link_12 vs link_12: volume 38614 -> 40442 mm3 (+4.7 %), faces 32 -> 35; the two solids share 36721 mm3, symmetric difference 5614 mm3 (15 % of the old link); largest distance from a new vertex to the nearest old vertex 14.17 mm; largest bounding-box corner move 5.41 mm
+  g_link_23 vs link_23: volume 48612 -> 44744 mm3 (-8.0 %), faces 46 -> 41; the two solids share 29309 mm3, symmetric difference 34738 mm3 (71 % of the old link); largest distance from a new vertex to the nearest old vertex 23.13 mm; largest bounding-box corner move 12.25 mm
+  g_link_34 vs link_34: volume 59501 -> 58685 mm3 (-1.4 %), faces 33 -> 35; the two solids share 56166 mm3, symmetric difference 5855 mm3 (10 % of the old link); largest distance from a new vertex to the nearest old vertex 16.90 mm; largest bounding-box corner move 0.00 mm
+  g_link_45 vs link_45: volume 55813 -> 56644 mm3 (+1.5 %), faces 39 -> 44; the two solids share 41869 mm3, symmetric difference 28721 mm3 (51 % of the old link); largest distance from a new vertex to the nearest old vertex 15.58 mm; largest bounding-box corner move 4.50 mm
+  g_link_56: no link_56 in this document to compare against
+bridge: OK in 146.3s

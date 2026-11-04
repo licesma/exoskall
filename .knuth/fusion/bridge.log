@@ -1,0 +1,28 @@
+2026-09-14 10:51:39  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-09-21 16:15:48  stopped
+2026-09-21 17:15:04  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-09-30 20:23:19  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-10-02 17:55:49  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-10-04 13:06:48  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-10-04 13:13:18  stopped
+2026-10-07 17:03:00  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-10-12 10:10:35  stopped
+2026-10-13 20:14:07  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-10-14 18:17:44  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-10-16 20:27:47  could not write the log for 20261016-202743-058-p1_build_wrap.py: Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 201, in _run_one
+    _write_log(name, status, buf.getvalue())
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 108, in _write_log
+    f.write(text)
+    ~~~~~~~^^^^^^
+UnicodeEncodeError: 'ascii' codec can't encode character '\xd8' in position 6378: ordinal not in range(128)
+
+2026-10-17 13:30:31  stopped
+2026-10-17 15:22:21  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-10-17 15:24:21  stopped
+2026-10-17 15:29:52  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-10-17 15:31:54  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-10-24 21:09:26  stopped
+2026-11-02 19:23:58  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s
+2026-11-03 11:33:55  started; polling /Users/esteban/repos/exo/.knuth/fusion/inbox every 1.0s

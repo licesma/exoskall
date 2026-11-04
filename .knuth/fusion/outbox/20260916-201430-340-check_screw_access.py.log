@@ -1,0 +1,18 @@
+OK
+Screw access: from each hole, walk OUT along the hole axis and see what is in the way
+link_45  (checking against 214 other bodies)
+  hole (  87.3,-268.1,-196.5) dir +1: BLOCKED at 11.0 mm by Component1:1/Body1
+  hole (  87.3,-268.1,-196.5) dir -1: clear to 30 mm
+  hole (  87.3,-248.9,-177.3) dir +1: BLOCKED at 11.0 mm by Component1:1/Body1
+  hole (  87.3,-248.9,-177.3) dir -1: clear to 30 mm
+  hole (  87.3,-248.9,-215.8) dir +1: BLOCKED at 11.0 mm by Component1:1/Body1
+  hole (  87.3,-248.9,-215.8) dir -1: clear to 30 mm
+  hole (  15.8,-251.0,-197.5) dir +1: clear to 30 mm
+  hole (  15.8,-251.0,-197.5) dir -1: BLOCKED at 13.5 mm by Component3:1/Body1
+  hole (   4.8,-251.0,-186.5) dir +1: clear to 30 mm
+  hole (   4.8,-251.0,-186.5) dir -1: BLOCKED at 13.5 mm by Component3:1/Body1
+  hole (  15.8,-251.0,-175.5) dir +1: clear to 30 mm
+  hole (  15.8,-251.0,-175.5) dir -1: BLOCKED at 13.5 mm by Component3:1/Body1
+  hole (  26.8,-251.0,-186.5) dir +1: clear to 30 mm
+  hole (  26.8,-251.0,-186.5) dir -1: BLOCKED at 13.5 mm by Component3:1/Body1
+bridge: OK in 3.9s

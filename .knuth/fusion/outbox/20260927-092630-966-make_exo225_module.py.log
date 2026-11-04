@@ -1,0 +1,34 @@
+OK
+  upper: old O2.2 filled                 r  6.001   45.0 deg z  -6.000  want solid got solid OK
+  upper: old O5 filled                   r  6.001   45.0 deg z  -2.000  want solid got solid OK
+  upper: rotor face solid at r 6         r  6.001   45.0 deg z  -0.200  want solid got solid OK
+  upper: head pocket open                r  6.001   45.0 deg z  -8.000  want void  got void  OK
+  upper: head pocket ceiling             r  6.001   45.0 deg z  -6.800  want solid got solid OK
+  upper: M3 through at the joint face    r 11.000    0.0 deg z  -8.500  want void  got void  OK
+  upper: M3 through at mid depth         r 11.000   90.0 deg z  -6.000  want void  got void  OK
+  upper: hex nut pocket filled           r 13.500    0.0 deg z  -7.000  want solid got solid OK
+  upper: register socket open            r 12.200   67.5 deg z  -8.500  want void  got void  OK
+  upper: socket ceiling                  r 12.200  112.5 deg z  -7.400  want solid got solid OK
+  upper: index notch still cut           r 16.000   90.0 deg z  -0.500  want void  got void  OK
+  lower: M3 through the web              r 11.000    0.0 deg z  -9.500  want void  got void  OK
+  lower: M3 through the ceiling          r 11.000   90.0 deg z -10.800  want void  got void  OK
+  lower: nut pocket open                 r 13.500    0.0 deg z -12.000  want void  got void  OK
+  lower: nut pocket ceiling              r 13.500    0.0 deg z -10.500  want solid got solid OK
+  lower: solid between pockets           r 11.000   45.0 deg z -12.000  want solid got solid OK
+  lower: register peg                    r 12.200   67.5 deg z  -8.500  want solid got solid OK
+  lower: nothing above the peg           r 12.200  112.5 deg z  -7.500  want void  got void  OK
+  lower: horn bore still clear           r  7.000    0.0 deg z -12.000  want void  got void  OK
+  lower: horn screw hole open            r  6.001   45.0 deg z  -9.500  want void  got void  OK
+  lower: web solid on the axis           r  2.000    0.0 deg z  -9.500  want solid got solid OK
+
+sensor module 2 v3: already in the document, stop block measured 160.50223..175.50227 deg (arc 15.00005) and all 21 rotor probes read back
+
+--- the v3 module, measured on the solid (module frame, mm) ---
+upper rotor  Component316   r   4.588.. 18.000  z   -9.000..   0.000  V=7117.647 mm3
+lower rotor  Component317   r   5.280.. 17.500  z  -13.200..  -8.000  V=2646.094 mm3
+M3 nut 0      r   8.401.. 13.841  z  -13.000.. -11.200
+M3 nut 1      r   8.401.. 13.841  z  -13.000.. -11.200
+M3 nut 2      r   8.349.. 13.873  z  -13.000.. -11.200
+M3 nut 3      r   8.368.. 13.865  z  -13.000.. -11.200
+stator       Component315   z  -24.500..  -0.400  V=25685.093 mm3 (block 160.50223..175.50227)
+bridge: OK in 1.4s

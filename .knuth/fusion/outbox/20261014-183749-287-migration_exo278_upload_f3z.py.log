@@ -1,0 +1,5 @@
+OK
+arm complete luna.f3z (94610636 B) upload started via uploadFile as arm complete luna.f3z
+arm complete luna.f3z uploaded as 'M4 x 0.7mm Thread HEX NUT' id=urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw (16s)
+f3z statuses: [('sensor module test.f3z', 'uploaded'), ('arm 2.f3z', 'uploaded'), ('arm.f3z', 'uploaded'), ('exo generated.f3z', 'uploaded'), ('wrist_sketch3_with_straps.f3z', 'uploaded'), ('arm complete.f3z', 'uploaded'), ('arm complete v1.f3z', 'uploaded'), ('arm test.f3z', 'uploaded'), ('arm complete luna.f3z', 'uploaded')] (19s)
+bridge: OK in 19.4s

@@ -1,0 +1,36 @@
+OK
+root occurrences before: 26 (generated_R_arm*: 1)
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+S placement: bar
+Design type: direct
+Deleted previous: generated_R_arm
+Origin at: left_shoulder_pitch_joint
+
+Component: generated_R_arm
+link_12 (L): J1 rotor pad -> J2 stator pad; B origin in J1 frame (mm) = (-0.0, -13.8, 38.0); plate z 0.0..8.0 COPLANAR with the rotor pad (flush both faces, rim covered, nothing below z=0), root s=0.0 out to the slab faces s=24.50/32.50; elbow: fillet r 3.0 in, round r 5.5 out cut 56 wide (measured r 10.0, capped by the rim rule), profile 7 segments; slab frame snapped 0.2793 rad (16.00 deg) to the plate, holes and cutout in the true frame; slab web to the actuator cutout 3.69 mm; module J2 clears the plate by 3.00 mm; lateral offset 13.831 mm taken in the SLAB (tongue x_off -13.831 on the r 27.0 disk; +x edge blend r 15.0, -x edge toe r 500.0): a 13.83 mm shift needs 27.87 mm of run at radius 17.5 and the plate is only 24.50 mm long (s 0.00..24.50); one width 52; 8 features, 1 body, 32 faces, volume 38614 mm3
+link_23 (bar): J2 rotor pad -> J3 stator pad; B origin in J2 frame (mm) = (103.2, -6.2, 0.0); bar level z=-35.4, riser inner face s=28.44 (1.44 mm outside r 27.0), landing 70.7 mm from axis A, flange to Y_B=39.2; side profile 15 segments, fillets r 5.0/12.5/8.5/15.0/1.2, tongue round r 7.9, rotor-pad join filled (EXO-74): outer face flat out to s=29.88 (rim r 27.0 + 2.88), round r 5.0 down to the riser outer face at z=3.00, ledge 1.44 mm wide at z=0 of which 0.24 mm is flat (EXO-83 relief r 1.20 from s=27.24 on the ledge to z=-1.20 on the riser inner face), clearance to r 27.0 below the stop block top (z=-0.4) 1.136 mm, S placement 'bar': S in the straight bar (window s=47.38..70.70, 1.69 mm of straight bar each side) absorbs 6.240 mm laterally between s=49.07 and s=69.01 (19.95 mm of run): two tangent arcs r 17.5 through 34.74 deg, walls r 5.0 / 30.0, inflection at s=59.04 w=-3.120; radial clearance to r 27.0 along it 1.440 mm (at s=28.44 z=-24.25), one width 25, slab frame snapped 1.9e-04 rad to the bar; 9 features, 1 body, 46 faces, volume 48612 mm3
+link_12 / link_23 computed clearance (sampled, 0.5 mm): 1.44 mm (minimum 1.0)
+Snapshot captured: False
+
+J1 right_shoulder_pitch_joint: intended pos(mm)=(0.00, -200.43, 0.00) Z=(0.000, -0.961, 0.276) [set via transform2 on proxy]
+    read back pos(mm)=(0.00, -200.43, 0.00) Z=(0.000, -0.961, 0.276) -> OK (max diff 1.11e-15 cm)
+    module world pose pos(mm)=(-0.00, -200.43, -0.00) Z=(0.000, -0.961, 0.276) -> OK (max diff 7.11e-15 cm)
+J2 right_shoulder_roll_joint: intended pos(mm)=(0.01, -240.77, -2.82) Z=(1.000, 0.000, -0.000) [set via transform2 on proxy]
+    read back pos(mm)=(0.01, -240.77, -2.82) Z=(1.000, 0.000, -0.000) -> OK (max diff 5.55e-17 cm)
+    module world pose pos(mm)=(0.01, -240.77, -2.82) Z=(1.000, 0.000, -0.000) -> OK (max diff 2.17e-19 cm)
+J3 right_shoulder_yaw_joint: intended pos(mm)=(0.00, -247.02, -106.02) Z=(-0.000, -0.000, -1.000) [set via transform2 on proxy]
+    read back pos(mm)=(0.00, -247.02, -106.02) Z=(-0.000, -0.000, -1.000) -> OK (max diff 1.78e-15 cm)
+    module world pose pos(mm)=(0.00, -247.02, -106.02) Z=(-0.000, -0.000, -1.000) -> OK (max diff 3.55e-15 cm)
+arm component transform: identity (diff 0.00e+00)
+
+Interference check: 128 bodies (links + modules), 27 interference(s): 0 FAIL, 6 sliver(s) <= 0.02 mm deep ignored, 21 module-internal ignored
+    sliver link_12/link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm at x[-24.50,-24.49] y[-262.48,-257.58] z[-5.27,-0.37]
+    sliver link_12/link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm at x[-24.50,-24.49] y[-243.23,-238.33] z[13.98,18.88]
+    sliver link_12/link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm at x[-24.50,-24.49] y[-243.23,-238.33] z[-24.52,-19.62]
+    sliver link_23/link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm at x[16.80,21.70] y[-249.47,-244.57] z[-81.52,-81.51]
+    sliver link_23/link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm at x[-2.45,2.45] y[-230.22,-225.32] z[-81.52,-81.51]
+    sliver link_23/link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm at x[-2.45,2.45] y[-268.72,-263.82] z[-81.52,-81.51]
+    module-internal (pre-existing in sensor module 2): 9x Component1/Body1 <-> m3_6mm_insert/Body1 22.6 mm3, 12x XL330 v2/Body1 <-> screw 1/Body1 3.7 mm3
+Interference result: OK (0 over links + modules)
+root occurrences after: 26 (generated_R_arm*: 1) -> ['generated_R_arm']
+bridge: OK in 40.8s

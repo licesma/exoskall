@@ -1,0 +1,10 @@
+OK
+imported /Users/esteban/repos/exo/gento_luna/exo/exports/tool_organizer_exo258.step -> 'Untitled'
+*** THE ACTIVE DOCUMENT IS NOT SAVED *** "Untitled" has never been saved - saving it now as "tool_organizer_exo258"
+SAVED: "tool_organizer_exo258" into the folder of "sensor module 2" (project not readable yet, folder "G1 exeskeleton")
+bodies: 1 ['Body1']
+bbox mm: 200.02 x 200.02 x 80.02
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/tool_organizer_exo258_fusion_exo260.png
+screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/tool_organizer_exo258_fusion_exo260.png
+RESULT 'tool_organizer_exo258' saved_ever=True up_to_date=True (project not readable yet, folder "G1 exeskeleton")
+bridge: OK in 29.8s

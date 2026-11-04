@@ -1,0 +1,29 @@
+OK
+bridge: no active Fusion design - design is None
+opened arm in 1.7s
+close: 4 : An API Object refers to a deleted Object
+close: 4 : An API Object refers to a deleted Object
+close: 4 : An API Object refers to a deleted Object
+arm v1: comps 29 bodies 72 occ 94 linked 21 joints 0 asBuilt 0 rg 0 health [] (2.4s)
+  left arm:1+sensor module:1+5972K159_Ball Bearing:1 | owner=left arm:1+sensor module:1 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:1+XL330:1 | owner=left arm:1+sensor module:1 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:1 | owner=None | sensor module pGmH v1 | other | joints=0 rg=0
+  left arm:1+sensor module:2+5972K159_Ball Bearing:1 | owner=left arm:1+sensor module:2 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:2+XL330:1 | owner=left arm:1+sensor module:2 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:2 | owner=None | sensor module pGmH v1 | other | joints=0 rg=0
+  left arm:1+sensor module:3+5972K159_Ball Bearing:1 | owner=left arm:1+sensor module:3 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:3+XL330:1 | owner=left arm:1+sensor module:3 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:3 | owner=None | sensor module pGmH v1 | other | joints=0 rg=0
+  left arm:1+sensor module:4+5972K159_Ball Bearing:1 | owner=left arm:1+sensor module:4 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:4+XL330:1 | owner=left arm:1+sensor module:4 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:4 | owner=None | sensor module pGmH v1 | other | joints=0 rg=0
+  left arm:1+sensor module:5+5972K159_Ball Bearing:1 | owner=left arm:1+sensor module:5 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:5+XL330:1 | owner=left arm:1+sensor module:5 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:5 | owner=None | sensor module pGmH v1 | other | joints=0 rg=0
+  left arm:1+sensor module:6+5972K159_Ball Bearing:1 | owner=left arm:1+sensor module:6 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:6+XL330:1 | owner=left arm:1+sensor module:6 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:6 | owner=None | sensor module pGmH v1 | other | joints=0 rg=0
+  left arm:1+sensor module:7+5972K159_Ball Bearing:1 | owner=left arm:1+sensor module:7 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:7+XL330:1 | owner=left arm:1+sensor module:7 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+sensor module:7 | owner=None | sensor module pGmH v1 | other | joints=0 rg=0
+bridge: OK in 2.4s

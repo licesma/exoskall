@@ -1,0 +1,242 @@
+[
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+  "name": "sensor module 2",
+  "from": "/",
+  "to": "arm/upper body/joint/rotor"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:AxWRyNAWRiCTr2mIST4vug",
+  "name": "cases",
+  "from": "/",
+  "to": "arm/upper body/joint/stators"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw",
+  "name": "exo generated",
+  "from": "/",
+  "to": "arm/exo upper body"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:cXGOAcs-Q6unIh91MhgbSQ",
+  "name": "arm",
+  "from": "/",
+  "to": "arm/old"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:3E7UqMBkQdKxu7gpyS2oRA",
+  "name": "arm 2",
+  "from": "/",
+  "to": "arm/old"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+  "name": "arm test",
+  "from": "/",
+  "to": "arm/old"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+  "name": "sensor module",
+  "from": "/",
+  "to": "arm/old"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+  "name": "sensor module",
+  "from": "/",
+  "to": "arm/old"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:lvB_fi9qT02ITHaBJZkTrw",
+  "name": "arm complete_chest mount",
+  "from": "/",
+  "to": "body mount"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:z15GBJnDRyeQElHZvbYgwg",
+  "name": "arm complete_Camera support",
+  "from": "/",
+  "to": "body mount"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:D_GhGnMjR-WfYRPHGv216Q",
+  "name": "apriltag support",
+  "from": "/",
+  "to": "body mount"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:BEl0Gdz8Q3eXnkrcQPsOjg",
+  "name": "lock",
+  "from": "/cuff",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:CXeVHuieQBuRgnBiPF3BTA",
+  "name": "spring",
+  "from": "/cuff",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:7uvY2xdBQ-mQgsQdumc7Gg",
+  "name": "cuff",
+  "from": "/cuff",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:s9vuznrARd2JLUIwekJnWw",
+  "name": "side0",
+  "from": "/cuff",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:APSo0xohShOVnpZHGqA25w",
+  "name": "hook",
+  "from": "/cuff",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+  "name": "cuffs with soft inside",
+  "from": "/",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:oZDS8t08Td-0X_e3QO597g",
+  "name": "cuffs with soft inside v7.mp4",
+  "from": "/",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:cjQSNAElQAi3LUGFbg_buA",
+  "name": "writst mount",
+  "from": "/",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:5JzcB1gaR-aeR6saJuGrTw",
+  "name": "writst_mount_c",
+  "from": "/",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw",
+  "name": "writst mount_e",
+  "from": "/",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:s_bSGtj1SL-TvkFV7MHp3Q",
+  "name": "wrist_sketch3_with_straps",
+  "from": "/",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:jIKLpTb3SCeDiKx5Latkcw",
+  "name": "wrist_sketch3_with_straps (copy v1)",
+  "from": "/",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:zH4sE1P7TmGf6LuFgu1BvQ",
+  "name": "wristband_2.0",
+  "from": "/",
+  "to": "hand/cuff"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:uC9G0GSuQiW0G83awoUfuA",
+  "name": "wuji enclosure",
+  "from": "/",
+  "to": "hand/robot/wuji"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:JVOJcOwrRFGzhUhl2svQJw",
+  "name": "inspire_link",
+  "from": "/",
+  "to": "hand/robot/inspire"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+  "name": "M4 x 0.7mm Thread HEX NUT",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ",
+  "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+  "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:iUyCL7IcQZKm8tltjMWw6w",
+  "name": "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:uXMptCMJRIKWpir8qDtnqg",
+  "name": "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:F582bMLWThGuzPyAvgqsYw",
+  "name": "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:KhadPO81QGO68ELzD43byg",
+  "name": "M3x1.8mm Hex Nut",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:wEVGyPXgSwmY8pdfy1G8bw",
+  "name": "pan_head_philip_mc_screw_m1-6",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+  "name": "5972K159_Ball Bearing",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA",
+  "name": "XL330",
+  "from": "/",
+  "to": "parts"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:6dGLUribStKssjuggzFhSQ",
+  "name": "tool_organizer_exo258",
+  "from": "/",
+  "to": "other"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:DsxpO1c0TlSIelaD0UMsqA",
+  "name": "Direct-Adapter-Mount",
+  "from": "/",
+  "to": "other"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:OvVKEQ-DR2S3bbBg9Sngeg",
+  "name": "right",
+  "from": "/",
+  "to": "other"
+ },
+ {
+  "id": "urn:adsk.wipprod:dm.lineage:1rE3iPU-RTCVq03LqWbxTg",
+  "name": "WH_simplified_right_frameonly",
+  "from": "/",
+  "to": "other"
+ }
+]

@@ -1,0 +1,16 @@
+OK
+hole centres in the link frame (s = along the route, w = across, z = up):
+  s=  87.285  w=-268.143  z=-196.541   outer edge s=  88.885
+  s=  87.283  w=-248.893  z=-177.291   outer edge s=  88.883
+  s=  15.782  w=-251.019  z=-197.537   outer edge s=  17.382
+  s=   4.782  w=-251.021  z=-186.537   outer edge s=   6.382
+  s=  26.782  w=-251.016  z=-186.537   outer edge s=  28.382
+
+planar faces normal to z (the flat pad/plate top and bottom):
+  area   272.00 mm2   s   83.277 ..   91.284   z ~ -186.541
+  area   272.00 mm2   s   83.276 ..   91.283   z ~ -206.541
+  area     3.30 mm2   s   -1.919 ..    0.832   z ~ -188.337
+  area     3.30 mm2   s   -1.919 ..    0.832   z ~ -184.737
+  area   704.23 mm2   s   15.780 ..   91.139   z ~ -213.540
+  area   505.84 mm2   s   53.734 ..   91.288   z ~ -169.541
+bridge: OK in 0.1s

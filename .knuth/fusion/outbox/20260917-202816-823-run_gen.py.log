@@ -1,0 +1,38 @@
+FAIL
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+Method: one ribbon swept on a 3D centre line + one wrapping landing plate (EXO-144). Ribbon thickness 8.0 mm, bend r 15.0, wall r min 5.0, land web 3.0 mm - defaults, none measured off a hand-built link.
+Origin at: left_shoulder_pitch_joint
+
+Module rotation about its own axis, SOLVED with NO preference for any measured pose (EXO-144; the mechanism is EXO-130's):
+  J1     +0.000 deg - nobody's stator end: the rotation is free
+  J2     +0.000 deg - largest smallest stator ring (6.150 mm, reached by 383 of 383 feasible rotations), then the shortest swept path; smallest stator ring 6.150 mm (need 2.00), 383/720 sampled rotations feasible
+  J3   +238.500 deg - largest smallest stator ring (6.150 mm, reached by 470 of 532 feasible rotations), then the shortest swept path; smallest stator ring 6.150 mm (need 2.00), 532/720 sampled rotations feasible
+  J4     +0.000 deg - largest smallest stator ring (6.150 mm, reached by 383 of 383 feasible rotations), then the shortest swept path; smallest stator ring 6.150 mm (need 2.00), 383/720 sampled rotations feasible
+  J5   +238.500 deg - largest smallest stator ring (6.150 mm, reached by 388 of 456 feasible rotations), then the shortest swept path; smallest stator ring 6.150 mm (need 2.00), 456/720 sampled rotations feasible
+
+Deleted previous: generated_R_arm_general
+Component: generated_R_arm_general
+
+link_12 -> g_link_12: 7 features, 39 faces, volume 41546 mm3
+    ribbon 52 x 8.0 mm, 3 path segments
+    plan turn 31.19 deg, r 31.0, s 15.45 -> 31.50 (offset +13.83 mm taken here)
+    no side S: the landing is level with the pad plane
+    landing y 34.00 (tongue to 39.00), plate blends r 15.0/15.0, cutout web 3.69 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260917-202816-823-run_gen.py", line 5, in <module>
+    log(BuildArmGen.build_general(app, ui, design, log))
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArmGen.py", line 311, in build_general
+    body = build_link(occ.component, arm, R_ab, t_ab, route, gname)
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArmGen.py", line 166, in build_link
+    one('stop block')
+    ~~~^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArmGen.py", line 147, in one
+    raise RuntimeError('%s: %d bodies after "%s", expected one solid'
+                       % (name, comp.bRepBodies.count, step))
+RuntimeError: g_link_23: 2 bodies after "stop block", expected one solid
+bridge: FAIL in 32.9s

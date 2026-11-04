@@ -1,0 +1,11 @@
+OK
+isModified before: True
+module: already in the document, parts named stator / inner_top / inner_bottom, stop block measured 160.50223..175.50227 deg (arc 15.00005) and all 43 rotor probes read back
+ORIGINAL (linked 'sensor module 2'): stator 25729.996 upper 6473.293 lower 2950.793
+generated_R_arm_general places 7 modules: ['sensor module 2 rotor']
+generated_R_arm_luna places 7 modules: ['sensor module 2 rotor']
+root occurrences: ['sensor module 2', 'sensor module 2 rotor', 'generated_R_arm_general', 'generated_R_arm_luna']
+module-like components left: ['sensor module 2', 'sensor module 2 rotor']
+SAVED: "exo generated" in project "G1 exeskeleton", folder "exo upper body"
+DOCUMENT 'exo generated' v5 saved_ever=True up_to_date=True isModified=False (project "G1 exeskeleton", folder "exo upper body")
+bridge: OK in 3.9s

@@ -1,0 +1,37 @@
+OK
+S placement: riser
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+S placement: riser
+Design type: direct
+Deleted previous: generated_R_arm
+Origin at: left_shoulder_pitch_joint
+
+Component: generated_R_arm
+link_12 (lbracket): J1 rotor pad -> J2 stator pad; B origin in J1 frame (mm) = (-0.0, -13.8, 38.0); stator slab centre (-28.5, -13.8, 38.0), module J2 lowest point z=11.0; 8 features, 1 body, 35 faces, volume 35126 mm3
+link_23 (bar): J2 rotor pad -> J3 stator pad; B origin in J2 frame (mm) = (103.2, -6.2, 0.0); bar level z=-35.4, riser inner face s=28.44 (1.44 mm outside r 27.0), landing 70.7 mm from axis A, flange to Y_B=39.2; side profile 15 segments, fillets r 12.5/12.5/8.5/15.0/5.0, tongue round r 7.9, S placement 'riser': S in the riser/bend absorbs 6.240 mm laterally between s=27.43 and s=47.38 (19.95 mm of run): two tangent arcs r 17.5 through 34.74 deg, walls r 5.0 / 30.0, inflection at s=37.41 w=-3.120; radial clearance to r 27.0 along it 1.340 mm (at s=28.34 z=-4.01), one width 25, slab frame snapped 1.9e-04 rad to the bar; 9 features, 1 body, 46 faces, volume 48375 mm3
+link_12 / link_23 computed clearance (sampled, 0.5 mm): 1.44 mm (minimum 1.0)
+Snapshot captured: False
+
+J1 right_shoulder_pitch_joint: intended pos(mm)=(0.00, -200.43, 0.00) Z=(0.000, -0.961, 0.276) [set via transform2 on proxy]
+    read back pos(mm)=(0.00, -200.43, 0.00) Z=(0.000, -0.961, 0.276) -> OK (max diff 1.11e-15 cm)
+    module world pose pos(mm)=(-0.00, -200.43, -0.00) Z=(0.000, -0.961, 0.276) -> OK (max diff 7.11e-15 cm)
+J2 right_shoulder_roll_joint: intended pos(mm)=(0.01, -240.77, -2.82) Z=(1.000, 0.000, -0.000) [set via transform2 on proxy]
+    read back pos(mm)=(0.01, -240.77, -2.82) Z=(1.000, 0.000, -0.000) -> OK (max diff 5.55e-17 cm)
+    module world pose pos(mm)=(0.01, -240.77, -2.82) Z=(1.000, 0.000, -0.000) -> OK (max diff 2.17e-19 cm)
+J3 right_shoulder_yaw_joint: intended pos(mm)=(0.00, -247.02, -106.02) Z=(-0.000, -0.000, -1.000) [set via transform2 on proxy]
+    read back pos(mm)=(0.00, -247.02, -106.02) Z=(-0.000, -0.000, -1.000) -> OK (max diff 1.78e-15 cm)
+    module world pose pos(mm)=(0.00, -247.02, -106.02) Z=(-0.000, -0.000, -1.000) -> OK (max diff 3.55e-15 cm)
+arm component transform: identity (diff 0.00e+00)
+
+Interference check: 128 bodies (links + modules), 28 interference(s): 0 FAIL, 7 sliver(s) <= 0.02 mm deep ignored, 21 module-internal ignored
+    sliver link_12/link_12 <-> Component1/Body1 volume=0.43 mm3 depth=0.008 mm at x[-24.50,-24.49] y[-244.13,-213.78] z[-21.16,23.14]
+    sliver link_12/link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm at x[-24.50,-24.49] y[-262.48,-257.58] z[-5.27,-0.37]
+    sliver link_12/link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm at x[-24.50,-24.49] y[-243.23,-238.33] z[13.98,18.88]
+    sliver link_12/link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm at x[-24.50,-24.49] y[-243.23,-238.33] z[-24.52,-19.62]
+    sliver link_23/link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm at x[16.80,21.70] y[-249.47,-244.57] z[-81.52,-81.51]
+    sliver link_23/link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm at x[-2.45,2.45] y[-230.22,-225.32] z[-81.52,-81.51]
+    sliver link_23/link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm at x[-2.45,2.45] y[-268.72,-263.82] z[-81.52,-81.51]
+    module-internal (pre-existing in sensor module 2): 9x Component1/Body1 <-> m3_6mm_insert/Body1 22.6 mm3, 12x XL330 v2/Body1 <-> screw 1/Body1 3.7 mm3
+Interference result: OK (0 over links + modules)
+generated_R_arm* after: ['generated_R_arm']
+bridge: OK in 39.2s

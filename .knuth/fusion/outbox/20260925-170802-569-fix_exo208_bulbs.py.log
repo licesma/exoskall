@@ -1,0 +1,7 @@
+OK
+toggled 262 occurrence handle(s)
+root 'sensor module 2'                  bulb=False vis=False
+root 'sensor module 2 stop15'           bulb=False vis=False
+root 'generated_R_arm_general'          bulb=True vis=True
+saved -> True
+bridge: OK in 10.7s

@@ -1,0 +1,193 @@
+"""EXO-258 (parent EXO-257): 200 x 200 x 80 open-top tool organizer, 12 bins, embossed floor labels.
+
+Discussion aid, CadQuery (not Fusion). Writes:
+  gento_luna/exo/exports/tool_organizer_exo258.step / .stl
+  gento_luna/exo/screenshots/tool_organizer_exo258_top.png / _iso.png
+Run (CadQuery 2.5.2 lives in Esteban's venv, nothing installed for this):
+  /Users/esteban/Downloads/.venv_cad/bin/python -I tools/bridge_scripts/build_organizer_exo258.py
+Part sizes (bounding boxes, mm) were measured with OCP/XCAF and a 3mf vertex scan, EXO-258:
+  bearing 5972K159   42.000 x 42.000 x 7.000   sensor module 2.step, product '5972K159_Ball Bearing'
+  XL330 (v2)         20.000 x 34.000 x 26.000  sensor module 2.step, product 'XL330 v2'
+  rotor inner top    36.000 x 35.999 x 10.200  parts/inner_top.3mf
+  rotor inner bottom 34.998 x 34.999 x 4.200   parts/inner_bottom.3mf (and _v2.3mf, same box)
+  horn screw         3.2 head x 9.47           sensor module 2.step 'screw 1' (M2x8 model; v3 uses M2x4)
+  M3 insert          4.9 x 6.0                 sensor module 2.step 'm3_6mm_insert'
+"""
+import os
+import numpy as np
+import cadquery as cq
+
+REPO = '/Users/esteban/repos/exo'
+OUT_EXP = os.path.join(REPO, 'gento_luna/exo/exports')
+OUT_PNG = os.path.join(REPO, 'gento_luna/exo/screenshots')
+NAME = 'tool_organizer_exo258'
+
+W = D = 200.0      # footprint
+H = 80.0           # overall height, open top
+WALL = 2.0         # outer and divider walls
+FLOOR = 2.0
+EMB = 0.6          # label emboss height above the floor
+CLR = 2.0          # minimum part clearance per side
+NCOL, NROW = 4, 3
+
+# part footprint (x, y) as it lies in the bin, plus outline kind for the plan drawing
+PART = {
+    'BEARING':  ((42.0, 42.0), 'circle'),
+    'XL330':    ((26.0, 34.0), 'rect'),     # lying on its 20 mm side: 26 x 34 footprint, 20 tall
+    'ROTOR TOP': ((36.0, 36.0), 'circle'),
+    'ROTOR BOT': ((35.0, 35.0), 'circle'),
+    'HORN SCREWS': ((3.2, 9.5), 'rect'),
+    'M3 INSERTS': ((4.9, 6.0), 'rect'),
+}
+# rows listed back (+Y) to front (-Y)
+LAYOUT = [
+    [('BEARING', '5972K159'), ('BEARING', '5972K159'), ('ROTOR TOP', 'inner_top'), ('ROTOR TOP', 'inner_top')],
+    [('ROTOR BOT', 'inner_bottom'), ('ROTOR BOT', 'inner_bottom'), ('HORN SCREWS', 'M2 pan'), ('M3 INSERTS', 'heat-set')],
+    [('XL330', '1'), ('XL330', '2'), ('XL330', '3'), ('XL330', '4')],
+]
+
+BX = (W - 2 * WALL - (NCOL - 1) * WALL) / NCOL   # bin inner x
+BY = (D - 2 * WALL - (NROW - 1) * WALL) / NROW   # bin inner y
+
+
+def bins():
+    out = []
+    for r, row in enumerate(LAYOUT):
+        for c, (lab, sub) in enumerate(row):
+            x0 = -W / 2 + WALL + c * (BX + WALL)
+            y1 = D / 2 - WALL - r * (BY + WALL)
+            out.append(dict(label=lab, sub=sub, cx=x0 + BX / 2, cy=y1 - BY / 2))
+    return out
+
+
+def build():
+    body = cq.Workplane('XY').box(W, D, H, centered=(True, True, False))
+    for b in bins():
+        body = body.cut(cq.Workplane('XY').workplane(offset=FLOOR)
+                        .center(b['cx'], b['cy']).box(BX, BY, H, centered=(True, True, False)))
+    for b in bins():
+        for txt, dy, size in ((b['label'], 5.0, 6.0), (b['sub'], -5.0, 5.0)):
+            t = (cq.Workplane('XY').workplane(offset=FLOOR)
+                 .center(b['cx'], b['cy'] + dy)
+                 .text(txt, size, EMB, combine=False, halign='center', valign='center', kind='bold'))
+            body = body.union(t)
+    return body
+
+
+def report():
+    used_min = 0.0
+    print('bin inner %.2f x %.2f, depth %.1f' % (BX, BY, H - FLOOR))
+    for b in bins():
+        (px, py), _ = PART[b['label']]
+        need = (px + 2 * CLR) * (py + 2 * CLR)
+        used_min += need
+        fit = min(BX - px, BY - py) / 2
+        print('%-12s %-12s part %5.1f x %5.1f  min clearance/side %5.2f  %s'
+              % (b['label'], b['sub'], px, py, fit, 'OK' if fit >= CLR else 'TOO TIGHT'))
+    print('min pocket area (part + 2 mm/side): %.0f mm2 = %.1f%% of %.0f'
+          % (used_min, 100 * used_min / (W * D), W * D))
+    print('bin floor area allotted: %.0f mm2 = %.1f%%; walls %.0f mm2'
+          % (12 * BX * BY, 100 * 12 * BX * BY / (W * D), W * D - 12 * BX * BY))
+
+
+def render(shape):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    from matplotlib.collections import PolyCollection
+    from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+    from matplotlib.patches import Circle, Rectangle
+
+    vs, ts = shape.tessellate(0.05, 0.2)
+    V = np.array([(v.x, v.y, v.z) for v in vs])
+    T = np.array(ts)
+    tri = V[T]
+    n = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+    n /= np.linalg.norm(n, axis=1)[:, None] + 1e-12
+
+    # --- top view: only up-facing triangles, painted by height
+    up = n[:, 2] > 0.5
+    zc = tri[:, :, 2].mean(axis=1)
+    sel = np.where(up)[0]
+    sel = sel[np.argsort(zc[sel])]
+    col = np.where(zc[sel] > H - 1, '#4a4f57', np.where(zc[sel] > FLOOR + EMB / 2, '#1f5fa8', '#e9e6df'))
+    fig, ax = plt.subplots(figsize=(9, 9.6), dpi=150)
+    ax.add_collection(PolyCollection(tri[sel][:, :, :2], facecolors=col, edgecolors='none'))
+    for b in bins():
+        (px, py), kind = PART[b['label']]
+        if kind == 'circle':
+            ax.add_patch(Circle((b['cx'], b['cy']), px / 2, fill=False, ls='--', lw=0.9, ec='#c0392b'))
+        else:
+            ax.add_patch(Rectangle((b['cx'] - px / 2, b['cy'] - py / 2), px, py, fill=False, ls='--', lw=0.9, ec='#c0392b'))
+    ax.set_xlim(-W / 2 - 5, W / 2 + 5); ax.set_ylim(-D / 2 - 5, D / 2 + 5)
+    ax.set_aspect('equal'); ax.set_xlabel('mm'); ax.set_ylabel('mm')
+    ax.set_title('EXO-258 tool organizer, top view: 200 x 200 x 80, 12 bins %.1f x %.1f x %.0f deep\n'
+                 'red dashed = measured part footprint (repo models); blue = embossed floor label'
+                 % (BX, BY, H - FLOOR), fontsize=9)
+    fig.tight_layout(); fig.savefig(os.path.join(OUT_PNG, NAME + '_top.png')); plt.close(fig)
+
+    # --- isometric: numpy z-buffer rasteriser (matplotlib 3D cannot depth-sort deep bins)
+    light = np.array([-0.35, -0.55, 0.95]); light /= np.linalg.norm(light)
+    shade = 0.30 + 0.70 * np.abs(n @ light)
+    lab = (np.abs(zc - (FLOOR + EMB)) < 0.05) & up
+    base = np.where(lab[:, None], np.array([0.12, 0.37, 0.66]), np.array([0.86, 0.84, 0.79]))
+    fc = np.clip(base * shade[:, None], 0, 1)
+    az, el = np.radians(-30), np.radians(68)       # camera direction
+    Rz = np.array([[np.cos(az), -np.sin(az), 0], [np.sin(az), np.cos(az), 0], [0, 0, 1]])
+    P = V @ Rz.T
+    Rx = np.array([[1, 0, 0], [0, np.sin(el), np.cos(el)], [0, -np.cos(el), np.sin(el)]])
+    P = P @ Rx.T                                    # x right, y up on screen, z toward viewer
+    WPX, HPX = 1800, 1400
+    sc = 0.9 * min(WPX / np.ptp(P[:, 0]), HPX / np.ptp(P[:, 1]))
+    sx = (P[:, 0] - P[:, 0].mean()) * sc + WPX / 2
+    sy = HPX / 2 - (P[:, 1] - P[:, 1].mean()) * sc
+    sz = P[:, 2]
+    zb = np.full((HPX, WPX), -np.inf); img = np.ones((HPX, WPX, 3)); tid = np.full((HPX, WPX), -1)
+    for k, (a, b2, c) in enumerate(T):
+        xs = sx[[a, b2, c]]; ys = sy[[a, b2, c]]; zs = sz[[a, b2, c]]
+        x0, x1 = int(max(np.floor(xs.min()), 0)), int(min(np.ceil(xs.max()), WPX - 1))
+        y0, y1 = int(max(np.floor(ys.min()), 0)), int(min(np.ceil(ys.max()), HPX - 1))
+        if x1 < x0 or y1 < y0:
+            continue
+        den = (ys[1] - ys[2]) * (xs[0] - xs[2]) + (xs[2] - xs[1]) * (ys[0] - ys[2])
+        if abs(den) < 1e-9:
+            continue
+        gx, gy = np.meshgrid(np.arange(x0, x1 + 1) + 0.5, np.arange(y0, y1 + 1) + 0.5)
+        l0 = ((ys[1] - ys[2]) * (gx - xs[2]) + (xs[2] - xs[1]) * (gy - ys[2])) / den
+        l1 = ((ys[2] - ys[0]) * (gx - xs[2]) + (xs[0] - xs[2]) * (gy - ys[2])) / den
+        l2 = 1 - l0 - l1
+        m = (l0 >= -1e-6) & (l1 >= -1e-6) & (l2 >= -1e-6)
+        if not m.any():
+            continue
+        z = l0 * zs[0] + l1 * zs[1] + l2 * zs[2]
+        sub = zb[y0:y1 + 1, x0:x1 + 1]
+        m &= z > sub + 1e-6
+        sub[m] = z[m]
+        img[y0:y1 + 1, x0:x1 + 1][m] = fc[k]
+        tid[y0:y1 + 1, x0:x1 + 1][m] = k
+    # dark outline where the visible face normal changes (silhouettes and creases)
+    nn = np.zeros((HPX, WPX, 3)); vis = tid >= 0; nn[vis] = n[tid[vis]]
+    e = np.zeros((HPX, WPX), bool)
+    for dy, dx in ((0, 1), (1, 0)):
+        a_ = nn[:HPX - dy, :WPX - dx]; b_ = nn[dy:, dx:]
+        va, vb = vis[:HPX - dy, :WPX - dx], vis[dy:, dx:]
+        ed = ((np.sum(a_ * b_, axis=2) < 0.9) & va & vb) | (va != vb)
+        e[:HPX - dy, :WPX - dx] |= ed
+    img[e] = img[e] * 0.35
+    fig = plt.figure(figsize=(WPX / 150, HPX / 150 + 0.4), dpi=150)
+    ax = fig.add_axes([0, 0, 1, HPX / (HPX + 60)]); ax.imshow(img); ax.set_axis_off()
+    fig.suptitle('EXO-258 tool organizer, isometric: 200 x 200 x 80, open top, 12 bins, embossed floor labels',
+                 fontsize=10)
+    fig.savefig(os.path.join(OUT_PNG, NAME + '_iso.png')); plt.close(fig)
+
+if __name__ == '__main__':
+    report()
+    body = build()
+    shape = body.val()
+    bb = shape.BoundingBox()
+    print('solid valid=%s bbox %.2f x %.2f x %.2f volume %.0f mm3'
+          % (shape.isValid(), bb.xlen, bb.ylen, bb.zlen, shape.Volume()))
+    cq.exporters.export(body, os.path.join(OUT_EXP, NAME + '.stl'), tolerance=0.05, angularTolerance=0.2)
+    cq.exporters.export(body, os.path.join(OUT_EXP, NAME + '.step'))
+    render(shape)
+    print('wrote', NAME, '.stl/.step and _top/_iso.png')

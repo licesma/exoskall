@@ -1,0 +1,36 @@
+OK
+document: arm complete (~recovered)  design type: direct
+root component: arm complete (~recovered)   root occurrences: 26
+  [0] left arm                     vis=False t=(0.00, 0.00, 0.00) cm  bbox=(-2.0,-3.9,-23.9)-(46.7,7.4,-10.2)
+  [1] right arm                    vis=False t=(0.00, -20.04, 0.00) cm  bbox=(-20.3,-67.0,-23.1)-(46.7,19.0,55.4)
+  [2] chest mount                  vis=False t=(0.00, 0.00, 0.00) cm  bbox=(-4.5,-20.0,-6.0)-(3.0,0.0,5.5)
+  [3] Camera support               vis=False t=(0.00, 0.00, 0.00) cm  bbox=(-4.5,-13.0,1.7)-(6.4,-7.0,19.8)
+  [4] M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW vis=False t=(28.58, 17.24, -19.30) cm  bbox=(28.6,16.9,-19.7)-(31.5,17.6,-19.0)
+  [5] M4 x 0.7mm Thread HEX NUT    vis=False t=(28.69, 17.25, -19.30) cm  bbox=(28.5,16.7,-19.8)-(28.9,17.8,-18.8)
+  [6] M4 x 0.7mm Thread HEX NUT    vis=False t=(28.69, 10.74, -17.10) cm  bbox=(28.5,10.2,-17.6)-(28.9,11.3,-16.6)
+  [7] M4 x 0.7mm Thread HEX NUT    vis=False t=(28.69, 10.74, -21.50) cm  bbox=(28.5,10.2,-22.0)-(28.9,11.3,-21.0)
+  [8] M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW vis=False t=(28.58, 10.74, -17.11) cm  bbox=(28.6,10.4,-17.5)-(31.5,11.1,-16.8)
+  [9] M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW vis=False t=(28.58, 10.74, -21.51) cm  bbox=(28.6,10.4,-21.9)-(31.5,11.1,-21.2)
+  [10] M4 x 0.7mm Thread HEX NUT    vis=False t=(18.89, 9.13, -18.30) cm  bbox=(18.7,8.6,-18.8)-(19.1,9.7,-17.8)
+  [11] M4 x 0.7mm Thread HEX NUT    vis=False t=(18.89, 9.14, -20.33) cm  bbox=(18.7,8.6,-20.8)-(19.1,9.7,-19.8)
+  [12] M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW vis=False t=(28.58, 9.14, -18.31) cm  bbox=(28.6,8.8,-18.7)-(31.5,9.5,-18.0)
+  [13] M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW vis=False t=(28.58, 9.14, -20.33) cm  bbox=(28.6,8.8,-20.7)-(31.5,9.5,-20.0)
+  [14] M4 x 0.7mm Thread HEX NUT    vis=False t=(28.70, 3.96, -15.08) cm  bbox=(28.3,3.8,-15.4)-(29.1,4.1,-14.7)
+  [15] M4 x 0.7mm Thread HEX NUT    vis=False t=(28.69, 9.14, -20.33) cm  bbox=(28.5,8.6,-20.8)-(28.9,9.7,-19.8)
+  [16] M4 x 0.7mm Thread HEX NUT    vis=False t=(28.70, 3.96, -24.08) cm  bbox=(28.3,3.8,-24.4)-(29.1,4.1,-23.7)
+  [17] M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW vis=False t=(28.70, 3.90, -24.08) cm  bbox=(28.3,3.9,-24.4)-(29.1,5.7,-23.7)
+  [18] M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW vis=False t=(28.70, 3.90, -15.08) cm  bbox=(28.3,3.9,-15.4)-(29.1,5.7,-14.7)
+  [19] M4 x 0.7mm Thread HEX NUT    vis=False t=(-4.28, -11.27, 2.47) cm  bbox=(-4.5,-11.7,2.1)-(-4.1,-10.9,2.8)
+  [20] M4 x 0.7mm Thread HEX NUT    vis=False t=(-4.28, -8.77, 2.47) cm  bbox=(-4.5,-9.2,2.1)-(-4.1,-8.4,2.8)
+  [21] cuffs with soft inside (1)   vis=False t=(18.73, 9.10, -18.35) cm  bbox=(18.7,8.7,-18.7)-(22.6,9.4,-18.0)
+  [22] cuffs with soft inside (1)   vis=False t=(18.73, 9.09, -20.38) cm  bbox=(18.7,8.7,-20.7)-(22.6,9.4,-20.0)
+  [23] M4 x 0.7mm Thread HEX NUT    vis=False t=(28.69, 9.09, -18.34) cm  bbox=(28.5,8.6,-18.8)-(28.9,9.6,-17.8)
+  [24] sensor module 2              vis=True t=(0.00, 0.00, 0.00) cm  bbox=(-2.7,-2.7,-3.7)-(2.7,2.7,0.0)
+  [25] generated_R_arm              vis=True t=(0.00, 0.00, 0.00) cm  bbox=(-3.9,-27.4,-10.6)-(2.7,-15.9,2.7)
+components named sensor module 2*: ['sensor module 2']
+component sensor module 2 -> 4 occurrences
+   under ROOT                         t=(0.00, 0.00, 0.00) cm
+   under J1_right_shoulder_pitch_joint t=(-0.00, -20.04, -0.00) cm
+   under J2_right_shoulder_roll_joint t=(0.00, -24.08, -0.28) cm
+   under J3_right_shoulder_yaw_joint  t=(0.00, -24.70, -10.60) cm
+bridge: OK in 0.8s

@@ -1,0 +1,1470 @@
+{
+ "issue": "EXO-274",
+ "started": "2026-10-14 18:48:50",
+ "errors": [],
+ "hub": "Estebans",
+ "projects": [
+  "Assets",
+  "Default Project",
+  "gvl",
+  "Learn Fusion in 30 days",
+  "G1 exeskeleton"
+ ],
+ "project": "G1 exeskeleton",
+ "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+ "folders": [
+  {
+   "path": "",
+   "name": "G1 exeskeleton",
+   "id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "file_count": 58,
+   "subfolder_count": 1
+  },
+  {
+   "path": "/cuff",
+   "name": "cuff",
+   "id": "urn:adsk.wipprod:fs.folder:co.BtB2DO-hTDep7RhsJadR0A",
+   "file_count": 5,
+   "subfolder_count": 0
+  }
+ ],
+ "files": [
+  {
+   "path": "",
+   "name": "apriltag support",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:D_GhGnMjR-WfYRPHGv216Q",
+   "dateCreated": "2026-10-14 17:56:56",
+   "dateModified": "2026-10-14 17:57:05",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm complete_Camera support",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:z15GBJnDRyeQElHZvbYgwg",
+   "dateCreated": "2026-10-14 17:58:22",
+   "dateModified": "2026-10-14 17:58:30",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm complete_chest mount",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:lvB_fi9qT02ITHaBJZkTrw",
+   "dateCreated": "2026-10-14 17:58:48",
+   "dateModified": "2026-10-14 17:58:56",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "cuffs with soft inside v7.mp4",
+   "fileExtension": "3g2",
+   "id": "urn:adsk.wipprod:dm.lineage:oZDS8t08Td-0X_e3QO597g",
+   "dateCreated": "2026-10-14 17:59:09",
+   "dateModified": "2026-10-14 17:59:14",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "Direct-Adapter-Mount",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:DsxpO1c0TlSIelaD0UMsqA",
+   "dateCreated": "2026-10-14 17:59:30",
+   "dateModified": "2026-10-14 17:59:34",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "elbow_luna",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:Y2D2cGtlReWOR-9ilj-zbg",
+   "dateCreated": "2026-10-14 17:59:46",
+   "dateModified": "2026-10-14 17:59:53",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "inspire_link",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:JVOJcOwrRFGzhUhl2svQJw",
+   "dateCreated": "2026-10-14 18:00:02",
+   "dateModified": "2026-10-14 18:00:11",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M3x1.8mm Hex Nut",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:KhadPO81QGO68ELzD43byg",
+   "dateCreated": "2026-10-14 18:00:18",
+   "dateModified": "2026-10-14 18:00:23",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:iUyCL7IcQZKm8tltjMWw6w",
+   "dateCreated": "2026-10-14 18:00:35",
+   "dateModified": "2026-10-14 18:00:53",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:uXMptCMJRIKWpir8qDtnqg",
+   "dateCreated": "2026-10-14 18:00:52",
+   "dateModified": "2026-10-14 18:01:05",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:F582bMLWThGuzPyAvgqsYw",
+   "dateCreated": "2026-10-14 18:01:10",
+   "dateModified": "2026-10-14 18:01:15",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "pan_head_philip_mc_screw_m1-6",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:wEVGyPXgSwmY8pdfy1G8bw",
+   "dateCreated": "2026-10-14 18:01:27",
+   "dateModified": "2026-10-14 18:01:42",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "right",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:OvVKEQ-DR2S3bbBg9Sngeg",
+   "dateCreated": "2026-10-14 18:01:59",
+   "dateModified": "2026-10-14 18:02:24",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "tool_organizer_exo258",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:6dGLUribStKssjuggzFhSQ",
+   "dateCreated": "2026-10-14 18:02:35",
+   "dateModified": "2026-10-14 18:02:40",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "WH_simplified_right_frameonly",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:1rE3iPU-RTCVq03LqWbxTg",
+   "dateCreated": "2026-10-14 18:02:56",
+   "dateModified": "2026-10-14 18:03:14",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "wristband_2.0",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:zH4sE1P7TmGf6LuFgu1BvQ",
+   "dateCreated": "2026-10-14 18:03:20",
+   "dateModified": "2026-10-14 18:03:29",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "writst_mount_c",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:5JzcB1gaR-aeR6saJuGrTw",
+   "dateCreated": "2026-10-14 18:03:35",
+   "dateModified": "2026-10-14 18:03:41",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "writst mount",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:cjQSNAElQAi3LUGFbg_buA",
+   "dateCreated": "2026-10-14 18:04:00",
+   "dateModified": "2026-10-14 18:04:07",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "wuji enclosure",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:uC9G0GSuQiW0G83awoUfuA",
+   "dateCreated": "2026-10-14 18:04:22",
+   "dateModified": "2026-10-14 18:04:29",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "cases",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:AxWRyNAWRiCTr2mIST4vug",
+   "dateCreated": "2026-10-14 18:19:54",
+   "dateModified": "2026-10-14 18:20:04",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm complete (1-body test upload, delete me)",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:p-BdRVWoTmaJDy3jun2ljQ",
+   "dateCreated": "2026-10-14 18:27:49",
+   "dateModified": "2026-10-14 18:35:10",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "5972K159_Ball Bearing",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:_mtPirY5TZ6HAGO9Oa0ULQ",
+   "dateCreated": "2026-10-14 18:35:32",
+   "dateModified": "2026-10-14 18:35:35",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module test",
+     "id": "urn:adsk.wipprod:dm.lineage:szvVTe4oRa2BM_7L4hlHYg",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "sensor module test",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:szvVTe4oRa2BM_7L4hlHYg",
+   "dateCreated": "2026-10-14 18:35:35",
+   "dateModified": "2026-10-14 18:35:43",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:_mtPirY5TZ6HAGO9Oa0ULQ",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "XL330",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:VtO-MkfaRleYqpo3jRa1XA",
+   "dateCreated": "2026-10-14 18:35:49",
+   "dateModified": "2026-10-14 18:36:01",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "5972K159_Ball Bearing",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:z82oImUIQxq1BOI-jrPxBg",
+   "dateCreated": "2026-10-14 18:35:50",
+   "dateModified": "2026-10-14 18:36:00",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "sensor module",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+   "dateCreated": "2026-10-14 18:35:52",
+   "dateModified": "2026-10-14 18:36:00",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "XL330",
+     "id": "urn:adsk.wipprod:dm.lineage:VtO-MkfaRleYqpo3jRa1XA",
+     "versionNumber": 1
+    },
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:z82oImUIQxq1BOI-jrPxBg",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm 2",
+     "id": "urn:adsk.wipprod:dm.lineage:3E7UqMBkQdKxu7gpyS2oRA",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "arm 2",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:3E7UqMBkQdKxu7gpyS2oRA",
+   "dateCreated": "2026-10-14 18:35:55",
+   "dateModified": "2026-10-14 18:36:00",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "XL330",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA",
+   "dateCreated": "2026-10-14 18:36:04",
+   "dateModified": "2026-10-14 18:36:08",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "5972K159_Ball Bearing",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:bYhycXTtRDCF7RLAR_EaWQ",
+   "dateCreated": "2026-10-14 18:36:06",
+   "dateModified": "2026-10-14 18:36:12",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "sensor module",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+   "dateCreated": "2026-10-14 18:36:10",
+   "dateModified": "2026-10-14 18:36:13",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:bYhycXTtRDCF7RLAR_EaWQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "XL330",
+     "id": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm",
+     "id": "urn:adsk.wipprod:dm.lineage:cXGOAcs-Q6unIh91MhgbSQ",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "5972K159_Ball Bearing",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+   "dateCreated": "2026-10-14 18:36:17",
+   "dateModified": "2026-10-14 18:36:20",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module 2",
+     "id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+     "versionNumber": 1
+    },
+    {
+     "name": "exo generated",
+     "id": "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "arm",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:cXGOAcs-Q6unIh91MhgbSQ",
+   "dateCreated": "2026-10-14 18:36:13",
+   "dateModified": "2026-10-14 18:36:25",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "sensor module 2",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+   "dateCreated": "2026-10-14 18:36:19",
+   "dateModified": "2026-10-14 18:36:25",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "exo generated",
+     "id": "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "exo generated",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw",
+   "dateCreated": "2026-10-14 18:36:25",
+   "dateModified": "2026-10-14 18:36:35",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "sensor module 2",
+     "id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+     "versionNumber": 1
+    },
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "writst mount_e",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:zs1gGokvTayE8cgJrH4veg",
+   "dateCreated": "2026-10-14 18:36:30",
+   "dateModified": "2026-10-14 18:36:35",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "wrist_sketch3_with_straps (copy v1)",
+     "id": "urn:adsk.wipprod:dm.lineage:jIKLpTb3SCeDiKx5Latkcw",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "wrist_sketch3_with_straps (copy v1)",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:jIKLpTb3SCeDiKx5Latkcw",
+   "dateCreated": "2026-10-14 18:36:33",
+   "dateModified": "2026-10-14 18:48:45",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "writst mount_e",
+     "id": "urn:adsk.wipprod:dm.lineage:zs1gGokvTayE8cgJrH4veg",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+   "dateCreated": "2026-10-14 18:36:51",
+   "dateModified": "2026-10-14 18:36:58",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ",
+   "dateCreated": "2026-10-14 18:36:51",
+   "dateModified": "2026-10-14 18:36:58",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+   "dateCreated": "2026-10-14 18:36:54",
+   "dateModified": "2026-10-14 18:36:59",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "cuffs with soft inside",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+   "dateCreated": "2026-10-14 18:36:57",
+   "dateModified": "2026-10-14 18:37:10",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:7XBtxEtKQKecKXWSNQMdlQ",
+   "dateCreated": "2026-10-14 18:37:05",
+   "dateModified": "2026-10-14 18:37:13",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete BACKUP 2026-08-08",
+     "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:eMNdbWDpTq20Uclv6skCVA",
+   "dateCreated": "2026-10-14 18:37:08",
+   "dateModified": "2026-10-14 18:37:14",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete BACKUP 2026-08-08",
+     "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:b28KoYRTTCOU1lsWTZr0ag",
+   "dateCreated": "2026-10-14 18:37:10",
+   "dateModified": "2026-10-14 18:37:15",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:cjURVua5QTO85UwocGuaFQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "arm complete BACKUP 2026-08-08",
+     "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "cuffs with soft inside",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:cjURVua5QTO85UwocGuaFQ",
+   "dateCreated": "2026-10-14 18:37:14",
+   "dateModified": "2026-10-14 18:37:27",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:b28KoYRTTCOU1lsWTZr0ag",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm complete BACKUP 2026-08-08",
+     "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "arm complete",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+   "dateCreated": "2026-10-14 18:37:06",
+   "dateModified": "2026-10-14 18:37:43",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+   "dateCreated": "2026-10-14 18:37:38",
+   "dateModified": "2026-10-14 18:37:45",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "cuffs with soft inside",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+   "dateCreated": "2026-10-14 18:37:41",
+   "dateModified": "2026-10-14 18:37:57",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "arm complete BACKUP 2026-08-08",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+   "dateCreated": "2026-10-14 18:37:21",
+   "dateModified": "2026-10-14 18:40:34",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:eMNdbWDpTq20Uclv6skCVA",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:b28KoYRTTCOU1lsWTZr0ag",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:cjURVua5QTO85UwocGuaFQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:7XBtxEtKQKecKXWSNQMdlQ",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:3GOuJvUxRySz5kPInpNDog",
+   "dateCreated": "2026-10-14 18:37:49",
+   "dateModified": "2026-10-14 18:37:57",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+   "dateCreated": "2026-10-14 18:37:51",
+   "dateModified": "2026-10-14 18:37:58",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+   "dateCreated": "2026-10-14 18:37:57",
+   "dateModified": "2026-10-14 18:38:01",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:FYgk4wLCRVabVtGEiVbFhg",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "cuffs with soft inside",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:FYgk4wLCRVabVtGEiVbFhg",
+   "dateCreated": "2026-10-14 18:38:00",
+   "dateModified": "2026-10-14 18:38:10",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:06avThYqTgy4dwOO_7VdOw",
+   "dateCreated": "2026-10-14 18:38:07",
+   "dateModified": "2026-10-14 18:38:12",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+   "dateCreated": "2026-10-14 18:38:10",
+   "dateModified": "2026-10-14 18:38:22",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "arm test",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+   "dateCreated": "2026-10-14 18:37:56",
+   "dateModified": "2026-10-14 18:38:23",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:3GOuJvUxRySz5kPInpNDog",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm complete luna",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+   "dateCreated": "2026-10-14 18:38:15",
+   "dateModified": "2026-10-14 18:38:50",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:06avThYqTgy4dwOO_7VdOw",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:FYgk4wLCRVabVtGEiVbFhg",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "writst mount_e",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw",
+   "dateCreated": "2026-10-14 18:47:44",
+   "dateModified": "2026-10-14 18:47:51",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "wrist_sketch3_with_straps",
+     "id": "urn:adsk.wipprod:dm.lineage:s_bSGtj1SL-TvkFV7MHp3Q",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "wrist_sketch3_with_straps",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:s_bSGtj1SL-TvkFV7MHp3Q",
+   "dateCreated": "2026-10-14 18:47:47",
+   "dateModified": "2026-10-14 18:48:04",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "writst mount_e",
+     "id": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/cuff",
+   "name": "lock",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:BEl0Gdz8Q3eXnkrcQPsOjg",
+   "dateCreated": "2026-10-14 18:04:45",
+   "dateModified": "2026-10-14 18:04:48",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/cuff",
+   "name": "spring",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:CXeVHuieQBuRgnBiPF3BTA",
+   "dateCreated": "2026-10-14 18:20:29",
+   "dateModified": "2026-10-14 18:20:34",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/cuff",
+   "name": "cuff",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:7uvY2xdBQ-mQgsQdumc7Gg",
+   "dateCreated": "2026-10-14 18:05:12",
+   "dateModified": "2026-10-14 18:05:23",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/cuff",
+   "name": "side0",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:s9vuznrARd2JLUIwekJnWw",
+   "dateCreated": "2026-10-14 18:20:47",
+   "dateModified": "2026-10-14 18:20:53",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/cuff",
+   "name": "hook",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:APSo0xohShOVnpZHGqA25w",
+   "dateCreated": "2026-10-14 18:21:11",
+   "dateModified": "2026-10-14 18:21:15",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  }
+ ],
+ "stage": "done",
+ "elapsed_s": 113.0
+}

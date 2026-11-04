@@ -1,0 +1,11 @@
+{
+    "autodeskProduct": "Fusion",
+    "type": "addin",
+    "author": "esteban",
+    "description": {
+        "": "Runs agent-authored Python from .knuth/fusion/inbox inside the open Fusion session and writes a log back to .knuth/fusion/outbox"
+    },
+    "supportedOS": "windows|mac",
+    "editEnabled": true,
+    "runOnStartup": true
+}

@@ -1,0 +1,40 @@
+FAIL
+designType 0 (0 = direct, no timeline)
+arm occ transform origin ['0.000000', '0.000000', '0.000000']
+g_link_12 occ in arm: origin ['0.000000', '0.000000', '0.000000'] (identity expected)
+g_link_12 B-rep V 40398.023, faces 39
+J1 frame in arm/file coords: O ['0.0000', '-200.4300', '0.0000'] X ['1.000000', '0.000207', '-0.000000'] Y ['-0.000057', '0.275692', '0.961246'] Z ['0.000199', '-0.961246', '0.275692']
+J2 frame in arm/file coords: O ['0.0076', '-240.7704', '-2.8187'] X ['0.000000', '-0.275692', '-0.961246'] Y ['-0.000199', '0.961246', '-0.275692'] Z ['1.000000', '0.000192', '-0.000055']
+link mark, J2 frame, z -24.7 along r 23..29 at t 0 : ..............................................###############
+link mark, J2 frame, z -24.7 along r 23..29 at t .5: ...............##############################################
+link mark, J2 frame, r 26, t -0.6..0.6 at z -24.7: #######...........#######
+link mark, J2 frame, r 26, t 0, z -25.2..-24.4: #######..........
+export link -> True /Users/esteban/repos/exo/parts/link_12.3mf
+module stator 'stator:1' comp 'stator' V 25685.093, own frame -> module: z -7.500
+export copy 'stator EXO-341 export:1': comp 'stator EXO-341 export', body V 25684.494 (module stator 25685.093, removed 0.5999 mm3), lumps 1
+stator mark, own frame, z -16.80 along r 23..29 at t 0 : .............................................................
+stator mark, own frame, z -16.80 along r 23..29 at t .5: ...............#########################.....................
+stator mark, r 26, t -0.6..0.6: #######...........#######
+stator mark, r 26, t 0, z -17.20..-16.40: ............#####
+export stator -> True /Users/esteban/repos/exo/parts/stator.3mf
+module stator after: V 25685.093 (untouched)
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20261022-135445-839-export_link_stator_exo341.py", line 104, in <module>
+    say(BuildArm.save_active_document(app))
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 2164, in save_active_document
+    folder, how = document_folder(app)
+                  ~~~~~~~~~~~~~~~^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 2089, in document_folder
+    df = find_data_file(app, MODULE_DOC_NAME)
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 2033, in find_data_file
+    for i in range(folder.dataFiles.count):
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/c139e2731e42a0340acc3d34de2cbdb01237a27c/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/core.py", line 11331, in _get_count
+    return _core.DataFiles__get_count(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+RuntimeError: 2 : InternalValidationError : status.isOk() && files
+bridge: FAIL in 4.5s

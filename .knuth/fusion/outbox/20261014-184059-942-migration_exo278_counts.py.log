@@ -1,0 +1,47 @@
+OK
+close err 4 : An API Object refers to a deleted Object
+T sensor module test szvVTe: {"df": "sensor module test v1 @ Estebans/G1 exeskeleton", "components": 9, "bodies_total": 34, "occurrences": 16, "linked_occ": 1, "linked_resolve_to": {"Estebans/G1 exeskeleton": 1}, "linked_unreadable": 0, "linked_outOfDate": 0, "closed": ["sensor module test"], "reused_open": false, "s": 2.1, "error": null}
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+T arm 2 3E7UqM: {"df": "arm 2 v1 @ Estebans/G1 exeskeleton", "components": 66, "bodies_total": 264, "occurrences": 101, "linked_occ": 21, "linked_resolve_to": {"Estebans/G1 exeskeleton": 7}, "linked_unreadable": 14, "linked_outOfDate": 0, "closed": ["arm 2"], "reused_open": false, "s": 2.7, "error": null}
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+T arm cXGOAc: {"df": "arm v1 @ Estebans/G1 exeskeleton", "components": 29, "bodies_total": 72, "occurrences": 94, "linked_occ": 21, "linked_resolve_to": {"Estebans/G1 exeskeleton": 7}, "linked_unreadable": 14, "linked_outOfDate": 0, "closed": ["arm"], "reused_open": false, "s": 2.3, "error": null}
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+T exo generated I6f3yG: {"df": "exo generated v1 @ Estebans/G1 exeskeleton", "components": 46, "bodies_total": 64, "occurrences": 269, "linked_occ": 17, "linked_resolve_to": {"Estebans/G1 exeskeleton": 16}, "linked_unreadable": 1, "linked_outOfDate": 0, "closed": ["exo generated"], "reused_open": false, "s": 2.2, "error": null}
+close err 4 : An API Object refers to a deleted Object
+T wrist_sketch3_with_straps jIKLpT: {"df": "wrist_sketch3_with_straps v1 @ Estebans/G1 exeskeleton", "components": 3, "bodies_total": 3, "occurrences": 2, "linked_occ": 1, "linked_resolve_to": {"Estebans/G1 exeskeleton": 1}, "linked_unreadable": 0, "linked_outOfDate": 0, "closed": ["wrist_sketch3_with_straps"], "reused_open": false, "s": 4.5, "error": null}
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+T arm complete Jy8czx: {"df": "arm complete v1 @ Estebans/G1 exeskeleton", "components": 152, "bodies_total": 963, "occurrences": 173, "linked_occ": 24, "linked_resolve_to": {"Estebans/G1 exeskeleton": 21}, "linked_unreadable": 3, "linked_outOfDate": 0, "closed": ["arm complete"], "reused_open": false, "s": 4.7, "error": null}
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+T arm complete xWFsuH: {"df": "arm complete BACKUP 2026-08-08 v1 @ Estebans/G1 exeskeleton", "components": 152, "bodies_total": 963, "occurrences": 173, "linked_occ": 24, "linked_resolve_to": {"Estebans/G1 exeskeleton": 21}, "linked_unreadable": 3, "linked_outOfDate": 0, "closed": ["arm complete"], "reused_open": false, "s": 4.7, "error": null}
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+T arm test fZK9GF: {"df": "arm test v1 @ Estebans/G1 exeskeleton", "components": 152, "bodies_total": 963, "occurrences": 173, "linked_occ": 24, "linked_resolve_to": {"Estebans/G1 exeskeleton": 21}, "linked_unreadable": 3, "linked_outOfDate": 0, "closed": ["arm test"], "reused_open": false, "s": 4.7, "error": null}
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+close err 4 : An API Object refers to a deleted Object
+T arm complete luna S38u3q: {"df": "arm complete luna v1 @ Estebans/G1 exeskeleton", "components": 147, "bodies_total": 1268, "occurrences": 164, "linked_occ": 22, "linked_resolve_to": {"Estebans/G1 exeskeleton": 19}, "linked_unreadable": 3, "linked_outOfDate": 0, "closed": ["arm complete luna"], "reused_open": false, "s": 4.1, "error": null}
+S arm v41 e4zHGH: {"df": "arm v41 @ Team hub - Rodrigo Andrade/G1 exeskeleton", "components": 29, "bodies_total": 72, "occurrences": 94, "linked_occ": 21, "linked_resolve_to": {"Team hub - Rodrigo Andrade/G1 exeskeleton": 7}, "linked_unreadable": 14, "linked_outOfDate": 0, "closed": [], "reused_open": true, "s": 0.2, "error": null}
+S arm 2 v6 XJgJ4P: {"df": "arm 2 v6 @ Team hub - Rodrigo Andrade/G1 exeskeleton", "components": 66, "bodies_total": 264, "occurrences": 101, "linked_occ": 21, "linked_resolve_to": {"Team hub - Rodrigo Andrade/G1 exeskeleton": 7}, "linked_unreadable": 14, "linked_outOfDate": 0, "closed": [], "reused_open": true, "s": 0.2, "error": null}
+close err 4 : An API Object refers to a deleted Object
+S arm complete luna v16 3gFly6: {"df": "arm complete luna v16 @ Team hub - Rodrigo Andrade/G1 exeskeleton", "components": 147, "bodies_total": 1268, "occurrences": 164, "linked_occ": 22, "linked_resolve_to": {"Team hub - Rodrigo Andrade/G1 exeskeleton": 19}, "linked_unreadable": 3, "linked_outOfDate": 0, "closed": ["arm complete luna"], "reused_open": false, "s": 4.1, "error": null}
+S arm test v1 KKG6xi: {"df": "arm test v1 @ Team hub - Rodrigo Andrade/G1 exeskeleton", "components": 152, "bodies_total": 963, "occurrences": 173, "linked_occ": 24, "linked_resolve_to": {"Team hub - Rodrigo Andrade/G1 exeskeleton": 21}, "linked_unreadable": 3, "linked_outOfDate": 3, "closed": [], "reused_open": true, "s": 0.3, "error": null}
+S exo generated v8 l4wfjI: {"df": "exo generated v8 @ Team hub - Rodrigo Andrade/G1 exeskeleton", "components": 46, "bodies_total": 64, "occurrences": 269, "linked_occ": 17, "linked_resolve_to": {"Team hub - Rodrigo Andrade/G1 exeskeleton": 16}, "linked_unreadable": 1, "linked_outOfDate": 0, "closed": [], "reused_open": true, "s": 0.5, "error": null}
+S sensor module test v1 5328GU: {"df": "sensor module test v1 @ Team hub - Rodrigo Andrade/G1 exeskeleton", "components": 9, "bodies_total": 34, "occurrences": 16, "linked_occ": 1, "linked_resolve_to": {"Team hub - Rodrigo Andrade/G1 exeskeleton": 1}, "linked_unreadable": 0, "linked_outOfDate": 0, "closed": [], "reused_open": true, "s": 0.2, "error": null}
+S wrist_sketch3_with_straps v1 MQGUPD: {"df": "wrist_sketch3_with_straps v1 @ Team hub - Rodrigo Andrade/G1 exeskeleton", "components": 3, "bodies_total": 3, "occurrences": 2, "linked_occ": 1, "linked_resolve_to": {"Team hub - Rodrigo Andrade/G1 exeskeleton": 1}, "linked_unreadable": 0, "linked_outOfDate": 1, "closed": [], "reused_open": true, "s": 0.2, "error": null}
+S wrist_sketch3_with_straps v4 FrHFTv: {"df": "wrist_sketch3_with_straps v5 @ Team hub - Rodrigo Andrade/G1 exeskeleton", "components": 3, "bodies_total": 3, "occurrences": 2, "linked_occ": 1, "linked_resolve_to": {"Team hub - Rodrigo Andrade/G1 exeskeleton": 1}, "linked_unreadable": 0, "linked_outOfDate": 1, "closed": [], "reused_open": true, "s": 0.2, "error": null}
+left: 0; open docs now 16
+bridge: OK in 38.1s

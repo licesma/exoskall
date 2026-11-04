@@ -1,0 +1,46 @@
+OK
+=== what sits above the rotor face at r 11 (bodies OUTSIDE the joint module) ===
+  GJ1_right_shoulder_pitch_joint   0.0 deg: air 0.0..14.0
+  GJ1_right_shoulder_pitch_joint  90.0 deg: air 0.0..14.0
+  GJ1_right_shoulder_pitch_joint 180.0 deg: air 0.0..14.0
+  GJ1_right_shoulder_pitch_joint 270.0 deg: air 0.0..11.1 | g_link_23 11.2..14.0
+  GJ2_right_shoulder_roll_joint   0.0 deg: air 0.0..14.0
+  GJ2_right_shoulder_roll_joint  90.0 deg: air 0.0..14.0
+  GJ2_right_shoulder_roll_joint 180.0 deg: air 0.0..14.0
+  GJ2_right_shoulder_roll_joint 270.0 deg: air 0.0..14.0
+  GJ3_right_shoulder_yaw_joint   0.0 deg: air 0.0..14.0
+  GJ3_right_shoulder_yaw_joint  90.0 deg: air 0.0..14.0
+  GJ3_right_shoulder_yaw_joint 180.0 deg: air 0.0..14.0
+  GJ3_right_shoulder_yaw_joint 270.0 deg: air 0.0..14.0
+  GJ4_right_elbow_joint    0.0 deg: air 0.0..14.0
+  GJ4_right_elbow_joint   90.0 deg: air 0.0..14.0
+  GJ4_right_elbow_joint  180.0 deg: air 0.0..14.0
+  GJ4_right_elbow_joint  270.0 deg: air 0.0..14.0
+  GJ5_right_wrist_roll_joint   0.0 deg: air 0.0..14.0
+  GJ5_right_wrist_roll_joint  90.0 deg: air 0.0..14.0
+  GJ5_right_wrist_roll_joint 180.0 deg: air 0.0..14.0
+  GJ5_right_wrist_roll_joint 270.0 deg: air 0.0..14.0
+  GJ6_right_wrist_pitch_joint   0.0 deg: air 0.0..14.0
+  GJ6_right_wrist_pitch_joint  90.0 deg: air 0.0..14.0
+  GJ6_right_wrist_pitch_joint 180.0 deg: air 0.0..14.0
+  GJ6_right_wrist_pitch_joint 270.0 deg: air 0.0..14.0
+  GJ7_right_wrist_yaw_joint   0.0 deg: air 0.0..14.0
+  GJ7_right_wrist_yaw_joint  90.0 deg: air 0.0..14.0
+  GJ7_right_wrist_yaw_joint 180.0 deg: air 0.0..14.0
+  GJ7_right_wrist_yaw_joint 270.0 deg: air 0.0..14.0
+
+=== what sits BELOW the nut pocket at r 11 (bodies INSIDE the joint module) ===
+  GJ1_right_shoulder_pitch_joint   0.0 deg: air -9.0..-15.0 | Component315 -15.1..-22.0
+  GJ1_right_shoulder_pitch_joint  90.0 deg: air -9.0..-13.5 | XL330 v2 (2) -13.6..-22.0
+  GJ1_right_shoulder_pitch_joint 180.0 deg: air -9.0..-15.0 | Component315 -15.1..-22.0
+  GJ1_right_shoulder_pitch_joint 270.0 deg: air -9.0..-15.0 | Component315 -15.1..-22.0
+
+=== the v3 module at the root: material at r 11 / r 9.4 / r 12.6 along z, and the horn disk ===
+  r 11.00   0.0 deg: Component315 -16.00..-15.05 | air -15.00..-8.00
+  r  9.40   0.0 deg: XL330 v2 (2) -16.00..-13.55 | air -13.50..-12.95 | m3 hex nut (2) -12.90..-11.30 | air -11.25..-8.00
+  r 12.60   0.0 deg: Component315 -16.00..-15.05 | air -15.00..-12.95 | m3 hex nut (2) -12.90..-11.30 | air -11.25..-8.00
+  r  8.00   0.0 deg: XL330 v2 (2) -16.00..-13.55 | air -13.50..-10.50 | Component317 -10.45..-9.05 | air -9.00..-9.00 | Component316 -8.95..-8.00
+  r  7.90   0.0 deg: XL330 v2 (2) -16.00..-13.55 | air -13.50..-13.30 | XL330 v2 (2) -13.25..-10.65 | air -10.60..-10.50 | Component317 -10.45..-9.05 | air -9.00..-9.00 | Component316 -8.95..-8.00
+  r  8.25  45.0 deg: XL330 v2 (2) -16.00..-13.55 | air -13.50..-13.20 | Component317 -13.15..-9.05 | air -9.00..-8.00
+done
+bridge: OK in 8.7s

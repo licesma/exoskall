@@ -1,0 +1,4 @@
+OK
+root stop15 bulb=True vis=True -> True
+root stop15 bulb=False vis=False -> True
+bridge: OK in 2.6s

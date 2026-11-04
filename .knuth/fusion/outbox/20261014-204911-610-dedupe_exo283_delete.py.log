@@ -1,0 +1,32 @@
+OK
+bridge: no active Fusion design - design is None
+pass 0 _vds M4 x 0.7mm Thread HEX NUT parents=[('arm test', 'fZK9', 1), ('cuffs with soft inside', 'i1pB', 1)] -> kept: has parents protected
+pass 0 Grel M4 x 0.7mm Thread HEX NUT parents=[('cuffs with soft inside', 'FYgk', 1)] -> kept: has parents
+pass 0 3GOu M4 x 0.7mm Thread 14mm LONG SO parents=[('arm test', 'fZK9', 1)] -> kept: has parents protected
+pass 0 06av M4 x 0.7mm Thread 14mm LONG SO parents=[] -> delete FAILED
+pass 0 dW5W M4 x 0.7mm Thread 25mm LONG SO parents=[('arm test', 'fZK9', 1)] -> kept: has parents protected
+pass 0 l1Z5 M4 x 0.7mm Thread 25mm LONG SO parents=[] -> delete FAILED
+pass 0 i1pB cuffs with soft inside parents=[('arm test', 'fZK9', 1)] -> kept: has parents protected
+pass 0 FYgk cuffs with soft inside parents=[] -> delete FAILED
+pass 0 _mtP 5972K159_Ball Bearing parents=[] -> deleted
+pass 0 z82o 5972K159_Ball Bearing parents=[] -> delete FAILED
+pass 0 bYhy 5972K159_Ball Bearing parents=[] -> kept:  protected
+pass 0 VtO- XL330 parents=[] -> delete FAILED
+pass 0 zs1g writst mount_e parents=[] -> delete FAILED
+pass 1 _vds M4 x 0.7mm Thread HEX NUT parents=[('arm test', 'fZK9', 1), ('cuffs with soft inside', 'i1pB', 1)] -> kept: has parents protected
+pass 1 Grel M4 x 0.7mm Thread HEX NUT parents=[('cuffs with soft inside', 'FYgk', 1)] -> kept: has parents
+pass 1 3GOu M4 x 0.7mm Thread 14mm LONG SO parents=[('arm test', 'fZK9', 1)] -> kept: has parents protected
+pass 1 06av M4 x 0.7mm Thread 14mm LONG SO parents=[] -> delete FAILED
+pass 1 dW5W M4 x 0.7mm Thread 25mm LONG SO parents=[('arm test', 'fZK9', 1)] -> kept: has parents protected
+pass 1 l1Z5 M4 x 0.7mm Thread 25mm LONG SO parents=[] -> delete FAILED
+pass 1 i1pB cuffs with soft inside parents=[('arm test', 'fZK9', 1)] -> kept: has parents protected
+pass 1 FYgk cuffs with soft inside parents=[] -> delete FAILED
+pass 1 z82o 5972K159_Ball Bearing parents=[] -> delete FAILED
+pass 1 bYhy 5972K159_Ball Bearing parents=[] -> kept:  protected
+pass 1 VtO- XL330 parents=[] -> delete FAILED
+pass 1 zs1g writst mount_e parents=[] -> delete FAILED
+BACKUP copy b28K M4 x 0.7mm Thread HEX NUT parents=[('cuffs with soft inside', 'cjUR'), ('arm complete BACKUP 2026-08-08', 'xWFs')]
+BACKUP copy eMNd M4 x 0.7mm Thread 14mm LONG SO parents=[('arm complete BACKUP 2026-08-08', 'xWFs')]
+BACKUP copy 7XBt M4 x 0.7mm Thread 25mm LONG SO parents=[('arm complete BACKUP 2026-08-08', 'xWFs')]
+BACKUP copy cjUR cuffs with soft inside parents=[('arm complete BACKUP 2026-08-08', 'xWFs')]
+bridge: OK in 123.9s

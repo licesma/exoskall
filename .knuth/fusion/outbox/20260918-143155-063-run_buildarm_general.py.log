@@ -1,0 +1,146 @@
+OK
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+Method: one ribbon swept on a 3D centre line + one wrapping landing plate (EXO-144), spun by the encoder rule (EXO-150). Ribbon thickness 8.0 mm, bend r 15.0, wall r min 5.0, land web 3.0 mm - defaults, none measured off a hand-built link.
+Origin at: left_shoulder_pitch_joint
+
+Module rotation about its own axis, FIXED BY THE LINK (EXO-150): +Y - the encoder / connector side - faces the direction the link arrives from at that stator pad, and the landing plate then extends the pad outward exactly where the encoder overhangs. The hole / cutout solve is a CHECK.
+  J1     +0.000 deg - nobody's stator end: the measured pose is kept (EXO-150)
+  J2   +343.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands -22.136 deg off it (the plate takes -13.831 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 5.500 mm (need 3.0); cutout reach 24.500 mm; landing y 34.000, drop +0.000 mm
+  J3   +179.989 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 0.00), so the tongue and the encoder both point + z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +27.500 mm
+  J4   +269.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 80.52), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands -11.655 deg off it (the plate takes -15.783 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 48.018 mm (need 3.0); cutout reach 24.500 mm; landing y 76.518, drop +0.000 mm
+  J5   +179.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 1.89), so the tongue and the encoder both point + z_A
+      encoder +Y is 8.54e-07 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +29.388 mm
+
+Deleted previous: generated_R_arm_general
+Component: generated_R_arm_general
+
+link_12 -> g_link_12: 1 features, 31 faces, volume 41496 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 13.831 mm)
+    no side S: the landing is level with the pad plane
+    landing y 34.00 (tongue to 38.00), plate blends r 15.0/38.8, cutout web 5.50 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+link_23 -> g_link_23: 1 features, 39 faces, volume 45036 mm3
+    ribbon 25 x 8.0 mm, 6 path segments
+    plan turn 14.10 deg, r 17.5, s 22.74 -> 27.00 (offset -6.24 mm taken here)
+    side S +27.50 mm at 85.22 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.90
+    landing y 31.50 (tongue to 35.50), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+link_34 -> g_link_34: 1 features, 32 faces, volume 59738 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 15.783 mm)
+    no side S: the landing is level with the pad plane
+    landing y 76.52 (tongue to 80.52), plate blends r 15.0/40.8, cutout web 48.02 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+link_45 -> g_link_45: 1 features, 41 faces, volume 57174 mm3
+    ribbon 44 x 8.0 mm, 6 path segments
+    plan turn 25.61 deg, r 27.0, s 15.33 -> 27.00 (offset -10.00 mm taken here)
+    side S +29.39 mm at 88.83 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.99
+    landing y 31.50 (tongue to 35.50), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+
+  J1  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J2  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J3  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J4  axis vs URDF 0.00e+00 deg, origin vs URDF 1.39e-14 mm
+  J5  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+
+Interference: 214 bodies, 47 hit(s): 0 FAIL, 12 sliver(s), 35 module-internal
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+
+  g_link_12 vs link_12: volume 38614 -> 41496 mm3 (+7.5 %), faces 32 -> 31; the two solids share 37437 mm3, symmetric difference 5235 mm3 (14 % of the old link); largest distance from a new vertex to the nearest old vertex 14.17 mm; largest bounding-box corner move 5.41 mm
+  g_link_23 vs link_23: volume 48612 -> 45036 mm3 (-7.4 %), faces 46 -> 39; the two solids share 29302 mm3, symmetric difference 35044 mm3 (72 % of the old link); largest distance from a new vertex to the nearest old vertex 23.13 mm; largest bounding-box corner move 12.25 mm
+  g_link_34 vs link_34: volume 59501 -> 59738 mm3 (+0.4 %), faces 33 -> 32; the two solids share 56882 mm3, symmetric difference 5476 mm3 (9 % of the old link); largest distance from a new vertex to the nearest old vertex 16.90 mm; largest bounding-box corner move 0.00 mm
+  g_link_45 vs link_45: volume 55813 -> 57174 mm3 (+2.4 %), faces 39 -> 41; the two solids share 41867 mm3, symmetric difference 29253 mm3 (52 % of the old link); largest distance from a new vertex to the nearest old vertex 15.58 mm; largest bounding-box corner move 4.50 mm
+BuildArmGen done.
+
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+Method: one ribbon swept on a 3D centre line + one wrapping landing plate (EXO-144), spun by the encoder rule (EXO-150). Ribbon thickness 8.0 mm, bend r 15.0, wall r min 5.0, land web 3.0 mm - defaults, none measured off a hand-built link.
+Origin at: left_shoulder_pitch_joint
+
+Module rotation about its own axis, FIXED BY THE LINK (EXO-150): +Y - the encoder / connector side - faces the direction the link arrives from at that stator pad, and the landing plate then extends the pad outward exactly where the encoder overhangs. The hole / cutout solve is a CHECK.
+  J1     +0.000 deg - nobody's stator end: the measured pose is kept (EXO-150)
+  J2   +343.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands -22.136 deg off it (the plate takes -13.831 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 5.500 mm (need 3.0); cutout reach 24.500 mm; landing y 34.000, drop +0.000 mm
+  J3   +179.989 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 0.00), so the tongue and the encoder both point + z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +27.500 mm
+  J4   +269.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is below module B's axis (z 4.00 vs 80.52), so the tongue and the encoder both point - z_A
+      encoder +Y is 0.00e+00 deg off the pad axis by construction; the ribbon lands -11.655 deg off it (the plate takes -15.783 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 48.018 mm (need 3.0); cutout reach 24.500 mm; landing y 76.518, drop +0.000 mm
+  J5   +179.997 deg - EXO-150: +Y (encoder side) faces the direction the link arrives from - the rotor pad plane is above module B's axis (z 4.00 vs 1.89), so the tongue and the encoder both point + z_A
+      encoder +Y is 8.54e-07 deg off the pad axis by construction; the ribbon lands +0.000 deg off it (the plate takes +0.000 mm of lateral, the tongue stays axis-aligned)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +29.388 mm
+
+Deleted previous: generated_R_arm_general
+Component: generated_R_arm_general
+
+link_12 -> g_link_12: 1 features, 31 faces, volume 41496 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 13.831 mm)
+    no side S: the landing is level with the pad plane
+    landing y 34.00 (tongue to 38.00), plate blends r 15.0/38.8, cutout web 5.50 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+link_23 -> g_link_23: 1 features, 39 faces, volume 45036 mm3
+    ribbon 25 x 8.0 mm, 6 path segments
+    plan turn 14.10 deg, r 17.5, s 22.74 -> 27.00 (offset -6.24 mm taken here)
+    side S +27.50 mm at 85.22 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.90
+    landing y 31.50 (tongue to 35.50), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+link_34 -> g_link_34: 1 features, 32 faces, volume 59738 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 15.783 mm)
+    no side S: the landing is level with the pad plane
+    landing y 76.52 (tongue to 80.52), plate blends r 15.0/40.8, cutout web 48.02 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+link_45 -> g_link_45: 1 features, 41 faces, volume 57174 mm3
+    ribbon 44 x 8.0 mm, 6 path segments
+    plan turn 25.61 deg, r 27.0, s 15.33 -> 27.00 (offset -10.00 mm taken here)
+    side S +29.39 mm at 88.83 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.99
+    landing y 31.50 (tongue to 35.50), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+
+  J1  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J2  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J3  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J4  axis vs URDF 0.00e+00 deg, origin vs URDF 1.39e-14 mm
+  J5  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+
+Interference: 214 bodies, 47 hit(s): 0 FAIL, 12 sliver(s), 35 module-internal
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+
+  g_link_12 vs link_12: volume 38614 -> 41496 mm3 (+7.5 %), faces 32 -> 31; the two solids share 37437 mm3, symmetric difference 5235 mm3 (14 % of the old link); largest distance from a new vertex to the nearest old vertex 14.17 mm; largest bounding-box corner move 5.41 mm
+  g_link_23 vs link_23: volume 48612 -> 45036 mm3 (-7.4 %), faces 46 -> 39; the two solids share 29302 mm3, symmetric difference 35044 mm3 (72 % of the old link); largest distance from a new vertex to the nearest old vertex 23.13 mm; largest bounding-box corner move 12.25 mm
+  g_link_34 vs link_34: volume 59501 -> 59738 mm3 (+0.4 %), faces 33 -> 32; the two solids share 56882 mm3, symmetric difference 5476 mm3 (9 % of the old link); largest distance from a new vertex to the nearest old vertex 16.90 mm; largest bounding-box corner move 0.00 mm
+  g_link_45 vs link_45: volume 55813 -> 57174 mm3 (+2.4 %), faces 39 -> 41; the two solids share 41867 mm3, symmetric difference 29253 mm3 (52 % of the old link); largest distance from a new vertex to the nearest old vertex 15.58 mm; largest bounding-box corner move 4.50 mm
+bridge: OK in 107.8s

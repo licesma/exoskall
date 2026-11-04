@@ -1,0 +1,17 @@
+FAIL
+JOINT_STOP_DEG = 15.0000, centre 168.00225 deg (measured), target 160.50225 .. 175.50225
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260925-165919-986-make_exo208_module.py", line 19, in <module>
+    comp, how = BuildArm.ensure_stop_module(design, log)
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 537, in ensure_stop_module
+    if not occ.breakLink():
+           ~~~~~~~~~~~~~^^
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/5b508d94493ed3344e38945ffca1b03b713ee401/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/fusion.py", line 50452, in breakLink
+    return _fusion.Occurrence_breakLink(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+RuntimeError: 3 : The component this occurrence references is not a referenced external component.
+bridge: FAIL in 0.1s

@@ -1,0 +1,31 @@
+OK
+bridge: no active Fusion design - design is None
+opened arm complete luna in 3.1s
+close: 4 : An API Object refers to a deleted Object
+close: 4 : An API Object refers to a deleted Object
+close: 4 : An API Object refers to a deleted Object
+close: 4 : An API Object refers to a deleted Object
+arm complete luna v1: comps 147 bodies 1268 occ 164 linked 22 joints 0 asBuilt 0 rg 0 health [] (4.2s)
+  left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:1 | owner=left arm:1+cuffs with soft inside:1 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:2 | owner=left arm:1+cuffs with soft inside:1 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:3 | owner=left arm:1+cuffs with soft inside:1 | ERR: 'str' object has no attribute 'dataFile'  'st vERR: 'str' object has no attribute 'version' | other | joints=0 rg=0
+  left arm:1+cuffs with soft inside:1 | owner=None | cuffs with soft inside FYgk v1 | extra->UmT3 | joints=0 rg=0
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1 | owner=None | M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW l1Z5 v1 | extra->yDln | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:1 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:2 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:3 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2 | owner=None | M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW l1Z5 v1 | extra->yDln | joints=0 rg=0
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3 | owner=None | M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW l1Z5 v1 | extra->yDln | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:4 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:5 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4 | owner=None | M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW l1Z5 v1 | extra->yDln | joints=0 rg=0
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5 | owner=None | M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW l1Z5 v1 | extra->yDln | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:6 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:7 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:8 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1 | owner=None | M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW 06av v1 | extra->Bmc3 | joints=0 rg=0
+  M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2 | owner=None | M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW 06av v1 | extra->Bmc3 | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:9 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:10 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+  M4 x 0.7mm Thread HEX NUT:11 | owner=None | M4 x 0.7mm Thread HEX NUT Grel v1 | extra->u2fX | joints=0 rg=0
+bridge: OK in 4.2s

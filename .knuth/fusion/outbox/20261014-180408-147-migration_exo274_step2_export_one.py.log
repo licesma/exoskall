@@ -1,0 +1,7 @@
+OK
+item 30 wuji enclosure v3 kind=f3d
+doc: wuji enclosure ver=3 modified=False (open 6.2s)
+export execute=True (6.4s)
+exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/30_wuji_enclosure_v3.f3d (122921 bytes)
+closed=['wuji enclosure']; remaining open docs=10; 8.0s
+bridge: OK in 8.1s

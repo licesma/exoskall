@@ -1,0 +1,7 @@
+OK
+item 8 sensor module test v1 kind=f3z
+doc: sensor module test ver=1 modified=False (open 4.3s)
+export execute=True (4.5s)
+exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/08_sensor_module_test_v1.f3z.f3d (3850728 bytes)
+closed=['sensor module test']; remaining open docs=10; 5.2s
+bridge: OK in 5.2s

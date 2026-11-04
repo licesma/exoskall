@@ -1,0 +1,109 @@
+FAIL
+prev active 'arm'; open ['5972K159_Ball Bearing.f3d ', 'XL330', 'sensor module', 'arm']
+source sensor module 2 v1
+original upper V 6473.293, lower V 2950.793 (linked, read-only)
+  16 children re-placed from the link, worst box difference 0.000000 mm
+  parts renamed: Component2 -> stator, Component3 -> inner_top, Component4 -> inner_bottom
+  upper fill horn screw holes        +453.520 mm3
+  upper horn screw head columns      -706.858 mm3
+  upper fill hex nut pockets         +498.831 mm3
+  upper M3 through                   -128.680 mm3
+  upper register pegs                 +67.858 mm3
+  lower M3 through                   -135.114 mm3
+  lower hex nut pockets              -198.807 mm3
+  lower register sockets              -88.951 mm3
+    screw 0 before: z  -12.989..  -3.647  t=['4.2016', '-4.2252', '-4.9885']
+    screw 1 before: z  -12.989..  -3.647  t=['-4.1832', '-4.2252', '-4.9885']
+    screw 2 before: z  -12.989..  -3.647  t=['-4.1667', '4.2873', '-4.9885']
+    screw 3 before: z  -12.989..  -3.647  t=['4.2496', '4.2873', '-4.9885']
+    screw axis in its own frame e=[0.0, 1.0, 0.0]
+    screw 0 after move (transform2 on occurrence): z  -16.989..  -7.647
+    screw 1 after move (transform2 on occurrence): z  -16.989..  -7.647
+    screw 2 after move (transform2 on occurrence): z  -16.989..  -7.647
+    screw 3 after move (transform2 on occurrence): z  -16.989..  -7.647
+    horn screw trimmed in screw 1 at its own y = -4.0000 mm, 5.9579 mm3 off
+    4 standard nuts 45.9088 mm3 each, 4 bolts 212.6466 mm3 each
+    screw trim removed 5.9579 mm3; screws now z -12.989..-7.647
+  measured before v4: boss r 15.0000, horn hole r 1.0990, bore ceiling z -10.5000
+  label "3.5" z -7.0                   -2.725 mm3, x -2.781..2.781 y -1.293..1.293
+  label "3.5" z -7.0                   -2.725 mm3, x -2.781..2.781 y -1.293..1.293
+  [3.5] lower boss up to the face     +1571.362 mm3
+  [3.5] lower horn screw holes          -52.362 mm3
+  [3.5] lower M3 through               -110.986 mm3
+  [3.5] lower register sockets          -88.951 mm3
+  [3.5] upper cut below the face      -1260.156 mm3
+  [3.5] upper register pegs             +67.858 mm3
+  [3.5] lower label                      -2.725 mm3
+  [3.5] upper label                      -2.725 mm3
+  label "4" z -6.5                     -1.248 mm3, x -1.092..1.092 y -1.250..1.293
+  label "4" z -6.5                     -1.248 mm3, x -1.092..1.092 y -1.293..1.250
+  [4] lower boss up to the face     +1924.791 mm3
+  [4] lower horn screw holes          -59.951 mm3
+  [4] lower M3 through               -127.071 mm3
+  [4] lower register sockets          -88.951 mm3
+  [4] upper cut below the face      -1558.230 mm3
+  [4] upper register pegs             +67.858 mm3
+  [4] lower label                      -1.248 mm3
+  [4] upper label                      -1.248 mm3
+  [ -7.0] top: nothing below the face          r 14.000    0.0 z  -7.100 want void  got void  OK
+  [ -7.0] top: spigot above the face           r 14.000    0.0 z  -6.900 want solid got void  WRONG
+  [ -7.0] top: peg tip                         r 12.200   22.5 z  -8.150 want solid got void  WRONG
+  [ -7.0] top: nothing below the peg tip       r 12.200   22.5 z  -8.250 want void  got void  OK
+  [ -7.0] top: air between pegs                r 12.200   45.0 z  -7.500 want void  got void  OK
+  [ -7.0] top: flat face solid r 8.6           r  8.600    0.0 z  -6.900 want solid got void  WRONG
+  [ -7.0] top: label cut                       r  0.000    0.0 z  -6.800 want -     got void  info
+  [ -7.0] top: head column through at the face r  6.001   45.0 z  -6.900 want void  got void  OK
+  [ -7.0] top: head column through mid         r  6.001  135.0 z  -3.000 want void  got void  OK
+  [ -7.0] top: M3 through                      r 11.000    0.0 z  -6.500 want void  got void  OK
+  [ -7.0] top: rim r 15 solid                  r 14.800  157.5 z  -4.200 want solid got void  WRONG
+  [ -7.0] top: index notch still cut           r 16.000   90.0 z  -0.500 want void  got void  OK
+  [ -7.0] bottom: boss solid below the face    r 14.500  157.5 z  -7.100 want solid got void  WRONG
+  [ -7.0] bottom: nothing above the face       r  8.000   30.0 z  -6.950 want void  got void  OK
+  [ -7.0] bottom: web solid                    r  4.500    0.0 z  -9.000 want solid got void  WRONG
+  [ -7.0] bottom: bore clear                   r  7.000    0.0 z -12.000 want void  got void  OK
+  [ -7.0] bottom: horn hole open top           r  6.001   45.0 z  -7.100 want void  got void  OK
+  [ -7.0] bottom: horn hole open bottom        r  6.001  135.0 z -10.400 want void  got void  OK
+  [ -7.0] bottom: M3 open mid web              r 11.000   90.0 z  -9.000 want void  got void  OK
+  [ -7.0] bottom: socket open                  r 12.200   22.5 z  -7.500 want void  got void  OK
+  [ -7.0] bottom: socket floor                 r 12.200   22.5 z  -8.400 want solid got void  WRONG
+  [ -7.0] bottom: old socket filled            r 12.200   67.5 z -10.000 want solid got void  WRONG
+  [ -7.0] bottom: nut pocket open              r 13.500    0.0 z -12.000 want void  got void  OK
+  [ -7.0] bottom: nut pocket ceiling           r 13.500    0.0 z -10.500 want solid got void  WRONG
+  [ -6.5] top: nothing below the face          r 14.000    0.0 z  -6.600 want void  got void  OK
+  [ -6.5] top: spigot above the face           r 14.000    0.0 z  -6.400 want solid got solid OK
+  [ -6.5] top: peg tip                         r 12.200   22.5 z  -7.650 want solid got solid OK
+  [ -6.5] top: nothing below the peg tip       r 12.200   22.5 z  -7.750 want void  got void  OK
+  [ -6.5] top: air between pegs                r 12.200   45.0 z  -7.000 want void  got void  OK
+  [ -6.5] top: flat face solid r 8.6           r  8.600    0.0 z  -6.400 want solid got solid OK
+  [ -6.5] top: label cut                       r  0.000    0.0 z  -6.300 want -     got solid info
+  [ -6.5] top: head column through at the face r  6.001   45.0 z  -6.400 want void  got void  OK
+  [ -6.5] top: head column through mid         r  6.001  135.0 z  -3.000 want void  got void  OK
+  [ -6.5] top: M3 through                      r 11.000    0.0 z  -6.000 want void  got void  OK
+  [ -6.5] top: rim r 15 solid                  r 14.800  157.5 z  -4.200 want solid got solid OK
+  [ -6.5] top: index notch still cut           r 16.000   90.0 z  -0.500 want void  got void  OK
+  [ -6.5] bottom: boss solid below the face    r 14.500  157.5 z  -6.600 want solid got solid OK
+  [ -6.5] bottom: nothing above the face       r  8.000   30.0 z  -6.450 want void  got void  OK
+  [ -6.5] bottom: web solid                    r  4.500    0.0 z  -9.000 want solid got solid OK
+  [ -6.5] bottom: bore clear                   r  7.000    0.0 z -12.000 want void  got void  OK
+  [ -6.5] bottom: horn hole open top           r  6.001   45.0 z  -6.600 want void  got void  OK
+  [ -6.5] bottom: horn hole open bottom        r  6.001  135.0 z -10.400 want void  got void  OK
+  [ -6.5] bottom: M3 open mid web              r 11.000   90.0 z  -9.000 want void  got void  OK
+  [ -6.5] bottom: socket open                  r 12.200   22.5 z  -7.000 want void  got void  OK
+  [ -6.5] bottom: socket floor                 r 12.200   22.5 z  -7.900 want solid got solid OK
+  [ -6.5] bottom: old socket filled            r 12.200   67.5 z -10.000 want solid got solid OK
+  [ -6.5] bottom: nut pocket open              r 13.500    0.0 z -12.000 want void  got void  OK
+  [ -6.5] bottom: nut pocket ceiling           r 13.500    0.0 z -10.500 want solid got solid OK
+closing scratch 'Untitled', NOT saved
+open after: ['5972K159_Ball Bearing.f3d ', 'XL330', 'sensor module', 'arm']
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20261017-155409-348-build_v4_exo304.py", line 28, in <module>
+    comp, occ, pairs, how = BuildArm.build_v4_copy(des, log)
+                            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 2013, in build_v4_copy
+    raise RuntimeError('v4 did not read back: %s'
+                       % '; '.join(l.strip() for l in lines if l.endswith('WRONG')))
+RuntimeError: v4 did not read back: [ -7.0] top: spigot above the face           r 14.000    0.0 z  -6.900 want solid got void  WRONG; [ -7.0] top: peg tip                         r 12.200   22.5 z  -8.150 want solid got void  WRONG; [ -7.0] top: flat face solid r 8.6           r  8.600    0.0 z  -6.900 want solid got void  WRONG; [ -7.0] top: rim r 15 solid                  r 14.800  157.5 z  -4.200 want solid got void  WRONG; [ -7.0] bottom: boss solid below the face    r 14.500  157.5 z  -7.100 want solid got void  WRONG; [ -7.0] bottom: web solid                    r  4.500    0.0 z  -9.000 want solid got void  WRONG; [ -7.0] bottom: socket floor                 r 12.200   22.5 z  -8.400 want solid got void  WRONG; [ -7.0] bottom: old socket filled            r 12.200   67.5 z -10.000 want solid got void  WRONG; [ -7.0] bottom: nut pocket ceiling           r 13.500    0.0 z -10.500 want solid got void  WRONG
+bridge: FAIL in 4.0s

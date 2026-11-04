@@ -1,0 +1,19 @@
+OK
+move cuffs with soft inside v7.mp4 oZDS8t -> hand/cuff: True
+verify cuffs with soft inside v7.mp4: in dest=1 gone from src=True (7s)
+move writst mount cjQSNA -> hand/cuff: True
+verify writst mount: in dest=1 gone from src=True (11s)
+move writst_mount_c 5JzcB1 -> hand/cuff: True
+verify writst_mount_c: in dest=1 gone from src=True (16s)
+move writst mount_e eKtchC -> hand/cuff: True
+verify writst mount_e: in dest=1 gone from src=True (20s)
+move wrist_sketch3_with_straps s_bSGt -> hand/cuff: True
+verify wrist_sketch3_with_straps: in dest=1 gone from src=True (24s)
+move wrist_sketch3_with_straps (copy v1) jIKLpT -> hand/cuff: True
+verify wrist_sketch3_with_straps (copy v1): in dest=1 gone from src=True (29s)
+move wristband_2.0 zH4sE1 -> hand/cuff: True
+verify wristband_2.0: in dest=1 gone from src=True (33s)
+move wuji enclosure uC9G0G -> hand/robot/wuji: True
+verify wuji enclosure: in dest=1 gone from src=True (38s)
+verified 25/25
+bridge: OK in 37.6s

@@ -1,0 +1,81 @@
+FAIL
+arm: generated_R_arm_general
+7 wrapper(s): GJ1_right_shoulder_pitch_joint, GJ2_right_shoulder_roll_joint, GJ3_right_shoulder_yaw_joint, GJ4_right_elbow_joint, GJ5_right_wrist_roll_joint, GJ6_right_wrist_pitch_joint, GJ7_right_wrist_yaw_joint
+7 XL330_* proxy component(s) present: XL330_GJ1_right_shoulder_pitch_joint, XL330_GJ2_right_shoulder_roll_joint, XL330_GJ3_right_shoulder_yaw_joint, XL330_GJ4_right_elbow_joint, XL330_GJ5_right_wrist_roll_joint, XL330_GJ6_right_wrist_pitch_joint, XL330_GJ7_right_wrist_yaw_joint
+tree under GJ1_right_shoulder_pitch_joint:
+    sensor module 2  (0 bodies)
+      5972K159_Ball Bearing  (22 bodies)
+        . Body1
+        . Body2
+        . Body3
+        . Body4
+        . Body5
+        . Body6
+        . Body7
+        . Body8
+        . Body9
+        . Body10
+        . Body11
+        . Body12
+        . Body13
+        . Body14
+        . Body15
+        . Body16
+        . Body17
+        . Body18
+        . Body19
+        . Body20
+        . Body21
+        . Body22
+      Component1  (1 bodies)
+        . Body1
+      Component2  (1 bodies)
+        . Body1
+      Component3  (1 bodies)
+        . Body1
+      XL330 v2  (6 bodies)
+        . Body1
+        . Body13
+        . Body14
+        . Body15
+        . Body16
+        . Body17
+      screw 1  (1 bodies)
+        . Body1
+      screw 1  (1 bodies)
+        . Body1
+      screw 1  (1 bodies)
+        . Body1
+      screw 1  (1 bodies)
+        . Body1
+      m3_6mm_insert  (1 bodies)
+        . Body1
+      m3_6mm_insert  (1 bodies)
+        . Body1
+      m3_6mm_insert  (1 bodies)
+        . Body1
+      m3 hex nut  (1 bodies)
+        . Body1
+      m3 hex nut  (1 bodies)
+        . Body1
+      m3 hex nut  (1 bodies)
+        . Body1
+      m3 hex nut  (1 bodies)
+        . Body1
+
+proxy rectangle (armgen): x -10.000..10.000  y -9.500..24.500  z -36.500..-24.500
+wrapper                      body                   x (mm)                   y (mm)                   z (mm)                  
+GJ1_right_shoulder_pitch_joint XL330 v2/Body1         [ -10.000,  10.000] [  -9.500,  24.500] [ -36.500, -10.500] vol 15107.1 mm3
+    vs proxy: dx -0.000/-0.000  dy -0.000/-0.000  dz(back) +0.000  top +14.000
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260923-172629-683-measure_exo201.py", line 94, in <module>
+    lo[0], hi[0], lo[1], hi[1], lo[2], hi[2], b.volume * 1000.0))
+                                              ^^^^^^^^
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/5b508d94493ed3344e38945ffca1b03b713ee401/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/fusion.py", line 15920, in _get_volume
+    return _fusion.BRepBody__get_volume(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+RuntimeError: 2 : InternalValidationError : ASMInterface::getEntityVolume((ENTITY*)body, res, achieved_precision)
+bridge: FAIL in 1.0s

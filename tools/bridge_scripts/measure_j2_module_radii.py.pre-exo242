@@ -1,0 +1,70 @@
+"""EXO-74 decisive check: what the link's rotor-pad join actually faces.
+
+Prints, from the module STEP (gento_luna/Gento Luna_URDF 20260428/urdf/sensor module 2.step),
+every part's radial and axial extent in the MODULE frame (origin = centre of the rotor's top
+face, Z = rotation axis out of that face, so the link's rotor pad occupies z 0 .. PAD_T).
+
+Run: /usr/bin/python3 tools/bridge_scripts/measure_j2_module_radii.py
+Pure Python (steplib), no Fusion. Nothing is written.
+"""
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+sys.path.insert(0, os.path.join(ROOT, 'fusion_scripts', 'BuildArm'))
+import steplib                                     # noqa: E402
+import armgen as g                                 # noqa: E402
+
+STEP = os.path.join(ROOT, 'gento_luna', 'Gento Luna_URDF 20260428', 'urdf',
+                    'sensor module 2.step')
+
+s = steplib.Step(STEP)
+occs = s.occurrences()
+print('%-34s %8s %8s %8s %8s %8s' % ('product', 'r_min', 'r_max', 'z_min', 'z_max', 'n_vert'))
+parts = {}
+for path, name, pd, T in occs:
+    vs = s.vertices(pd)
+    if not vs:
+        continue
+    w = [steplib._apply(T, v) for v in vs]
+    r = [(p[0] ** 2 + p[1] ** 2) ** 0.5 for p in w]
+    z = [p[2] for p in w]
+    parts[name] = (min(r), max(r), min(z), max(z))
+    print('%-34s %8.3f %8.3f %8.3f %8.3f %8d'
+          % (name, min(r), max(r), min(z), max(z), len(w)))
+
+# cylindrical surfaces coaxial with the module axis: the radii the link can touch
+print('\ncoaxial cylinders (axis || module Z), radius and the z span of their vertices:')
+rows = []
+for path, name, pd, T in occs:
+    for c, a, rad in s.cylinders(pd):
+        cw = steplib._apply(T, c)
+        aw = steplib._rot(T, a)
+        if abs(abs(aw[2]) - 1.0) > 1e-6:
+            continue
+        if (cw[0] ** 2 + cw[1] ** 2) ** 0.5 > 0.01:
+            continue                                # not on the axis
+        rows.append((rad, name))
+seen = set()
+for rad, name in sorted(rows, reverse=True):
+    k = (name, round(rad, 3))
+    if k in seen:
+        continue
+    seen.add(k)
+    print('   r %8.3f   %s' % (rad, name))
+
+print('\n--- EXO-74 numbers (module frame, mm) ---')
+pad_r = 27.0
+s_in = max(pad_r, max(g.MODULE_R, g.STATOR_PAD_R)) + g.RISER_CLEAR
+print('link_23 rotor pad      : r %.2f, z %.2f .. %.2f (PAD_T)' % (pad_r, 0.0, g.PAD_T))
+print('riser inner face       : s %.2f  (RISER_CLEAR %.2f outside r %.1f)'
+      % (s_in, g.RISER_CLEAR, max(g.MODULE_R, g.STATOR_PAD_R)))
+print('fill region (EXO-74)   : s %.2f .. %.2f, z %.2f .. %.2f' % (pad_r, s_in + g.RISER_T, 0.0, g.PAD_T))
+for nm in ('Component1', 'Component2', 'Component3', '5972K159_Ball Bearing', 'XL330'):
+    if nm in parts:
+        rmin, rmax, zmin, zmax = parts[nm]
+        gap = 0.0 - zmax                            # below the pad underside plane z = 0
+        print('%-22s : r %.3f..%.3f  z %.3f..%.3f   top face %.3f mm below z=0'
+              % (nm, rmin, rmax, zmin, zmax, gap))

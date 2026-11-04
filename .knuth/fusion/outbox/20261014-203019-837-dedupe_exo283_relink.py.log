@@ -1,0 +1,9 @@
+OK
+bridge: no active Fusion design - design is None
+replace writst mount_e:1 zs1g -> eKtc: True
+before {'components': 3, 'bodies': 3, 'occurrences': 2, 'linked': 1, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0}
+after  {'components': 3, 'bodies': 3, 'occurrences': 2, 'linked': 1, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0}
+files ['zs1g:extra->eKtc'] -> ['eKtc:kept'] refs [('eKtc', 1, False)]
+saved: True
+wrist_sketch3_with_straps (copy v1): v1 -> v1 saved=True counts_equal=True no_extras=True (6.0s)
+bridge: OK in 6.0s

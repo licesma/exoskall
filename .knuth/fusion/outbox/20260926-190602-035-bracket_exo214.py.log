@@ -1,0 +1,16 @@
+OK
+EXO-208: JOINT_STOP_DEG = 15.0000 deg, block 160.50225..175.50225 about the measured centre 168.00225
+EXO-214: slides J1 +0.0000 mm, J2 +0.0000 mm, J3 +0.0000 mm, J4 +0.0000 mm, J5 +0.0000 mm, J6 -29.9062 mm, J7 +0.0000 mm
+
+J6  right_wrist_pitch_joint (g_link_67), axis_sign +1, stator Component137
+    URDF  -92.50000 .. +92.50000 deg, range 185.00000; link stop 160.00000 deg wide, centre 348.00225
+    BUILT 2 tab(s) of 15.0 deg at 275.50225 / 60.50225 deg (EXO-214)
+    PY    92500 poses, first contact -92.500000 / +92.500000 deg, error 1.3e-14 / 1.3e-14
+    lower -92.50000 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_67/g_link_67<->Component137/Body1 1.996 mm3 [+8 excluded]   PASS
+    upper +92.50000 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_67/g_link_67<->Component137/Body1 1.996 mm3 [+8 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+
+J7  NOT BRACKETED - no link carries its stop block (link_78 refused, or the joint is the end of the chain)
+J7: the link stop of a joint lives on the ROTOR PAD of the link that LEAVES it, and J7 is the end of the chain - LINKS run link_12 .. link_67 - so no generated body carries J7's stop and there is nothing in this document to bracket. The rule sizes it all the same (b 160.00000 deg, two tabs of 15.0 deg at 275.502 / 60.502, centre 348.00225, axis_sign +1); whatever mounts on J7's rotor - the handle - has to carry those two tabs.
+EXO-214 Fusion bracket: ALL PASS   (J6 ok)
+bridge: OK in 131.0s

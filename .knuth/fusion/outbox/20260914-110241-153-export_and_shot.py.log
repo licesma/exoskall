@@ -1,0 +1,7 @@
+OK
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm.png
+screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm.png (0.3s)
+component-only STEP: True (6.7s)
+bridge: exported STEP -> /Users/esteban/repos/exo/gento_luna/exo/exports/generated_R_arm.step
+export_step -> /Users/esteban/repos/exo/gento_luna/exo/exports/generated_R_arm.step (50.7s)
+bridge: OK in 57.8s

@@ -1,0 +1,19 @@
+OK
+hub: Estebans
+projects (5): ['Assets', 'Default Project', 'gvl', 'Learn Fusion in 30 days', 'G1 exeskeleton']
+project: G1 exeskeleton
+pass1 10 files (8s)
+pass1 20 files (12s)
+pass1 30 files (18s)
+pass1 40 files (22s)
+pass1 50 files (27s)
+pass1 60 files (33s)
+pass1 done: 2 folders, 60 files (34s)
+pass2 10/60 (44s)
+pass2 20/60 (53s)
+pass2 30/60 (63s)
+pass2 40/60 (74s)
+pass2 50/60 (85s)
+pass2 60/60 (95s)
+DONE 2 folders 60 files in 95s -> /Users/esteban/repos/exo/gento_luna/exo/exports/fusion_data_inventory_exo274_target.json
+bridge: OK in 94.7s

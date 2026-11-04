@@ -1,0 +1,130 @@
+OK
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+Method: one ribbon swept on a 3D centre line + one wrapping landing plate (EXO-144). Ribbon thickness 8.0 mm, bend r 15.0, wall r min 5.0, land web 3.0 mm - defaults, none measured off a hand-built link.
+Origin at: left_shoulder_pitch_joint
+
+Module rotation about its own axis, SOLVED with NO preference for any measured pose (EXO-144; the mechanism is EXO-130's):
+  J1     +0.000 deg - nobody's stator end: the rotation is free
+  J2   +248.500 deg - largest smallest stator ring (6.227 mm, reached by 1 of 655 feasible rotations), then the shortest swept path; smallest stator ring 6.227 mm (need 2.00), 655/720 sampled rotations feasible
+  J3   +238.500 deg - largest smallest stator ring (6.150 mm, reached by 470 of 532 feasible rotations), then the shortest swept path; smallest stator ring 6.150 mm (need 2.00), 532/720 sampled rotations feasible
+  J4   +174.500 deg - largest smallest stator ring (6.228 mm, reached by 1 of 655 feasible rotations), then the shortest swept path; smallest stator ring 6.228 mm (need 2.00), 655/720 sampled rotations feasible
+  J5   +238.500 deg - largest smallest stator ring (6.150 mm, reached by 388 of 456 feasible rotations), then the shortest swept path; smallest stator ring 6.150 mm (need 2.00), 456/720 sampled rotations feasible
+
+Deleted previous: generated_R_arm_general
+Component: generated_R_arm_general
+
+link_12 -> g_link_12: 1 features, 31 faces, volume 41496 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 13.831 mm)
+    no side S: the landing is level with the pad plane
+    landing y 34.00 (tongue to 38.00), plate blends r 15.0/38.8, cutout web 19.14 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.227 mm (need 2.0)
+link_23 -> g_link_23: 1 features, 38 faces, volume 43814 mm3
+    ribbon 25 x 8.0 mm, 6 path segments
+    plan turn 14.10 deg, r 17.5, s 22.74 -> 27.00 (offset -6.24 mm taken here)
+    side S +24.32 mm at 79.10 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.46
+    landing y 28.32 (tongue to 32.32), plate blends r 12.5/12.5, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+link_34 -> g_link_34: 1 features, 32 faces, volume 59738 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 15.783 mm)
+    no side S: the landing is level with the pad plane
+    landing y 76.52 (tongue to 80.52), plate blends r 15.0/40.8, cutout web 61.65 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.228 mm (need 2.0)
+link_45 -> g_link_45: 1 features, 40 faces, volume 55019 mm3
+    ribbon 44 x 8.0 mm, 6 path segments
+    plan turn 25.61 deg, r 27.0, s 15.33 -> 27.00 (offset -10.00 mm taken here)
+    side S +26.21 mm at 82.75 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.76
+    landing y 28.33 (tongue to 32.33), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+
+  J1  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J2  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J3  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J4  axis vs URDF 0.00e+00 deg, origin vs URDF 1.39e-14 mm
+  J5  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+
+Interference: 214 bodies, 47 hit(s): 0 FAIL, 12 sliver(s), 35 module-internal
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+
+  g_link_12 vs link_12: volume 38614 -> 41496 mm3 (+7.5 %), faces 32 -> 31; the two solids share 35841 mm3, symmetric difference 8427 mm3 (22 % of the old link); largest distance from a new vertex to the nearest old vertex 14.17 mm; largest bounding-box corner move 5.41 mm
+  g_link_23 vs link_23: volume 48612 -> 43814 mm3 (-9.9 %), faces 46 -> 38; the two solids share 28905 mm3, symmetric difference 34616 mm3 (71 % of the old link); largest distance from a new vertex to the nearest old vertex 21.53 mm; largest bounding-box corner move 12.25 mm
+  g_link_34 vs link_34: volume 59501 -> 59738 mm3 (+0.4 %), faces 33 -> 32; the two solids share 56471 mm3, symmetric difference 6298 mm3 (11 % of the old link); largest distance from a new vertex to the nearest old vertex 13.85 mm; largest bounding-box corner move 0.00 mm
+  g_link_45 vs link_45: volume 55813 -> 55019 mm3 (-1.4 %), faces 39 -> 40; the two solids share 43657 mm3, symmetric difference 23519 mm3 (42 % of the old link); largest distance from a new vertex to the nearest old vertex 13.33 mm; largest bounding-box corner move 1.33 mm
+BuildArmGen done.
+
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+Method: one ribbon swept on a 3D centre line + one wrapping landing plate (EXO-144). Ribbon thickness 8.0 mm, bend r 15.0, wall r min 5.0, land web 3.0 mm - defaults, none measured off a hand-built link.
+Origin at: left_shoulder_pitch_joint
+
+Module rotation about its own axis, SOLVED with NO preference for any measured pose (EXO-144; the mechanism is EXO-130's):
+  J1     +0.000 deg - nobody's stator end: the rotation is free
+  J2   +248.500 deg - largest smallest stator ring (6.227 mm, reached by 1 of 655 feasible rotations), then the shortest swept path; smallest stator ring 6.227 mm (need 2.00), 655/720 sampled rotations feasible
+  J3   +238.500 deg - largest smallest stator ring (6.150 mm, reached by 470 of 532 feasible rotations), then the shortest swept path; smallest stator ring 6.150 mm (need 2.00), 532/720 sampled rotations feasible
+  J4   +174.500 deg - largest smallest stator ring (6.228 mm, reached by 1 of 655 feasible rotations), then the shortest swept path; smallest stator ring 6.228 mm (need 2.00), 655/720 sampled rotations feasible
+  J5   +238.500 deg - largest smallest stator ring (6.150 mm, reached by 388 of 456 feasible rotations), then the shortest swept path; smallest stator ring 6.150 mm (need 2.00), 456/720 sampled rotations feasible
+
+Deleted previous: generated_R_arm_general
+Component: generated_R_arm_general
+
+link_12 -> g_link_12: 1 features, 31 faces, volume 41496 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 13.831 mm)
+    no side S: the landing is level with the pad plane
+    landing y 34.00 (tongue to 38.00), plate blends r 15.0/38.8, cutout web 19.14 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.227 mm (need 2.0)
+link_23 -> g_link_23: 1 features, 38 faces, volume 43814 mm3
+    ribbon 25 x 8.0 mm, 6 path segments
+    plan turn 14.10 deg, r 17.5, s 22.74 -> 27.00 (offset -6.24 mm taken here)
+    side S +24.32 mm at 79.10 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.46
+    landing y 28.32 (tongue to 32.32), plate blends r 12.5/12.5, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+link_34 -> g_link_34: 1 features, 32 faces, volume 59738 mm3
+    ribbon 52 x 8.0 mm, 1 path segments
+    no plan turn (lateral offset 15.783 mm)
+    no side S: the landing is level with the pad plane
+    landing y 76.52 (tongue to 80.52), plate blends r 15.0/40.8, cutout web 61.65 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.228 mm (need 2.0)
+link_45 -> g_link_45: 1 features, 40 faces, volume 55019 mm3
+    ribbon 44 x 8.0 mm, 6 path segments
+    plan turn 25.61 deg, r 27.0, s 15.33 -> 27.00 (offset -10.00 mm taken here)
+    side S +26.21 mm at 82.75 deg, r 15.0, riser 0.00 mm, s 28.00 -> 57.76
+    landing y 28.33 (tongue to 32.33), plate blends r 15.0/15.0, cutout web 3.00 mm, buried 4.0 mm
+    smallest flat ring: rotor 2.350 mm, stator 6.150 mm (need 2.0)
+
+  J1  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J2  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J3  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+  J4  axis vs URDF 0.00e+00 deg, origin vs URDF 1.39e-14 mm
+  J5  axis vs URDF 0.00e+00 deg, origin vs URDF 0.00e+00 mm
+
+Interference: 214 bodies, 47 hit(s): 0 FAIL, 12 sliver(s), 35 module-internal
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
+
+  g_link_12 vs link_12: volume 38614 -> 41496 mm3 (+7.5 %), faces 32 -> 31; the two solids share 35841 mm3, symmetric difference 8427 mm3 (22 % of the old link); largest distance from a new vertex to the nearest old vertex 14.17 mm; largest bounding-box corner move 5.41 mm
+  g_link_23 vs link_23: volume 48612 -> 43814 mm3 (-9.9 %), faces 46 -> 38; the two solids share 28905 mm3, symmetric difference 34616 mm3 (71 % of the old link); largest distance from a new vertex to the nearest old vertex 21.53 mm; largest bounding-box corner move 12.25 mm
+  g_link_34 vs link_34: volume 59501 -> 59738 mm3 (+0.4 %), faces 33 -> 32; the two solids share 56471 mm3, symmetric difference 6298 mm3 (11 % of the old link); largest distance from a new vertex to the nearest old vertex 13.85 mm; largest bounding-box corner move 0.00 mm
+  g_link_45 vs link_45: volume 55813 -> 55019 mm3 (-1.4 %), faces 39 -> 40; the two solids share 43657 mm3, symmetric difference 23519 mm3 (42 % of the old link); largest distance from a new vertex to the nearest old vertex 13.33 mm; largest bounding-box corner move 1.33 mm
+bridge: OK in 146.4s

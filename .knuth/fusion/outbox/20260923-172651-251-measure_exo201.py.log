@@ -1,0 +1,174 @@
+OK
+arm: generated_R_arm_general
+7 wrapper(s): GJ1_right_shoulder_pitch_joint, GJ2_right_shoulder_roll_joint, GJ3_right_shoulder_yaw_joint, GJ4_right_elbow_joint, GJ5_right_wrist_roll_joint, GJ6_right_wrist_pitch_joint, GJ7_right_wrist_yaw_joint
+7 XL330_* proxy component(s) present: XL330_GJ1_right_shoulder_pitch_joint, XL330_GJ2_right_shoulder_roll_joint, XL330_GJ3_right_shoulder_yaw_joint, XL330_GJ4_right_elbow_joint, XL330_GJ5_right_wrist_roll_joint, XL330_GJ6_right_wrist_pitch_joint, XL330_GJ7_right_wrist_yaw_joint
+tree under GJ1_right_shoulder_pitch_joint:
+    sensor module 2  (0 bodies)
+      5972K159_Ball Bearing  (22 bodies)
+        . Body1
+        . Body2
+        . Body3
+        . Body4
+        . Body5
+        . Body6
+        . Body7
+        . Body8
+        . Body9
+        . Body10
+        . Body11
+        . Body12
+        . Body13
+        . Body14
+        . Body15
+        . Body16
+        . Body17
+        . Body18
+        . Body19
+        . Body20
+        . Body21
+        . Body22
+      Component1  (1 bodies)
+        . Body1
+      Component2  (1 bodies)
+        . Body1
+      Component3  (1 bodies)
+        . Body1
+      XL330 v2  (6 bodies)
+        . Body1
+        . Body13
+        . Body14
+        . Body15
+        . Body16
+        . Body17
+      screw 1  (1 bodies)
+        . Body1
+      screw 1  (1 bodies)
+        . Body1
+      screw 1  (1 bodies)
+        . Body1
+      screw 1  (1 bodies)
+        . Body1
+      m3_6mm_insert  (1 bodies)
+        . Body1
+      m3_6mm_insert  (1 bodies)
+        . Body1
+      m3_6mm_insert  (1 bodies)
+        . Body1
+      m3 hex nut  (1 bodies)
+        . Body1
+      m3 hex nut  (1 bodies)
+        . Body1
+      m3 hex nut  (1 bodies)
+        . Body1
+      m3 hex nut  (1 bodies)
+        . Body1
+
+proxy rectangle (armgen): x -10.000..10.000  y -9.500..24.500  z -36.500..-24.500
+wrapper                      body                   x (mm)                   y (mm)                   z (mm)                  
+GJ1_right_shoulder_pitch_joint XL330 v2/Body1         [ -10.000,  10.000] [  -9.500,  24.500] [ -36.500, -10.500] vol 15107.1 mm3
+    vs proxy: dx -0.000/-0.000  dy -0.000/-0.000  dz(back) +0.000  top +14.000
+GJ1_right_shoulder_pitch_joint XL330 v2/Body13        [  -9.250,  -7.550] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +0.750/-17.550  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ1_right_shoulder_pitch_joint XL330 v2/Body14        [   7.550,   9.250] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ1_right_shoulder_pitch_joint XL330 v2/Body15        [  -5.750,  -4.050] [  22.050,  23.750] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +4.250/-14.050  dy +31.550/-0.750  dz(back) +1.000  top -7.000
+GJ1_right_shoulder_pitch_joint XL330 v2/Body16        [   7.550,   9.250] [  18.550,  20.250] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +28.050/-4.250  dz(back) +1.000  top -7.000
+GJ1_right_shoulder_pitch_joint XL330 v2/Body17        [  -1.075,   1.075] [  -1.075,   1.075] [ -20.100, -12.100] vol n/a (RuntimeError)
+    vs proxy: dx +8.925/-8.925  dy +8.425/-23.425  dz(back) +16.400  top +12.400
+    datum Component1/Body1 x [-27.000, 27.000] y [-27.000, 27.000] z [ -24.500,  -0.400] (stator underside should be -24.500)
+    datum Component2/Body1 x [-18.000, 18.000] y [-18.000, 18.000] z [  -9.000,   0.000] (stator underside should be -24.500)
+    datum Component3/Body1 x [-17.500, 17.500] y [-17.500, 17.500] z [ -13.200,  -9.000] (stator underside should be -24.500)
+GJ2_right_shoulder_roll_joint XL330 v2/Body1         [ -10.000,  10.000] [  -9.500,  24.500] [ -36.500, -10.500] vol 15107.1 mm3
+    vs proxy: dx +0.000/+0.000  dy -0.000/-0.000  dz(back) +0.000  top +14.000
+GJ2_right_shoulder_roll_joint XL330 v2/Body13        [  -9.250,  -7.550] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +0.750/-17.550  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ2_right_shoulder_roll_joint XL330 v2/Body14        [   7.550,   9.250] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ2_right_shoulder_roll_joint XL330 v2/Body15        [  -5.750,  -4.050] [  22.050,  23.750] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +4.250/-14.050  dy +31.550/-0.750  dz(back) +1.000  top -7.000
+GJ2_right_shoulder_roll_joint XL330 v2/Body16        [   7.550,   9.250] [  18.550,  20.250] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +28.050/-4.250  dz(back) +1.000  top -7.000
+GJ2_right_shoulder_roll_joint XL330 v2/Body17        [  -1.075,   1.075] [  -1.075,   1.075] [ -20.100, -12.100] vol n/a (RuntimeError)
+    vs proxy: dx +8.925/-8.925  dy +8.425/-23.425  dz(back) +16.400  top +12.400
+    datum Component1/Body1 x [-27.000, 27.000] y [-27.000, 27.000] z [ -24.500,  -0.400] (stator underside should be -24.500)
+    datum Component2/Body1 x [-18.000, 18.000] y [-18.000, 18.000] z [  -9.000,   0.000] (stator underside should be -24.500)
+    datum Component3/Body1 x [-17.500, 17.500] y [-17.500, 17.500] z [ -13.200,  -9.000] (stator underside should be -24.500)
+GJ3_right_shoulder_yaw_joint XL330 v2/Body1         [ -10.000,  10.000] [  -9.500,  24.500] [ -36.500, -10.500] vol 15107.1 mm3
+    vs proxy: dx -0.000/-0.000  dy +0.000/+0.000  dz(back) +0.000  top +14.000
+GJ3_right_shoulder_yaw_joint XL330 v2/Body13        [  -9.250,  -7.550] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +0.750/-17.550  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ3_right_shoulder_yaw_joint XL330 v2/Body14        [   7.550,   9.250] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ3_right_shoulder_yaw_joint XL330 v2/Body15        [  -5.750,  -4.050] [  22.050,  23.750] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +4.250/-14.050  dy +31.550/-0.750  dz(back) +1.000  top -7.000
+GJ3_right_shoulder_yaw_joint XL330 v2/Body16        [   7.550,   9.250] [  18.550,  20.250] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +28.050/-4.250  dz(back) +1.000  top -7.000
+GJ3_right_shoulder_yaw_joint XL330 v2/Body17        [  -1.075,   1.075] [  -1.075,   1.075] [ -20.100, -12.100] vol n/a (RuntimeError)
+    vs proxy: dx +8.925/-8.925  dy +8.425/-23.425  dz(back) +16.400  top +12.400
+    datum Component1/Body1 x [-27.000, 27.000] y [-27.000, 27.000] z [ -24.500,  -0.400] (stator underside should be -24.500)
+    datum Component2/Body1 x [-18.000, 18.000] y [-18.000, 18.000] z [  -9.000,   0.000] (stator underside should be -24.500)
+    datum Component3/Body1 x [-17.500, 17.500] y [-17.500, 17.500] z [ -13.200,  -9.000] (stator underside should be -24.500)
+GJ4_right_elbow_joint        XL330 v2/Body1         [ -10.000,  10.000] [  -9.500,  24.500] [ -36.500, -10.500] vol 15107.1 mm3
+    vs proxy: dx -0.000/+0.000  dy +0.000/-0.000  dz(back) -0.000  top +14.000
+GJ4_right_elbow_joint        XL330 v2/Body13        [  -9.250,  -7.550] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +0.750/-17.550  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ4_right_elbow_joint        XL330 v2/Body14        [   7.550,   9.250] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ4_right_elbow_joint        XL330 v2/Body15        [  -5.750,  -4.050] [  22.050,  23.750] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +4.250/-14.050  dy +31.550/-0.750  dz(back) +1.000  top -7.000
+GJ4_right_elbow_joint        XL330 v2/Body16        [   7.550,   9.250] [  18.550,  20.250] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +28.050/-4.250  dz(back) +1.000  top -7.000
+GJ4_right_elbow_joint        XL330 v2/Body17        [  -1.075,   1.075] [  -1.075,   1.075] [ -20.100, -12.100] vol n/a (RuntimeError)
+    vs proxy: dx +8.925/-8.925  dy +8.425/-23.425  dz(back) +16.400  top +12.400
+    datum Component1/Body1 x [-27.000, 27.000] y [-27.000, 27.000] z [ -24.500,  -0.400] (stator underside should be -24.500)
+    datum Component2/Body1 x [-18.000, 18.000] y [-18.000, 18.000] z [  -9.000,   0.000] (stator underside should be -24.500)
+    datum Component3/Body1 x [-17.500, 17.500] y [-17.500, 17.500] z [ -13.200,  -9.000] (stator underside should be -24.500)
+GJ5_right_wrist_roll_joint   XL330 v2/Body1         [ -10.000,  10.000] [  -9.500,  24.500] [ -36.500, -10.500] vol 15107.1 mm3
+    vs proxy: dx -0.000/-0.000  dy +0.000/-0.000  dz(back) -0.000  top +14.000
+GJ5_right_wrist_roll_joint   XL330 v2/Body13        [  -9.250,  -7.550] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +0.750/-17.550  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ5_right_wrist_roll_joint   XL330 v2/Body14        [   7.550,   9.250] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ5_right_wrist_roll_joint   XL330 v2/Body15        [  -5.750,  -4.050] [  22.050,  23.750] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +4.250/-14.050  dy +31.550/-0.750  dz(back) +1.000  top -7.000
+GJ5_right_wrist_roll_joint   XL330 v2/Body16        [   7.550,   9.250] [  18.550,  20.250] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +28.050/-4.250  dz(back) +1.000  top -7.000
+GJ5_right_wrist_roll_joint   XL330 v2/Body17        [  -1.075,   1.075] [  -1.075,   1.075] [ -20.100, -12.100] vol n/a (RuntimeError)
+    vs proxy: dx +8.925/-8.925  dy +8.425/-23.425  dz(back) +16.400  top +12.400
+    datum Component1/Body1 x [-27.000, 27.000] y [-27.000, 27.000] z [ -24.500,  -0.400] (stator underside should be -24.500)
+    datum Component2/Body1 x [-18.000, 18.000] y [-18.000, 18.000] z [  -9.000,   0.000] (stator underside should be -24.500)
+    datum Component3/Body1 x [-17.500, 17.500] y [-17.500, 17.500] z [ -13.200,  -9.000] (stator underside should be -24.500)
+GJ6_right_wrist_pitch_joint  XL330 v2/Body1         [ -10.000,  10.000] [  -9.500,  24.500] [ -36.500, -10.500] vol 15107.1 mm3
+    vs proxy: dx +0.000/-0.000  dy -0.000/-0.000  dz(back) -0.000  top +14.000
+GJ6_right_wrist_pitch_joint  XL330 v2/Body13        [  -9.250,  -7.550] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +0.750/-17.550  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ6_right_wrist_pitch_joint  XL330 v2/Body14        [   7.550,   9.250] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ6_right_wrist_pitch_joint  XL330 v2/Body15        [  -5.750,  -4.050] [  22.050,  23.750] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +4.250/-14.050  dy +31.550/-0.750  dz(back) +1.000  top -7.000
+GJ6_right_wrist_pitch_joint  XL330 v2/Body16        [   7.550,   9.250] [  18.550,  20.250] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +28.050/-4.250  dz(back) +1.000  top -7.000
+GJ6_right_wrist_pitch_joint  XL330 v2/Body17        [  -1.075,   1.075] [  -1.075,   1.075] [ -20.100, -12.100] vol n/a (RuntimeError)
+    vs proxy: dx +8.925/-8.925  dy +8.425/-23.425  dz(back) +16.400  top +12.400
+    datum Component1/Body1 x [-27.000, 27.000] y [-27.000, 27.000] z [ -24.500,  -0.400] (stator underside should be -24.500)
+    datum Component2/Body1 x [-18.000, 18.000] y [-18.000, 18.000] z [  -9.000,   0.000] (stator underside should be -24.500)
+    datum Component3/Body1 x [-17.500, 17.500] y [-17.500, 17.500] z [ -13.200,  -9.000] (stator underside should be -24.500)
+GJ7_right_wrist_yaw_joint    XL330 v2/Body1         [ -10.000,  10.000] [  -9.500,  24.500] [ -36.500, -10.500] vol 15107.1 mm3
+    vs proxy: dx -0.000/-0.000  dy +0.000/+0.000  dz(back) -0.000  top +14.000
+GJ7_right_wrist_yaw_joint    XL330 v2/Body13        [  -9.250,  -7.550] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +0.750/-17.550  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ7_right_wrist_yaw_joint    XL330 v2/Body14        [   7.550,   9.250] [  -5.350,  -3.650] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +4.150/-28.150  dz(back) +1.000  top -7.000
+GJ7_right_wrist_yaw_joint    XL330 v2/Body15        [  -5.750,  -4.050] [  22.050,  23.750] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +4.250/-14.050  dy +31.550/-0.750  dz(back) +1.000  top -7.000
+GJ7_right_wrist_yaw_joint    XL330 v2/Body16        [   7.550,   9.250] [  18.550,  20.250] [ -35.500, -31.500] vol n/a (RuntimeError)
+    vs proxy: dx +17.550/-0.750  dy +28.050/-4.250  dz(back) +1.000  top -7.000
+GJ7_right_wrist_yaw_joint    XL330 v2/Body17        [  -1.075,   1.075] [  -1.075,   1.075] [ -20.100, -12.100] vol n/a (RuntimeError)
+    vs proxy: dx +8.925/-8.925  dy +8.425/-23.425  dz(back) +16.400  top +12.400
+    datum Component1/Body1 x [-27.000, 27.000] y [-27.000, 27.000] z [ -24.500,  -0.400] (stator underside should be -24.500)
+    datum Component2/Body1 x [-18.000, 18.000] y [-18.000, 18.000] z [  -9.000,  -0.000] (stator underside should be -24.500)
+    datum Component3/Body1 x [-17.500, 17.500] y [-17.500, 17.500] z [ -13.200,  -9.000] (stator underside should be -24.500)
+EXO-201 measurement done
+bridge: OK in 1.8s

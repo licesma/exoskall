@@ -1,0 +1,8 @@
+OK
+bridge: no active Fusion design - design is None
+actions [{'occ': 'left arm:1+cuffs with soft inside:1', 'from': 'FYgk', 'to': 'UmT3', 'ok': True}, {'occ': 'M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1', 'from': 'l1Z5', 'to': 'yDln', 'ok': True}, {'occ': 'M4 x 0.7mm Thread HEX NUT:1', 'from': 'Grel', 'to': 'u2fX', 'ok': True}, {'occ': 'M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1', 'from': '06av', 'to': 'Bmc3', 'ok': True}]
+before {'components': 147, 'bodies': 1268, 'occurrences': 164, 'linked': 22, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0}
+after  {'components': 147, 'bodies': 1268, 'occurrences': 164, 'linked': 22, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0} refs [('yDln', 1, False), ('u2fX', 1, False), ('Bmc3', 1, False), ('UmT3', 1, False)]
+save route a -> True (isModified pre True, post False)
+arm complete luna route a: v1 -> in-doc v2, after close v2, isModified_post False, open after [] (45.4s)
+bridge: OK in 45.4s

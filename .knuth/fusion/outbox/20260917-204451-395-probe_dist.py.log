@@ -1,0 +1,17 @@
+FAIL
+a=<class 'adsk.fusion.BRepBody'> b=<class 'adsk.fusion.BRepBody'>
+body,body -> ERR 3 : invalid argument geometryOne
+vertex,body -> ERR 3 : invalid argument geometryOne
+point,body -> ERR 3 : invalid argument geometryTwo
+face,face -> ERR 3 : invalid argument geometryOne
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260917-204451-395-probe_dist.py", line 16, in <module>
+    tbm=adsk.fusion.TemporaryBRepManager.get()
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/5b508d94493ed3344e38945ffca1b03b713ee401/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/fusion.py", line 71588, in get
+    return _fusion.TemporaryBRepManager_get()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: 3 : invalid argument geometryOne
+bridge: FAIL in 0.2s

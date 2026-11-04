@@ -1,0 +1,14 @@
+FAIL
+JOINT_STOP_DEG = 15.0000, centre 168.00225 deg (measured), target 160.50225 .. 175.50225
+sensor module 2 stop15 was here but is WRONG (block 158.00258..178.00192 deg, asked 160.50225..175.50225) - discarded and re-made
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260925-165905-613-make_exo208_module.py", line 19, in <module>
+    comp, how = BuildArm.ensure_stop_module(design, log)
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 542, in ensure_stop_module
+    raise RuntimeError('breakLink() left the occurrence on the linked component')
+RuntimeError: breakLink() left the occurrence on the linked component
+bridge: FAIL in 2.4s

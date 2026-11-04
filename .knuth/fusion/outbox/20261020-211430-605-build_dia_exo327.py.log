@@ -1,0 +1,73 @@
+OK
+prev active 'arm'; open ['5972K159_Ball Bearing.f3d ', 'XL330', 'sensor module', 'arm']
+source sensor module 2 v1
+original upper V 6473.293, lower V 2950.793 (linked, read-only)
+  16 children re-placed from the link, worst box difference 0.000000 mm
+  parts renamed: Component2 -> stator, Component3 -> inner_top, Component4 -> inner_bottom
+  upper fill horn screw holes        +453.520 mm3
+  upper horn screw head columns      -706.858 mm3
+  upper fill hex nut pockets         +498.831 mm3
+  upper M3 through                   -128.680 mm3
+  upper register pegs                 +67.858 mm3
+  lower M3 through                   -135.114 mm3
+  lower hex nut pockets              -198.807 mm3
+  lower register sockets              -88.951 mm3
+  measured: boss r 15.0000, horn hole r 1.0990
+  label "3.5" z -7.0                   -2.725 mm3, x -2.781..2.781 y -1.293..1.293
+  label "3.5" z -7.0                   -2.725 mm3, x -2.781..2.781 y -1.293..1.293
+  label "30.1" z -7.0                  -3.686 mm3, x -3.708..3.708 y -1.293..1.293
+  bottom_d30.1: lower boss up to the face +1571.362, lower horn screw holes -52.362, lower M3 through -110.986, lower register sockets -88.951, lower label -3.686; ring r 15.05 +18.886 mm3 (annulus x band 18.886)
+  label "30.1" z -7.0                  -3.686 mm3, x -3.708..3.708 y -1.293..1.293
+  top_d30.1: upper cut below the face -1260.156, upper register pegs +67.858, upper label -3.686; ring r 15.05 +14.161 mm3 (annulus x band 14.161)
+  label "30.2" z -7.0                  -4.141 mm3, x -3.938..3.938 y -1.293..1.293
+  bottom_d30.2: lower boss up to the face +1571.362, lower horn screw holes -52.362, lower M3 through -110.986, lower register sockets -88.951, lower label -4.141; ring r 15.10 +37.834 mm3 (annulus x band 37.834)
+  label "30.2" z -7.0                  -4.131 mm3, x -3.938..3.938 y -1.293..1.293
+  top_d30.2: upper cut below the face -1260.156, upper register pegs +67.858, upper label -4.131; ring r 15.10 +28.369 mm3 (annulus x band 28.369)
+  label "30.3" z -7.0                  -3.994 mm3, x -3.944..3.944 y -1.293..1.293
+  bottom_d30.3: lower boss up to the face +1571.362, lower horn screw holes -52.362, lower M3 through -110.986, lower register sockets -88.951, lower label -3.994; ring r 15.15 +56.846 mm3 (annulus x band 56.846)
+  label "30.3" z -7.0                  -3.990 mm3, x -3.944..3.944 y -1.293..1.293
+  top_d30.3: upper cut below the face -1260.156, upper register pegs +67.858, upper label -3.990; ring r 15.15 +42.624 mm3 (annulus x band 42.624)
+  label "30.4" z -7.0                  -4.052 mm3, x -3.978..3.978 y -1.293..1.293
+  bottom_d30.4: lower boss up to the face +1571.362, lower horn screw holes -52.362, lower M3 through -110.986, lower register sockets -88.951, lower label -4.052; ring r 15.20 +75.920 mm3 (annulus x band 75.920)
+  label "30.4" z -7.0                  -4.052 mm3, x -3.978..3.978 y -1.293..1.293
+  top_d30.4: upper cut below the face -1260.156, upper register pegs +67.858, upper label -4.052; ring r 15.20 +56.926 mm3 (annulus x band 56.926)
+  label "30.5" z -7.0                  -4.137 mm3, x -3.946..3.946 y -1.293..1.293
+  bottom_d30.5: lower boss up to the face +1571.362, lower horn screw holes -52.362, lower M3 through -110.986, lower register sockets -88.951, lower label -4.137; ring r 15.25 +95.057 mm3 (annulus x band 95.057)
+  label "30.5" z -7.0                  -4.136 mm3, x -3.946..3.946 y -1.293..1.293
+  top_d30.5: upper cut below the face -1260.156, upper register pegs +67.858, upper label -4.136; ring r 15.25 +71.275 mm3 (annulus x band 71.275)
+  label "30.6" z -7.0                  -4.215 mm3, x -3.953..3.953 y -1.293..1.293
+  bottom_d30.6: lower boss up to the face +1571.362, lower horn screw holes -52.362, lower M3 through -110.986, lower register sockets -88.951, lower label -4.215; ring r 15.30 +114.257 mm3 (annulus x band 114.257)
+  label "30.6" z -7.0                  -4.212 mm3, x -3.953..3.953 y -1.293..1.293
+  top_d30.6: upper cut below the face -1260.156, upper register pegs +67.858, upper label -4.212; ring r 15.30 +85.671 mm3 (annulus x band 85.671)
+  probes bottom_3.5mm     12/12 OK
+  probes top_3.5mm        11/11 OK
+  probes bottom_d30.1     44/44 OK
+  probes top_d30.1        43/43 OK
+  probes bottom_d30.2     44/44 OK
+  probes top_d30.2        43/43 OK
+  probes bottom_d30.3     44/44 OK
+  probes top_d30.3        43/43 OK
+  probes bottom_d30.4     44/44 OK
+  probes top_d30.4        43/43 OK
+  probes bottom_d30.5     44/44 OK
+  probes top_d30.5        43/43 OK
+  probes bottom_d30.6     44/44 OK
+  probes top_d30.6        43/43 OK
+bottom_3.5mm gap None V 3844.258 module z -13.2000..-7.0000 -> True /tmp/exo327_ref_bottom_3.5mm.3mf
+top_3.5mm gap None V 5462.942 module z -8.2000..0.0000 -> True /tmp/exo327_ref_top_3.5mm.3mf
+bottom_d30.1 gap 15.05 V 3862.184 module z -13.2000..-7.0000 -> True /Users/esteban/repos/exo/parts/bottom_d30.1.3mf
+top_d30.1 gap 15.05 V 5476.142 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_d30.1.3mf
+bottom_d30.2 gap 15.1 V 3880.676 module z -13.2000..-7.0000 -> True /Users/esteban/repos/exo/parts/bottom_d30.2.3mf
+top_d30.2 gap 15.1 V 5489.904 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_d30.2.3mf
+bottom_d30.3 gap 15.15 V 3899.835 module z -13.2000..-7.0000 -> True /Users/esteban/repos/exo/parts/bottom_d30.3.3mf
+top_d30.3 gap 15.15 V 5504.301 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_d30.3.3mf
+bottom_d30.4 gap 15.2 V 3918.851 module z -13.2000..-7.0000 -> True /Users/esteban/repos/exo/parts/bottom_d30.4.3mf
+top_d30.4 gap 15.2 V 5518.541 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_d30.4.3mf
+bottom_d30.5 gap 15.25 V 3937.903 module z -13.2000..-7.0000 -> True /Users/esteban/repos/exo/parts/bottom_d30.5.3mf
+top_d30.5 gap 15.25 V 5532.806 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_d30.5.3mf
+bottom_d30.6 gap 15.3 V 3957.025 module z -13.2000..-7.0000 -> True /Users/esteban/repos/exo/parts/bottom_d30.6.3mf
+top_d30.6 gap 15.3 V 5547.126 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_d30.6.3mf
+link still referenced: True
+closing scratch 'Untitled', NOT saved
+open after: ['5972K159_Ball Bearing.f3d ', 'XL330', 'sensor module', 'arm']
+bridge: OK in 27.9s

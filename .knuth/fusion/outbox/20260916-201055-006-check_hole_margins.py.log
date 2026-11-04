@@ -1,0 +1,14 @@
+FAIL
+For every link: each screw hole, and how much FLAT face surrounds it
+(sampling the body just outside each hole on its own seating plane)
+
+link_12:
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260916-201055-006-check_hole_margins.py", line 34, in <module>
+    dist = abs(pl.distanceTo(o))
+               ^^^^^^^^^^^^^
+AttributeError: 'Plane' object has no attribute 'distanceTo'
+bridge: FAIL in 0.1s

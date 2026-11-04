@@ -1,0 +1,113 @@
+OK
+prev active 'arm'; open ['5972K159_Ball Bearing.f3d ', 'XL330', 'sensor module', 'arm']
+source sensor module 2 v1
+original upper V 6473.293, lower V 2950.793 (linked, read-only)
+  16 children re-placed from the link, worst box difference 0.000000 mm
+  parts renamed: Component2 -> stator, Component3 -> inner_top, Component4 -> inner_bottom
+  upper fill horn screw holes        +453.520 mm3
+  upper horn screw head columns      -706.858 mm3
+  upper fill hex nut pockets         +498.831 mm3
+  upper M3 through                   -128.680 mm3
+  upper register pegs                 +67.858 mm3
+  lower M3 through                   -135.114 mm3
+  lower hex nut pockets              -198.807 mm3
+  lower register sockets              -88.951 mm3
+  label "3.5" z -7.0                   -2.725 mm3, x -2.781..2.781 y -1.293..1.293
+  inner_top (1) shoulder face 311.018 mm2 down 0.501: +155.820 mm3 (face x drop 155.820)
+  label "6.5" z -7.0                   -2.947 mm3, x -2.769..2.769 y -1.293..1.293
+  inner_top (2) shoulder face 311.018 mm2 down 0.601: +186.922 mm3 (face x drop 186.922)
+  label "6.4" z -7.0                   -2.863 mm3, x -2.801..2.801 y -1.293..1.293
+  inner_top (3) shoulder face 311.018 mm2 down 0.701: +218.023 mm3 (face x drop 218.023)
+  label "6.3" z -7.0                   -2.801 mm3, x -2.767..2.767 y -1.293..1.293
+  inner_top (4) shoulder face 311.018 mm2 down 0.801: +249.125 mm3 (face x drop 249.125)
+  label "6.2" z -7.0                   -2.943 mm3, x -2.761..2.761 y -1.293..1.293
+  top_3.5mm: upper cut below the face -1260.156, upper register pegs +67.858, upper label -2.725
+    [top_3.5mm] top: nothing below the face        r 14.000    0.0 z  -7.100 void OK
+    [top_3.5mm] top: spigot above the face         r 14.000    0.0 z  -6.900 solid OK
+    [top_3.5mm] top: peg tip                       r 12.200   22.5 z  -8.150 solid OK
+    [top_3.5mm] top: nothing below the peg tip     r 12.200   22.5 z  -8.250 void OK
+    [top_3.5mm] top: air between pegs              r 12.200   45.0 z  -7.500 void OK
+    [top_3.5mm] top: flat face solid r 8.6         r  8.600    0.0 z  -6.900 solid OK
+    [top_3.5mm] top: label cut                     r  0.000    0.0 z  -6.800 solid info
+    [top_3.5mm] top: head column through at the face r  6.001   45.0 z  -6.900 void OK
+    [top_3.5mm] top: head column through mid       r  6.001  135.0 z  -3.000 void OK
+    [top_3.5mm] top: M3 through                    r 11.000    0.0 z  -6.500 void OK
+    [top_3.5mm] top: rim r 15 solid                r 14.800  157.5 z  -4.200 solid OK
+    [top_3.5mm] top: index notch still cut         r 16.000   90.0 z  -0.500 void OK
+  top_6.5: shoulder down 0.501 +155.820, upper cut below the face -1260.156, upper register pegs +67.858, upper label -2.947
+    [top_6.5] top: nothing below the face        r 14.000    0.0 z  -7.100 void OK
+    [top_6.5] top: spigot above the face         r 14.000    0.0 z  -6.900 solid OK
+    [top_6.5] top: peg tip                       r 12.200   22.5 z  -8.150 solid OK
+    [top_6.5] top: nothing below the peg tip     r 12.200   22.5 z  -8.250 void OK
+    [top_6.5] top: air between pegs              r 12.200   45.0 z  -7.500 void OK
+    [top_6.5] top: flat face solid r 8.6         r  8.600    0.0 z  -6.900 solid OK
+    [top_6.5] top: label cut                     r  0.000    0.0 z  -6.800 solid info
+    [top_6.5] top: head column through at the face r  6.001   45.0 z  -6.900 void OK
+    [top_6.5] top: head column through mid       r  6.001  135.0 z  -3.000 void OK
+    [top_6.5] top: M3 through                    r 11.000    0.0 z  -6.500 void OK
+    [top_6.5] top: rim r 15 solid                r 14.800  157.5 z  -4.200 solid OK
+    [top_6.5] top: index notch still cut         r 16.000   90.0 z  -0.500 void OK
+    [top_6.5] top: shoulder solid just above     r 16.500    0.0 z  -4.481 solid OK
+    [top_6.5] top: air just below the shoulder   r 16.500    0.0 z  -4.521 void OK
+    [top_6.5] top: shoulder solid at 200 deg     r 17.500  200.0 z  -4.481 solid OK
+    [top_6.5] top: spigot still r 15 below       r 15.050   45.0 z  -4.601 void OK
+  top_6.4: shoulder down 0.601 +186.922, upper cut below the face -1260.156, upper register pegs +67.858, upper label -2.863
+    [top_6.4] top: nothing below the face        r 14.000    0.0 z  -7.100 void OK
+    [top_6.4] top: spigot above the face         r 14.000    0.0 z  -6.900 solid OK
+    [top_6.4] top: peg tip                       r 12.200   22.5 z  -8.150 solid OK
+    [top_6.4] top: nothing below the peg tip     r 12.200   22.5 z  -8.250 void OK
+    [top_6.4] top: air between pegs              r 12.200   45.0 z  -7.500 void OK
+    [top_6.4] top: flat face solid r 8.6         r  8.600    0.0 z  -6.900 solid OK
+    [top_6.4] top: label cut                     r  0.000    0.0 z  -6.800 solid info
+    [top_6.4] top: head column through at the face r  6.001   45.0 z  -6.900 void OK
+    [top_6.4] top: head column through mid       r  6.001  135.0 z  -3.000 void OK
+    [top_6.4] top: M3 through                    r 11.000    0.0 z  -6.500 void OK
+    [top_6.4] top: rim r 15 solid                r 14.800  157.5 z  -4.200 solid OK
+    [top_6.4] top: index notch still cut         r 16.000   90.0 z  -0.500 void OK
+    [top_6.4] top: shoulder solid just above     r 16.500    0.0 z  -4.581 solid OK
+    [top_6.4] top: air just below the shoulder   r 16.500    0.0 z  -4.621 void OK
+    [top_6.4] top: shoulder solid at 200 deg     r 17.500  200.0 z  -4.581 solid OK
+    [top_6.4] top: spigot still r 15 below       r 15.050   45.0 z  -4.701 void OK
+  top_6.3: shoulder down 0.701 +218.023, upper cut below the face -1260.156, upper register pegs +67.858, upper label -2.801
+    [top_6.3] top: nothing below the face        r 14.000    0.0 z  -7.100 void OK
+    [top_6.3] top: spigot above the face         r 14.000    0.0 z  -6.900 solid OK
+    [top_6.3] top: peg tip                       r 12.200   22.5 z  -8.150 solid OK
+    [top_6.3] top: nothing below the peg tip     r 12.200   22.5 z  -8.250 void OK
+    [top_6.3] top: air between pegs              r 12.200   45.0 z  -7.500 void OK
+    [top_6.3] top: flat face solid r 8.6         r  8.600    0.0 z  -6.900 solid OK
+    [top_6.3] top: label cut                     r  0.000    0.0 z  -6.800 solid info
+    [top_6.3] top: head column through at the face r  6.001   45.0 z  -6.900 void OK
+    [top_6.3] top: head column through mid       r  6.001  135.0 z  -3.000 void OK
+    [top_6.3] top: M3 through                    r 11.000    0.0 z  -6.500 void OK
+    [top_6.3] top: rim r 15 solid                r 14.800  157.5 z  -4.200 solid OK
+    [top_6.3] top: index notch still cut         r 16.000   90.0 z  -0.500 void OK
+    [top_6.3] top: shoulder solid just above     r 16.500    0.0 z  -4.681 solid OK
+    [top_6.3] top: air just below the shoulder   r 16.500    0.0 z  -4.721 void OK
+    [top_6.3] top: shoulder solid at 200 deg     r 17.500  200.0 z  -4.681 solid OK
+    [top_6.3] top: spigot still r 15 below       r 15.050   45.0 z  -4.801 void OK
+  top_6.2: shoulder down 0.801 +249.125, upper cut below the face -1260.156, upper register pegs +67.858, upper label -2.943
+    [top_6.2] top: nothing below the face        r 14.000    0.0 z  -7.100 void OK
+    [top_6.2] top: spigot above the face         r 14.000    0.0 z  -6.900 solid OK
+    [top_6.2] top: peg tip                       r 12.200   22.5 z  -8.150 solid OK
+    [top_6.2] top: nothing below the peg tip     r 12.200   22.5 z  -8.250 void OK
+    [top_6.2] top: air between pegs              r 12.200   45.0 z  -7.500 void OK
+    [top_6.2] top: flat face solid r 8.6         r  8.600    0.0 z  -6.900 solid OK
+    [top_6.2] top: label cut                     r  0.000    0.0 z  -6.800 solid info
+    [top_6.2] top: head column through at the face r  6.001   45.0 z  -6.900 void OK
+    [top_6.2] top: head column through mid       r  6.001  135.0 z  -3.000 void OK
+    [top_6.2] top: M3 through                    r 11.000    0.0 z  -6.500 void OK
+    [top_6.2] top: rim r 15 solid                r 14.800  157.5 z  -4.200 solid OK
+    [top_6.2] top: index notch still cut         r 16.000   90.0 z  -0.500 void OK
+    [top_6.2] top: shoulder solid just above     r 16.500    0.0 z  -4.781 solid OK
+    [top_6.2] top: air just below the shoulder   r 16.500    0.0 z  -4.821 void OK
+    [top_6.2] top: shoulder solid at 200 deg     r 17.500  200.0 z  -4.781 solid OK
+    [top_6.2] top: spigot still r 15 below       r 15.050   45.0 z  -4.901 void OK
+top_3.5mm gap None V 5462.942 module z -8.2000..0.0000 -> True /tmp/exo320_ref_top_3.5mm.3mf
+top_6.5 gap 6.5 V 5618.540 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_6.5.3mf
+top_6.4 gap 6.4 V 5649.725 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_6.4.3mf
+top_6.3 gap 6.3 V 5680.889 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_6.3.3mf
+top_6.2 gap 6.2 V 5711.849 module z -8.2000..0.0000 -> True /Users/esteban/repos/exo/parts/top_6.2.3mf
+link still referenced: True
+closing scratch 'Untitled', NOT saved
+open after: ['5972K159_Ball Bearing.f3d ', 'XL330', 'sensor module', 'arm']
+bridge: OK in 15.6s

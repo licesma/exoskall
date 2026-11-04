@@ -1,0 +1,82 @@
+OK
+top-level occurrences:
+  left arm                       light=False
+  right arm                      light=True
+  chest mount                    light=False
+  Camera support                 light=False
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW light=False
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW light=False
+  M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW light=False
+  M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  cuffs with soft inside (1)     light=False
+  cuffs with soft inside (1)     light=False
+  M4 x 0.7mm Thread HEX NUT      light=False
+  sensor module 2                light=False
+  generated_R_arm                light=True
+  generated_R_arm_general        light=True
+  Link 1 R               light=True  t=(   0.000, -20.044,   0.000) bb=(-4.24,-26.78,-2.98)..(2.60,-19.33,2.51)
+  Link 2 R               light=True  t=(   0.000, -20.044,   0.000) bb=(-3.30,-26.78,-8.15)..(3.33,-21.38,2.42)
+  Link 3 R               light=True  t=(   0.000, -20.044,   0.000) bb=(-1.98,-26.68,-21.25)..(4.80,-20.82,-10.24)
+  Link 4 R               light=True  t=(   0.000, -20.044,   0.000) bb=(-0.50,-27.27,-22.35)..(9.75,-21.56,-15.95)
+  Link 5 R               light=True  t=(   0.000, -20.044,   0.000) bb=(11.84,-26.97,-22.35)..(18.70,-18.91,-16.95)
+  Link 6 R               light=True  t=(   0.000, -20.044,   0.000) bb=(13.40,-26.87,-23.11)..(23.20,-21.60,-17.05)
+  Module 0 R             light=True  t=(   0.000, -20.044,   0.000) bb=(-2.70,-28.11,-20.07)..(2.70,-18.89,2.70)
+      5972K159_Ball Bearing v1   light=True
+      Component47                light=True
+      Component48                light=False
+      XL330 v2                   light=True
+      Component1 (7)(Mirror)     light=True
+  Module 1 R             light=True  t=(  -0.000, -24.077,  -0.279) bb=(-0.60,-44.78,-2.38)..(2.45,-21.98,8.92)
+      5972K159_Ball Bearing v1 (1) light=True
+      Component54                light=True
+      Component55                light=False
+      XL330 v2 (1)               light=True
+      Component1 (7) (1)(Mirror) light=True
+  Module 2 R             light=True  t=(   0.624, -24.077, -10.599) bb=(-1.48,-26.18,-13.05)..(21.33,-8.37,-10.00)
+      5972K159_Ball Bearing v1 (2) light=True
+      Component61                light=True
+      Component62                light=False
+      XL330 v2 (2)               light=True
+      Component1 (7) (2)(Mirror) light=True
+  Module 3 R             light=True  t=(   2.202, -24.076, -18.651) bb=(0.10,-26.53,-41.35)..(22.90,-23.47,-16.55)
+      5972K159_Ball Bearing v1 (3) light=True
+      Component68                light=True
+      Component69                light=False
+      XL330 v2 (3)               light=True
+      Component1 (7) (3)(Mirror) light=True
+  Module 4 R             light=True  t=(  12.202, -24.265, -19.651) bb=(11.60,-44.97,-21.75)..(14.65,-22.16,10.05)
+      5972K159_Ball Bearing v1 (4) light=True
+      Component75                light=True
+      Component76                light=False
+      XL330 v2 (4)               light=True
+      Component1 (7) (4)(Mirror) light=True
+  Module 5 R             light=True  t=(  16.002, -21.965, -19.651) bb=(13.90,-24.42,-55.35)..(36.70,-21.36,-17.55)
+      5972K159_Ball Bearing v1 (5) light=True
+      Component82                light=True
+      Component83                light=False
+      XL330 v2 (5)               light=True
+      Component1 (7) (5)(Mirror) light=True
+  Module 6 R             light=True  t=(  20.602, -24.265, -19.651) bb=(18.50,-66.97,-20.26)..(41.30,-22.16,-17.20)
+      5972K159_Ball Bearing v1 (6) light=True
+      Component89                light=True
+      Component90                light=False
+      XL330 v2 (6)               light=True
+      Component1 (7) (6)(Mirror) light=True
+  cuff v12(Mirror)       light=True  t=(  11.178,  -0.344, -19.979) bb=(18.00,-39.05,-23.63)..(42.68,-16.36,-9.05)
+      hook v3 (1)                light=True
+  right v9               light=True  t=(  26.164, -24.300, -19.547) bb=(25.26,-30.28,-43.01)..(46.73,-16.48,-13.90)
+      cuff v12(Mirror) (1)       light=True
+bridge: OK in 0.2s

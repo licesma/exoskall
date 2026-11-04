@@ -1,0 +1,128 @@
+OK
+sensor module 2 v3 was here but is WRONG (the rotor pair does not read back:
+  upper: peg at mid height               r 12.200   67.5 deg z  -9.600  want solid got void  WRONG
+  upper: peg tip                         r 12.200  247.5 deg z -10.150  want solid got void  WRONG
+  lower: socket open under the face      r 12.200   22.5 deg z  -9.100  want void  got solid WRONG
+  lower: socket open at the bottom       r 12.200  112.5 deg z -10.250  want void  got solid WRONG
+  lower: floor, socket side              r 11.514   17.2 deg z -10.250  want void  got solid WRONG) - discarded and re-made
+  upper fill horn screw holes        +453.520 mm3
+  upper horn screw head pockets      -157.080 mm3
+  upper fill hex nut pockets         +498.831 mm3
+  upper M3 through                   -128.680 mm3
+  upper register pegs                 +67.858 mm3
+  lower M3 through                   -135.114 mm3
+  lower hex nut pockets              -238.839 mm3
+  lower register sockets              -88.951 mm3
+    screw 0 before: z  -12.989..  -3.647  t=['4.2016', '-4.2252', '-4.9885']
+    screw 1 before: z  -12.989..  -3.647  t=['-4.1832', '-4.2252', '-4.9885']
+    screw 2 before: z  -12.989..  -3.647  t=['-4.1667', '4.2873', '-4.9885']
+    screw 3 before: z  -12.989..  -3.647  t=['4.2496', '4.2873', '-4.9885']
+    screw axis in its own frame e=[0.0, 1.0, 0.0]
+    screw 0 after move (transform2 on occurrence): z  -16.989..  -7.647
+    screw 1 after move (transform2 on occurrence): z  -16.989..  -7.647
+    screw 2 after move (transform2 on occurrence): z  -16.989..  -7.647
+    screw 3 after move (transform2 on occurrence): z  -16.989..  -7.647
+    horn screw trimmed in screw 1 at its own y = -4.0000 mm, 5.9579 mm3 off
+    4 standard nuts 45.9088 mm3 each, 4 bolts 212.6466 mm3 each
+    screw trim removed 5.9579 mm3; screws now z -12.989..-7.647
+  upper: old O2.2 filled                 r  6.001   45.0 deg z  -6.000  want solid got solid OK
+  upper: old O5 filled                   r  6.001   45.0 deg z  -2.000  want solid got solid OK
+  upper: rotor face solid at r 6         r  6.001   45.0 deg z  -0.200  want solid got solid OK
+  upper: head pocket open                r  6.001   45.0 deg z  -8.000  want void  got void  OK
+  upper: head pocket ceiling             r  6.001   45.0 deg z  -6.800  want solid got solid OK
+  upper: M3 through at the joint face    r 11.000    0.0 deg z  -8.500  want void  got void  OK
+  upper: M3 through at mid depth         r 11.000   90.0 deg z  -6.000  want void  got void  OK
+  upper: hex nut pocket filled           r 13.500    0.0 deg z  -7.000  want solid got solid OK
+  upper: peg root, in the solid          r 12.200   22.5 deg z  -8.900  want solid got solid OK
+  upper: peg at mid height               r 12.200   67.5 deg z  -9.600  want solid got solid OK
+  upper: peg tip                         r 12.200  247.5 deg z -10.150  want solid got solid OK
+  upper: nothing below the tip           r 12.200  247.5 deg z -10.250  want void  got void  OK
+  upper: air between two pegs            r 12.200   45.0 deg z  -9.600  want void  got void  OK
+  upper: void just inside a peg          r 10.400  337.5 deg z  -9.600  want void  got void  OK
+  upper: rim wall outside a peg          r 14.500  157.5 deg z  -8.500  want solid got solid OK
+  upper: outside the r 15 rim            r 15.500  157.5 deg z  -8.500  want void  got void  OK
+  upper: index notch still cut           r 16.000   90.0 deg z  -0.500  want void  got void  OK
+  lower: M3 through the web              r 11.000    0.0 deg z  -9.500  want void  got void  OK
+  lower: M3 through above the pocket     r 11.000   90.0 deg z -10.000  want void  got void  OK
+  lower: nut pocket open                 r 13.500    0.0 deg z -12.000  want void  got void  OK
+  lower: nut pocket open at the top      r 13.500    0.0 deg z -10.700  want void  got void  OK
+  lower: nut pocket ceiling              r 13.500    0.0 deg z -10.500  want solid got solid OK
+  lower: wall band, hole to bore         r  8.800    0.0 deg z -10.550  want solid got solid OK
+  lower: solid between pockets           r 11.000   45.0 deg z -12.000  want solid got solid OK
+  lower: socket open under the face      r 12.200   22.5 deg z  -9.100  want void  got void  OK
+  lower: socket open at the bottom       r 12.200  112.5 deg z -10.250  want void  got void  OK
+  lower: socket floor solid              r 12.200  112.5 deg z -10.450  want solid got solid OK
+  lower: floor, socket side              r 11.514   17.2 deg z -10.250  want void  got void  OK
+  lower: floor itself                    r 11.514   17.2 deg z -10.450  want solid got solid OK
+  lower: floor, nut pocket side          r 11.514   17.2 deg z -10.700  want void  got void  OK
+  lower: solid between two sockets       r 12.200   45.0 deg z  -9.600  want solid got solid OK
+  lower: wall outside a socket           r 14.500  202.5 deg z  -9.600  want solid got solid OK
+  lower: outside the r 15 rim            r 15.500  202.5 deg z  -9.600  want void  got void  OK
+  lower: horn bore still clear           r  7.000    0.0 deg z -12.000  want void  got void  OK
+  lower: horn screw hole open            r  6.001   45.0 deg z  -9.500  want void  got void  OK
+  lower: web solid on the axis           r  2.000    0.0 deg z  -9.500  want solid got solid OK
+sensor module 2 v3: made now: a copy of "sensor module 2" (addExistingComponent + breakLink), renamed. JOINT STOP - two wedge bodies combine-cut out of Component463/Body1; wedges 155.00258..160.50225 and 175.50225..181.00192 deg, r 20.0..30.0, z -4.0..1.0. Block MEASURED 158.00258..178.00192 deg before, 160.50223..175.50227 after (arc 15.00005, centre 168.00225, asked 15.0 on 168.00225); stator body 25729.996 -> 25685.093 mm3 (-44.902). ROTOR - upper part 6473.293 -> 7207.743 mm3 (+734.450): O2.2 and O5.0 at r 6.001 filled to the rotor face, O5.0 head pockets z -9.1..-7.0, hex pockets filled, O3.2 at r 11.0 taken down to z -9.0, 8x O3.0 register PEGS at r 12.2 (22.5 + k*45.0 deg) down to z -10.2 (EXO-238); lower part 2950.793 -> 2487.889 mm3 (-462.904): O3.2 at r 11.0 through, 4x hex 6.0 across flats FLATS-RADIAL z -13.3..-10.6, 8x O3.3 register SOCKETS z -9.0..-10.3 at the same r and angles (EXO-238). FASTENERS - horn screws z -12.989..-7.647 (5.958 mm3 trimmed off the shank), head seated on z -9.0, tip unchanged at -12.989, under-head length 3.989 -> M2x4 (was 7.989); the module's four 1.8 mm THIN nuts deleted and four STANDARD ISO 4032 M3 nuts drawn instead (5.5 across flats, 2.4 thick, bored Ø3.0, flats radial, z -13.000..-10.600 - pulled up onto the pocket ceiling -10.600 with 0.200 left under them inside the mouth -13.2; inner flat r 8.250, 0.250 clear of the XL330 horn disk r 8.000); four M3x20 bolts drawn (Ø3.0 shank, Ø5.5 x 3.0 head seated on the link's rotor pad outer face z 8.0): tip z -12.000, 1.400 mm of thread in the nut. All 36 rotor probes read back.
+
+sensor module 2 v3: made now: a copy of "sensor module 2" (addExistingComponent + breakLink), renamed. JOINT STOP - two wedge bodies combine-cut out of Component463/Body1; wedges 155.00258..160.50225 and 175.50225..181.00192 deg, r 20.0..30.0, z -4.0..1.0. Block MEASURED 158.00258..178.00192 deg before, 160.50223..175.50227 after (arc 15.00005, centre 168.00225, asked 15.0 on 168.00225); stator body 25729.996 -> 25685.093 mm3 (-44.902). ROTOR - upper part 6473.293 -> 7207.743 mm3 (+734.450): O2.2 and O5.0 at r 6.001 filled to the rotor face, O5.0 head pockets z -9.1..-7.0, hex pockets filled, O3.2 at r 11.0 taken down to z -9.0, 8x O3.0 register PEGS at r 12.2 (22.5 + k*45.0 deg) down to z -10.2 (EXO-238); lower part 2950.793 -> 2487.889 mm3 (-462.904): O3.2 at r 11.0 through, 4x hex 6.0 across flats FLATS-RADIAL z -13.3..-10.6, 8x O3.3 register SOCKETS z -9.0..-10.3 at the same r and angles (EXO-238). FASTENERS - horn screws z -12.989..-7.647 (5.958 mm3 trimmed off the shank), head seated on z -9.0, tip unchanged at -12.989, under-head length 3.989 -> M2x4 (was 7.989); the module's four 1.8 mm THIN nuts deleted and four STANDARD ISO 4032 M3 nuts drawn instead (5.5 across flats, 2.4 thick, bored Ø3.0, flats radial, z -13.000..-10.600 - pulled up onto the pocket ceiling -10.600 with 0.200 left under them inside the mouth -13.2; inner flat r 8.250, 0.250 clear of the XL330 horn disk r 8.000); four M3x20 bolts drawn (Ø3.0 shank, Ø5.5 x 3.0 head seated on the link's rotor pad outer face z 8.0): tip z -12.000, 1.400 mm of thread in the nut. All 36 rotor probes read back.
+
+--- the ORIGINAL, still LINKED ---
+  stator  V= 25729.996 mm3 (was  25729.996)  r 13.793..27.000 z  -24.500..  -0.400
+  upper   V=  6473.293 mm3 (was   6473.293)  r  4.587..18.000 z   -9.000..   0.000
+  lower   V=  2950.793 mm3 (was   2950.793)  r  5.280..17.500 z  -13.200..  -9.000
+
+--- v3 after EXO-238: the two rotor parts ---
+  upper  V=  7207.743 mm3  r  4.588..18.000 z  -10.200..   0.000
+  lower  V=  2487.889 mm3  r  5.280..17.500 z  -13.200..  -9.000
+  upper: 7139.884 (EXO-236, flat) + 67.858 (8 x O3.0 x 1.2 pegs) = 7207.742
+  lower: 2576.840 (EXO-236, flat) - 88.951 (8 x O3.3 x 1.3 sockets) = 2487.889
+
+--- the register pegs (upper) and sockets (lower), one per site ---
+    22.5 deg: peg z -9.0000..-10.2000 (1.2000 tall, R 1.5000); socket floor -10.3000 (1.3000 deep, R 1.6500); axial clearance 0.1000, radial 0.1500
+    67.5 deg: peg z -9.0000..-10.2000 (1.2000 tall, R 1.5000); socket floor -10.3000 (1.3000 deep, R 1.6500); axial clearance 0.1000, radial 0.1500
+   112.5 deg: peg z -9.0000..-10.2000 (1.2000 tall, R 1.5000); socket floor -10.3000 (1.3000 deep, R 1.6500); axial clearance 0.1000, radial 0.1500
+   157.5 deg: peg z -9.0000..-10.2000 (1.2000 tall, R 1.5000); socket floor -10.3000 (1.3000 deep, R 1.6500); axial clearance 0.1000, radial 0.1500
+   202.5 deg: peg z -9.0000..-10.2000 (1.2000 tall, R 1.5000); socket floor -10.3000 (1.3000 deep, R 1.6500); axial clearance 0.1000, radial 0.1500
+   247.5 deg: peg z -9.0000..-10.2000 (1.2000 tall, R 1.5000); socket floor -10.3000 (1.3000 deep, R 1.6500); axial clearance 0.1000, radial 0.1500
+   292.5 deg: peg z -9.0000..-10.2000 (1.2000 tall, R 1.5000); socket floor -10.3000 (1.3000 deep, R 1.6500); axial clearance 0.1000, radial 0.1500
+   337.5 deg: peg z -9.0000..-10.2000 (1.2000 tall, R 1.5000); socket floor -10.3000 (1.3000 deep, R 1.6500); axial clearance 0.1000, radial 0.1500
+  all 8: peg tips z -10.2000..-10.2000, socket floors z -10.3000..-10.3000, smallest axial clearance 0.1000
+
+--- THE WALLS, each from two edges read off the solid ---
+  peg axis r 12.200 22.5 deg and M3 axis r 11.000 0.0 deg are 4.6766 apart
+  UPPER  peg R 1.5000, M3 hole R 1.6000  ->  peg-to-M3-hole wall 1.5766 mm
+  LOWER  socket R 1.6500, M3 hole R 1.6000  ->  socket-to-M3-hole wall 1.4266 mm
+  UPPER  rim r 15.0000 at z -8.5; peg outer edge r 13.7000  ->  peg-to-rim wall 1.3000 mm (the face annulus left outside the peg root)
+  LOWER  rim r 15.0000 at z -9.6; socket outer edge r 13.8500  ->  socket-to-rim wall 1.1500 mm
+  floor probe xy (11.0000, 3.4000) = r 11.5135 17.1759 deg: 3.4000 off the hex pocket centre (circumradius 3.4641) and 1.2974 off the socket axis (R 1.650) - inside both
+  socket bottom z -10.3000, hex nut pocket ceiling z -10.6000  ->  FLOOR 0.3000 mm
+  the hex pocket corner pokes 0.4152 mm into the socket footprint in plan
+
+--- ANGULAR SYMMETRY, feature by feature (all four angles must agree) ---
+  upper: M3 hole at the joint face    r 11.000 z  -8.800  . . . .  OK
+  upper: M3 hole mid depth            r 11.000 z  -6.000  . . . .  OK
+  upper: M3 hole rim, solid           r 13.000 z  -6.000  S S S S  OK
+  upper: filled hex nut pocket        r 13.500 z  -7.000  S S S S  OK
+  upper: head pocket open             r  6.001 z  -8.000  . . . .  OK
+  upper: head pocket ceiling solid    r  6.001 z  -6.800  S S S S  OK
+  upper: rotor face solid over it     r  6.001 z  -0.200  S S S S  OK
+  upper: the eight pegs, mid height   r 12.200 z  -9.600  S S S S S S S S  OK
+  upper: the eight pegs, near tip     r 12.200 z -10.150  S S S S S S S S  OK
+  upper: air between the pegs         r 12.200 z  -9.600  . . . .  OK
+  lower: M3 hole through the web      r 11.000 z  -9.500  . . . .  OK
+  lower: hex nut pocket open          r 13.500 z -12.000  . . . .  OK
+  lower: nut pocket ceiling           r 13.500 z -10.500  S S S S  OK
+  lower: solid between the pockets    r 11.000 z -12.000  S S S S  OK
+  lower: horn screw hole open         r  6.001 z  -9.500  . . . .  OK
+  lower: the eight sockets            r 12.200 z  -9.600  . . . . . . . .  OK
+  lower: the eight socket floors      r 12.200 z -10.450  S S S S S S S S  OK
+  lower: solid between the sockets    r 12.200 z  -9.600  S S S S  OK
+
+--- ANGULAR SYMMETRY, swept grid (r >= 14.70 and z >= -1.55 = the index notch, expected) ---
+  upper   64800 quadruples in   4.7s (dr 0.50, dz 0.25, dang 2.0 deg, r<=17.9, z -10.20..0.00)
+  lower   25200 quadruples in   2.5s (dr 0.50, dz 0.25, dang 2.0 deg, r<=17.4, z -13.20..-9.00)
+  upper: 210 asymmetric quadruples inside the notch box, 0 anywhere else
+  lower: 0 asymmetric quadruples inside the notch box, 0 anywhere else
+  the upper part's ONLY 4-fold asymmetry is the index notch: 210 points, r 15.130..17.630 z -1.325..-0.325, angles [0.0, 2.0, 4.0, 6.0, 84.0, 86.0, 88.0]
+
+EXO-238: all checks pass.
+bridge: OK in 19.8s

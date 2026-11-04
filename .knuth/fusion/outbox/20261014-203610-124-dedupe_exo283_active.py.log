@@ -1,0 +1,5 @@
+OK
+active hub=Team hub - Rodrigo Andrade project=G1 exeskeleton
+app.data attrs: ['activeFolder', 'activeHub', 'activeProject', 'activeSpaceCollectionId', 'cast', 'classType', 'dataHubs', 'dataProjects', 'findFileById', 'findFolderById', 'isDataPanelVisible', 'isValid', 'objectType', 'personalUseLimits', 'refreshDataPanel', 'this', 'thisown']
+isOffline=False
+bridge: OK in 0.0s

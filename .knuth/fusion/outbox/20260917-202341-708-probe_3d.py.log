@@ -1,0 +1,6 @@
+OK
+pref=<class 'adsk.fusion.FusionProductPreferences'> is3DSketchingAllowed=False
+set -> True
+line end world = (0.000, 0.000, 5.000)
+arc start (1.000,0.000,6.000) end (0.000,0.000,5.000)
+bridge: OK in 0.7s

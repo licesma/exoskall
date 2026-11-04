@@ -1,0 +1,200 @@
+OK
+left arm                      t=(   0.000,   0.000,   0.000) cm  light=False
+  Link 1                        t=(   0.000,   0.000,   0.000) cm  light=False
+  Link 2                        t=(   0.000,   0.000,   0.000) cm  light=True
+  Link 3                        t=(   0.000,   0.000,   0.000) cm  light=True
+  Link 4                        t=(   0.000,   0.000,   0.000) cm  light=False
+  Link 5                        t=(   0.000,   0.000,   0.000) cm  light=False
+  Link 6                        t=(  -0.000,  -0.000,  -0.000) cm  light=False
+  Link7                         t=(  11.178, -19.700, -19.979) cm  light=False
+  Module 0                      t=(   0.000,   0.000,   0.000) cm  light=False
+    5972K159_Ball Bearing v1 (7)  t=(  -0.000,  -0.721,  -0.207) cm  light=True
+    Component155                  t=(  -0.000,  -0.721,  -0.207) cm  light=True
+    Component156                  t=(  -0.000,  -0.721,  -0.207) cm  light=False
+    XL330 v2 (7)                  t=(  -0.000,  -1.490,  -0.427) cm  light=True
+    Component1 (7)                t=(   7.500, -13.233,  42.379) cm  light=True
+  Module 1                      t=(  -0.000,   4.033,  -0.279) cm  light=False
+    5972K159_Ball Bearing v1 (8)  t=(  -0.750,   4.033,  -0.279) cm  light=True
+    Component162                  t=(  -0.750,   4.033,  -0.279) cm  light=True
+    Component163                  t=(  -0.750,   4.033,  -0.279) cm  light=False
+    XL330 v2 (8)                  t=(  -1.550,   4.033,  -0.279) cm  light=True
+    Component1 (7) (1)            t=(  -0.750,   4.033,  -0.279) cm  light=True
+  Module 2                      t=(   0.624,   4.033, -10.599) cm  light=False
+    5972K159_Ball Bearing v1 (9)  t=(   0.624,   4.033,  -9.849) cm  light=True
+    Component169                  t=(   0.624,   4.033,  -9.849) cm  light=True
+    Component170                  t=(   0.624,   4.033,  -9.849) cm  light=False
+    XL330 v2 (9)                  t=(   0.624,   4.033,  -9.049) cm  light=True
+    Component1 (7) (2)            t=(   0.578,   4.002,  -9.849) cm  light=True
+  Module 3                      t=(   2.202,   4.032, -18.651) cm  light=False
+    5972K159_Ball Bearing v1 (10)  t=(   2.202,   3.282, -18.651) cm  light=True
+    Component176                  t=(   2.202,   3.282, -18.651) cm  light=True
+    Component177                  t=(   2.202,   3.282, -18.651) cm  light=False
+    XL330 v2 (10)                 t=(   2.202,   2.482, -18.651) cm  light=True
+    Component1 (7) (3)            t=(   2.202,   3.290, -18.740) cm  light=True
+  Module 4                      t=(  12.202,   4.221, -19.651) cm  light=False
+    5972K159_Ball Bearing v1 (11)  t=(  11.452,   4.221, -19.651) cm  light=True
+    Component183                  t=(  11.452,   4.221, -19.651) cm  light=True
+    Component184                  t=(  11.452,   4.221, -19.651) cm  light=False
+    XL330 v2 (11)                 t=(  10.652,   4.221, -19.651) cm  light=True
+    Component1 (7) (4)            t=(  11.452,   4.221, -19.651) cm  light=True
+  Module 5                      t=(  16.002,   1.921, -19.651) cm  light=False
+    5972K159_Ball Bearing v1 (12)  t=(  16.002,   1.171, -19.651) cm  light=True
+    Component190                  t=(  16.002,   1.171, -19.651) cm  light=True
+    Component191                  t=(  16.002,   1.171, -19.651) cm  light=False
+    XL330 v2 (12)                 t=(  16.002,   0.371, -19.651) cm  light=True
+    Component1 (7) (5)            t=(  16.002,   1.171, -19.651) cm  light=True
+  Module 6                      t=(  20.602,   4.221, -19.651) cm  light=False
+    5972K159_Ball Bearing v1 (13)  t=(  20.602,   4.221, -20.401) cm  light=True
+    Component197                  t=(  20.602,   4.221, -20.401) cm  light=True
+    Component198                  t=(  20.602,   4.221, -20.401) cm  light=False
+    XL330 v2 (13)                 t=(  20.602,   4.221, -21.201) cm  light=True
+    Component1 (7) (6)            t=(  20.602,   4.221, -20.401) cm  light=True
+  cuff v12(Mirror) (1) (1)      t=(  20.478, -18.975, -20.490) cm  light=False
+    hook v3(Mirror) (1)           t=(  20.478, -15.952, -35.529) cm  light=True
+  Hand enclosure                t=(  26.111,   4.290, -19.547) cm  light=False
+    Component204                  t=(  26.111,   4.290, -19.547) cm  light=True
+    Component206                  t=(  26.111,   4.290, -19.547) cm  light=True
+    Component215                  t=(   0.000,   0.000,   0.000) cm  light=True
+    Component216                  t=(  26.111,   4.290, -19.547) cm  light=True
+  Hand                          t=(  26.111,   4.290, -19.547) cm  light=False
+    Component208                  t=(  26.111,   4.290, -19.547) cm  light=True
+    Component209                  t=(  26.111,   4.290, -19.547) cm  light=True
+  cuffs with soft inside        t=(   0.000,   0.000,   0.000) cm  light=False
+    hook v3                       t=(  11.178, -15.952, -35.529) cm  light=True
+    Component10                   t=(   0.000,   0.000,   0.000) cm  light=True
+    M4 x 0.7mm Thread HEX NUT     t=(  18.890,  10.738, -17.098) cm  light=True
+    M4 x 0.7mm Thread HEX NUT     t=(  18.890,  10.738, -21.510) cm  light=True
+    M4 x 0.7mm Thread HEX NUT     t=(  18.890,  17.249, -19.304) cm  light=True
+    cuffs with soft inside (1)    t=(  18.725,  10.740, -17.107) cm  light=True
+    M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW v1 (1)  t=(  18.725,  10.740, -21.508) cm  light=True
+    M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW v1 (2)  t=(  18.725,  17.247, -19.299) cm  light=True
+right arm                     t=(   0.000, -20.044,   0.000) cm  light=True
+  Link 1 R                      t=(   0.000, -20.044,   0.000) cm  light=True
+  Link 2 R                      t=(   0.000, -20.044,   0.000) cm  light=True
+  Link 3 R                      t=(   0.000, -20.044,   0.000) cm  light=True
+  Link 4 R                      t=(   0.000, -20.044,   0.000) cm  light=True
+  Link 5 R                      t=(   0.000, -20.044,   0.000) cm  light=True
+  Link 6 R                      t=(   0.000, -20.044,   0.000) cm  light=True
+  Module 0 R                    t=(   0.000, -20.044,   0.000) cm  light=True
+    5972K159_Ball Bearing v1      t=(  -0.000, -19.323,  -0.207) cm  light=True
+    Component47                   t=(  -0.000, -19.323,  -0.207) cm  light=True
+    Component48                   t=(  -0.000, -19.323,  -0.207) cm  light=False
+    XL330 v2                      t=(  -0.000, -18.554,  -0.427) cm  light=True
+    Component1 (7)(Mirror)        t=(  -0.046, -19.319,  -0.194) cm  light=True
+  Module 1 R                    t=(  -0.000, -24.077,  -0.279) cm  light=True
+    5972K159_Ball Bearing v1 (1)  t=(  -0.750, -24.077,  -0.279) cm  light=True
+    Component54                   t=(  -0.750, -24.077,  -0.279) cm  light=True
+    Component55                   t=(  -0.750, -24.077,  -0.279) cm  light=False
+    XL330 v2 (1)                  t=(  -1.550, -24.077,  -0.279) cm  light=True
+    Component1 (7) (1)(Mirror)    t=(  -0.750, -24.077,  -0.279) cm  light=True
+  Module 2 R                    t=(   0.624, -24.077, -10.599) cm  light=True
+    5972K159_Ball Bearing v1 (2)  t=(   0.624, -24.077,  -9.849) cm  light=True
+    Component61                   t=(   0.624, -24.077,  -9.849) cm  light=True
+    Component62                   t=(   0.624, -24.077,  -9.849) cm  light=False
+    XL330 v2 (2)                  t=(   0.624, -24.077,  -9.049) cm  light=True
+    Component1 (7) (2)(Mirror)    t=(   0.624, -24.077,  -9.849) cm  light=True
+  Module 3 R                    t=(   2.202, -24.076, -18.651) cm  light=True
+    5972K159_Ball Bearing v1 (3)  t=(   2.202, -23.326, -18.651) cm  light=True
+    Component68                   t=(   2.202, -23.326, -18.651) cm  light=True
+    Component69                   t=(   2.202, -23.326, -18.651) cm  light=False
+    XL330 v2 (3)                  t=(   2.202, -22.526, -18.651) cm  light=True
+    Component1 (7) (3)(Mirror)    t=(   2.202, -23.326, -18.651) cm  light=True
+  Module 4 R                    t=(  12.202, -24.265, -19.651) cm  light=True
+    5972K159_Ball Bearing v1 (4)  t=(  11.452, -24.265, -19.651) cm  light=True
+    Component75                   t=(  11.452, -24.265, -19.651) cm  light=True
+    Component76                   t=(  11.452, -24.265, -19.651) cm  light=False
+    XL330 v2 (4)                  t=(  10.652, -24.265, -19.651) cm  light=True
+    Component1 (7) (4)(Mirror)    t=(  11.452, -24.265, -19.651) cm  light=True
+  Module 5 R                    t=(  16.002, -21.965, -19.651) cm  light=True
+    5972K159_Ball Bearing v1 (5)  t=(  16.002, -21.215, -19.651) cm  light=True
+    Component82                   t=(  16.002, -21.215, -19.651) cm  light=True
+    Component83                   t=(  16.002, -21.215, -19.651) cm  light=False
+    XL330 v2 (5)                  t=(  16.002, -20.415, -19.651) cm  light=True
+    Component1 (7) (5)(Mirror)    t=(  16.002, -21.215, -19.651) cm  light=True
+  Module 6 R                    t=(  20.602, -24.265, -19.651) cm  light=True
+    5972K159_Ball Bearing v1 (6)  t=(  20.602, -24.265, -20.401) cm  light=True
+    Component89                   t=(  20.602, -24.265, -20.401) cm  light=True
+    Component90                   t=(  20.602, -24.265, -20.401) cm  light=False
+    XL330 v2 (6)                  t=(  20.602, -24.265, -21.201) cm  light=True
+    Component1 (7) (6)(Mirror)    t=(  20.602, -24.265, -20.401) cm  light=True
+  cuff v12(Mirror)              t=(  11.178,  -0.344, -19.979) cm  light=True
+    hook v3 (1)                   t=(  11.178,  -4.092, -35.529) cm  light=True
+  right v9                      t=(  26.164, -24.300, -19.547) cm  light=True
+    cuff v12(Mirror) (1)          t=(  20.464,  -1.072, -20.488) cm  light=True
+chest mount                   t=(   0.000,   0.000,   0.000) cm  light=False
+Camera support                t=(   0.000,   0.000,   0.000) cm  light=False
+M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW  t=(  28.585,  17.244, -19.302) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  28.690,  17.249, -19.304) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  28.690,  10.742, -17.102) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  28.690,  10.738, -21.498) cm  light=False
+M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW  t=(  28.585,  10.739, -17.109) cm  light=False
+M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW  t=(  28.585,  10.736, -21.508) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  18.890,   9.135, -18.299) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  18.890,   9.137, -20.332) cm  light=False
+M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW  t=(  28.585,   9.137, -18.307) cm  light=False
+M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW  t=(  28.585,   9.136, -20.330) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  28.700,   3.959, -15.083) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  28.690,   9.136, -20.326) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  28.700,   3.958, -24.083) cm  light=False
+M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW  t=(  28.699,   3.895, -24.079) cm  light=False
+M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW  t=(  28.699,   3.895, -15.079) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  -4.283, -11.272,   2.472) cm  light=False
+M4 x 0.7mm Thread HEX NUT     t=(  -4.283,  -8.772,   2.472) cm  light=False
+cuffs with soft inside (1)    t=(  18.725,   9.096, -18.352) cm  light=False
+  M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW  t=(  18.725,   9.096, -18.352) cm  light=True
+cuffs with soft inside (1)    t=(  18.725,   9.087, -20.379) cm  light=False
+  M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW  t=(  18.725,   9.087, -20.379) cm  light=True
+M4 x 0.7mm Thread HEX NUT     t=(  28.690,   9.094, -18.338) cm  light=False
+sensor module 2               t=(   0.000,   0.000,   0.000) cm  light=False
+  5972K159_Ball Bearing         t=(   0.000,   0.000,  -0.750) cm  light=True
+  Component1                    t=(   0.000,   0.000,  -0.750) cm  light=True
+  Component2                    t=(   0.000,   0.000,  -0.750) cm  light=True
+  Component3                    t=(   0.000,   0.000,  -0.750) cm  light=True
+  XL330 v2                      t=(   0.000,   0.000,  -1.700) cm  light=True
+  screw 1                       t=(   0.420,  -0.423,  -0.499) cm  light=True
+  screw 1                       t=(  -0.418,  -0.423,  -0.499) cm  light=True
+  screw 1                       t=(  -0.417,   0.429,  -0.499) cm  light=True
+  screw 1                       t=(   0.425,   0.429,  -0.499) cm  light=True
+  m3_6mm_insert                 t=(   0.000,  -1.925,  -2.151) cm  light=True
+  m3_6mm_insert                 t=(  -1.925,  -0.000,  -2.151) cm  light=True
+  m3_6mm_insert                 t=(   1.925,   0.000,  -2.151) cm  light=True
+  m3 hex nut                    t=(   0.000,   0.000,   1.910) cm  light=True
+  m3 hex nut                    t=(   2.200,   0.000,   1.910) cm  light=True
+  m3 hex nut                    t=(   0.938,   0.525,   1.910) cm  light=True
+  m3 hex nut                    t=(   0.962,  -0.567,   1.910) cm  light=True
+generated_R_arm               t=(   0.000,   0.000,   0.000) cm  light=True
+  link_12                       t=(   0.000,   0.000,   0.000) cm  light=True
+  link_23                       t=(   0.000,   0.000,   0.000) cm  light=True
+  link_34                       t=(   0.000,   0.000,   0.000) cm  light=True
+  link_45                       t=(   0.000,   0.000,   0.000) cm  light=True
+  J1_right_shoulder_pitch_joint  t=(   0.000, -20.043,   0.000) cm  light=True
+    sensor module 2               t=(  -0.000, -20.043,  -0.000) cm  light=False
+  J2_right_shoulder_roll_joint  t=(   0.001, -24.077,  -0.282) cm  light=True
+    sensor module 2               t=(   0.001, -24.077,  -0.282) cm  light=False
+  J3_right_shoulder_yaw_joint   t=(   0.000, -24.702, -10.602) cm  light=True
+    sensor module 2               t=(   0.000, -24.702, -10.602) cm  light=False
+  J4_right_elbow_joint          t=(   1.578, -24.702, -18.654) cm  light=True
+    sensor module 2               t=(   1.578, -24.702, -18.654) cm  light=False
+  J5_right_wrist_roll_joint     t=(  11.578, -24.889, -19.654) cm  light=True
+    sensor module 2               t=(  11.578, -24.889, -19.654) cm  light=False
+generated_R_arm_general       t=(   0.000,   0.000,   0.000) cm  light=True
+  g_link_12                     t=(   0.000,   0.000,   0.000) cm  light=True
+  g_link_23                     t=(   0.000,   0.000,   0.000) cm  light=True
+  g_link_34                     t=(   0.000,   0.000,   0.000) cm  light=True
+  g_link_45                     t=(   0.000,   0.000,   0.000) cm  light=True
+  g_link_56                     t=(   0.000,   0.000,   0.000) cm  light=True
+  GJ1_right_shoulder_pitch_joint  t=(   0.000, -20.043,   0.000) cm  light=True
+    sensor module 2               t=(  -0.000, -20.043,  -0.000) cm  light=False
+  GJ2_right_shoulder_roll_joint  t=(   0.001, -24.077,  -0.282) cm  light=True
+    sensor module 2               t=(   0.001, -24.077,  -0.282) cm  light=False
+  GJ3_right_shoulder_yaw_joint  t=(   0.000, -24.702, -10.602) cm  light=True
+    sensor module 2               t=(   0.000, -24.702, -10.602) cm  light=False
+  GJ4_right_elbow_joint         t=(   1.578, -24.702, -18.654) cm  light=True
+    sensor module 2               t=(   1.578, -24.702, -18.654) cm  light=False
+  GJ5_right_wrist_roll_joint    t=(  11.578, -24.889, -19.654) cm  light=True
+    sensor module 2               t=(  11.578, -24.889, -19.654) cm  light=False
+  GJ6_right_wrist_pitch_joint   t=(  15.378, -24.888, -19.654) cm  light=True
+    sensor module 2               t=(  15.378, -24.888, -19.654) cm  light=False
+  GJ7_right_wrist_yaw_joint     t=(  19.978, -24.887, -19.655) cm  light=True
+    sensor module 2               t=(  19.978, -24.887, -19.655) cm  light=False
+bridge: OK in 0.2s

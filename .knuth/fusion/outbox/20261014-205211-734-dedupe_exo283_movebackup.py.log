@@ -1,0 +1,7 @@
+OK
+bridge: no active Fusion design - design is None
+b28K M4 x 0.7mm Thread HEX NUT: {'name': 'M4 x 0.7mm Thread HEX NUT', 'from': 'G1 exeskeleton', 'ok': True, 'now_in_old': True, 'parents': [('cuffs with soft inside', 'cjUR'), ('arm complete BACKUP 2026-08-08', 'xWFs')]}
+eMNd M4 x 0.7mm Thread 14mm LONG SO: {'name': 'M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW', 'from': 'G1 exeskeleton', 'ok': True, 'now_in_old': True, 'parents': [('arm complete BACKUP 2026-08-08', 'xWFs')]}
+7XBt M4 x 0.7mm Thread 25mm LONG SO: {'name': 'M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW', 'from': 'G1 exeskeleton', 'ok': True, 'now_in_old': True, 'parents': [('arm complete BACKUP 2026-08-08', 'xWFs')]}
+cjUR cuffs with soft inside: {'name': 'cuffs with soft inside', 'from': 'G1 exeskeleton', 'ok': True, 'now_in_old': True, 'parents': [('arm complete BACKUP 2026-08-08', 'xWFs')]}
+bridge: OK in 6.9s

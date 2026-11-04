@@ -1,0 +1,108 @@
+OK
+  upper: head column open at the mating face r  6.001   45.0 deg z  -8.900  want void  got void  OK
+  upper: head column open at the old ceiling r  6.001   45.0 deg z  -6.800  want void  got void  OK
+  upper: head column open at mid depth   r  6.001   45.0 deg z  -4.000  want void  got void  OK
+  upper: head column breaks the rotor face r  6.001   45.0 deg z  -0.100  want void  got void  OK
+  upper: solid inside the column         r  3.300   45.0 deg z  -4.000  want solid got solid OK
+  upper: solid outside the column        r  8.700   45.0 deg z  -4.000  want solid got solid OK
+  upper: solid between two columns       r  6.001    0.0 deg z  -4.000  want solid got solid OK
+  upper: M3 through at the joint face    r 11.000    0.0 deg z  -8.500  want void  got void  OK
+  upper: M3 through at mid depth         r 11.000   90.0 deg z  -6.000  want void  got void  OK
+  upper: hex nut pocket filled           r 13.500    0.0 deg z  -7.000  want solid got solid OK
+  upper: peg root, in the solid          r 12.200   22.5 deg z  -8.900  want solid got solid OK
+  upper: peg at mid height               r 12.200   67.5 deg z  -9.600  want solid got solid OK
+  upper: peg tip                         r 12.200  247.5 deg z -10.150  want solid got solid OK
+  upper: nothing below the tip           r 12.200  247.5 deg z -10.250  want void  got void  OK
+  upper: air between two pegs            r 12.200   45.0 deg z  -9.600  want void  got void  OK
+  upper: void just inside a peg          r 10.400  337.5 deg z  -9.600  want void  got void  OK
+  upper: rim wall outside a peg          r 14.500  157.5 deg z  -8.500  want solid got solid OK
+  upper: outside the r 15 rim            r 15.500  157.5 deg z  -8.500  want void  got void  OK
+  upper: index notch still cut           r 16.000   90.0 deg z  -0.500  want void  got void  OK
+  lower: M3 through the web              r 11.000    0.0 deg z  -9.500  want void  got void  OK
+  lower: M3 through above the pocket     r 11.000   90.0 deg z -10.000  want void  got void  OK
+  lower: nut pocket open                 r 13.500    0.0 deg z -12.000  want void  got void  OK
+  lower: nut pocket open at the top      r 13.500    0.0 deg z -10.700  want void  got void  OK
+  lower: nut pocket ceiling              r 13.500    0.0 deg z -10.500  want solid got solid OK
+  lower: wall band, hole to bore         r  8.800    0.0 deg z -10.550  want solid got solid OK
+  lower: solid between pockets           r 11.000   45.0 deg z -12.000  want solid got solid OK
+  lower: socket open under the face      r 12.200   22.5 deg z  -9.100  want void  got void  OK
+  lower: socket open at the bottom       r 12.200  112.5 deg z -10.250  want void  got void  OK
+  lower: socket floor solid              r 12.200  112.5 deg z -10.450  want solid got solid OK
+  lower: nut pocket corner pulled in     r 11.531   17.5 deg z -12.000  want solid got solid OK
+  lower: floor, socket side              r 11.452   16.1 deg z -10.250  want void  got void  OK
+  lower: floor itself                    r 11.452   16.1 deg z -10.450  want solid got solid OK
+  lower: floor, nut pocket side          r 11.452   16.1 deg z -10.700  want void  got void  OK
+  lower: solid between two sockets       r 12.200   45.0 deg z  -9.600  want solid got solid OK
+  lower: wall outside a socket           r 14.500  202.5 deg z  -9.600  want solid got solid OK
+  lower: outside the r 15 rim            r 15.500  202.5 deg z  -9.600  want void  got void  OK
+  lower: horn bore still clear           r  7.000    0.0 deg z -12.000  want void  got void  OK
+  lower: horn screw hole open            r  6.001   45.0 deg z  -9.500  want void  got void  OK
+  lower: web solid on the axis           r  2.000    0.0 deg z  -9.500  want solid got solid OK
+
+sensor module 2 v3: already in the document, stop block measured 160.50223..175.50227 deg (arc 15.00005) and all 39 rotor probes read back
+
+--- the ORIGINAL, still LINKED ---
+  stator  V= 25729.996 mm3 (was  25729.996)  r 13.793..27.000 z  -24.500..  -0.400
+  upper   V=  6473.293 mm3 (was   6473.293)  r  4.587..18.000 z   -9.000..   0.000
+  lower   V=  2950.793 mm3 (was   2950.793)  r  5.280..17.500 z  -13.200..  -9.000
+
+--- v3 after EXO-240: the two rotor parts ---
+  upper  V=  6657.964 mm3  r  4.588..18.000 z  -10.200..   0.000
+  lower  V=  2507.386 mm3  r  5.280..17.500 z  -13.200..  -9.000
+  upper: 7207.743 (EXO-238) - (706.858 through, z -9.0..0 - 157.080 blind, z -9.0..-7.0) = 6657.964
+  lower: 2487.889 (EXO-238) + 238.839 (the 6.0 AF pockets) - 219.342 (5.8 AF: hex area 29.1331 less the O3.2 hole 8.0425, 2.6 deep, x4) = 2507.386
+  lower residual vs the analytic pocket: +0.000 mm3 (the 6.0 pocket overlapped the r 8.100 horn bore, the 5.8 one is tangent to it)
+
+--- THE HORN SCREW HEAD COLUMN, O5.0 at r 6.001, one per angle ---
+    45.0 deg  axis at z -8.95/-8.5/-7.05/-6.95/-5.05/-4.95/-4/-2/-0.5/-0.05: ..........
+   135.0 deg  axis at z -8.95/-8.5/-7.05/-6.95/-5.05/-4.95/-4/-2/-0.5/-0.05: ..........
+   225.0 deg  axis at z -8.95/-8.5/-7.05/-6.95/-5.05/-4.95/-4/-2/-0.5/-0.05: ..........
+   315.0 deg  axis at z -8.95/-8.5/-7.05/-6.95/-5.05/-4.95/-4/-2/-0.5/-0.05: ..........
+  (all void = no ceiling anywhere between the z -9.0 mating face and the rotor face 0)
+  z  -8.500: void r 3.5010..8.5010 -> width 5.0000, centre r 6.0010
+  z  -6.000: void r 3.5010..8.5010 -> width 5.0000, centre r 6.0010
+  z  -4.000: void r 3.5010..8.5010 -> width 5.0000, centre r 6.0010
+  z  -2.000: void r 3.5010..8.5010 -> width 5.0000, centre r 6.0010
+  z  -0.500: void r 3.5010..8.5010 -> width 5.0000, centre r 6.0010
+  widest 5.0000, narrowest 5.0000 over the whole height (O5.0 asked)
+  column axis r 6.001 45.0 deg to M3 axis r 11.0 0 deg: 7.9786 apart; column R 2.5000, M3 hole R 1.6000 -> WALL 3.8786 mm
+  column axis to the nearest register peg axis (r 12.2 22.5 deg): 7.0408 apart; peg R 1.5000, column R 2.5000 -> WALL 3.0408 mm (they never share a height, so this is the plan gap)
+  the central boss the four columns surround: solid from the axis out to r 3.5010 at z -4.0 (unbroken - the column's inner flank IS its wall)
+  4 horn screws found
+  M2 screw: r 5.0370..7.1824 (head R 1.1814 off its own axis), z -12.9885..-7.6474
+  -> head radial clearance in the column 1.3186 mm; the head top z -7.6474 is 7.6474 mm below the rotor face, and that is now OPEN sky: a driver reaches it from the top
+  M2 screw: r 5.0225..7.1717 (head R 1.1707 off its own axis), z -12.9885..-7.6474
+  -> head radial clearance in the column 1.3293 mm; the head top z -7.6474 is 7.6474 mm below the rotor face, and that is now OPEN sky: a driver reaches it from the top
+  M2 screw: r 4.9581..7.0084 (head R 1.0074 off its own axis), z -12.9885..-7.6474
+  -> head radial clearance in the column 1.4926 mm; the head top z -7.6474 is 7.6474 mm below the rotor face, and that is now OPEN sky: a driver reaches it from the top
+  M2 screw: r 5.0280..7.0581 (head R 1.0571 off its own axis), z -12.9885..-7.6474
+  -> head radial clearance in the column 1.4429 mm; the head top z -7.6474 is 7.6474 mm below the rotor face, and that is now OPEN sky: a driver reaches it from the top
+
+--- THE HEX NUT POCKET at 5.8 across flats (EXO-240: was 6.0) ---
+  at y 1.600, z -12.0: inner FLAT x 8.1000, outer FLAT x 13.9000 -> ACROSS FLATS 5.8000 mm
+  the wall left between the pocket flat and the r 8.100 horn bore, at y 1.600: x 7.9403..8.1000 = 0.1597 mm (it tapers to 0 on the centre line, where the flat is TANGENT to the bore - at 6.0 across flats the flat cut 0.100 INTO the bore)
+  nut 5.5 AF: inner flat r 8.250. Pocket flat r 8.1000 -> 0.1500 mm per side on the nut (6.0 gave 0.2500)
+  XL330 v2 (2) reaches into the lower part's bore: z -10.600 -> r 7.9000, z -11.000 -> r 8.0000, z -12.000 -> r 8.0000, z -13.000 -> r 8.0000, z -13.190 -> r 8.0000
+  XL330 v2 (2) reaches into the lower part's bore: z -13.000 -> r 1.0750, z -13.190 -> r 1.0750
+  XL330 HORN DISK r 8.0000 -> the pocket inner flat r 8.1000 clears it by 0.1000 mm (0.0000 at 6.0 across flats, where the flat sat ON r 8.000); the nut itself clears it by 0.2500
+  ceiling z -10.6000 (asked -10.600), mouth = the part bottom face -13.200 -> 2.6000 deep; ceiling to the part top face -9.0000 = 1.6000 mm of material
+  the 1.30 mm wall band (M3 hole inner edge r 9.400 to the bore wall r 8.100):
+    z -10.550: r 8.2 solid r 9.2 solid
+    z -10.510: r 8.2 solid r 9.2 solid
+    z -10.650: r 8.2 void  r 9.2 void 
+    z -10.800: r 8.2 void  r 9.2 void 
+    z -11.500: r 8.2 void  r 9.2 void 
+    the bore tops out at z -10.5000, so the band still survives z -10.6000..-10.5000 = 0.1000 mm (EXO-233 read the same 0.1000 at 6.0 across flats)
+  the standard nut: 2.4000 thick, z -13.0000..-10.6000, r 8.4014..13.8414, V 45.9088 mm3 - top ON the ceiling -10.6000, 0.2000 left under it inside the mouth
+  floor probe xy (11.0000, 3.1850) = r 11.4518 16.1481 deg: inside the 5.8 AF hex (circumradius 3.3486) and 1.5083 off the socket axis (R 1.650)
+  socket bottom z -10.3000, hex pocket ceiling z -10.6000 -> FLOOR 0.3000 mm
+  the pocket corner (11.000, 3.3486) now pokes 0.3023 mm into the socket footprint in plan (0.4152 at 6.0 across flats)
+
+--- 4-FOLD SYMMETRY, swept grid (r >= 14.70 and z >= -1.55 = the index notch, expected) ---
+  upper   12960 quadruples in   4.1s (dr 0.50, dz 0.50, dang 5.0 deg, r<=17.9, z -10.20..0.00)
+  lower    5040 quadruples in   2.1s (dr 0.50, dz 0.50, dang 5.0 deg, r<=17.4, z -13.20..-9.00)
+  upper: 54 asymmetric quadruples inside the notch box, 0 anywhere else
+  lower: 0 asymmetric quadruples inside the notch box, 0 anywhere else
+
+EXO-240: all checks pass.
+bridge: OK in 7.8s

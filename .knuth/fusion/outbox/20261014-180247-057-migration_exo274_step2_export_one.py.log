@@ -1,0 +1,7 @@
+OK
+item 26 WH_simplified_right_frameonly v5 kind=f3d
+doc: WH_simplified_right_frameonly ver=5 modified=False (open 4.7s)
+export execute=True (4.8s)
+exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/26_WH_simplified_right_frameonly_v5.f3d (10985715 bytes)
+closed=['WH_simplified_right_frameonly']; remaining open docs=10; 5.5s
+bridge: OK in 5.5s

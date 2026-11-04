@@ -1,0 +1,10 @@
+OK
+GJ6_right_wrist_pitch_joint <-> GJ7_right_wrist_yaw_joint: 3 CROSS hit(s)
+    5972K159_Ball Bearing/Body1 <-> Component1/Body1 volume=6.6 mm3 depth=1.319 mm bbox=x[173.08,174.40] y[-258.08,-252.88] z[-204.63,-200.55]
+    Component1/Body1 <-> 5972K159_Ball Bearing/Body1 volume=6.6 mm3 depth=1.318 mm bbox=x[179.17,180.48] y[-256.96,-252.88] z[-205.75,-200.55]
+    Component1/Body1 <-> Component1/Body1 volume=533.5 mm3 depth=7.408 mm bbox=x[173.08,180.49] y[-267.76,-252.88] z[-215.43,-200.54]
+GJ5_right_wrist_roll_joint bbox x[79.28,115.79] y[-275.89,-221.89] z[-223.54,-169.54]
+GJ6_right_wrist_pitch_joint bbox x[126.78,180.79] y[-285.39,-248.88] z[-223.55,-169.54]
+GJ7_right_wrist_yaw_joint bbox x[172.77,226.79] y[-275.88,-221.87] z[-233.05,-196.55]
+done
+bridge: OK in 205.4s

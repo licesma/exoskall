@@ -1,0 +1,24 @@
+OK
+design type: direct
+deleting leftover generated_R_arm
+arm_occ.assemblyContext = None(root)
+A after addNewComponent(m): transform t=(1.000, 2.000, 3.000) | transform2 t=(1.000, 2.000, 3.000) | assemblyContext=None(root)
+B: transform2 assignment FAILED: 3 : transform overrides can only be set on Occurrence proxy from root component
+B: transform t=(0.000, 0.000, 0.000) | transform2 t=(0.000, 0.000, 0.000) | assemblyContext=None(root)
+C: transform assignment OK
+C: transform t=(7.000, 8.000, 9.000) | transform2 t=(0.000, 0.000, 0.000) | assemblyContext=None(root)
+D: proxy made; isValid=True ctx=generated_R_arm_probe:1
+D: proxy.transform2 assignment OK
+D proxy: transform t=(10.000, 11.000, 12.000) | transform2 t=(10.000, 11.000, 12.000) | assemblyContext=generated_R_arm_probe:1
+D native: transform t=(10.000, 11.000, 12.000) | transform2 t=(0.000, 0.000, 0.000) | assemblyContext=None(root)
+root-context child probe_W_created_with_matrix: transform t=(1.000, 2.000, 3.000) ctx=generated_R_arm_probe:1
+root-context child probe_W_transform2: transform t=(0.000, 0.000, 0.000) ctx=generated_R_arm_probe:1
+root-context child probe_W_transform: transform t=(7.000, 8.000, 9.000) ctx=generated_R_arm_probe:1
+root-context child probe_W_proxy: transform t=(10.000, 11.000, 12.000) ctx=generated_R_arm_probe:1
+WORLD bbox of probe_W_created_with_matrix: min=(0.000, 0.000, 0.000) max=(0.000, 0.000, 0.000)
+WORLD bbox of probe_W_transform2: min=(0.000, 0.000, 0.000) max=(0.000, 0.000, 0.000)
+WORLD bbox of probe_W_transform: min=(0.000, 0.000, 0.000) max=(0.000, 0.000, 0.000)
+WORLD bbox of probe_W_proxy: min=(0.000, 0.000, 0.000) max=(0.000, 0.000, 0.000)
+KEEP_PROBE = False
+probe deleted
+bridge: OK in 1.4s

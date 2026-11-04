@@ -1,0 +1,39 @@
+OK
+Flat seating ring around every screw hole (mm beyond the hole edge, worst direction)
+
+link_12:
+  hole 1: 6.15 mm  (worst at 85 deg)
+  hole 2: 6.20 mm  (worst at 0 deg)
+  hole 3: 6.15 mm  (worst at 175 deg)
+  hole 4: 10.40 mm  (worst at 0 deg)
+  hole 5: 2.35 mm  (worst at 175 deg)
+  hole 6: 7.40 mm  (worst at 265 deg)
+  hole 7: 10.40 mm  (worst at 0 deg)
+
+link_23:
+  hole 1: 6.15 mm  (worst at 265 deg)
+  hole 2: 6.15 mm  (worst at 175 deg)
+  hole 3: 6.15 mm  (worst at 0 deg)
+  hole 4: 10.40 mm  (worst at 0 deg)
+  hole 5: 10.40 mm  (worst at 0 deg)
+  hole 6: 10.40 mm  (worst at 0 deg)
+  hole 7: 10.40 mm  (worst at 0 deg)
+
+link_34:
+  hole 1: 6.15 mm  (worst at 265 deg)
+  hole 2: 6.15 mm  (worst at 175 deg)
+  hole 3: 7.65 mm  (worst at 175 deg)
+  hole 4: 10.40 mm  (worst at 0 deg)
+  hole 5: 2.35 mm  (worst at 85 deg)
+  hole 6: 7.40 mm  (worst at 175 deg)
+  hole 7: 10.40 mm  (worst at 0 deg)
+
+link_45:
+  hole 1: 5.15 mm  (worst at 85 deg)
+  hole 2: 6.15 mm  (worst at 175 deg)
+  hole 3: 6.15 mm  (worst at 0 deg)
+  hole 4: 8.40 mm  (worst at 270 deg)
+  hole 5: 2.35 mm  (worst at 85 deg)
+  hole 6: 8.40 mm  (worst at 270 deg)
+  hole 7: 0.00 mm  (worst at 0 deg)   <-- TIGHT
+bridge: OK in 4.5s

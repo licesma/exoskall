@@ -1,0 +1,11 @@
+OK
+root folder G1 exeskeleton count=58
+root listed 58 files, errors [] (3s)
+target root: 10 files (18s)
+target root: 20 files (31s)
+target root: 30 files (44s)
+target root: 40 files (56s)
+target root: 50 files (70s)
+after: hub=Team hub - Rodrigo Andrade project=G1 exeskeleton open=['writst mount', 'wrist_sketch3_with_straps', 'wrist_sketch3_with_straps']
+DONE target files total 63 (83s)
+bridge: OK in 82.8s

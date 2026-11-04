@@ -1,0 +1,955 @@
+"""BuildArmGen (EXO-144): build the arm by the GENERAL method, beside the existing one.
+
+One body primitive and one landing primitive, for every link:
+
+  * the body is a ribbon `width` x `thickness` SWEPT (Fusion `sweepFeatures`) along the 3D
+    centre line `sweepgen.sweep_route` computes - straight runs joined by tangent bends in
+    any plane. There is no side profile, no plan band, no S device, no taper and no named
+    shape anywhere in this file.
+  * the landing is a wrapping plate on every stator: the disk, a tongue centred on the
+    plate's own axis and wide enough to carry the ribbon, the three insert holes and the
+    actuator cutout.
+  * the rotor join is the pad disk, its four M3 holes, the stop block and the index tab,
+    as before.
+
+Everything is created under a NEW root component `generated_R_arm_general`, so the
+existing `generated_R_arm` and the hand-made arm stay where they are and all three can be
+overlaid. Run it through the AgentBridge:
+
+    import importlib, sys
+    sys.path.insert(0, '<repo>/fusion_scripts/BuildArm')
+    import BuildArmGen; importlib.reload(BuildArmGen)
+    log(BuildArmGen.build_general(app, ui, design, log))
+"""
+import os
+import sys
+import math
+
+import adsk.core
+import adsk.fusion
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import importlib
+import armgen                      # noqa: E402
+import sweepgen                    # noqa: E402
+import BuildArm                    # noqa: E402
+importlib.reload(armgen)
+importlib.reload(sweepgen)
+importlib.reload(BuildArm)
+
+ARM_NAME = 'generated_R_arm_general'
+REPORT_PATH = os.path.join(BuildArm.REPO_DIR, 'gento_luna', 'exo', 'exports',
+                           'buildarm_general_report.txt')
+MM_TO_CM = 0.1
+ROUND_TRIES = 6        # EXO-184: how many times a link may be rebuilt at half the round
+
+# ---------------- the arm this builder builds (EXO-158) ----------------
+# `BuildArm.JOINTS` / `BuildArm.LINKS` stop at J5, because the arm they describe is the
+# hand-built one and EXO-43 sacrificed its wrist pitch: there is no `Module 5` and no J6 to
+# copy anything from. The general method does not copy anything, so it carries the WHOLE
+# URDF chain here and leaves `BuildArm`'s two lists - and therefore `generated_R_arm` and
+# the hand-made arm - exactly as they were.
+#
+# J6 and J7 come from the URDF only. `y_hint` is a SEED that the EXO-150 encoder rule
+# overwrites at every stator end (both of them are one), so it only has to be off the axis;
+# it is taken as the previous module's axis, reversed. `axis_sign` is the one thing the URDF
+# does not fix and it is NOT copied: `sweepgen.axis_sign_rule` derives it where the pair's
+# own geometry decides it and returns None where it does not, and `solve_axis_signs` then
+# solves it from the link, the way the spin is solved.
+NEW_JOINTS = [
+    {'label': 'J6', 'name': 'right_wrist_pitch_joint'},
+    {'label': 'J7', 'name': 'right_wrist_yaw_joint'},
+]
+NEW_LINKS = [
+    {'a': 'J5', 'b': 'J6', 'name': 'link_56', 'width': 25.0, 'pad_r': 27.0},
+    {'a': 'J6', 'b': 'J7', 'name': 'link_67', 'width': 25.0, 'pad_r': 27.0},
+]
+
+
+def seed_frames(joints, by_child, shift, rep=None, signs=None, slides=None):
+    """Every module frame the general arm needs, as a seed for the spin solve.
+
+    J1..J5 keep the (axis_sign, y_hint) `BuildArm.JOINTS` carries - the poses EXO-103 and
+    EXO-114 confirmed against the exo STEP. J6 and J7 have no counterpart to confirm against
+    and are derived: see `NEW_JOINTS`. `signs` overrides the free axis signs; `slides` is the
+    EXO-170 position of each module along its own axis, 0 everywhere by default.
+    Returns (frames, labels, table)."""
+    signs = {} if signs is None else signs
+    slides = {} if slides is None else slides
+    frames, labels, table = {}, [], {}
+    for j in BuildArm.JOINTS:
+        R, t = armgen.module_frame(j['name'], joints, by_child, j['axis_sign'], j['y_hint'],
+                                   slide=slides.get(j['label'], 0.0))
+        frames[j['label']] = (R, [t[i] - shift[i] for i in range(3)])
+        labels.append((j['label'], j['name'], j['axis_sign']))
+        table[j['label']] = {'axis_sign': j['axis_sign'], 'solved': False,
+                             'why': 'the pose measured in the exo STEP (EXO-103 / EXO-114)'}
+    prev = BuildArm.JOINTS[-1]['name']
+    for j in NEW_JOINTS:
+        t_prev, _a = armgen.joint_world_pose(prev, joints, by_child)
+        t_j, axis = armgen.joint_world_pose(j['name'], joints, by_child)
+        sign, why = sweepgen.axis_sign_rule(axis, t_prev, t_j)
+        z_prev = [frames[labels[-1][0]][0][i][2] for i in range(3)]
+        hint = [-v for v in z_prev]
+        if abs(armgen.dot(armgen.unit(hint), axis)) > 0.9:
+            hint = [0.0, 0.0, 1.0]
+        table[j['label']] = {'axis_sign': sign, 'solved': sign is None, 'why': why,
+                             'y_hint': hint, 'name': j['name']}
+        use = signs.get(j['label'], sign or 1)
+        R, t = armgen.module_frame(j['name'], joints, by_child, use, hint,
+                                   slide=slides.get(j['label'], 0.0))
+        frames[j['label']] = (R, [t[i] - shift[i] for i in range(3)])
+        labels.append((j['label'], j['name'], sign))
+        prev = j['name']
+    return frames, labels, table
+
+
+def solve_axis_signs(joints, by_child, shift, links, table, rep, order):
+    """Solve every axis sign `axis_sign_rule` left free AND the EXO-170 slides, together.
+
+    Free signs are enumerated (2^n, n = 2 on G1). At EACH combination the slides are solved
+    first - `sweepgen.solve_slides`, from the module bodies alone - because which way a
+    module faces decides which way its body hangs off the joint and therefore what a slide
+    has to clear. Then the whole chain is spun by the EXO-150 rule and every link is sized.
+    The rule: keep the combinations whose links all route; among those take the shortest
+    total centre line; then the least total slide; then the lowest combination.
+
+    Returns (frames, combo, slides, slide_rows)."""
+    free = [lab for lab, f in table.items() if f['solved']]
+    free.sort()
+    best = None
+    for k in range(2 ** len(free)):
+        combo = dict((lab, 1 if (k >> i) & 1 == 0 else -1) for i, lab in enumerate(free))
+        frames, _labels, _tbl = seed_frames(joints, by_child, shift, signs=combo)
+        slides, srows = sweepgen.solve_slides(frames, order)
+        frames, _labels, _tbl = seed_frames(joints, by_child, shift, signs=combo,
+                                            slides=slides)
+        ok, total, why = 0, 0.0, []
+        spun = dict(frames)
+        for name, a, b, pad_r, width in links:
+            RA, tA = spun[a]
+            RB, tB = spun[b]
+            R_ab, t_ab = armgen.relative_frame(RA, tA, RB, tB)
+            # EXO-176: the spin and the tongue are one fixpoint, so the chain is walked
+            # with `spin_check`, not with `encoder_spin` alone. A pair whose ROUTE refuses
+            # still turns its module by the square rule and the walk goes on.
+            try:
+                route, fit = sweepgen.spin_check(R_ab, t_ab, pad_r, width)
+                spun[b] = (armgen.frame_spun(RB, fit['spin']), tB)
+                ok += 1
+                total += sweepgen.path_length(route)
+            except ValueError as e:
+                why.append('%s: %s' % (name, e))
+                try:
+                    spin, _info = sweepgen.encoder_spin(R_ab, t_ab)
+                except ValueError:
+                    break
+                spun[b] = (armgen.frame_spun(RB, spin), tB)
+        key = (-ok, round(total, 6), round(sum(abs(v) for v in slides.values()), 6), k)
+        if best is None or key < best[0]:
+            best = (key, combo, frames, why, slides, srows)
+    key, combo, frames, why, slides, srows = best
+    rep('Module axis direction, the one thing the URDF does not fix (EXO-158):')
+    for lab in sorted(table):
+        f = table[lab]
+        if f['solved']:
+            rep('  %-3s %+d - SOLVED from the link: %s. %d of %d links route at this '
+                'combination, total centre line %.3f mm%s'
+                % (lab, combo[lab], f['why'], -key[0], len(links), key[1],
+                   '' if not why else '; refused: %s' % why[0].split(':')[0]))
+        else:
+            rep('  %-3s %+d - %s' % (lab, f['axis_sign'], f['why']))
+    return frames, combo, slides, srows
+
+
+def report_slides(rep, frames, order, slides, rows):
+    """The EXO-170 slide table: what moved along its own axis, what it was solved from, and
+    every candidate the rule did not take."""
+    rep('')
+    rep('Module position ALONG ITS OWN AXIS - `slide`, the degree of freedom a revolute '
+        'joint leaves free (EXO-170). SOLVED from the module bodies alone '
+        '(armgen.MODULE_PROFILE, the real solid of revolution EXO-166 measured, not an '
+        'infinite cylinder); never an input, no per-joint override. The axis LINE is '
+        'untouched, so the kinematics stay the URDF\'s exactly.')
+    rep('  target gap %.2f mm = MIN_CLEARANCE %.1f + SLIDE_MARGIN %.1f; scanned at %.1f mm '
+        'and bisected to %.0e mm; module surface sampled %d x %d'
+        % (armgen.MIN_CLEARANCE + sweepgen.SLIDE_MARGIN, armgen.MIN_CLEARANCE,
+           sweepgen.SLIDE_MARGIN, sweepgen.SLIDE_STEP, sweepgen.SLIDE_TOL,
+           sweepgen.SLIDE_N_THETA, sweepgen.SLIDE_N_Z))
+    for lab in order:
+        v = slides.get(lab, 0.0)
+        rep('  %-3s slide %+9.3f mm%s' % (lab, v,
+            '' if abs(v) > 1e-9 else '  (its neighbours already clear: nothing moves)'))
+    for r in rows:
+        a, b = r['pair']
+        rep('  %s <-> %s: the two module bodies are %.3f mm apart on the URDF origins, '
+            'which is under MIN_CLEARANCE %.1f. Four candidates, each the smallest slide '
+            'of ONE module in ONE direction that opens the pair:'
+            % (a, b, r['gap0'], armgen.MIN_CLEARANCE))
+        for c in r['candidates']:
+            if c['slide'] is None:
+                rep('      %-3s %+d: refused - %s' % (c['module'], c['sign'], c['why']))
+            else:
+                rep('      %-3s %+d: %8.3f mm -> gap %6.3f mm%s%s'
+                    % (c['module'], c['sign'], c['slide'], c['gap'],
+                       '' if not c['why'] else '  REJECTED: ' + c['why'],
+                       '   <- TAKEN (the smallest)'
+                       if r['taken'] is not None and c is r['taken'] else ''))
+        if r['taken'] is None:
+            rep('      none of them works: %s' % r['why'])
+        else:
+            second = sorted([c['slide'] for c in r['candidates']
+                             if c['slide'] is not None and not c['why']])
+            if len(second) > 1:
+                rep('      the rule chose by %.3f mm (the next candidate is %.3f mm)'
+                    % (second[1] - second[0], second[1]))
+    rep('  module-to-module gap at every pair, nearest first (need >= %.1f):'
+        % armgen.MIN_CLEARANCE)
+    for a, b, gp in sweepgen.module_pairs(frames, order)[:8]:
+        rep('      %s <-> %s  %8.3f mm  %s' % (a, b, gp,
+            'OK' if gp >= armgen.MIN_CLEARANCE - 1e-9 else 'FAIL'))
+
+
+def _p(v):
+    """mm triple -> Point3D in cm."""
+    return adsk.core.Point3D.create(v[0] * MM_TO_CM, v[1] * MM_TO_CM, v[2] * MM_TO_CM)
+
+
+def _unit(v):
+    n = math.sqrt(sum(x * x for x in v))
+    return [x / n for x in v]
+
+
+class Arm:
+    """The pad frame A, and the (s, w, z) -> world map the route is expressed in."""
+
+    def __init__(self, R, t_mm, u, w):
+        self.F = BuildArm.Frame(R, t_mm)
+        self.u, self.w = u, w
+
+    def xyz(self, p):
+        """A point (s, w, z) of the route, in the arm (= world) frame, mm."""
+        loc = [self.u[i] * p[0] + self.w[i] * p[1] + (1.0 if i == 2 else 0.0) * p[2]
+               for i in range(3)]
+        return self.F.xyz(loc)
+
+    def dir(self, d):
+        loc = [self.u[i] * d[0] + self.w[i] * d[1] + (1.0 if i == 2 else 0.0) * d[2]
+               for i in range(3)]
+        return armgen.matvec(self.F.R, loc)
+
+    def swz(self, p_cm):
+        """A Fusion point (cm, world) back in the route's own (s, w, z), mm."""
+        d = [p_cm.x * 10.0 - self.F.t[0], p_cm.y * 10.0 - self.F.t[1],
+             p_cm.z * 10.0 - self.F.t[2]]
+        loc = armgen.matvec(armgen.transpose(self.F.R), d)
+        return (armgen.dot(loc, self.u), armgen.dot(loc, self.w), loc[2])
+
+
+def build_ribbon(comp, arm, route, name):
+    """The one body primitive: the ribbon swept along the route's 3D centre line."""
+    # Fusion only lets a sketch hold off-plane geometry when this preference is on
+    # (measured: `Sketch` has no `is3D` in this build, and without the preference every
+    # point is silently projected onto the sketch plane).
+    pref = adsk.core.Application.get().preferences.productPreferences.itemByName('Design')
+    if not pref.is3DSketchingAllowed:
+        pref.is3DSketchingAllowed = True
+    sk = comp.sketches.add(comp.xYConstructionPlane)
+    sk.name = name + ' centre line'
+    curves = adsk.core.ObjectCollection.create()
+    lines, arcs = sk.sketchCurves.sketchLines, sk.sketchCurves.sketchArcs
+    for sg in route['path']:
+        if sg[0] == 'line':
+            c = lines.addByTwoPoints(_p(arm.xyz(sg[1])), _p(arm.xyz(sg[2])))
+        else:
+            c = arcs.addByThreePoints(_p(arm.xyz(sg[1])), _p(arm.xyz(sg[2])),
+                                      _p(arm.xyz(sg[3])))
+        curves.add(c)
+    path = comp.features.createPath(curves, False)
+    if path is None or path.count != len(route['path']):
+        raise RuntimeError('%s: the sweep path took %s of %d curves'
+                           % (name, 'None' if path is None else path.count,
+                              len(route['path'])))
+
+    sg0 = route['path'][0]
+    p0 = sg0[1]
+    d = _unit([sg0[2][i] - sg0[1][i] for i in range(3)])         # in (s, w, z)
+    wd = _unit([-d[1], d[0], 0.0]) if abs(d[0]) + abs(d[1]) > 1e-9 else [0.0, 1.0, 0.0]
+    td = [0.0, 0.0, 1.0]
+    origin = _p(arm.xyz(p0))
+    e1 = adsk.core.Vector3D.create(*arm.dir(wd))
+    e2 = adsk.core.Vector3D.create(*arm.dir(td))
+    ps = BuildArm.PlaneSketch(comp, name + ' ribbon', origin, e1, e2)
+    hw, ht = route['width'] / 2.0, route['thickness'] / 2.0
+    ps.loop(armgen.rect_outline(-hw, -ht, hw, ht))
+    if ps.sketch.profiles.count != 1:
+        raise RuntimeError('%s: ribbon section sketch has %d profiles'
+                           % (name, ps.sketch.profiles.count))
+    sweeps = comp.features.sweepFeatures
+    inp = sweeps.createInput(ps.sketch.profiles.item(0), path,
+                             adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+    inp.orientation = adsk.fusion.SweepOrientationTypes.PerpendicularOrientationType
+    feat = sweeps.add(inp)
+    if feat is None or feat.bodies.count != 1:
+        raise RuntimeError('%s: sweep produced %s bodies' % (name, None if feat is None
+                                                             else feat.bodies.count))
+    ps.sketch.isVisible = False
+    ps.cplane.isLightBulbOn = False
+    sk.isVisible = False
+    return feat.bodies.item(0)
+
+
+# ---------------- EXO-151: the default rounding ----------------
+
+def _outward_normal(face, p):
+    """The face's OUTWARD normal at `p`. `getNormalAtPoint` returns the underlying surface's
+    normal, so `isParamReversed` has to be applied or half the faces point into the solid."""
+    _ok, n = face.evaluator.getNormalAtPoint(p)
+    sgn = -1.0 if face.isParamReversed else 1.0
+    return [sgn * n.x, sgn * n.y, sgn * n.z]
+
+
+def edge_convexity(body, edge, eps=0.003):
+    """'convex', 'concave' or 'smooth' for one edge.
+
+    Measured here, the obvious test does NOT work: stepping off the edge along -(n1 + n2)
+    lands INSIDE the solid for a convex edge AND for a concave one, so it classifies every
+    edge the same way (77 of 77 on g_link_12). Stepping along (n1 - n2) does separate them -
+    it points out of the solid at a convex edge and into it at a concave one - and it agrees
+    with the geometry on the cases that are known by hand (a hole rim is convex, the
+    ribbon-to-plate junction is concave, a tangent bend is smooth)."""
+    p = edge.pointOnEdge
+    f1, f2 = edge.faces.item(0), edge.faces.item(1)
+    n1, n2 = _outward_normal(f1, p), _outward_normal(f2, p)
+    d = [n1[i] - n2[i] for i in range(3)]
+    n = math.sqrt(sum(v * v for v in d))
+    if n < 1e-6:
+        return 'smooth'
+    q = adsk.core.Point3D.create(p.x + eps * d[0] / n, p.y + eps * d[1] / n,
+                                 p.z + eps * d[2] / n)
+    inside = body.pointContainment(q) == adsk.fusion.PointContainment.PointInsidePointContainment
+    return 'concave' if inside else 'convex'
+
+
+def elbow_edges(body, arm, route, tol=5e-3):
+    """Pick the edges the EXO-151 rule rounds, as INDEXES into `body.edges`. Three sets, each
+    named by where it is:
+
+      * `inside` - every CONCAVE edge lying in the landing plate's NEAR face, which is where
+        the ribbon meets the plate. The actuator cutout's own concave corners sit at mid
+        thickness, not on that face, and the insert and screw holes are convex, so this
+        predicate picks the elbow and nothing else.
+      * `pad` - every CONCAVE edge on the rotor pad's rim cylinder that SPANS the pad's own
+        thickness: the corner a ribbon narrower than the pad leaves where its wall runs out
+        through the rim. Spanning the thickness is guard EXO-77/84 enforced by construction -
+        such a blend lives entirely in 0 <= z <= `PAD_T` and so adds nothing below the pad
+        plane, where the stator's stop block turns. A ribbon tangent to the rim leaves a
+        SMOOTH edge and is skipped.
+      * `outside` - every CONVEX edge lying in the plate's FAR face on the tongue-end plane:
+        the outer corner of the same elbow.
+    """
+    num = route['numbers']
+    # EXO-176: the tongue's END is a plane `y_end` ALONG THE TONGUE from the plate axis, not
+    # a plane of constant z - those are the same thing only when the tongue is square to the
+    # pad axis. The edge's own coordinate along the tongue is what the predicate reads.
+    x_t = route.get('x_t') or num['x_s']
+    y_t = route.get('y_t') or num['y_s']
+    u_r, w_r = route['u'], route['w']
+    # EXO-176/177: the tongue's END is a polyline ON THE RIBBON, in the tongue's own frame -
+    # one flat line square to the tongue only when the tongue is square to the pad axis. An
+    # edge belongs to the `outside` set when its own plate coordinates sit on that polyline.
+    end_pts = route['tongue_end']
+    end_segs = [('line', end_pts[k], end_pts[k + 1]) for k in range(len(end_pts) - 1)]
+
+    def _on_tongue_end(s, ww, z):
+        loc = [u_r[i] * s + w_r[i] * ww + (z if i == 2 else 0.0) for i in range(3)]
+        d = [loc[i] - num['t_ab'][i] for i in range(3)]
+        return min(armgen._seg_point_dist((armgen.dot(d, x_t), armgen.dot(d, y_t)), sg)
+                   for sg in end_segs)
+
+    pad_r = route['pad_r']
+    sets = {'inside': [], 'pad': [], 'outside': []}
+    rows = []
+    for i in range(body.edges.count):
+        e = body.edges.item(i)
+        s, w, z = arm.swz(e.pointOnEdge)
+        c = edge_convexity(body, e)
+        L = e.length * 10.0
+        z0 = arm.swz(e.startVertex.geometry)[2] if e.startVertex else z
+        z1 = arm.swz(e.endVertex.geometry)[2] if e.endVertex else z
+        where = None
+        if c == 'concave' and abs(s - route['s_near']) < tol:
+            where = 'inside'
+        elif (c == 'concave' and abs(math.hypot(s, w) - pad_r) < tol
+              and -tol <= z <= armgen.PAD_T + tol
+              and abs(z1 - z0) > armgen.PAD_T / 2.0):
+            where = 'pad'
+        elif (c == 'convex' and abs(s - route['s_far']) < tol
+              and _on_tongue_end(s, w, z) < tol):
+            where = 'outside'
+        if where:
+            sets[where].append(i)
+            rows.append((where, c, L, s, w, z))
+    return sets, rows
+
+
+def _fillet(comp, idx, r):
+    """One constant-radius fillet on `idx` edges of the component's single body. Returns the
+    feature, or None when Fusion refuses that radius."""
+    body = comp.bRepBodies.item(0)
+    coll = adsk.core.ObjectCollection.create()
+    for i in idx:
+        coll.add(body.edges.item(i))
+    fs = comp.features.filletFeatures
+    inp = fs.createInput()
+    inp.isRollingBallCorner = True
+    inp.addConstantRadiusEdgeSet(coll, adsk.core.ValueInput.createByReal(r * MM_TO_CM), False)
+    try:
+        return fs.add(inp)
+    except Exception:
+        return None
+
+
+def _ring_frame(arm):
+    return (adsk.core.Point3D.create(arm.F.t[0] / 10.0, arm.F.t[1] / 10.0, arm.F.t[2] / 10.0),
+            adsk.core.Vector3D.create(*arm.dir([1, 0, 0])),
+            adsk.core.Vector3D.create(*arm.dir([0, 1, 0])),
+            adsk.core.Vector3D.create(*arm.dir([0, 0, 1])))
+
+
+def fillet_elbows(comp, body, arm, route, name, rep, steps=7, floor=0.05, r_out_cap=None):
+    """Apply the two defaults, each already reduced by `sweepgen.elbow_radii`'s guards.
+
+    A radius the GUARDS allow but Fusion itself refuses is bisected down to the largest one
+    that builds (7 halvings, so 0.08 mm on a 10 mm round) and the radius that survived is
+    reported with the one it was asked for. A fillet is never dropped silently; if nothing
+    down to `floor` builds, the build stops."""
+    rad = sweepgen.elbow_radii(route)
+    sets, rows = elbow_edges(comp.bRepBodies.item(0), arm, route)
+    rep('    rounding (EXO-151): inside r %.3f%s, outside r %.3f%s'
+        % (rad['r_in'], ' (asked %.1f; %s)' % (rad['r_in_asked'], rad['why_in'])
+           if rad['why_in'] else '',
+           rad['r_out'], ' (asked %.1f; %s)' % (rad['r_out_asked'], rad['why_out'])
+           if rad['why_out'] else ''))
+    for where, c, L, s, w, z in rows:
+        rep('      %-7s %-7s edge %6.2f mm long at (s %7.2f, w %7.2f, z %7.2f)'
+            % (where, c, L, s, w, z))
+    applied = []
+    r_out = rad['r_out'] if r_out_cap is None else min(rad['r_out'], r_out_cap)
+    for where, r0, why in (('inside', rad['r_in'], rad['why_in']),
+                           ('pad', rad['r_in'], rad['why_in']),
+                           ('outside', r_out, rad['why_out'])):
+        sets, _rows = elbow_edges(comp.bRepBodies.item(0), arm, route)
+        idx = sets[where]
+        if not idx:
+            rep('      %-7s: no such edge on this link' % where)
+            applied.append({'where': where, 'n': 0, 'r': None, 'asked': None,
+                            'cut': False, 'feature': None})
+            continue
+        feat = _fillet(comp, idx, r0)
+        r = r0
+        why_ring = ''
+        if feat is None:
+            lo, hi = 0.0, r0
+            for _ in range(steps):
+                mid = (lo + hi) / 2.0
+                f = _fillet(comp, idx, mid)
+                if f is None:
+                    hi = mid
+                else:
+                    f.deleteMe()
+                    lo = mid
+            if lo <= floor:
+                raise RuntimeError('%s: no radius down to %.2f mm fillets the %s set'
+                                   % (name, floor, where))
+            r = lo
+            feat = _fillet(comp, idx, r)
+            if feat is None:
+                raise RuntimeError('%s: r %.3f fillets the %s set on the probe and not on '
+                                   'the apply' % (r, where, name))
+        if comp.bRepBodies.count != 1:
+            raise RuntimeError('%s: %d bodies after the %s fillet'
+                               % (name, comp.bRepBodies.count, where))
+        applied.append({'where': where, 'n': len(idx), 'r': r, 'asked': r0,
+                        'cut': r < r0 - 1e-9, 'feature': feat})
+        rep('      %-7s: %d edge(s) at r %.3f%s' % (where, len(idx), r,
+            '' if r >= r0 - 1e-9 else
+            (why_ring if why_ring else
+             ' - REDUCED from %.3f: Fusion refuses the larger radius on this geometry' % r0)))
+    return comp.bRepBodies.item(0), rad, applied
+
+
+def worst_ring(comp, arm):
+    """The smallest flat seating ring on the body as it now stands, and how many openings it
+    has - measured by `hole_ring_probe`, the independent half of the EXO-124 gate."""
+    sys.path.insert(0, os.path.join(BuildArm.REPO_DIR, 'tools', 'bridge_scripts'))
+    import hole_ring_probe                                    # noqa: E402
+    importlib.reload(hole_ring_probe)
+    frame = (adsk.core.Point3D.create(arm.F.t[0] / 10.0, arm.F.t[1] / 10.0, arm.F.t[2] / 10.0),
+             adsk.core.Vector3D.create(*arm.dir([1, 0, 0])),
+             adsk.core.Vector3D.create(*arm.dir([0, 1, 0])),
+             adsk.core.Vector3D.create(*arm.dir([0, 0, 1])))
+    rings = hole_ring_probe.measure(comp.bRepBodies.item(0), frame, armgen.HOLE_R)
+    return (min(h['ring'] for h in rings) if rings else -1.0), len(rings)
+
+
+def _merge(comp, body, tool_feature, op, step, name):
+    """Boolean the freshly extruded tool body into `body` with a COMBINE feature.
+
+    Measured here (link_23's stop block, `tools/.../dbg23b.py`): an extrude whose operation
+    is Join and whose `participantBodies` is the main body sometimes leaves the tool as a
+    SECOND body even when the two overlap - the interference check reports 57.42 mm3 of
+    shared volume and Fusion still does not merge them. `combineFeatures` on the same pair
+    merges them every time, so every add and every cut in this builder goes through it.
+    """
+    tools = adsk.core.ObjectCollection.create()
+    for i in range(tool_feature.bodies.count):
+        tools.add(tool_feature.bodies.item(i))
+    cf = comp.features.combineFeatures
+    inp = cf.createInput(body, tools)
+    inp.operation = op
+    inp.isKeepToolBodies = False
+    inp.isNewComponent = False
+    cf.add(inp)
+    if comp.bRepBodies.count != 1:
+        raise RuntimeError('%s: %d bodies after "%s", expected one solid'
+                           % (name, comp.bRepBodies.count, step))
+    return comp.bRepBodies.item(0)
+
+
+def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
+    """The whole link: ribbon + rotor pad + landing plate + stop block + tab, then the cuts."""
+    g = armgen
+    NEW = adsk.fusion.FeatureOperations.NewBodyFeatureOperation
+    JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
+    CUT = adsk.fusion.FeatureOperations.CutFeatureOperation
+    eps = 0.5
+    FA = arm.F
+    FB = FA.child(R_ab, t_ab)                    # the true stator frame: holes and cutout
+    # EXO-176: the plate's drawing frame is the TONGUE's - the snapped frame turned
+    # until its +Y is the tongue. For a square landing that IS `R_b` (theta = 0).
+    FS = FA.child(route.get('R_t') or route['R_b'], t_ab)
+    ex, ey = FA.vector([1, 0, 0]), FA.vector([0, 1, 0])
+    bx, by = FB.vector([1, 0, 0]), FB.vector([0, 1, 0])
+    sx, sy = FS.vector([1, 0, 0]), FS.vector([0, 1, 0])
+    z_slab_mid = g.STATOR_UNDERSIDE_Z - g.PAD_T / 2.0
+    pad_r = route['pad_r']
+
+    body = build_ribbon(comp, arm, route, name)
+
+    sk = BuildArm.PlaneSketch(comp, name + ' rotor pad', FA.point([0, 0, g.PAD_T / 2]), ex, ey)
+    # EXO-181: the plain disk unless module B is in the way, in which case one solved chord
+    # comes off it. `pad_outline` is None for every link whose pad already clears, so those
+    # links draw exactly the circle they always drew.
+    if route.get('pad_outline'):
+        sk.loop(route['pad_outline'])
+    else:
+        sk.circle((0, 0), pad_r)
+    body = _merge(comp, body, sk.extrude(1, g.PAD_T, NEW), JOIN, 'rotor pad disk', name)
+
+    stop_h, half, ang = 3.6, route['stop_half'], route['stop_angle']
+    sk = BuildArm.PlaneSketch(comp, name + ' stop block',
+                              FA.point([0, 0, (BuildArm.JOIN_OVERLAP - stop_h) / 2]), ex, ey)
+    sk.loop(g.stop_block_outline(ang, half, g.STOP_R_IN, pad_r))
+    body = _merge(comp, body, sk.extrude(1, stop_h + BuildArm.JOIN_OVERLAP, NEW), JOIN,
+                  'stop block', name)
+
+    sk = BuildArm.PlaneSketch(comp, name + ' index tab',
+                              FA.point([0, 0, (BuildArm.JOIN_OVERLAP - g.TAB_H) / 2]), ex, ey)
+    sk.loop(g.rect_outline(-g.TAB_W / 2, g.TAB_R_IN, g.TAB_W / 2, g.TAB_R_OUT))
+    body = _merge(comp, body, sk.extrude(1, g.TAB_H + BuildArm.JOIN_OVERLAP, NEW), JOIN,
+                  'index tab', name)
+
+    sk = BuildArm.PlaneSketch(comp, name + ' landing plate',
+                              FS.point([0, 0, z_slab_mid]), sx, sy)
+    sk.loop(route['flange'])
+    body = _merge(comp, body, sk.extrude(1, g.PAD_T, NEW), JOIN, 'landing plate', name)
+
+    applied = []
+    if rep is not None:
+        body, _rad, applied = fillet_elbows(comp, body, arm, route, name, rep,
+                                            r_out_cap=r_out_cap)
+
+    sk = BuildArm.PlaneSketch(comp, name + ' rotor holes', FA.point([0, 0, g.PAD_T / 2]), ex, ey)
+    for a in g.ROTOR_HOLE_ANGLES:
+        sk.circle((g.ROTOR_HOLE_RADIUS * math.cos(math.radians(a)),
+                   g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a))), g.HOLE_R)
+    body = _merge(comp, body, sk.extrude(len(g.ROTOR_HOLE_ANGLES), g.PAD_T + 2 * eps, NEW),
+                  CUT, 'rotor holes', name)
+
+    sk = BuildArm.PlaneSketch(comp, name + ' stator holes + cutout',
+                              FB.point([0, 0, z_slab_mid]), bx, by)
+    for a in g.INSERT_ANGLES:
+        sk.circle((g.INSERT_RADIUS * math.cos(math.radians(a)),
+                   g.INSERT_RADIUS * math.sin(math.radians(a))), g.HOLE_R)
+    sk.loop(g.rect_outline(g.CUTOUT_X[0], g.CUTOUT_Y[0], g.CUTOUT_X[1], g.CUTOUT_Y[1]))
+    body = _merge(comp, body,
+                  sk.extrude(len(g.INSERT_ANGLES) + 1, g.PAD_T + 2 * eps, NEW),
+                  CUT, 'stator holes + cutout', name)
+    return body
+
+
+def delete_previous(root):
+    gone = []
+    victims = [root.occurrences.item(i) for i in range(root.occurrences.count)
+               if root.occurrences.item(i).component.name == ARM_NAME
+               or root.occurrences.item(i).component.name.startswith(ARM_NAME + ' (')]
+    for occ in victims:
+        n = occ.component.name
+        if not occ.deleteMe():
+            raise RuntimeError('could not delete previous component "%s"' % n)
+        gone.append(n)
+    return gone
+
+
+def find_body(design, comp_name, body_name=None):
+    for c in design.allComponents:
+        if c.name == comp_name:
+            for i in range(c.bRepBodies.count):
+                b = c.bRepBodies.item(i)
+                if body_name is None or b.name == body_name:
+                    return b
+    return None
+
+
+def deviation(design, new_body, old_body):
+    """How far the general method's link is from the one the current generator builds.
+
+    `measureManager.measureMinimumDistance` refuses every argument in this Fusion build
+    (measured: body/body, vertex/body, point/body and face/face all raise "invalid
+    argument"), so the deviation is reported as two numbers that only need APIs that work:
+
+      * the SYMMETRIC DIFFERENCE volume - how much material the two solids do not share,
+        from `analyzeInterference` (shared) and the two volumes;
+      * the largest distance from a vertex of the new link to the NEAREST VERTEX of the old
+        one, which is an upper bound on how far a corner moved.
+    """
+    if old_body is None or new_body is None:
+        return None
+    coll = adsk.core.ObjectCollection.create()
+    coll.add(new_body)
+    coll.add(old_body)
+    shared = 0.0
+    inp = design.createInterferenceInput(coll)
+    inp.areCoincidentFacesIncluded = False
+    res = design.analyzeInterference(inp)
+    if res is not None:
+        for i in range(res.count):
+            ib = res.item(i).interferenceBody
+            if ib is not None:
+                shared += ib.volume * 1000.0
+
+    def verts(b):
+        out = []
+        for i in range(b.vertices.count):
+            p = b.vertices.item(i).geometry
+            out.append((p.x * 10.0, p.y * 10.0, p.z * 10.0))
+        return out
+
+    vn, vo = verts(new_body), verts(old_body)
+    worst = 0.0
+    for p in vn:
+        worst = max(worst, min(math.sqrt(sum((p[k] - q[k]) ** 2 for k in range(3)))
+                               for q in vo))
+    v_new, v_old = new_body.volume * 1000.0, old_body.volume * 1000.0
+    bbn, bbo = new_body.boundingBox, old_body.boundingBox
+    bbox = max(abs(getattr(bbn.minPoint, k) - getattr(bbo.minPoint, k)) for k in 'xyz')
+    bbox = max(bbox, max(abs(getattr(bbn.maxPoint, k) - getattr(bbo.maxPoint, k))
+                         for k in 'xyz')) * 10.0
+    return {'v_new': v_new, 'v_old': v_old, 'shared': shared,
+            'symdiff': v_new + v_old - 2 * shared, 'worst_vertex': worst, 'bbox': bbox,
+            'faces_new': new_body.faces.count, 'faces_old': old_body.faces.count}
+
+
+def build_general(app, ui, design, log=None, interactive=False):
+    report = []
+
+    def rep(line):
+        report.append(line)
+        if log is not None:
+            log(line)
+
+    if not design:
+        raise RuntimeError('Open a Fusion design first.')
+    urdf = BuildArm.URDF_PATH
+    if not os.path.isfile(urdf):
+        raise RuntimeError('URDF not found: %s' % urdf)
+    joints, by_child = armgen.parse_urdf(urdf)
+    shift, _ = armgen.joint_world_pose(BuildArm.ORIGIN_AT_JOINT, joints, by_child)
+
+    links = [(L['name'], L['a'], L['b'], L['pad_r'], L['width'])
+             for L in list(BuildArm.LINKS) + NEW_LINKS]
+    order = [j['label'] for j in BuildArm.JOINTS] + [j['label'] for j in NEW_JOINTS]
+    _seed, _labels, table = seed_frames(joints, by_child, shift)
+    seed, _combo, slides, srows = solve_axis_signs(joints, by_child, shift, links, table,
+                                                   rep, order)
+    report_slides(rep, seed, order, slides, srows)
+    JOINTS_ALL = list(BuildArm.JOINTS) + [dict(j, y_hint=table[j['label']]['y_hint'],
+                                               axis_sign=1) for j in NEW_JOINTS]
+    for j in JOINTS_ALL[len(BuildArm.JOINTS):]:
+        _t, ax = armgen.joint_world_pose(j['name'], joints, by_child)
+        z = [seed[j['label']][0][i][2] for i in range(3)]
+        j['axis_sign'] = 1 if armgen.dot(z, ax) > 0 else -1
+    rep('')
+    frames, spins = sweepgen.solve_spins(seed, links)
+
+    specs, refused = [], []
+    for name, a, b, pad_r, width in links:
+        RA, tA = frames[a]
+        RB, tB = frames[b]
+        R_ab, t_ab = armgen.relative_frame(RA, tA, RB, tB)
+        try:
+            specs.append((name, a, b, R_ab, t_ab,
+                          sweepgen.sweep_route(R_ab, t_ab, pad_r, width)))
+        except ValueError as e:
+            # EXO-82 still holds: a pair the method cannot size is a pair nobody builds. It
+            # no longer stops the arm, because the links that DO size still have to be built
+            # and measured; the refusal is reported by name, with every leg it tried.
+            refused.append((name, a, b, pad_r, width, str(e)))
+
+    for line in ['URDF: ' + urdf,
+                 'Method: one ribbon swept on a 3D centre line + one wrapping landing plate '
+                 '(EXO-144), spun by the encoder rule (EXO-150). Ribbon thickness %.1f mm, '
+                 'bend r %.1f, wall r min %.1f, land web '
+                 '%.1f mm - defaults, none measured off a hand-built link.'
+                 % (sweepgen.RIBBON_T, sweepgen.BEND_R, sweepgen.WALL_R_MIN,
+                    sweepgen.LAND_WEB),
+                 'Origin at: ' + BuildArm.ORIGIN_AT_JOINT, '']:
+        rep(line)
+    rep('Module rotation about its own axis, FIXED BY THE LINK (EXO-150): +Y - the encoder / '
+        'connector side - faces the direction the link arrives from at that stator pad, and '
+        'the landing plate then extends the pad outward exactly where the encoder overhangs. '
+        'The hole / cutout solve is a CHECK.')
+    for j in JOINTS_ALL:
+        f = spins[j['label']]
+        rep('  %-3s %+9.3f deg - %s' % (j['label'], f['spin'], f['why']))
+        if f['margin'] is not None:
+            rep('      encoder +Y is %.2e deg off the TONGUE by construction, and the '
+                'tongue is %+.3f deg off the pad axis (EXO-176); the spin and the tongue '
+                'are one fixpoint and it settled in %d round(s)'
+                % (f['residual_deg'], f.get('tongue_deg', 0.0),
+                   len(f.get('spin_walk', [None]))))
+            rep('      CHECK: smallest rotor ring %.3f mm, smallest stator ring %.3f mm '
+                '(need %.2f); cutout web %.3f mm (need %.1f); cutout reach %.3f mm; '
+                'landing y %.3f, drop %+.3f mm'
+                % (f['rotor_ring'], f['margin'], armgen.HOLE_FLAT_RING, f['web'],
+                   sweepgen.LAND_WEB, f['cut_reach'], f['y_land'], f['drop']))
+        if f.get('refused'):
+            rep('      the spin is fixed, but the ROUTE refuses this pair: %s'
+                % f['refused'])
+    rep('')
+    rep('Which LANDING primitive the pair gets (EXO-176) and where the level change is '
+        'taken inside it (EXO-158). The landing plate is a flat disk, so its plane carries '
+        'two free directions; `square` is EXO-144\'s, with the tongue pinned to the rotor '
+        'pad axis, and `angled` aims the tongue FROM THE DISK CENTRE AT THE POINT WHERE THE '
+        'RIBBON ENTERS THE PLANE, so the pair may spend its lateral offset inside the plate '
+        'plane, where it costs no straight run. Both are sized in full, %s first, and the '
+        'first feasible one is taken - so a pair the square landing can take keeps exactly '
+        'the route it had.' % ' then '.join(sweepgen.LANDINGS))
+    for name, a, b, R_ab, t_ab, route in specs:
+        rep('  %-8s %s landing, tongue %+.3f deg off the pad axis, %.2f mm wide, reaching '
+            '%.2f mm from the plate axis' % (name, route['landing'], route['tongue_deg'],
+                                             2.0 * route['tongue_half_w'], route['y_end']))
+        rep('      %s' % route['tongue_why'])
+        rep('      level change: %s' % route['level_taken_by'])
+        for ln, o, L, e in route['landing_tried']:
+            rep('      %-6s landing, %-7s leg: %s'
+                % (ln, o, 'route %.3f mm long' % L if L else e))
+        rep('      cutout web %.3f mm along the tongue, true planar gap %.3f mm (need %.1f); '
+            'the plate is %s from axis A below z %.1f (need %.1f outside r %.1f)'
+            % (route['cut_web'], route['cut_gap'], sweepgen.LAND_WEB,
+               'never below it' if route['clearance_plate'] is None
+               else '%.3f mm' % route['clearance_plate'], sweepgen.CLEAR_Z,
+               armgen.MIN_CLEARANCE, sweepgen.CLEAR_R))
+        rep('      rotor pad vs module B (EXO-181): %s' % route['pad_trim_why'])
+        rep('      ribbon vs module B: %s bare, %s with the EXO-183 collar the EXO-151 '
+            'fillet puts on it where it enters the plate (need %.1f and %.1f)'
+            % ('never alongside it' if route['clearance_b'] is None
+               else '%.3f mm' % route['clearance_b'],
+               'n/a' if route['clearance_b_collar'] is None
+               else '%.3f mm' % route['clearance_b_collar'],
+               sweepgen.CLEAR_R + armgen.MIN_CLEARANCE, sweepgen.CLEAR_R))
+    for name, a, b, pad_r, width, why in refused:
+        rep('  %-8s REFUSED (%s -> %s, ribbon %.0f mm on a r %.0f pad): %s'
+            % (name, a, b, width, pad_r, why))
+    rep('')
+
+    root = design.rootComponent
+    gone = delete_previous(root)
+    rep('Deleted previous: %s' % (', '.join(gone) if gone else 'none'))
+    module_comp = BuildArm.find_module_component(design)
+    if module_comp is None:
+        raise RuntimeError('"%s" is not in this design' % BuildArm.MODULE_DOC_NAME)
+
+    identity = adsk.core.Matrix3D.create()
+    arm_occ = root.occurrences.addNewComponent(identity)
+    arm_occ.component.name = BuildArm.unique_name(design, ARM_NAME)
+    arm_comp = arm_occ.component
+    rep('Component: ' + arm_comp.name)
+    rep('')
+
+    built = []
+    for name, a, b, R_ab, t_ab, route in specs:
+        RA, tA = frames[a]
+        gname = 'g_' + name
+        arm = Arm(RA, [v * 1000.0 for v in tA], route['u'], route['w'])
+        # EXO-184: `sweepgen.elbow_radii` caps each EXO-151 round by the geometry the round
+        # IDEALLY sweeps, and that is not always what Fusion sweeps - the tongue's wall, its
+        # blend and the disk rim are TANGENT to one another by construction, so a round on an
+        # edge that ends on that chain rolls along the whole chain. On link_67 it took an
+        # insert's ring from 6.150 to 1.791 mm. The guard is therefore MEASURED on the
+        # finished body, and a round that breaks it is halved and the link built again: this
+        # design is DIRECT modelling and a fillet cannot be deleted once the screw holes are
+        # cut over it (ASM_REM_BAD_FACE), so the rollback is the whole link.
+        cap, occ, body, flines = None, None, None, []
+        for attempt in range(ROUND_TRIES):
+            occ = arm_comp.occurrences.addNewComponent(identity)
+            occ.component.name = BuildArm.unique_name(design, gname)
+            flines = []
+            body = build_link(occ.component, arm, R_ab, t_ab, route, gname, flines.append,
+                              r_out_cap=cap)
+            ring, n_open = worst_ring(occ.component, arm)
+            if ring >= armgen.HOLE_FLAT_RING - 1e-6:
+                if attempt:
+                    flines.append('      EXO-184: the outer round was capped at r %.3f and '
+                                  'built on attempt %d; smallest ring %.3f mm over %d '
+                                  'openings' % (cap, attempt + 1, ring, n_open))
+                break
+            asked = sweepgen.elbow_radii(route)['r_out'] if cap is None else cap
+            cap = asked / 2.0
+            rep('    %s: the EXO-151 outer round at r %.3f leaves a screw %.3f mm of flat '
+                'ring over %d openings (need %.2f) - EXO-184: halving it to r %.3f and '
+                'building the link again' % (gname, asked, ring, n_open,
+                                             armgen.HOLE_FLAT_RING, cap))
+            occ.deleteMe()
+        else:
+            raise RuntimeError('%s: no outer round down to r %.3f seats every screw'
+                               % (gname, cap))
+        body.name = gname
+        built.append((name, gname, body, route, arm))
+        rep('%s -> %s: %d features, %d faces, volume %.0f mm3'
+            % (name, gname, occ.component.features.count, body.faces.count,
+               body.volume * 1000.0))
+        for line in sweepgen.describe(route):
+            rep('    ' + line)
+        for line in flines:
+            rep(line)
+
+    for j in JOINTS_ALL:
+        R, t = frames[j['label']]
+        m = BuildArm.matrix_from_frame(R, [v * BuildArm.M_TO_CM for v in t])
+        wr = arm_comp.occurrences.addNewComponent(m)
+        wr.component.name = BuildArm.unique_name(design, 'G%s_%s' % (j['label'], j['name']))
+        BuildArm.set_occ_matrix(wr, m, arm_occ)
+        wr.component.occurrences.addExistingComponent(module_comp, m).isLightBulbOn = True
+
+    # ---- module axis vs the URDF joint, on the built document ----
+    rep('')
+    rep('Module axis vs the URDF joint. With EXO-170 the origin is no longer ON the joint '
+        'origin: it is on the joint AXIS, `slide` mm along it. So what is checked is the '
+        'axis direction and the PERPENDICULAR distance from the module origin to the URDF '
+        'axis line - the two numbers the kinematics depend on - plus the slide itself.')
+    for j in JOINTS_ALL:
+        t_w, ax_w = armgen.joint_world_pose(j['name'], joints, by_child)
+        R, t = frames[j['label']]
+        z = [R[i][2] for i in range(3)]
+        want = [j['axis_sign'] * v for v in ax_w]
+        ang = math.degrees(math.acos(max(-1.0, min(1.0, armgen.dot(z, want)))))
+        d = [((t[i] + shift[i]) - t_w[i]) * 1000.0 for i in range(3)]
+        along = armgen.dot(d, z)
+        perp = math.sqrt(max(0.0, armgen.dot(d, d) - along ** 2))
+        rep('  %-3s axis vs URDF %.2e deg, origin off the URDF AXIS LINE %.2e mm, '
+            'slide along it %+.3f mm (solved %+.3f)'
+            % (j['label'], ang, perp, along, slides.get(j['label'], 0.0)))
+
+    # ---- EXO-151 guards 1-3, measured on the FILLETED bodies ----
+    sys.path.insert(0, os.path.join(BuildArm.REPO_DIR, 'tools', 'bridge_scripts'))
+    import hole_ring_probe                                    # noqa: E402
+    importlib.reload(hole_ring_probe)
+    rep('')
+    rep('EXO-151 guards, measured on the filleted solids:')
+    for name, gname, body, route, arm in built:
+        frame = (adsk.core.Point3D.create(arm.F.t[0] / 10.0, arm.F.t[1] / 10.0,
+                                          arm.F.t[2] / 10.0),
+                 adsk.core.Vector3D.create(*arm.dir([1, 0, 0])),
+                 adsk.core.Vector3D.create(*arm.dir([0, 1, 0])),
+                 adsk.core.Vector3D.create(*arm.dir([0, 0, 1])))
+        rings = hole_ring_probe.measure(body, frame, armgen.HOLE_R)
+        rot = [h for h in rings if h['plane'][0] == 'z']
+        sta = [h for h in rings if h['plane'][0] == 's']
+        rad = sweepgen.elbow_radii(route)
+        # guard 1 (EXO-77/84): nothing new below the rotor pad plane inside r 27. The pad set
+        # only ever holds edges that span the pad's own thickness, so no blend there reaches
+        # below z = 0; this is the lowest material the body actually has inside that radius.
+        zmin, at = None, None
+        for i in range(body.vertices.count):
+            q = arm.swz(body.vertices.item(i).geometry)
+            if math.hypot(q[0], q[1]) <= armgen.STATOR_PAD_R + 1e-6:
+                if zmin is None or q[2] < zmin:
+                    zmin, at = q[2], q
+        # guard 2 (EXO-79): the plate's far face is module B's seating face and must stay flat
+        # where it crosses the rim; the outer round starts this far from the plate axis.
+        start = route.get('y_round', route['y_end']) - rad['r_out']
+        rep('  %s' % gname)
+        rep('    guard 1 (EXO-77/84): lowest material inside r %.1f of the pad axis z %.3f mm '
+            '(the link stop block / index tab, %.1f mm deep; no blend is below the pad plane '
+            'by construction)' % (armgen.STATOR_PAD_R, zmin, -zmin if zmin else 0.0))
+        rep('    guard 2 (EXO-79): the outer round starts %.3f mm from the plate axis, '
+            'need >= %.1f + %.1f = %.1f -> %s'
+            % (start, armgen.STATOR_PAD_R, sweepgen.RIM_MARGIN,
+               armgen.STATOR_PAD_R + sweepgen.RIM_MARGIN,
+               'OK' if start >= armgen.STATOR_PAD_R + sweepgen.RIM_MARGIN - 1e-9 else 'FAIL'))
+        rep('    guard 3 (EXO-124/128): %d openings measured on the filleted body; smallest '
+            'rotor-pad ring %.3f mm, smallest landing-plate ring %.3f mm, need %.2f -> %s'
+            % (len(rings), min(h['ring'] for h in rot), min(h['ring'] for h in sta),
+               armgen.HOLE_FLAT_RING,
+               'OK' if min(h['ring'] for h in rings) >= armgen.HOLE_FLAT_RING - 1e-6
+               else 'FAIL'))
+        worst = min(rings, key=lambda h: h['ring'])
+        rep('      worst opening: %s %.3f at (s %.2f, w %.2f, z %.2f), bound %.3f mm from the '
+            'axis' % (worst['plane'][0], worst['plane'][1], worst['at'][0], worst['at'][1],
+                      worst['at'][2], worst['bound']))
+
+    # ---- interference over the whole general arm ----
+    rep('')
+    n_bodies, hits = BuildArm.check_interference(design, arm_occ)
+    fails = [h for h in hits if h[0] == 'FAIL']
+    slivers = [h for h in hits if h[0] == 'sliver']
+    internal = [h for h in hits if h[0] == 'module-internal']
+    rep('Interference: %d bodies, %d hit(s): %d FAIL, %d sliver(s), %d module-internal'
+        % (n_bodies, len(hits), len(fails), len(slivers), len(internal)))
+    for kind, a, b, vol, bb in fails:
+        rep('    FAIL %s <-> %s volume=%.1f mm3 bbox=%s' % (a, b, vol, BuildArm.fmt_bbox(bb)))
+    for kind, a, b, vol, bb in slivers:
+        rep('    sliver %s <-> %s volume=%.2f mm3 depth=%.3f mm'
+            % (a, b, vol, min(bb[1][i] - bb[0][i] for i in range(3))))
+
+    # ---- deviation from the link the current generator builds ----
+    rep('')
+    for name, gname, body, route, _arm in built:
+        old = find_body(design, name)
+        d = deviation(design, body, old)
+        if d is None:
+            rep('  %s: no %s in this document to compare against' % (gname, name))
+            continue
+        rep('  %s vs %s: volume %.0f -> %.0f mm3 (%+.1f %%), faces %d -> %d; the two solids '
+            'share %.0f mm3, symmetric difference %.0f mm3 (%.0f %% of the old link); '
+            'largest distance from a new vertex to the nearest old vertex %.2f mm; largest '
+            'bounding-box corner move %.2f mm'
+            % (gname, name, d['v_old'], d['v_new'],
+               100.0 * (d['v_new'] - d['v_old']) / d['v_old'], d['faces_old'],
+               d['faces_new'], d['shared'], d['symdiff'],
+               100.0 * d['symdiff'] / d['v_old'], d['worst_vertex'], d['bbox']))
+
+    head = ('BuildArmGen done.' if not fails
+            else 'BuildArmGen finished with %d interference FAIL(s).' % len(fails))
+    text = head + '\n\n' + '\n'.join(report)
+    try:
+        dd = os.path.dirname(REPORT_PATH)
+        if not os.path.isdir(dd):
+            os.makedirs(dd)
+        with open(REPORT_PATH, 'w') as f:
+            f.write(text)
+    except Exception:
+        pass
+    return text

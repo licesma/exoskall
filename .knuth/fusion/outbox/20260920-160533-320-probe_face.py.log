@@ -1,0 +1,17 @@
+OK
+Module axis direction, the one thing the URDF does not fix (EXO-158):
+  J1  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J2  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J3  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J4  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J5  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J6  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -5.85e-17): the sign is free and is solved by the link. 6 of 6 links route at this combination, total centre line 399.784 mm
+  J7  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -9.42e-17): the sign is free and is solved by the link. 6 of 6 links route at this combination, total centre line 399.784 mm
+insert axis point swz [28.5, -53.603, 3.695]
+face 5 at s 24.500, 10 edges, nearest edge to the insert axis: 1.600..1.600  Circle3D at swz [24.5, -55.2, 3.69]
+    edge 2 Line3D dmin 9.873 at swz [24.5, -62.88, 0.3] .. [24.5, -33.36, 0.3]
+    edge 3 Arc3D dmin 9.873 at swz [24.5, -62.88, 0.3] .. [24.5, -20.62, 30.58]
+    edge 8 Circle3D dmin 1.600 at swz [24.5, -52.0, 3.7] .. [24.5, -52.0, 3.7]
+face 6 at s 24.500, 6 edges, nearest edge to the insert axis: 27.087..36.420  Line3D at swz [24.5, -20.45, 18.77]
+done
+bridge: OK in 14.4s

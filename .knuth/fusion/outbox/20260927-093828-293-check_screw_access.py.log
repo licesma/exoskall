@@ -1,0 +1,14 @@
+FAIL
+Screw access: from each hole, walk OUT along the hole axis and see what is in the way
+
+=== EXO-225 screw access, both sets, every joint of generated_R_arm_general ===
+driver Ø3.0 mm, 30 mm of reach out along module +z
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260927-093828-293-check_screw_access.py", line 147, in <module>
+    skip1 = set([up.component.name] + [s.component.name for s in screws])
+                 ^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'component'
+bridge: FAIL in 0.1s

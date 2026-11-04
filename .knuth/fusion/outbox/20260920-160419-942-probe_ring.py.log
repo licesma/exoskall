@@ -1,0 +1,19 @@
+OK
+Module axis direction, the one thing the URDF does not fix (EXO-158):
+  J1  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J2  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J3  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J4  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J5  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J6  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -5.85e-17): the sign is free and is solved by the link. 6 of 6 links route at this combination, total centre line 399.784 mm
+  J7  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -9.42e-17): the sign is free and is solved by the link. 6 of 6 links route at this combination, total centre line 399.784 mm
+openings: 13
+  s     24.500 ring    1.791 bound    3.391 at (s   28.50 w  -53.60 z    3.69)
+  z      0.000 ring    2.350 bound    3.950 at (s   -0.00 w   11.00 z    4.00)
+  s     24.500 ring    6.146 bound    7.746 at (s   28.50 w  -38.40 z   39.06)
+  s     32.500 ring    6.146 bound    7.746 at (s   28.50 w  -63.68 z   28.98)
+  s     32.500 ring    6.146 bound    7.746 at (s   28.50 w  -38.40 z   39.06)
+  s     24.500 ring    6.147 bound    7.747 at (s   28.50 w  -63.68 z   28.98)
+keys: ['at', 'axis', 'bound', 'curved', 'plane', 'ring']
+done
+bridge: OK in 14.1s

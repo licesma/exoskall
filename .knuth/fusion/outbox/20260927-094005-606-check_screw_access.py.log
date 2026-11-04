@@ -1,0 +1,71 @@
+OK
+Screw access: from each hole, walk OUT along the hole axis and see what is in the way
+stage 1 leaves out, in the joint under test: ['Component316', 'screw 1 (2)']
+
+=== EXO-225 screw access, both sets, every joint of generated_R_arm_general ===
+driver Ø3.0 mm, 30 mm of reach out along module +z
+  GJ1_right_shoulder_pitch_joint horn screw  45.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ1_right_shoulder_pitch_joint horn screw 135.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ1_right_shoulder_pitch_joint horn screw 225.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ1_right_shoulder_pitch_joint horn screw 315.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ1_right_shoulder_pitch_joint M3 bolt      0.0 deg from z   8.0: clear to 30 mm (3 bodies in the corridor)
+  GJ1_right_shoulder_pitch_joint M3 bolt     90.0 deg from z   8.0: BLOCKED at 19.5 mm by g_link_23:1/g_link_23
+  GJ1_right_shoulder_pitch_joint M3 bolt    180.0 deg from z   8.0: BLOCKED at 6.0 mm by Component315:1/Body1
+  GJ1_right_shoulder_pitch_joint M3 bolt    270.0 deg from z   8.0: BLOCKED at 3.5 mm by g_link_23:1/g_link_23
+  GJ1_right_shoulder_pitch_joint 3 BLOCKED
+  GJ2_right_shoulder_roll_joint horn screw  45.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ2_right_shoulder_roll_joint horn screw 135.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ2_right_shoulder_roll_joint horn screw 225.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ2_right_shoulder_roll_joint horn screw 315.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ2_right_shoulder_roll_joint M3 bolt      0.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ2_right_shoulder_roll_joint M3 bolt     90.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ2_right_shoulder_roll_joint M3 bolt    180.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ2_right_shoulder_roll_joint M3 bolt    270.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ2_right_shoulder_roll_joint ACCESS OK
+  GJ3_right_shoulder_yaw_joint horn screw  45.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ3_right_shoulder_yaw_joint horn screw 135.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ3_right_shoulder_yaw_joint horn screw 225.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ3_right_shoulder_yaw_joint horn screw 315.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ3_right_shoulder_yaw_joint M3 bolt      0.0 deg from z   8.0: clear to 30 mm (1 bodies in the corridor)
+  GJ3_right_shoulder_yaw_joint M3 bolt     90.0 deg from z   8.0: clear to 30 mm (1 bodies in the corridor)
+  GJ3_right_shoulder_yaw_joint M3 bolt    180.0 deg from z   8.0: clear to 30 mm (1 bodies in the corridor)
+  GJ3_right_shoulder_yaw_joint M3 bolt    270.0 deg from z   8.0: clear to 30 mm (1 bodies in the corridor)
+  GJ3_right_shoulder_yaw_joint ACCESS OK
+  GJ4_right_elbow_joint  horn screw  45.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ4_right_elbow_joint  horn screw 135.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ4_right_elbow_joint  horn screw 225.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ4_right_elbow_joint  horn screw 315.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ4_right_elbow_joint  M3 bolt      0.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ4_right_elbow_joint  M3 bolt     90.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ4_right_elbow_joint  M3 bolt    180.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ4_right_elbow_joint  M3 bolt    270.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ4_right_elbow_joint  ACCESS OK
+  GJ5_right_wrist_roll_joint horn screw  45.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ5_right_wrist_roll_joint horn screw 135.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ5_right_wrist_roll_joint horn screw 225.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ5_right_wrist_roll_joint horn screw 315.0 deg from z  -9.0: clear to 30 mm (9 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ5_right_wrist_roll_joint M3 bolt      0.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ5_right_wrist_roll_joint M3 bolt     90.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ5_right_wrist_roll_joint M3 bolt    180.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ5_right_wrist_roll_joint M3 bolt    270.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ5_right_wrist_roll_joint ACCESS OK
+  GJ6_right_wrist_pitch_joint horn screw  45.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ6_right_wrist_pitch_joint horn screw 135.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ6_right_wrist_pitch_joint horn screw 225.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ6_right_wrist_pitch_joint horn screw 315.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ6_right_wrist_pitch_joint M3 bolt      0.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ6_right_wrist_pitch_joint M3 bolt     90.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ6_right_wrist_pitch_joint M3 bolt    180.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ6_right_wrist_pitch_joint M3 bolt    270.0 deg from z   8.0: clear to 30 mm (2 bodies in the corridor)
+  GJ6_right_wrist_pitch_joint ACCESS OK
+  GJ7_right_wrist_yaw_joint horn screw  45.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ7_right_wrist_yaw_joint horn screw 135.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ7_right_wrist_yaw_joint horn screw 225.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ7_right_wrist_yaw_joint horn screw 315.0 deg from z  -9.0: clear to 30 mm (10 bodies in the corridor) [as drawn, from z  -5.0: clear]
+  GJ7_right_wrist_yaw_joint M3 bolt      0.0 deg from z   8.0: clear to 30 mm (1 bodies in the corridor)
+  GJ7_right_wrist_yaw_joint M3 bolt     90.0 deg from z   8.0: clear to 30 mm (1 bodies in the corridor)
+  GJ7_right_wrist_yaw_joint M3 bolt    180.0 deg from z   8.0: clear to 30 mm (1 bodies in the corridor)
+  GJ7_right_wrist_yaw_joint M3 bolt    270.0 deg from z   8.0: clear to 30 mm (1 bodies in the corridor)
+  GJ7_right_wrist_yaw_joint ACCESS OK
+EXO-225 screw access: 3 BLOCKED
+bridge: OK in 24.8s

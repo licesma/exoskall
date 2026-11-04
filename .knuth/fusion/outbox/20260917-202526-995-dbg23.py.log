@@ -1,0 +1,7 @@
+OK
+ribbon           bodies=1 Body1 v=22622 bb=(0.0,-259.5,-77.5)-(35.5,-223.1,22.5)
+after pad        bodies=1 Body1 v=31157 bb=(0.0,-267.8,-77.5)-(35.5,-213.8,24.2)
+after plate      bodies=1 Body1 v=50908 bb=(-27.0,-274.0,-81.5)-(36.5,-213.8,24.2)
+route end (s,w,z)=(74.70,-6.24,31.50) world=['31.51', '-247.01', '-77.52']
+plate centre world=['0.00', '-247.01', '-77.52']
+bridge: OK in 21.6s

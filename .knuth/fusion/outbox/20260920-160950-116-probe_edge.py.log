@@ -1,0 +1,6 @@
+OK
+the 29.51 mm edge, faces:
+   face 209 Plane area 1379.3 mm2 at swz [24.5, -62.15, 29.97] normal(swz) [-10.0, 0.0, 0.0]
+   face 222 Cylinder area 658.0 mm2 at swz [29.86, -30.32, 1.08] radius 6.100 mm
+done
+bridge: OK in 15.6s

@@ -1,0 +1,11 @@
+OK
+J1: 42 bodies, 2241 vertices; max radius from its own axis 27.000 mm; along axis 0.000 .. 36.500
+J2: 42 bodies, 2241 vertices; max radius from its own axis 27.000 mm; along axis -36.500 .. 0.000
+J3: 42 bodies, 2241 vertices; max radius from its own axis 27.000 mm; along axis 0.000 .. 36.500
+J4: 42 bodies, 2241 vertices; max radius from its own axis 27.000 mm; along axis 0.000 .. 36.500
+J5: 42 bodies, 2241 vertices; max radius from its own axis 27.000 mm; along axis -36.500 .. 0.000
+J6: 42 bodies, 2241 vertices; max radius from its own axis 27.000 mm; along axis -57.880 .. -21.380
+J7: 42 bodies, 2241 vertices; max radius from its own axis 27.000 mm; along axis -36.500 .. 0.000
+MODULE_PROFILE max r 27.001, z -35.000 .. 0.000
+done
+bridge: OK in 5.8s

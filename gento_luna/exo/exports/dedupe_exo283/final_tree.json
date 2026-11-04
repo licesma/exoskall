@@ -1,0 +1,1307 @@
+{
+ "issue": "EXO-283",
+ "time": "2026-10-14 20:52:30",
+ "hub": "Estebans",
+ "project": "G1 exeskeleton",
+ "folders": [
+  {
+   "path": "/",
+   "id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "file_count": 16,
+   "subfolders": [
+    "arm",
+    "body mount",
+    "hand",
+    "other",
+    "parts"
+   ]
+  },
+  {
+   "path": "/arm",
+   "id": "urn:adsk.wipprod:fs.folder:co.y6k_vSkZS4WHjhNmUFcN4g",
+   "file_count": 0,
+   "subfolders": [
+    "old",
+    "exo upper body",
+    "upper body"
+   ]
+  },
+  {
+   "path": "/arm/old",
+   "id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "file_count": 9,
+   "subfolders": []
+  },
+  {
+   "path": "/arm/exo upper body",
+   "id": "urn:adsk.wipprod:fs.folder:co.TKQ1u3EBR72dyOX3w70hag",
+   "file_count": 1,
+   "subfolders": [
+    "link",
+    "joint"
+   ]
+  },
+  {
+   "path": "/arm/exo upper body/link",
+   "id": "urn:adsk.wipprod:fs.folder:co.vExtlW2GT0K91XUD4uvnpA",
+   "file_count": 0,
+   "subfolders": []
+  },
+  {
+   "path": "/arm/exo upper body/joint",
+   "id": "urn:adsk.wipprod:fs.folder:co.wCtI8tCkRbyf5o5UhO63Dg",
+   "file_count": 0,
+   "subfolders": []
+  },
+  {
+   "path": "/arm/upper body",
+   "id": "urn:adsk.wipprod:fs.folder:co.ew4Pt1-rTX6uPnkuZDglfw",
+   "file_count": 0,
+   "subfolders": [
+    "joint",
+    "link"
+   ]
+  },
+  {
+   "path": "/arm/upper body/joint",
+   "id": "urn:adsk.wipprod:fs.folder:co.Wl27JAqpRIepqKwKl2gyRw",
+   "file_count": 0,
+   "subfolders": [
+    "rotor",
+    "stators"
+   ]
+  },
+  {
+   "path": "/arm/upper body/joint/rotor",
+   "id": "urn:adsk.wipprod:fs.folder:co.s8YHZv2gS9imvJElwS6mBg",
+   "file_count": 1,
+   "subfolders": []
+  },
+  {
+   "path": "/arm/upper body/joint/stators",
+   "id": "urn:adsk.wipprod:fs.folder:co.lHP0FnUuTgSNGr3x4REHCQ",
+   "file_count": 1,
+   "subfolders": []
+  },
+  {
+   "path": "/arm/upper body/link",
+   "id": "urn:adsk.wipprod:fs.folder:co.blFQKwatQcKRA2BzweNCmg",
+   "file_count": 0,
+   "subfolders": []
+  },
+  {
+   "path": "/body mount",
+   "id": "urn:adsk.wipprod:fs.folder:co.IRg0v8FZQ9SXFqWgDcuPdw",
+   "file_count": 3,
+   "subfolders": []
+  },
+  {
+   "path": "/hand",
+   "id": "urn:adsk.wipprod:fs.folder:co.HmB1WSbCSuSj5NM_COqzcw",
+   "file_count": 0,
+   "subfolders": [
+    "cuff",
+    "robot"
+   ]
+  },
+  {
+   "path": "/hand/cuff",
+   "id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "file_count": 13,
+   "subfolders": []
+  },
+  {
+   "path": "/hand/robot",
+   "id": "urn:adsk.wipprod:fs.folder:co.rEqNq_kjRjaGNAgHHBLlMw",
+   "file_count": 0,
+   "subfolders": [
+    "wuji",
+    "inspire"
+   ]
+  },
+  {
+   "path": "/hand/robot/wuji",
+   "id": "urn:adsk.wipprod:fs.folder:co.cMSQJwEFRb-7XTTPf8ptjQ",
+   "file_count": 1,
+   "subfolders": []
+  },
+  {
+   "path": "/hand/robot/inspire",
+   "id": "urn:adsk.wipprod:fs.folder:co.uBrYFHXuTJSfx3r_ozhIKA",
+   "file_count": 1,
+   "subfolders": []
+  },
+  {
+   "path": "/other",
+   "id": "urn:adsk.wipprod:fs.folder:co.urDRvLtkQc23ouusj8ULng",
+   "file_count": 4,
+   "subfolders": []
+  },
+  {
+   "path": "/parts",
+   "id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "file_count": 10,
+   "subfolders": []
+  }
+ ],
+ "files": [
+  {
+   "path": "/",
+   "name": "5972K159_Ball Bearing",
+   "id": "urn:adsk.wipprod:dm.lineage:bYhycXTtRDCF7RLAR_EaWQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "5972K159_Ball Bearing",
+   "id": "urn:adsk.wipprod:dm.lineage:z82oImUIQxq1BOI-jrPxBg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "arm complete",
+   "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    },
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+     "folder": "cuff"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "arm complete BACKUP 2026-08-08",
+   "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:eMNdbWDpTq20Uclv6skCVA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    },
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:b28KoYRTTCOU1lsWTZr0ag",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:cjURVua5QTO85UwocGuaFQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:7XBtxEtKQKecKXWSNQMdlQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "arm complete luna",
+   "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+   "v": 2,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    },
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    },
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+     "folder": "cuff"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "cuffs with soft inside",
+   "id": "urn:adsk.wipprod:dm.lineage:FYgk4wLCRVabVtGEiVbFhg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "cuffs with soft inside",
+   "id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ]
+  },
+  {
+   "path": "/",
+   "name": "elbow_luna",
+   "id": "urn:adsk.wipprod:dm.lineage:Y2D2cGtlReWOR-9ilj-zbg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:3GOuJvUxRySz5kPInpNDog",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ]
+  },
+  {
+   "path": "/",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:06avThYqTgy4dwOO_7VdOw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ]
+  },
+  {
+   "path": "/",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ]
+  },
+  {
+   "path": "/",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:FYgk4wLCRVabVtGEiVbFhg",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ]
+  },
+  {
+   "path": "/",
+   "name": "writst mount_e",
+   "id": "urn:adsk.wipprod:dm.lineage:zs1gGokvTayE8cgJrH4veg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/",
+   "name": "XL330",
+   "id": "urn:adsk.wipprod:dm.lineage:VtO-MkfaRleYqpo3jRa1XA",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/arm/old",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "id": "urn:adsk.wipprod:dm.lineage:b28KoYRTTCOU1lsWTZr0ag",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:cjURVua5QTO85UwocGuaFQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    },
+    {
+     "name": "arm complete BACKUP 2026-08-08",
+     "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ]
+  },
+  {
+   "path": "/arm/old",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:eMNdbWDpTq20Uclv6skCVA",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete BACKUP 2026-08-08",
+     "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ]
+  },
+  {
+   "path": "/arm/old",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:7XBtxEtKQKecKXWSNQMdlQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete BACKUP 2026-08-08",
+     "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ]
+  },
+  {
+   "path": "/arm/old",
+   "name": "cuffs with soft inside",
+   "id": "urn:adsk.wipprod:dm.lineage:cjURVua5QTO85UwocGuaFQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:b28KoYRTTCOU1lsWTZr0ag",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm complete BACKUP 2026-08-08",
+     "id": "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ]
+  },
+  {
+   "path": "/arm/old",
+   "name": "sensor module",
+   "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+   "v": 2,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "childReferences": [
+    {
+     "name": "XL330",
+     "id": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    },
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm",
+     "id": "urn:adsk.wipprod:dm.lineage:cXGOAcs-Q6unIh91MhgbSQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ]
+  },
+  {
+   "path": "/arm/old",
+   "name": "arm test",
+   "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    },
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:3GOuJvUxRySz5kPInpNDog",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/arm/old",
+   "name": "sensor module",
+   "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+   "v": 2,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "childReferences": [
+    {
+     "name": "XL330",
+     "id": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    },
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm 2",
+     "id": "urn:adsk.wipprod:dm.lineage:3E7UqMBkQdKxu7gpyS2oRA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ]
+  },
+  {
+   "path": "/arm/old",
+   "name": "arm",
+   "id": "urn:adsk.wipprod:dm.lineage:cXGOAcs-Q6unIh91MhgbSQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "childReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/arm/old",
+   "name": "arm 2",
+   "id": "urn:adsk.wipprod:dm.lineage:3E7UqMBkQdKxu7gpyS2oRA",
+   "v": 2,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+   "childReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/arm/exo upper body",
+   "name": "exo generated",
+   "id": "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.TKQ1u3EBR72dyOX3w70hag",
+   "childReferences": [
+    {
+     "name": "sensor module 2",
+     "id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.s8YHZv2gS9imvJElwS6mBg",
+     "folder": "rotor"
+    },
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/arm/upper body/joint/rotor",
+   "name": "sensor module 2",
+   "id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.s8YHZv2gS9imvJElwS6mBg",
+   "childReferences": [
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "exo generated",
+     "id": "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.TKQ1u3EBR72dyOX3w70hag",
+     "folder": "exo upper body"
+    }
+   ]
+  },
+  {
+   "path": "/arm/upper body/joint/stators",
+   "name": "cases",
+   "id": "urn:adsk.wipprod:dm.lineage:AxWRyNAWRiCTr2mIST4vug",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lHP0FnUuTgSNGr3x4REHCQ",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/body mount",
+   "name": "arm complete_Camera support",
+   "id": "urn:adsk.wipprod:dm.lineage:z15GBJnDRyeQElHZvbYgwg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.IRg0v8FZQ9SXFqWgDcuPdw",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/body mount",
+   "name": "arm complete_chest mount",
+   "id": "urn:adsk.wipprod:dm.lineage:lvB_fi9qT02ITHaBJZkTrw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.IRg0v8FZQ9SXFqWgDcuPdw",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/body mount",
+   "name": "apriltag support",
+   "id": "urn:adsk.wipprod:dm.lineage:D_GhGnMjR-WfYRPHGv216Q",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.IRg0v8FZQ9SXFqWgDcuPdw",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "writst mount_e",
+   "id": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "wrist_sketch3_with_straps",
+     "id": "urn:adsk.wipprod:dm.lineage:s_bSGtj1SL-TvkFV7MHp3Q",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+     "folder": "cuff"
+    },
+    {
+     "name": "wrist_sketch3_with_straps (copy v1)",
+     "id": "urn:adsk.wipprod:dm.lineage:jIKLpTb3SCeDiKx5Latkcw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+     "folder": "cuff"
+    }
+   ]
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "cuffs with soft inside",
+   "id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+     "folder": "parts"
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    },
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ]
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "wrist_sketch3_with_straps (copy v1)",
+   "id": "urn:adsk.wipprod:dm.lineage:jIKLpTb3SCeDiKx5Latkcw",
+   "v": 2,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [
+    {
+     "name": "writst mount_e",
+     "id": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+     "folder": "cuff"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "cuffs with soft inside v7.mp4",
+   "id": "urn:adsk.wipprod:dm.lineage:oZDS8t08Td-0X_e3QO597g",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "spring",
+   "id": "urn:adsk.wipprod:dm.lineage:CXeVHuieQBuRgnBiPF3BTA",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "wristband_2.0",
+   "id": "urn:adsk.wipprod:dm.lineage:zH4sE1P7TmGf6LuFgu1BvQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "writst mount",
+   "id": "urn:adsk.wipprod:dm.lineage:cjQSNAElQAi3LUGFbg_buA",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "side0",
+   "id": "urn:adsk.wipprod:dm.lineage:s9vuznrARd2JLUIwekJnWw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "writst_mount_c",
+   "id": "urn:adsk.wipprod:dm.lineage:5JzcB1gaR-aeR6saJuGrTw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "hook",
+   "id": "urn:adsk.wipprod:dm.lineage:APSo0xohShOVnpZHGqA25w",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "lock",
+   "id": "urn:adsk.wipprod:dm.lineage:BEl0Gdz8Q3eXnkrcQPsOjg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "wrist_sketch3_with_straps",
+   "id": "urn:adsk.wipprod:dm.lineage:s_bSGtj1SL-TvkFV7MHp3Q",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [
+    {
+     "name": "writst mount_e",
+     "id": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+     "folder": "cuff"
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/cuff",
+   "name": "cuff",
+   "id": "urn:adsk.wipprod:dm.lineage:7uvY2xdBQ-mQgsQdumc7Gg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/robot/wuji",
+   "name": "wuji enclosure",
+   "id": "urn:adsk.wipprod:dm.lineage:uC9G0GSuQiW0G83awoUfuA",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.cMSQJwEFRb-7XTTPf8ptjQ",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/hand/robot/inspire",
+   "name": "inspire_link",
+   "id": "urn:adsk.wipprod:dm.lineage:JVOJcOwrRFGzhUhl2svQJw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.uBrYFHXuTJSfx3r_ozhIKA",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/other",
+   "name": "tool_organizer_exo258",
+   "id": "urn:adsk.wipprod:dm.lineage:6dGLUribStKssjuggzFhSQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.urDRvLtkQc23ouusj8ULng",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/other",
+   "name": "Direct-Adapter-Mount",
+   "id": "urn:adsk.wipprod:dm.lineage:DsxpO1c0TlSIelaD0UMsqA",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.urDRvLtkQc23ouusj8ULng",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/other",
+   "name": "right",
+   "id": "urn:adsk.wipprod:dm.lineage:OvVKEQ-DR2S3bbBg9Sngeg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.urDRvLtkQc23ouusj8ULng",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/other",
+   "name": "WH_simplified_right_frameonly",
+   "id": "urn:adsk.wipprod:dm.lineage:1rE3iPU-RTCVq03LqWbxTg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.urDRvLtkQc23ouusj8ULng",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/parts",
+   "name": "5972K159_Ball Bearing",
+   "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module 2",
+     "id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.s8YHZv2gS9imvJElwS6mBg",
+     "folder": "rotor"
+    },
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    },
+    {
+     "name": "exo generated",
+     "id": "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.TKQ1u3EBR72dyOX3w70hag",
+     "folder": "exo upper body"
+    },
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ]
+  },
+  {
+   "path": "/parts",
+   "name": "XL330",
+   "id": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    },
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+     "folder": "old"
+    }
+   ]
+  },
+  {
+   "path": "/parts",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    },
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ]
+  },
+  {
+   "path": "/parts",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    },
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+     "folder": "cuff"
+    }
+   ]
+  },
+  {
+   "path": "/parts",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    },
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+     "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+     "hub": "Estebans",
+     "folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+     "folder": "G1 exeskeleton"
+    }
+   ]
+  },
+  {
+   "path": "/parts",
+   "name": "M3x1.8mm Hex Nut",
+   "id": "urn:adsk.wipprod:dm.lineage:KhadPO81QGO68ELzD43byg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/parts",
+   "name": "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:uXMptCMJRIKWpir8qDtnqg",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/parts",
+   "name": "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:iUyCL7IcQZKm8tltjMWw6w",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/parts",
+   "name": "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+   "id": "urn:adsk.wipprod:dm.lineage:F582bMLWThGuzPyAvgqsYw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/parts",
+   "name": "pan_head_philip_mc_screw_m1-6",
+   "id": "urn:adsk.wipprod:dm.lineage:wEVGyPXgSwmY8pdfy1G8bw",
+   "v": 1,
+   "folder_id": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+   "childReferences": [],
+   "parentReferences": []
+  }
+ ],
+ "deleted_present": [],
+ "edges": 31,
+ "problems": [],
+ "active_hub_after": "Estebans",
+ "active_project_after": "G1 exeskeleton",
+ "active_project_id_after": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+ "open_docs_after": [],
+ "elapsed_s": 46.9,
+ "edges_to_extras": [
+  [
+   "arm complete BACKUP 2026-08-08",
+   "xWFs",
+   "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "eMNd",
+   "backup-copy"
+  ],
+  [
+   "arm complete BACKUP 2026-08-08",
+   "xWFs",
+   "M4 x 0.7mm Thread HEX NUT",
+   "b28K",
+   "backup-copy"
+  ],
+  [
+   "arm complete BACKUP 2026-08-08",
+   "xWFs",
+   "cuffs with soft inside",
+   "cjUR",
+   "backup-copy"
+  ],
+  [
+   "arm complete BACKUP 2026-08-08",
+   "xWFs",
+   "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "7XBt",
+   "backup-copy"
+  ],
+  [
+   "cuffs with soft inside",
+   "FYgk",
+   "M4 x 0.7mm Thread HEX NUT",
+   "Grel",
+   "extra->u2fX"
+  ],
+  [
+   "cuffs with soft inside",
+   "i1pB",
+   "M4 x 0.7mm Thread HEX NUT",
+   "_vds",
+   "extra->u2fX"
+  ],
+  [
+   "cuffs with soft inside",
+   "cjUR",
+   "M4 x 0.7mm Thread HEX NUT",
+   "b28K",
+   "backup-copy"
+  ],
+  [
+   "arm test",
+   "fZK9",
+   "M4 x 0.7mm Thread HEX NUT",
+   "_vds",
+   "extra->u2fX"
+  ],
+  [
+   "arm test",
+   "fZK9",
+   "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "3GOu",
+   "extra->Bmc3"
+  ],
+  [
+   "arm test",
+   "fZK9",
+   "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "dW5W",
+   "extra->yDln"
+  ],
+  [
+   "arm test",
+   "fZK9",
+   "cuffs with soft inside",
+   "i1pB",
+   "extra->UmT3"
+  ]
+ ]
+}

@@ -1,0 +1,17 @@
+FAIL
+doc 'exo generated' isModified False isSaved True dataFile v9 latest v9
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20261102-192722-270-check_exo350.py", line 13, in <module>
+    v += sum(c.bRepBodies.item(k).volume for k in range(c.bRepBodies.count))
+         ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20261102-192722-270-check_exo350.py", line 13, in <genexpr>
+    v += sum(c.bRepBodies.item(k).volume for k in range(c.bRepBodies.count))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/c139e2731e42a0340acc3d34de2cbdb01237a27c/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/fusion.py", line 16654, in _get_volume
+    return _fusion.BRepBody__get_volume(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+RuntimeError: 2 : InternalValidationError : ASMInterface::getEntityVolume((ENTITY*)body, res, achieved_precision)
+bridge: FAIL in 0.0s

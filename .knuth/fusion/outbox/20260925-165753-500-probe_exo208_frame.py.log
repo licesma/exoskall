@@ -1,0 +1,18 @@
+OK
+stop module component: 'sensor module 2 stop15'
+root occ 'sensor module 2:1'                comp='sensor module 2'
+root occ 'generated_R_arm_general:1'        comp='generated_R_arm_general'
+root occ 'sensor module 2 stop15 (rejected):1' comp='sensor module 2 stop15 (rejected)'
+root occ 'sensor module 2 stop15:1'         comp='sensor module 2 stop15'
+stator component 'Component92', occ transform translation (0.0000, 0.0000, -0.7500) cm
+  body bbox in the stator COMPONENT space: z -17.000 .. 7.100 mm
+  body bbox through the ROOT proxy:        z -24.500 .. -0.400 mm
+  features already in 'sensor module 2 stop15': 0; sketches 25
+  features already in 'Component92': 3; sketches 0
+module component: asked module z -1.500 (dz +0.000) -> body z -2.000..-1.000, x 22.000..26.000 in the component's own space
+        through the root proxy: z -2.000..-1.000, x 22.000..26.000
+stator child component (dz = 0): asked module z -1.500 (dz +0.000) -> body z -2.000..-1.000, x 22.000..26.000 in the component's own space
+        proxy read failed: 3 : object does not belong to the occurrence's component
+stator child component (dz = +7.5): asked module z -1.500 (dz +7.500) -> body z 5.500..6.500, x 22.000..26.000 in the component's own space
+        proxy read failed: 3 : object does not belong to the occurrence's component
+bridge: OK in 2.1s

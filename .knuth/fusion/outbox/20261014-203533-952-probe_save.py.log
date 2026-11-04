@@ -1,0 +1,6 @@
+OK
+active doc: sensor module
+dataFile.isReadOnly? False
+perm: ['_get_isSaved', 'isSaved', 'save', 'saveAs', 'saveDataVersion', 'saveMilestone']
+ui active cmd: SelectCommand
+bridge: OK in 0.0s

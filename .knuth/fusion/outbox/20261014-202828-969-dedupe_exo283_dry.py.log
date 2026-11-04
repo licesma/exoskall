@@ -1,0 +1,7 @@
+OK
+bridge: no active Fusion design - design is None
+opened sensor module 2 in 1.3s
+close: 4 : An API Object refers to a deleted Object
+sensor module 2 v1: comps 9 bodies 34 occ 16 linked 1 joints 0 asBuilt 0 rg 0 health [] (2.0s)
+  5972K159_Ball Bearing:1 | owner=None | 5972K159_Ball Bearing khSi v1 | kept | joints=0 rg=0
+bridge: OK in 2.0s

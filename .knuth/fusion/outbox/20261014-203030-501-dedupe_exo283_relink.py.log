@@ -1,0 +1,9 @@
+OK
+bridge: no active Fusion design - design is None
+replace 5972K159_Ball Bearing:1 bYhy -> khSi: True
+before {'components': 6, 'bodies': 31, 'occurrences': 5, 'linked': 2, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0}
+after  {'components': 6, 'bodies': 31, 'occurrences': 5, 'linked': 2, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0}
+files ['bYhy:extra->khSi', 'zU49:kept'] -> ['khSi:kept', 'zU49:kept'] refs [('khSi', 1, False), ('zU49', 1, False)]
+saved: True
+sensor module pGmH: v1 -> v1 saved=True counts_equal=True no_extras=True (2.6s)
+bridge: OK in 2.6s

@@ -1,0 +1,17 @@
+OK
+doc 'exo generated' isModified False isSaved True dataFile v11 latest v11
+'sensor module 2:1' comp 'sensor module 2' bulb True bodies 42, volume sum 53694.1353 (5 unreadable)
+'sensor module 2 rotor:1' comp 'sensor module 2 rotor' bulb False bodies 46, volume sum 54758.0265 (5 unreadable)
+'generated_R_arm_luna:1' comp 'generated_R_arm_luna' bulb True (arm, not summed)
+'generated_R_arm_general:1' comp 'generated_R_arm_general' bulb True (arm, not summed)
+'stator EXO-341 export:1' comp 'stator EXO-341 export' bulb False bodies 1, volume sum 25684.4936 (0 unreadable)
+'stator d42.3 export:1' comp 'stator d42.3 export' bulb False bodies 1, volume sum 25587.7085 (0 unreadable)
+'stator d42.5 export:1' comp 'stator d42.5 export' bulb False bodies 1, volume sum 25494.3264 (0 unreadable)
+'stator d42.2 export:1' comp 'stator d42.2 export' bulb False bodies 1, volume sum 25634.0045 (0 unreadable)
+'stator d42.4 export:1' comp 'stator d42.4 export' bulb False bodies 1, volume sum 25541.0915 (0 unreadable)
+'stator d42.6 export:1' comp 'stator d42.6 export' bulb False bodies 1, volume sum 25447.4608 (0 unreadable)
+'stator d41.8 export:1' comp 'stator d41.8 export' bulb False bodies 1, volume sum 25819.0576 (0 unreadable)
+'stator d41.9 export:1' comp 'stator d41.9 export' bulb False bodies 1, volume sum 25773.1053 (0 unreadable)
+'stator d42.0 export:1' comp 'stator d42.0 export' bulb False bodies 1, volume sum 25726.5339 (0 unreadable)
+'stator d42.1 export:1' comp 'stator d42.1 export' bulb False bodies 1, volume sum 25680.8269 (0 unreadable)
+bridge: OK in 0.2s

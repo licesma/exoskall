@@ -1,0 +1,54 @@
+OK
+--- ORIGINAL, linked (sensor module 2) ---
+  stator  Component1     r  13.793.. 27.000  z  -24.500..  -0.400  V= 25729.996 mm3
+  upper   Component2     r   4.587.. 18.000  z   -9.000..   0.000  V=  6473.293 mm3
+  lower   Component3     r   5.280.. 17.500  z  -13.200..  -9.000  V=  2950.793 mm3
+  horn screw 0  r   5.037..  7.182  z  -12.989..  -3.647 (under-head 7.989)
+  horn screw 1  r   5.022..  7.172  z  -12.989..  -3.647 (under-head 7.989)
+  horn screw 2  r   4.958..  7.008  z  -12.989..  -3.647 (under-head 7.989)
+  horn screw 3  r   5.028..  7.058  z  -12.989..  -3.647 (under-head 7.989)
+  M3 nut 0      r   7.825.. 14.175  z   -6.900..  -5.100
+  M3 nut 1      r   7.825.. 14.175  z   -6.900..  -5.100
+  M3 nut 2      r   7.826.. 14.175  z   -6.900..  -5.100
+  M3 nut 3      r   7.827.. 14.177  z   -6.900..  -5.100
+  stop block 158.00258..178.00192 (arc 19.99935)
+  the original does NOT read as v3: True (expected)
+--- v3 (sensor module 2 v3) ---
+  stator  Component315   r  13.793.. 27.000  z  -24.500..  -0.400  V= 25685.093 mm3
+  upper   Component316   r   4.588.. 18.000  z   -9.000..   0.000  V=  7117.647 mm3
+  lower   Component317   r   5.280.. 17.500  z  -13.200..  -8.000  V=  2646.094 mm3
+  horn screw 0  r   5.037..  7.182  z  -12.989..  -7.647 (under-head 3.989)
+  horn screw 1  r   5.022..  7.172  z  -12.989..  -7.647 (under-head 3.989)
+  horn screw 2  r   4.958..  7.008  z  -12.989..  -7.647 (under-head 3.989)
+  horn screw 3  r   5.028..  7.058  z  -12.989..  -7.647 (under-head 3.989)
+  M3 nut 0      r   8.401.. 13.841  z  -13.000.. -11.200
+  M3 nut 1      r   8.401.. 13.841  z  -13.000.. -11.200
+  M3 nut 2      r   8.349.. 13.873  z  -13.000.. -11.200
+  M3 nut 3      r   8.368.. 13.865  z  -13.000.. -11.200
+  stop block 160.50223..175.50227 (arc 15.00005)
+  upper: old O2.2 filled                 r  6.001   45.0 deg z  -6.000  want solid got solid OK
+  upper: old O5 filled                   r  6.001   45.0 deg z  -2.000  want solid got solid OK
+  upper: rotor face solid at r 6         r  6.001   45.0 deg z  -0.200  want solid got solid OK
+  upper: head pocket open                r  6.001   45.0 deg z  -8.000  want void  got void  OK
+  upper: head pocket ceiling             r  6.001   45.0 deg z  -6.800  want solid got solid OK
+  upper: M3 through at the joint face    r 11.000    0.0 deg z  -8.500  want void  got void  OK
+  upper: M3 through at mid depth         r 11.000   90.0 deg z  -6.000  want void  got void  OK
+  upper: hex nut pocket filled           r 13.500    0.0 deg z  -7.000  want solid got solid OK
+  upper: register socket open            r 12.200   67.5 deg z  -8.500  want void  got void  OK
+  upper: socket ceiling                  r 12.200  112.5 deg z  -7.400  want solid got solid OK
+  upper: index notch still cut           r 16.000   90.0 deg z  -0.500  want void  got void  OK
+  lower: M3 through the web              r 11.000    0.0 deg z  -9.500  want void  got void  OK
+  lower: M3 through the ceiling          r 11.000   90.0 deg z -10.800  want void  got void  OK
+  lower: nut pocket open                 r 13.500    0.0 deg z -12.000  want void  got void  OK
+  lower: nut pocket ceiling              r 13.500    0.0 deg z -10.500  want solid got solid OK
+  lower: solid between pockets           r 11.000   45.0 deg z -12.000  want solid got solid OK
+  lower: register peg                    r 12.200   67.5 deg z  -8.500  want solid got solid OK
+  lower: nothing above the peg           r 12.200  112.5 deg z  -7.500  want void  got void  OK
+  lower: horn bore still clear           r  7.000    0.0 deg z -12.000  want void  got void  OK
+  lower: horn screw hole open            r  6.001   45.0 deg z  -9.500  want void  got void  OK
+  lower: web solid on the axis           r  2.000    0.0 deg z  -9.500  want solid got solid OK
+--- modules placed in generated_R_arm_general ---
+  sensor module 2 v3         x7  GJ1_right_shoulder_pitch_joint, GJ2_right_shoulder_roll_joint, GJ3_right_shoulder_yaw_joint, GJ4_right_elbow_joint, GJ5_right_wrist_roll_joint, GJ6_right_wrist_pitch_joint, GJ7_right_wrist_yaw_joint
+
+EXO-225 verification: ALL OK
+bridge: OK in 2.1s

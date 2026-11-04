@@ -1,0 +1,19 @@
+FAIL
+EXO-208: JOINT_STOP_DEG = 15.0000 deg, block 160.50225..175.50225 about the measured centre 168.00225
+
+J1  right_shoulder_pitch_joint (g_link_12), axis_sign -1, stator Component116
+    URDF  -176.99812 .. +153.00265 deg, range 330.00077; link stop 14.99923 deg wide, centre 336.00451
+    PY    165002 poses, first contact -176.998122 / +153.002650 deg, error 5.1e-14 / 0.0e+00
+    lower -176.99812 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_12/g_link_12<->Component116/Body1 1.626 mm3 [+8 excluded]   PASS
+    upper +153.00265 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_12/g_link_12<->Component116/Body1 1.626 mm3 [+8 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260925-170227-292-bracket_exo208.py", line 119, in <module>
+    stator = stator_prefix(lab)
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260925-170227-292-bracket_exo208.py", line 83, in stator_prefix
+    raise RuntimeError('%s: no stator found under %s' % (lab, wr.component.name))
+RuntimeError: J2: no stator found under GJ2_right_shoulder_roll_joint
+bridge: FAIL in 41.6s

@@ -1,0 +1,32 @@
+FAIL
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 244, in extrude
+    feat = feats.add(inp)
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/5b508d94493ed3344e38945ffca1b03b713ee401/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/fusion.py", line 34093, in add
+    return _fusion.ExtrudeFeatures_add(self, input)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+RuntimeError: 3 : No target body found to cut or intersect!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260927-091313-717-make_exo225_module.py", line 12, in <module>
+    comp, how = BuildArm.ensure_v3_module(design, log)
+                ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 1098, in ensure_v3_module
+    how_rotor = rotor_v3(comp, rep)
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 814, in rotor_v3
+    _cyl_feature(up, 'v3 horn screw head pockets', dz_up, horn, V3_HEAD_R,
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                 V3_HEAD_Z[0], V3_HEAD_Z[1], CUT)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 787, in _cyl_feature
+    return sk.extrude(len(centres), abs(z_hi - z_lo), op, body=body)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 246, in extrude
+    raise RuntimeError('%s: extrude (%s, %.2f mm) failed: %s' % (self.name, op, length_mm, e))
+RuntimeError: v3 horn screw head pockets: extrude (1, 2.10 mm) failed: 3 : No target body found to cut or intersect!
+bridge: FAIL in 9.0s

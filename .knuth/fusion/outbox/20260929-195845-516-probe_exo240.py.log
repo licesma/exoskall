@@ -1,0 +1,81 @@
+OK
+upper 7207.743 mm3   lower 2487.889 mm3   (V3_NUT_AF 6.00, V3_HEAD_Z (-9.1, -7.0))
+
+--- UPPER part, solid/void along r at 45 deg (a horn screw column, axis r 6.001) ---
+  z  -0.200  SSSSSSSSSSSSSSSSSSSSSSS
+  z  -2.000  SSSSSSSSSSSSSSSSSSSSSSS
+  z  -4.000  SSSSSSSSSSSSSSSSSSSSSSS
+  z  -5.200  SSSSSSSSSSSSSSSSSSSS...
+  z  -6.000  SSSSSSSSSSSSSSSSSSSS...
+  z  -6.800  SSSSSSSSSSSSSSSSSSSS...
+  z  -7.500  SSSSSSS.....SSSSSSSS...
+  z  -8.000  SSSSSSS.....SSSSSSSS...
+  z  -8.900  SSSSSSS.....SSSSSSSS...
+  r order:  0.000 1.000 2.000 3.000 3.300 3.400 3.500 3.600 4.000 6.001 8.400 8.500 8.600 8.700 9.000 9.400 10.000 11.000 13.000 14.500 15.500 17.000 17.900
+
+--- UPPER part: the column itself, bisected ---
+  z  -0.200  SOLID on the axis
+  z  -2.000  SOLID on the axis
+  z  -4.000  SOLID on the axis
+  z  -5.200  SOLID on the axis
+  z  -6.000  SOLID on the axis
+  z  -6.800  SOLID on the axis
+  z  -7.500  void r 3.5010..8.5010 (width 5.0000, centre 6.0010)
+  z  -8.000  void r 3.5010..8.5010 (width 5.0000, centre 6.0010)
+  z  -8.900  void r 3.5010..8.5010 (width 5.0000, centre 6.0010)
+
+--- UPPER part: solid on the axis, and the r 6 column ceiling at each of the four ---
+    45.0 deg: head pocket ceiling z -7.0000; solid above it to the rotor face True
+   135.0 deg: head pocket ceiling z -7.0000; solid above it to the rotor face True
+   225.0 deg: head pocket ceiling z -7.0000; solid above it to the rotor face True
+   315.0 deg: head pocket ceiling z -7.0000; solid above it to the rotor face True
+  on the axis r 0: z -0.2 True, z -4.0 True, z -8.9 True
+  r 3.3 at 45 deg: z -2.0 True, -6.0 True, -8.9 True  | r 8.7 at 45 deg: z -2.0 True, -6.0 True, -8.9 True
+
+--- LOWER part: the hex nut pocket inner flat and the horn bore, at 0 deg ---
+  z  -9.500  SSSSSSSSSS.
+  z -10.000  SSSSSSSSSS.
+  z -10.450  SSSSSSSSSS.
+  z -10.510  ....SSSSSS.
+  z -10.550  ....SSSSSS.
+  z -10.650  ...........
+  z -11.000  ...........
+  z -12.000  ...........
+  z -13.000  ...........
+  r order:  7.0 7.9 8.0 8.05 8.1 8.15 8.2 8.5 9.0 9.4 9.5
+
+--- LOWER part: bore wall and pocket flat, bisected at 0 deg ---
+  z  -9.500  solid starts at r 6.0000 going out from the axis
+  z -10.000  solid starts at r 6.0000 going out from the axis
+  z -10.450  solid starts at r 6.0000 going out from the axis
+  z -10.550  solid starts at r 8.0999 going out from the axis
+  z -10.650  void at r 8.6 (pocket or bore)
+  z -11.000  void at r 8.6 (pocket or bore)
+  z -12.000  void at r 8.6 (pocket or bore)
+  z -13.000  void at r 8.6 (pocket or bore)
+  horn bore (r 7.5, 0 deg) is void up to z -10.5000
+  horn bore wall at z -11.0: r 9.0000
+
+--- LOWER part: hex pocket flanks at z -12.0, across the pocket at r 11 / 0 deg ---
+  y  0.000  ........SS
+  y  1.000  ........SS
+  y  1.500  .S......SS
+  y  1.600  .S......SS
+  y  1.674  .S......SS
+  y  1.700  .S......SS
+  y  1.732  .S......SS
+  y  1.800  SSSS...SSS
+  x order:  7.9 8.0 8.05 8.1 8.15 8.2 8.3 | 13.9 14.0 14.1
+
+--- the floor probe point for a 5.8 AF pocket ---
+  AF 6.00: circumradius 3.4641, inradius 3.0000, inner flat at r 8.0000, corner (11, 3.4641) is 1.2348 from the socket axis (R 1.650) -> pokes 0.4152 into it
+  AF 5.80: circumradius 3.3486, inradius 2.9000, inner flat at r 8.1000, corner (11, 3.3486) is 1.3477 from the socket axis (R 1.650) -> pokes 0.3023 into it
+  best floor probe xy for AF 5.8: (11.0000, 3.1850) = r 11.4518, 16.1481 deg; 0.1417 inside the hex, 0.1417 inside the socket
+  the OLD point (11.000, 3.400): in a 6.0 hex True, in a 5.8 hex False
+
+--- predicted volumes ---
+  head columns through (z -9.0..0, O5.0 x4): 706.858 mm3 removed, vs 157.080 now -> upper 7207.743 -> 6657.964
+  hex pockets at AF 6.00: hex area 31.1769, minus the O3.2 hole 8.0425, x 2.6 deep x4 = -240.598 mm3 (before any bore overlap)
+  hex pockets at AF 5.80: hex area 29.1331, minus the O3.2 hole 8.0425, x 2.6 deep x4 = -219.342 mm3 (before any bore overlap)
+EXO-240 probe done.
+bridge: OK in 1.7s

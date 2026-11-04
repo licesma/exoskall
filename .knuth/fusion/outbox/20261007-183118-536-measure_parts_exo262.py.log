@@ -1,0 +1,6 @@
+OK
+CLEARANCE bearing_5972K159_exo261 (mm): -X 2.750, +X 2.750, -Y 11.000, +Y 11.000; min distance to box 0.600
+CLEARANCE XL330_exo261 (mm): -X 10.750, +X 10.750, -Y 15.000, +Y 15.000; min distance to box 0.000
+interference with box: none
+document 'tool_organizer_exo258' version 3
+bridge: OK in 13.4s

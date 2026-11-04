@@ -1,0 +1,4 @@
+OK
+copy -> ERR: 2 : InternalValidationError : status.isOk() && copiedFile (0.3s)
+target root now: ['apriltag support']
+bridge: OK in 2.4s

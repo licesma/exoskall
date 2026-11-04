@@ -1,0 +1,39 @@
+OK
+Flat seating ring around every screw hole (mm beyond the hole edge, worst direction)
+
+link_12:
+  hole 1 at (-28.5, -260.0, -2.8): 6.15 mm  (worst at 85 deg)
+  hole 2 at (-28.5, -240.8, 16.4): 6.20 mm  (worst at 0 deg)
+  hole 3 at (-28.5, -240.8, -22.1): 6.15 mm  (worst at 175 deg)
+  hole 4 at (-11.0, -204.3, 1.1): 10.40 mm  (worst at 0 deg)
+  hole 5 at (0.0, -201.2, 11.7): 2.35 mm  (worst at 175 deg)
+  hole 6 at (11.0, -204.3, 1.1): 7.40 mm  (worst at 265 deg)
+  hole 7 at (0.0, -207.3, -9.5): 10.40 mm  (worst at 0 deg)
+
+link_23:
+  hole 1 at (19.3, -247.0, -77.5): 6.15 mm  (worst at 265 deg)
+  hole 2 at (0.0, -227.8, -77.5): 6.15 mm  (worst at 175 deg)
+  hole 3 at (0.0, -266.3, -77.5): 6.15 mm  (worst at 0 deg)
+  hole 4 at (4.0, -240.8, 8.2): 10.40 mm  (worst at 0 deg)
+  hole 5 at (4.0, -229.8, -2.8): 10.40 mm  (worst at 0 deg)
+  hole 6 at (4.0, -240.8, -13.8): 10.40 mm  (worst at 0 deg)
+  hole 7 at (4.0, -251.8, -2.8): 10.40 mm  (worst at 0 deg)
+
+link_34:
+  hole 1 at (35.0, -218.5, -186.5): 6.15 mm  (worst at 265 deg)
+  hole 2 at (15.8, -218.5, -205.8): 6.15 mm  (worst at 175 deg)
+  hole 3 at (15.8, -218.5, -167.3): 7.65 mm  (worst at 175 deg)
+  hole 4 at (0.0, -236.0, -110.0): 10.40 mm  (worst at 0 deg)
+  hole 5 at (-11.0, -247.0, -110.0): 2.35 mm  (worst at 85 deg)
+  hole 6 at (0.0, -258.0, -110.0): 7.40 mm  (worst at 175 deg)
+  hole 7 at (11.0, -247.0, -110.0): 10.40 mm  (worst at 0 deg)
+
+link_45:
+  hole 1 at (87.3, -268.1, -196.5): 5.15 mm  (worst at 85 deg)
+  hole 2 at (87.3, -248.9, -177.3): 6.15 mm  (worst at 175 deg)
+  hole 3 at (87.3, -248.9, -215.8): 6.15 mm  (worst at 0 deg)
+  hole 4 at (15.8, -251.0, -197.5): 8.40 mm  (worst at 270 deg)
+  hole 5 at (4.8, -251.0, -186.5): 2.35 mm  (worst at 85 deg)
+  hole 6 at (15.8, -251.0, -175.5): 8.40 mm  (worst at 270 deg)
+  hole 7 at (26.8, -251.0, -186.5): 0.00 mm  (worst at 0 deg)   <-- TIGHT
+bridge: OK in 4.5s

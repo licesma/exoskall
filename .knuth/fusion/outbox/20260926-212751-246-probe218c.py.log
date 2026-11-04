@@ -1,0 +1,22 @@
+OK
+generated_R_arm_general / GJ1_right_shoulder_pitch_joint: 42 bodies, 7 internal hit(s)
+    module component under it: sensor module 2 stop15 (rejected)
+    bodies under it: 42 named
+    Component160/Body1 <-> m3_6mm_insert/Body1  22.585 mm3
+    Component160/Body1 <-> m3_6mm_insert/Body1  22.585 mm3
+    Component160/Body1 <-> m3_6mm_insert/Body1  22.585 mm3
+    g_link_12 + its own module: 43 bodies, 7 hit(s)
+        Component160/Body1 <-> m3_6mm_insert/Body1  22.5848 mm3
+        Component160/Body1 <-> m3_6mm_insert/Body1  22.5848 mm3
+        Component160/Body1 <-> m3_6mm_insert/Body1  22.5848 mm3
+generated_R_arm_luna / GR1_Arm_R1_Joint: 42 bodies, 7 internal hit(s)
+    module component under it: sensor module 2 stop15
+    bodies under it: 42 named
+    Component183/Body1 <-> m3_6mm_insert (1)/Body1  22.585 mm3
+    Component183/Body1 <-> m3_6mm_insert (1)/Body1  22.585 mm3
+    Component183/Body1 <-> m3_6mm_insert (1)/Body1  22.585 mm3
+    g_link_R12 + its own module: 43 bodies, 7 hit(s)
+        Component183/Body1 <-> m3_6mm_insert (1)/Body1  22.5848 mm3
+        Component183/Body1 <-> m3_6mm_insert (1)/Body1  22.5848 mm3
+        Component183/Body1 <-> m3_6mm_insert (1)/Body1  22.5848 mm3
+bridge: OK in 21.9s

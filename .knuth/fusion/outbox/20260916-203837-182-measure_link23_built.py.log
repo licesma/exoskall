@@ -1,0 +1,138 @@
+FAIL
+ok   link_23 is ONE solid body - 1 bodies
+link_23: 46 faces, volume 48612 mm3, bbox in J2 frame x[-27.00,78.70] y[-33.25,27.01] z[-39.26,27.01]
+expected S (placement 'bar'): shift 6.240 mm over s 49.067..69.013, centre arcs r 17.5, wall arcs r 5.0 / 30.0 about (s,w) (49.067, -17.5) and (69.013, 11.26)
+face kinds: {'cyl': 22, 'plane': 24}
+cylindrical faces (r, axis J2, a point on axis J2, face bbox J2, area mm2):
+  r   1.20 axis (-0.0, -1.0, -0.0) at (27.24, -0.0, -1.2)  x[27.2,28.4] y[-12.5,12.5] z[-1.2,0.0]  47 mm2
+  r   1.60 axis (0.0, -0.0, 1.0) at (-11.0, -0.0, 4.0)  x[-12.6,-9.4] y[-1.6,1.6] z[-0.0,8.0]  80 mm2
+  r   1.60 axis (0.0, -0.0, 1.0) at (-0.0, -11.0, 4.0)  x[-1.6,1.6] y[-12.6,-9.4] z[-0.0,8.0]  80 mm2
+  r   1.60 axis (0.0, -0.0, 1.0) at (0.0, 11.0, 4.0)  x[-1.6,1.6] y[9.4,12.6] z[-0.0,8.0]  80 mm2
+  r   1.60 axis (0.0, -0.0, 1.0) at (11.0, -0.0, 4.0)  x[9.4,12.6] y[-1.6,1.6] z[-0.0,8.0]  80 mm2
+  r   1.60 axis (1.0, -0.0, 0.0) at (74.7, -25.49, -0.0)  x[70.7,78.7] y[-27.1,-23.9] z[-1.6,1.6]  80 mm2
+  r   1.60 axis (1.0, -0.0, 0.0) at (74.7, -6.25, 19.25)  x[70.7,78.7] y[-7.8,-4.6] z[17.6,20.9]  80 mm2
+  r   1.60 axis (1.0, -0.0, 0.0) at (74.7, 13.01, 0.0)  x[70.7,78.7] y[11.4,14.6] z[-1.6,1.6]  80 mm2
+  r   5.00 axis (-0.0, -1.0, -0.0) at (29.88, -0.0, 3.0)  x[29.9,34.9] y[-12.5,12.5] z[3.0,8.0]  196 mm2
+  r   5.00 axis (-0.0, 0.0, 1.0) at (49.07, -17.5, -15.62)  x[49.1,51.9] y[-13.4,-12.5] z[-39.2,-31.5]  24 mm2
+  r   5.00 axis (-0.0, 0.0, 1.0) at (69.01, 11.26, -15.62)  x[66.2,69.0] y[6.3,7.1] z[-39.2,-28.1]  29 mm2
+  r   7.90 axis (-0.0, -1.0, 0.0) at (70.8, -6.24, -31.34)  x[70.8,78.7] y[-18.8,6.3] z[-39.2,-31.3]  310 mm2
+  r   8.50 axis (-0.0, -1.0, -0.0) at (62.25, -0.0, -22.96)  x[62.2,70.7] y[-18.7,9.4] z[-31.5,-23.9]  306 mm2
+  r  12.50 axis (-0.0, -1.0, -0.0) at (47.38, -0.0, -18.96)  x[34.9,47.4] y[-12.5,12.5] z[-31.5,-18.9]  491 mm2
+  r  15.00 axis (-0.0, -1.0, -0.0) at (43.44, -0.0, -24.25)  x[28.4,43.4] y[-12.5,12.5] z[-39.3,-24.2]  589 mm2
+  r  15.00 axis (1.0, -0.0, -0.0) at (74.7, -33.74, -31.75)  x[70.7,78.7] y[-23.9,-18.7] z[-31.7,-20.4]  103 mm2
+  r  15.00 axis (1.0, -0.0, -0.0) at (74.7, 21.26, -31.75)  x[70.7,78.7] y[6.3,11.4] z[-31.7,-20.4]  103 mm2
+  r  20.00 axis (-0.0, 0.0, 1.0) at (-0.0, -0.0, -1.25)  x[-3.5,3.5] y[-20.0,-19.7] z[-3.5,0.0]  24 mm2
+  r  27.00 axis (0.0, 0.0, 1.0) at (0.0, -0.0, 4.0)  x[-27.0,23.9] y[-27.0,27.0] z[-3.5,8.0]  1182 mm2
+  r  27.00 axis (1.0, -0.0, -0.0) at (74.7, -6.24, -0.0)  x[70.7,78.7] y[-33.2,20.8] z[-20.4,27.0]  1049 mm2
+  r  30.00 axis (-0.0, 0.0, 1.0) at (49.07, -17.5, -15.62)  x[49.1,66.2] y[7.1,12.5] z[-39.2,-30.5]  143 mm2
+  r  30.00 axis (-0.0, 0.0, 1.0) at (69.01, 11.26, -15.62)  x[51.9,69.0] y[-18.7,-13.4] z[-39.2,-28.1]  149 mm2
+planar side-wall faces (normal along the bar width): w, s range, bbox, area
+  w  -18.74  s[69.01,78.69]  x[69.0,78.7] z[-39.2,-23.9]  68 mm2
+  w  -16.24  s[70.61,78.70]  x[70.6,78.7] z[-24.5,9.5]  272 mm2
+  w  -12.50  s[23.93,49.07]  x[23.9,49.1] z[-39.2,8.0]  431 mm2
+  w    3.77  s[70.61,78.70]  x[70.6,78.7] z[-24.5,9.5]  272 mm2
+  w    6.26  s[69.01,78.69]  x[69.0,78.7] z[-39.2,-23.9]  68 mm2
+  w   12.50  s[23.93,49.07]  x[23.9,49.1] z[-39.2,8.0]  431 mm2
+  w   14.95  s[-1.80,1.80]  x[-1.8,1.8] z[-1.2,0.0]  4 mm2
+  w   17.70  s[-1.80,1.80]  x[-1.8,1.8] z[-1.2,0.0]  4 mm2
+planar faces normal to the bar direction u: s, w range, area
+  s   -1.80  w[14.95,17.70]  z[-1.2,0.0]  3 mm2
+  s    1.80  w[14.95,17.70]  z[-1.2,0.0]  3 mm2
+  s   28.44  w[-12.50,12.50]  z[-24.2,-1.2]  576 mm2
+  s   34.88  w[-12.50,12.50]  z[-19.0,3.0]  549 mm2
+  s   70.70  w[-33.25,20.77]  z[-31.8,27.0]  1562 mm2
+  s   78.70  w[-33.25,20.77]  z[-31.4,27.0]  1736 mm2
+planar faces normal to the pad axis: z, s range, w range, area
+  z  -39.24  s[43.44,70.80]  w[-18.74,12.50]  716 mm2
+  z  -31.45  s[47.38,62.25]  w[-17.97,12.50]  396 mm2
+  z  -24.50  s[70.61,78.70]  w[-16.24,3.77]  162 mm2
+  z   -3.50  s[-4.69,4.69]  w[-27.00,-19.70]  57 mm2
+  z   -1.20  s[-1.80,1.80]  w[14.95,17.70]  10 mm2
+  z   -0.00  s[-27.00,27.24]  w[-26.59,27.00]  2222 mm2
+  z    8.00  s[-27.00,29.88]  w[-27.00,27.00]  2355 mm2
+  z    9.50  s[70.70,78.70]  w[-16.24,3.76]  160 mm2
+ok   exactly two side-wall planes at the PAD end - got [-12.5, 12.5]
+ok   exactly two side-wall planes at the SLAB end - got [-18.74, 6.26]
+ok   pad-end walls are at +/-BAR_W/2 on the J2 rotor pad - got [-12.5, 12.5] want [-12.5, 12.5] (err 0.0000, tol 0.02)
+ok   pad-end walls centred on the J2 pad axis - got [0.0] want [0.0] (err 0.0000, tol 0.02)
+ok   pad-end walls are BAR_W apart - got [25.0] want [25.0] (err 0.0000, tol 0.02)
+    pad-end wall planes run s 23.93..49.07 (pad rim exit 23.93, S starts 49.07), 431 / 431 mm2
+ok   slab-end walls are at +/-BAR_W/2 on the J3 stator pad - got [-18.74, 6.26] want [-18.74, 6.26] (err 0.0000, tol 0.02)
+ok   slab-end walls centred on the J3 stator pad - got [-6.24] want [-6.24] (err 0.0000, tol 0.02)
+ok   slab-end walls are BAR_W apart - got [25.0] want [25.0] (err 0.0000, tol 0.02)
+ok   four riser-S wall arc faces (two per wall) - got 4: [(30.0, (69.01, 11.26)), (5.0, (49.07, -17.5)), (5.0, (69.01, 11.26)), (30.0, (49.07, -17.5))]
+ok   S arc r 5.0 (wall -12.5) axis on the computed centre 1 - got [49.067, -17.5] want [49.067, -17.5] (err 0.0000, tol 0.02)
+ok   S arc r 5.0 (wall -12.5) axis parallel to the pad axis - got [1.0] want [1.0] (err 0.0000, tol 0.001)
+    S arc r 5.0 on wall -12.5 about (s,w) = (49.067, -17.500), s 49.07..51.92, w -13.39..-12.50, z -39.2..-31.5, 24 mm2
+ok   S arc r 30.0 (wall -12.5) axis on the computed centre 2 - got [69.013, 11.26] want [69.013, 11.26] (err 0.0000, tol 0.02)
+ok   S arc r 30.0 (wall -12.5) axis parallel to the pad axis - got [1.0] want [1.0] (err 0.0000, tol 0.001)
+    S arc r 30.0 on wall -12.5 about (s,w) = (69.013, 11.260), s 51.92..69.01, w -18.74..-13.39, z -39.2..-28.1, 149 mm2
+ok   S arc r 30.0 (wall +12.5) axis on the computed centre 1 - got [49.067, -17.5] want [49.067, -17.5] (err 0.0000, tol 0.02)
+ok   S arc r 30.0 (wall +12.5) axis parallel to the pad axis - got [1.0] want [1.0] (err 0.0000, tol 0.001)
+    S arc r 30.0 on wall +12.5 about (s,w) = (49.067, -17.500), s 49.07..66.16, w 7.15..12.50, z -39.2..-30.5, 143 mm2
+ok   S arc r 5.0 (wall +12.5) axis on the computed centre 2 - got [69.013, 11.26] want [69.013, 11.26] (err 0.0000, tol 0.02)
+ok   S arc r 5.0 (wall +12.5) axis parallel to the pad axis - got [1.0] want [1.0] (err 0.0000, tol 0.001)
+    S arc r 5.0 on wall +12.5 about (s,w) = (69.013, 11.260), s 66.16..69.01, w 6.26..7.15, z -39.2..-28.1, 29 mm2
+ok   S wall arc radii are r 5.0 x2 and r 30.0 x2 - got [5.0, 5.0, 30.0, 30.0] want [5.0, 5.0, 30.0, 30.0] (err 0.0000, tol 0.02)
+ok   wall -12.5: plane ends where the first S arc starts - got [49.066] want [49.067] (err 0.0009, tol 0.02)
+ok   wall -12.5: the two S arcs meet with no gap - got [51.917] want [51.916] (err 0.0010, tol 0.02)
+ok   wall -12.5: arcs meet at the computed station - got [51.917] want [51.916] (err 0.0004, tol 0.05)
+ok   wall -12.5: the second S arc ends where the slab-end plane starts - got [69.014] want [69.012] (err 0.0015, tol 0.02)
+ok   wall -12.5: S arcs span exactly the computed run - got [49.066, 69.014] want [49.067, 69.013] (err 0.0006, tol 0.05)
+ok   wall +12.5: plane ends where the first S arc starts - got [49.066] want [49.067] (err 0.0009, tol 0.02)
+ok   wall +12.5: the two S arcs meet with no gap - got [66.164] want [66.163] (err 0.0011, tol 0.02)
+ok   wall +12.5: arcs meet at the computed station - got [66.164] want [66.164] (err 0.0005, tol 0.05)
+ok   wall +12.5: the second S arc ends where the slab-end plane starts - got [69.014] want [69.012] (err 0.0015, tol 0.02)
+ok   wall +12.5: S arcs span exactly the computed run - got [49.066, 69.014] want [49.067, 69.013] (err 0.0006, tol 0.05)
+ok   riser inner face is one plane at s = s_in (28.44) - planes normal to u at s = [-1.801, 1.799, 28.44, 34.88, 70.7, 78.7]
+ok   riser inner face is RISER_CLEAR outside r 27 - got [1.44] want [1.44] (err 0.0000, tol 0.02)
+    riser inner face at s=28.440 spans w -12.504..12.504 (centre -0.000, 25.01 wide), 576 mm2
+ok   riser inner face is centred on the J2 pad - got [-0.0] want [0.0] (err 0.0000, tol 0.1)
+ok   riser inner face stops at the relief tangent point (z = -JOIN_RELIEF_R) - got [-1.195] want [-1.2] (err 0.0048, tol 0.02)
+ok   bar placement: pad-end walls run past the end of the bend (s 47.38) - walls stop at s=49.07
+ok   bar placement: straight bar before the S (>= 1.00 mm) - S starts 1.686 mm past the bend end
+ok   bar placement: straight bar after the S (>= 1.00 mm) - S ends 1.686 mm before the slab face
+ok   bar placement: the two straight margins are equal - got [1.686] want [1.686] (err 0.0001, tol 0.05)
+ok   bar placement: riser inner face is the full BAR_W, centred on the J2 pad - got [-12.504, 12.504] want [-12.5, 12.5] (err 0.0044, tol 0.02)
+ok   EXO-74: one plane at the pad outer face (z=8.0) - got [9.502, -24.502, -1.2, -3.5, -39.245, -0.0, 8.0, -31.455]
+ok   EXO-74: outer face runs out to the join round, past the rim - got [29.882] want [29.88] (err 0.0024, tol 0.02)
+ok   EXO-74: outer face reaches 2.88 mm past the rim - outer face stops at s=29.882 (rim 27.0)
+ok   EXO-74: the outer face is the pad face and the fill in ONE plane - s -27.00..29.88, w -27.00..27.00
+    outer face: s -27.00..29.88, w -27.00..27.00, 2355 mm2
+ok   EXO-74: the join round r 5.0 is there, about (s,z) = (29.88, 3.00) - got 1
+    join round r 5.0: s 29.88..34.88, z 2.99..8.01, 196 mm2
+ok   EXO-74: no pocket fillet at the join (old r 12.5 cove / r 5 relief) - got []
+ok   EXO-74: one plane at the pad rotor-side face (z=0) - got [9.502, -24.502, -1.2, -3.5, -39.245, -0.0, 8.0, -31.455]
+ok   EXO-83: ledge runs out to the relief - got [27.242] want [27.24] (err 0.0023, tol 0.02)
+ok   EXO-83: flat ledge is RISER_CLEAR - JOIN_RELIEF_R wide outside the rim - got [0.242] want [0.24] (err 0.0023, tol 0.02)
+ok   EXO-83: the flat ledge still crosses the rim - flat ledge only 0.242 mm wide
+    pad rotor-side face + flat ledge: s -27.00..27.24, w -26.59..27.00, 2222 mm2
+ok   EXO-83: the relief r 1.20 is there, about (s,z) = (27.24, -1.20) - got 1
+ok   EXO-83: the relief axis runs along the bar width - axis (-0.0, -1.0, -0.0)
+ok   EXO-83: relief tangent to the ledge at s = s_in - R and to the riser face at s_in - got [27.238, 28.442] want [27.24, 28.44] (err 0.0015, tol 0.02)
+ok   EXO-83: relief spans z = -R..0 - got [-1.205, 0.005] want [-1.2, 0.0] (err 0.0049, tol 0.02)
+ok   EXO-83: the relief spans the full bar width - w -12.500..12.500 (25.001 wide)
+ok   EXO-83: relief walls are the straight +/-BAR_W/2 planes - got [-12.5, 12.5] want [-12.5, 12.5] (err 0.0003, tol 0.02)
+ok   EXO-83: the relief never comes inside r 27.0 below z = 0 - innermost point s=27.238
+    relief r 1.20: s 27.238..28.442, z -1.205..0.005, w -12.50..12.50, 47.1 mm2 (quarter cylinder, 0.24 mm of flat ledge left outside the rim)
+ok   EXO-83: relief area = quarter cylinder (pi/2 R x BAR_W) - got [47.124] want [47.124] (err 0.0000, tol 0.5)
+ok   EXO-74: one rotor-pad rim face - got 1
+ok   EXO-74: the rim face stops where the band leaves it (rim covered from there on) - got [23.935] want [23.932] (err 0.0030, tol 0.05)
+    rim face r 27.0: s -27.00..23.94, z -3.50..8.01, 1182 mm2 (uncovered rim; the band covers 55.2 deg of it)
+ok   EXO-74: rim covered - 375 points at r 27.05 across the 25 mm width, z 0.5..7.5, are inside the link - uncovered at (w, z) []
+ok   EXO-74: nothing inside r 28.39 below the relief (RISER_CLEAR kept) - material at (w, z) []
+ok   EXO-83: nothing inside r 27.05 below the pad rotor-side plane - material at (w, z) []
+ok   EXO-83: relief present - 50 points at s = s_in - 0.05 across the 25 mm width, z -0.2 / -0.5, are inside the link - empty at (w, z) []
+ok   no degenerate faces (< 0.5 mm2) - got []
+ok   no two side-wall planes nearly coplanar (no seam) - got []
+
+EXO-124: the flat seating ring of every screw hole (>= 2.0 mm beyond the hole edge)
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260916-203837-182-measure_link23_built.py", line 490, in <module>
+    hole_ring_probe.pad_frame(j2, SPEC['geometry'], _ac),
+                                  ^^^^
+NameError: name 'SPEC' is not defined. Did you mean: 'JSPEC'?
+bridge: FAIL in 0.1s

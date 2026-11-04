@@ -1,0 +1,11 @@
+OK
+expected FULL hole cylinder area = 2*pi*1.6*8.0 = 80.42 mm2
+  hole 1: area 82.71 mm2 = 102.8% of full  -> INTACT
+  hole 2: area 80.42 mm2 = 100.0% of full  -> INTACT
+  hole 3: area 80.42 mm2 = 100.0% of full  -> INTACT
+  hole 4: area 80.42 mm2 = 100.0% of full  -> INTACT
+  hole 5: area 80.42 mm2 = 100.0% of full  -> INTACT
+  hole 6: area 80.42 mm2 = 100.0% of full  -> INTACT
+  hole 7: area 80.96 mm2 = 100.7% of full  -> INTACT
+7 hole faces checked
+bridge: OK in 0.0s

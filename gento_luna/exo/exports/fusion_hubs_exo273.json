@@ -1,0 +1,75 @@
+{
+ "issue": "EXO-273",
+ "started": "2026-10-13 20:32:07",
+ "version": "2705.1.25",
+ "user": {
+  "displayName": "Esteban Martinez",
+  "email": "licesma@gmail.com",
+  "userName": "licesma@gmail.com",
+  "userId": "3BDZQG3MAL2W"
+ },
+ "active_hub_before": "Team hub - Rodrigo Andrade",
+ "active_project_before": "G1 exeskeleton",
+ "hubs": [
+  {
+   "name": "Team hub - Rodrigo Andrade",
+   "id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEz",
+   "hubType": "TeamHubType",
+   "projects": [
+    {
+     "name": "Assets",
+     "id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzI0QyMDI1MDgwNTk2MTgzNDEwNg"
+    },
+    {
+     "name": "Default Project",
+     "id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjUwODA1OTYxODMzNzgx"
+    },
+    {
+     "name": "G1 exeskeleton",
+     "id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjYwMjAyMTA0NTg3NDkzMQ"
+    },
+    {
+     "name": "Standard Components",
+     "id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzI0QyMDI1MTExNDEwMTM2MDU4MzE"
+    }
+   ]
+  },
+  {
+   "name": "Estebans",
+   "id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0",
+   "hubType": "TeamHubType",
+   "projects": [
+    {
+     "name": "Assets",
+     "id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0I0QyMDI2MDEzMTEwNDQ4OTE4NTE"
+    },
+    {
+     "name": "Default Project",
+     "id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYwMTMxMTA0NDg5MTcwMQ"
+    },
+    {
+     "name": "gvl",
+     "id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYwMzA4MTA2MjE2Mzc3Ng"
+    },
+    {
+     "name": "Learn Fusion in 30 days",
+     "id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYwMTMxMTA0NDg5NTEyNg"
+    }
+   ]
+  }
+ ],
+ "active_hub_after": "Team hub - Rodrigo Andrade",
+ "active_project_after": "G1 exeskeleton",
+ "api": {
+  "DataFile.copy": true,
+  "DataFile.move": true,
+  "DataFolder.uploadFile": true,
+  "DataFolder.uploadAssembly": true,
+  "ExportManager.createFusionArchiveExportOptions": true,
+  "DataFile.copy_doc": "\nCopies this DataFile to the specified folder.\ntargetFolder : The folder to copy this DataFile to.\nReturns the copied DataFile if the copy was successful.\n",
+  "DataFile.move_doc": "\nMoves this DataFile to the specified folder.\ntargetFolder : The folder to move this DataFile to.\nReturns true if the move was successful.\n",
+  "DataFolder.uploadFile_doc": "\nUploads a single file to this directory.\nUploading a file is not supported within any of the Command related events.\nWhen a command is running, a transaction is open, and uploading files cannot\nbe transacted and, as a result, cannot be contained within a command transaction.\nfilename : The full filename of the file to upload.\nThe upload process is asynchronous which means that this method\nwill re",
+  "DataFolder.uploadAssembly_doc": "\nUploads a set of files that represent an assembly. There should only\nbe a single top-level assembly file but there can be any number of other\nfiles that represent sub-assemblies.\nUploading an assembly is not supported within any of the Command related events.\nWhen a command is running, a transaction is open, and uploading files cannot\nbe transacted and, as a result, cannot be contained within a c"
+ },
+ "elapsed_s": 3.5
+}

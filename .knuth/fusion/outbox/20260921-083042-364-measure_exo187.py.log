@@ -1,0 +1,47 @@
+OK
+frames rebuilt; modules J1, J2, J3, J4, J5, J6, J7
+arm: generated_R_arm_general
+link bodies (6): g_link_12, g_link_23, g_link_34, g_link_45, g_link_56, g_link_67
+
+EXO-187: link material inside the XL330 volume, module frame x -10.0..10.0  y -9.5..24.5  z -36.5..-10.5 (top capped at the stator underside -24.5), grown by each margin all round.
+
+  --- margin 0.0 done: 0 hit(s) cumulative
+  m 0.5  g_link_12   vs J2      440.00 mm3  x  -10.50..  10.50 y  -10.00..  25.00 z  -32.50.. -24.50  plate band
+  m 0.5  g_link_23   vs J3      440.00 mm3  x  -10.50..  10.50 y  -10.00..  25.00 z  -32.50.. -24.50  plate band
+  m 0.5  g_link_34   vs J4      439.97 mm3  x  -10.50..  10.50 y  -10.00..  25.00 z  -32.50.. -24.50  plate band
+  m 0.5  g_link_45   vs J5      440.00 mm3  x  -10.50..  10.50 y  -10.00..  25.00 z  -32.50.. -24.50  plate band
+  m 0.5  g_link_56   vs J6      440.00 mm3  x  -10.50..  10.50 y  -10.00..  25.00 z  -32.50.. -24.50  plate band
+  m 0.5  g_link_67   vs J7      438.35 mm3  x  -10.50..  10.50 y  -10.00..  25.00 z  -32.50.. -24.50  plate band
+  --- margin 0.5 done: 6 hit(s) cumulative
+  m 1.0  g_link_12   vs J2      896.00 mm3  x  -11.00..  11.00 y  -10.50..  25.50 z  -32.50.. -24.50  plate band
+  m 1.0  g_link_23   vs J3      896.00 mm3  x  -11.00..  11.00 y  -10.50..  25.50 z  -32.50.. -24.50  plate band
+  m 1.0  g_link_34   vs J4      895.77 mm3  x  -11.00..  11.00 y  -10.50..  25.50 z  -32.50.. -24.50  plate band
+  m 1.0  g_link_45   vs J5      896.00 mm3  x  -11.00..  11.00 y  -10.50..  25.50 z  -32.50.. -24.50  plate band
+  m 1.0  g_link_56   vs J6      896.00 mm3  x  -11.00..  11.00 y  -10.50..  25.50 z  -32.50.. -24.50  plate band
+  m 1.0  g_link_67   vs J7      889.43 mm3  x  -11.00..  11.00 y  -10.50..  25.50 z  -32.50.. -24.50  plate band
+  --- margin 1.0 done: 12 hit(s) cumulative
+  m 2.0  g_link_12   vs J2     1855.49 mm3  x  -12.00..  12.00 y  -11.50..  26.50 z  -32.50.. -24.50  plate band
+  m 2.0  g_link_23   vs J3     1856.00 mm3  x  -12.00..  12.00 y  -11.50..  26.50 z  -32.50.. -24.50  plate band
+  m 2.0  g_link_34   vs J4     1853.10 mm3  x  -12.00..  12.00 y  -11.50..  26.50 z  -32.50.. -24.50  plate band
+  m 2.0  g_link_45   vs J5     1856.00 mm3  x  -12.00..  12.00 y  -11.50..  26.50 z  -32.50.. -24.50  plate band
+  m 2.0  g_link_56   vs J6     1855.43 mm3  x  -12.00..  12.00 y  -11.50..  26.50 z  -32.50.. -24.50  plate band
+  m 2.0  g_link_67   vs J7     1800.73 mm3  x  -12.00..  12.00 y  -11.50..  26.50 z  -32.50.. -24.50  plate band
+  --- margin 2.0 done: 18 hit(s) cumulative
+  m 3.0  g_link_12   vs J2     2875.59 mm3  x  -13.00..  13.00 y  -12.50..  27.50 z  -32.50.. -24.50  plate band
+  m 3.0  g_link_23   vs J3     2880.00 mm3  x  -13.00..  13.00 y  -12.50..  27.50 z  -32.50.. -24.50  plate band
+  m 3.0  g_link_34   vs J4     2854.79 mm3  x  -13.00..  13.00 y  -12.50..  27.50 z  -32.50.. -24.50  plate band
+  m 3.0  g_link_45   vs J5     2880.00 mm3  x  -13.00..  13.00 y  -12.50..  27.50 z  -32.50.. -24.50  plate band
+  m 3.0  g_link_56   vs J6     2873.49 mm3  x  -13.00..  13.00 y  -12.50..  27.50 z  -32.50.. -24.50  plate band
+  m 3.0  g_link_67   vs J7     2722.23 mm3  x  -13.00..  13.00 y  -12.50..  27.50 z  -32.50.. -24.50  plate band
+  --- margin 3.0 done: 24 hit(s) cumulative
+
+summary: mm3 of link material inside the actuator volume, by margin
+  link             m0.0      m0.5      m1.0      m2.0      m3.0
+  g_link_12        0.00    440.00    896.00   1855.49   2875.59   at J2
+  g_link_23        0.00    440.00    896.00   1856.00   2880.00   at J3
+  g_link_34        0.00    439.97    895.77   1853.10   2854.79   at J4
+  g_link_45        0.00    440.00    896.00   1856.00   2880.00   at J5
+  g_link_56        0.00    440.00    896.00   1855.43   2873.49   at J6
+  g_link_67        0.00    438.35    889.43   1800.73   2722.23   at J7
+done
+bridge: OK in 85.8s

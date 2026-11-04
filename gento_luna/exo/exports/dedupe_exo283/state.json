@@ -1,0 +1,2944 @@
+{
+ "dryrun": {
+  "wrist_sketch3_with_straps (copy v1)": {
+   "time": "2026-10-14 20:28:17",
+   "file": "wrist_sketch3_with_straps (copy v1)",
+   "id": "urn:adsk.wipprod:dm.lineage:jIKLpTb3SCeDiKx5Latkcw",
+   "version": 1,
+   "reused_open": false,
+   "components": 3,
+   "bodies": 3,
+   "occurrences": 2,
+   "linked": 1,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "writst mount_e:1",
+     "name": "writst mount_e:1",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:zs1gGokvTayE8cgJrH4veg",
+     "file": "writst mount_e",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->eKtc",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:zs1gGokvTayE8cgJrH4veg",
+     "name": "writst mount_e",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 4.0
+  },
+  "wrist_sketch3_with_straps": {
+   "time": "2026-10-14 20:28:25",
+   "file": "wrist_sketch3_with_straps",
+   "id": "urn:adsk.wipprod:dm.lineage:s_bSGtj1SL-TvkFV7MHp3Q",
+   "version": 1,
+   "reused_open": false,
+   "components": 3,
+   "bodies": 3,
+   "occurrences": 2,
+   "linked": 1,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "writst mount_e:1",
+     "name": "writst mount_e:1",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw",
+     "file": "writst mount_e",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw",
+     "name": "writst mount_e",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 3.4
+  },
+  "sensor module 2": {
+   "time": "2026-10-14 20:28:30",
+   "file": "sensor module 2",
+   "id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+   "version": 1,
+   "reused_open": false,
+   "components": 9,
+   "bodies": 34,
+   "occurrences": 16,
+   "linked": 1,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "name": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 2.0
+  },
+  "exo generated": {
+   "time": "2026-10-14 20:28:32",
+   "file": "exo generated",
+   "id": "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw",
+   "version": 1,
+   "reused_open": false,
+   "components": 46,
+   "bodies": 64,
+   "occurrences": 269,
+   "linked": 17,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "sensor module 2:1+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "sensor module 2:1",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "sensor module 2:1",
+     "name": "sensor module 2:1",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+     "file": "sensor module 2",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "sensor module 2 v3:1+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_general:1+GJ1_right_shoulder_pitch_joint:1+sensor module 2 v3:2+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_general:1+GJ2_right_shoulder_roll_joint:1+sensor module 2 v3:3+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_general:1+GJ3_right_shoulder_yaw_joint:1+sensor module 2 v3:4+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_general:1+GJ4_right_elbow_joint:1+sensor module 2 v3:5+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_general:1+GJ5_right_wrist_roll_joint:1+sensor module 2 v3:6+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_general:1+GJ6_right_wrist_pitch_joint:1+sensor module 2 v3:7+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_general:1+GJ7_right_wrist_yaw_joint:1+sensor module 2 v3:8+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_luna:1+GR1_Arm_R1_Joint:1+sensor module 2 v3:9+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_luna:1+GR2_Arm_R2_Joint:1+sensor module 2 v3:10+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_luna:1+GR3_Arm_R3_Joint:1+sensor module 2 v3:11+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_luna:1+GR4_Arm_R4_Joint:1+sensor module 2 v3:12+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_luna:1+GR5_Arm_R5_Joint:1+sensor module 2 v3:13+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_luna:1+GR6_Arm_R6_Joint:1+sensor module 2 v3:14+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "generated_R_arm_luna:1+GR7_Arm_R7_Joint:1+sensor module 2 v3:15+5972K159_Ball Bearing:2",
+     "name": "5972K159_Ball Bearing:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A",
+     "name": "sensor module 2",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "name": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 1.7
+  },
+  "sensor module pGmH": {
+   "time": "2026-10-14 20:31:42",
+   "file": "sensor module",
+   "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+   "version": 1,
+   "reused_open": false,
+   "components": 6,
+   "bodies": 31,
+   "occurrences": 5,
+   "linked": 2,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": null,
+     "component": "5972K159_Ball Bearing",
+     "file_id": "urn:adsk.wipprod:dm.lineage:bYhycXTtRDCF7RLAR_EaWQ",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->khSi",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "XL330:1",
+     "name": "XL330:1",
+     "owner_link": null,
+     "component": "XL330",
+     "file_id": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA",
+     "file": "XL330",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:bYhycXTtRDCF7RLAR_EaWQ",
+     "name": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA",
+     "name": "XL330",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 2.4
+  },
+  "sensor module ocXT": {
+   "time": "2026-10-14 20:28:38",
+   "file": "sensor module",
+   "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+   "version": 1,
+   "reused_open": false,
+   "components": 6,
+   "bodies": 31,
+   "occurrences": 5,
+   "linked": 2,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:z82oImUIQxq1BOI-jrPxBg",
+     "file": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->khSi",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "XL330:1",
+     "name": "XL330:1",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:VtO-MkfaRleYqpo3jRa1XA",
+     "file": "XL330",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->zU49",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:z82oImUIQxq1BOI-jrPxBg",
+     "name": "5972K159_Ball Bearing",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:VtO-MkfaRleYqpo3jRa1XA",
+     "name": "XL330",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 2.6
+  },
+  "arm": {
+   "time": "2026-10-14 20:28:41",
+   "file": "arm",
+   "id": "urn:adsk.wipprod:dm.lineage:cXGOAcs-Q6unIh91MhgbSQ",
+   "version": 1,
+   "reused_open": false,
+   "components": 29,
+   "bodies": 72,
+   "occurrences": 94,
+   "linked": 21,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "left arm:1+sensor module:1+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:1",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:1+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:1",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:1",
+     "name": "sensor module:1",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:2+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:2",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:2+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:2",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:2",
+     "name": "sensor module:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:3+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:3",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:3+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:3",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:3",
+     "name": "sensor module:3",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:4+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:4",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:4+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:4",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:4",
+     "name": "sensor module:4",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:5+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:5",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:5+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:5",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:5",
+     "name": "sensor module:5",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:6+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:6",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:6+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:6",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:6",
+     "name": "sensor module:6",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:7+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:7",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:7+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:7",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:7",
+     "name": "sensor module:7",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw",
+     "name": "sensor module",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 2.4
+  },
+  "arm 2": {
+   "time": "2026-10-14 20:28:44",
+   "file": "arm 2",
+   "id": "urn:adsk.wipprod:dm.lineage:3E7UqMBkQdKxu7gpyS2oRA",
+   "version": 1,
+   "reused_open": false,
+   "components": 66,
+   "bodies": 264,
+   "occurrences": 101,
+   "linked": 21,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "left arm:1+sensor module:1+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:1",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:1+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:1",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:1",
+     "name": "sensor module:1",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:2+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:2",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:2+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:2",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:2",
+     "name": "sensor module:2",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:3+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:3",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:3+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:3",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:3",
+     "name": "sensor module:3",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:4+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:4",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:4+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:4",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:4",
+     "name": "sensor module:4",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:5+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:5",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:5+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:5",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:5",
+     "name": "sensor module:5",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:6+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:6",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:6+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:6",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:6",
+     "name": "sensor module:6",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:7+5972K159_Ball Bearing:1",
+     "name": "5972K159_Ball Bearing:1",
+     "owner_link": "left arm:1+sensor module:7",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:7+XL330:1",
+     "name": "XL330:1",
+     "owner_link": "left arm:1+sensor module:7",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+sensor module:7",
+     "name": "sensor module:7",
+     "owner_link": null,
+     "file_id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "file": "sensor module",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw",
+     "name": "sensor module",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 2.7
+  },
+  "arm test": {
+   "time": "2026-10-14 20:28:55",
+   "file": "arm test",
+   "id": "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg",
+   "version": 1,
+   "reused_open": false,
+   "components": 152,
+   "bodies": 963,
+   "occurrences": 173,
+   "linked": 24,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:1",
+     "name": "M4 x 0.7mm Thread HEX NUT:1",
+     "owner_link": "left arm:1+cuffs with soft inside:1",
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:2",
+     "name": "M4 x 0.7mm Thread HEX NUT:2",
+     "owner_link": "left arm:1+cuffs with soft inside:1",
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:3",
+     "name": "M4 x 0.7mm Thread HEX NUT:3",
+     "owner_link": "left arm:1+cuffs with soft inside:1",
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+cuffs with soft inside:1",
+     "name": "cuffs with soft inside:1",
+     "owner_link": null,
+     "component": "cuffs with soft inside",
+     "file_id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+     "file": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->UmT3",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:1",
+     "name": "M4 x 0.7mm Thread HEX NUT:1",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:2",
+     "name": "M4 x 0.7mm Thread HEX NUT:2",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:3",
+     "name": "M4 x 0.7mm Thread HEX NUT:3",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:4",
+     "name": "M4 x 0.7mm Thread HEX NUT:4",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:5",
+     "name": "M4 x 0.7mm Thread HEX NUT:5",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:6",
+     "name": "M4 x 0.7mm Thread HEX NUT:6",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:7",
+     "name": "M4 x 0.7mm Thread HEX NUT:7",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:8",
+     "name": "M4 x 0.7mm Thread HEX NUT:8",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:3GOuJvUxRySz5kPInpNDog",
+     "file": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->Bmc3",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:3GOuJvUxRySz5kPInpNDog",
+     "file": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->Bmc3",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:9",
+     "name": "M4 x 0.7mm Thread HEX NUT:9",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:10",
+     "name": "M4 x 0.7mm Thread HEX NUT:10",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "cuffs with soft inside (1):2",
+     "name": "cuffs with soft inside (1):2",
+     "owner_link": null,
+     "component": "cuffs with soft inside (1)",
+     "file_id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+     "file": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->UmT3",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "cuffs with soft inside (1):3",
+     "name": "cuffs with soft inside (1):3",
+     "owner_link": null,
+     "component": "cuffs with soft inside (1)",
+     "file_id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+     "file": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->UmT3",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:11",
+     "name": "M4 x 0.7mm Thread HEX NUT:11",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+     "name": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:3GOuJvUxRySz5kPInpNDog",
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 5.2
+  },
+  "arm complete luna": {
+   "time": "2026-10-14 20:29:01",
+   "file": "arm complete luna",
+   "id": "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA",
+   "version": 1,
+   "reused_open": false,
+   "components": 147,
+   "bodies": 1268,
+   "occurrences": 164,
+   "linked": 22,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:1",
+     "name": "M4 x 0.7mm Thread HEX NUT:1",
+     "owner_link": "left arm:1+cuffs with soft inside:1",
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:2",
+     "name": "M4 x 0.7mm Thread HEX NUT:2",
+     "owner_link": "left arm:1+cuffs with soft inside:1",
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:3",
+     "name": "M4 x 0.7mm Thread HEX NUT:3",
+     "owner_link": "left arm:1+cuffs with soft inside:1",
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+cuffs with soft inside:1",
+     "name": "cuffs with soft inside:1",
+     "owner_link": null,
+     "component": "cuffs with soft inside",
+     "file_id": "urn:adsk.wipprod:dm.lineage:FYgk4wLCRVabVtGEiVbFhg",
+     "file": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->UmT3",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:1",
+     "name": "M4 x 0.7mm Thread HEX NUT:1",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:2",
+     "name": "M4 x 0.7mm Thread HEX NUT:2",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:3",
+     "name": "M4 x 0.7mm Thread HEX NUT:3",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:4",
+     "name": "M4 x 0.7mm Thread HEX NUT:4",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:5",
+     "name": "M4 x 0.7mm Thread HEX NUT:5",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->yDln",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:6",
+     "name": "M4 x 0.7mm Thread HEX NUT:6",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:7",
+     "name": "M4 x 0.7mm Thread HEX NUT:7",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:8",
+     "name": "M4 x 0.7mm Thread HEX NUT:8",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:06avThYqTgy4dwOO_7VdOw",
+     "file": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->Bmc3",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:06avThYqTgy4dwOO_7VdOw",
+     "file": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->Bmc3",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:9",
+     "name": "M4 x 0.7mm Thread HEX NUT:9",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:10",
+     "name": "M4 x 0.7mm Thread HEX NUT:10",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:11",
+     "name": "M4 x 0.7mm Thread HEX NUT:11",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "extra->u2fX",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:06avThYqTgy4dwOO_7VdOw",
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:FYgk4wLCRVabVtGEiVbFhg",
+     "name": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 4.2
+  },
+  "arm complete": {
+   "time": "2026-10-14 20:29:06",
+   "file": "arm complete",
+   "id": "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ",
+   "version": 1,
+   "reused_open": false,
+   "components": 152,
+   "bodies": 963,
+   "occurrences": 173,
+   "linked": 24,
+   "joints": 0,
+   "asBuilt": 0,
+   "rigidGroups": 0,
+   "joint_health": [],
+   "linked_occ": [
+    {
+     "occ": "left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:1",
+     "name": "M4 x 0.7mm Thread HEX NUT:1",
+     "owner_link": "left arm:1+cuffs with soft inside:1",
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:2",
+     "name": "M4 x 0.7mm Thread HEX NUT:2",
+     "owner_link": "left arm:1+cuffs with soft inside:1",
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+cuffs with soft inside:1+M4 x 0.7mm Thread HEX NUT:3",
+     "name": "M4 x 0.7mm Thread HEX NUT:3",
+     "owner_link": "left arm:1+cuffs with soft inside:1",
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "ERR: 'str' object has no attribute 'dataFile'",
+     "file": "ERR: 'str' object has no attribute 'dataFile'",
+     "ver": "ERR: 'str' object has no attribute 'version'",
+     "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+     "class": "other",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "left arm:1+cuffs with soft inside:1",
+     "name": "cuffs with soft inside:1",
+     "owner_link": null,
+     "component": "cuffs with soft inside",
+     "file_id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+     "file": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:1",
+     "name": "M4 x 0.7mm Thread HEX NUT:1",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:2",
+     "name": "M4 x 0.7mm Thread HEX NUT:2",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:3",
+     "name": "M4 x 0.7mm Thread HEX NUT:3",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:4",
+     "name": "M4 x 0.7mm Thread HEX NUT:4",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:5",
+     "name": "M4 x 0.7mm Thread HEX NUT:5",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+     "file": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:6",
+     "name": "M4 x 0.7mm Thread HEX NUT:6",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:7",
+     "name": "M4 x 0.7mm Thread HEX NUT:7",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:8",
+     "name": "M4 x 0.7mm Thread HEX NUT:8",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ",
+     "file": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "file_id": "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ",
+     "file": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:9",
+     "name": "M4 x 0.7mm Thread HEX NUT:9",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:10",
+     "name": "M4 x 0.7mm Thread HEX NUT:10",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "cuffs with soft inside (1):2",
+     "name": "cuffs with soft inside (1):2",
+     "owner_link": null,
+     "component": "cuffs with soft inside (1)",
+     "file_id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+     "file": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "cuffs with soft inside (1):3",
+     "name": "cuffs with soft inside (1):3",
+     "owner_link": null,
+     "component": "cuffs with soft inside (1)",
+     "file_id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+     "file": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:11",
+     "name": "M4 x 0.7mm Thread HEX NUT:11",
+     "owner_link": null,
+     "component": "M4 x 0.7mm Thread HEX NUT",
+     "file_id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "file": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false,
+     "class": "kept",
+     "joints": [],
+     "rigidGroups": []
+    }
+   ],
+   "doc_refs": [
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA",
+     "name": "cuffs with soft inside",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw",
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A",
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false
+    },
+    {
+     "id": "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ",
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "ver": 1,
+     "outOfDate": false
+    }
+   ],
+   "isModified": false,
+   "open_docs_after": [],
+   "s": 4.7
+  }
+ },
+ "relink": {
+  "wrist_sketch3_with_straps (copy v1)": {
+   "time": "2026-10-14 20:30:20",
+   "mode": "relink",
+   "version_before": 1,
+   "actions": [
+    {
+     "occ": "writst mount_e:1",
+     "from": "urn:adsk.wipprod:dm.lineage:zs1gGokvTayE8cgJrH4veg",
+     "to": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw",
+     "to_v": 1,
+     "ok": true
+    }
+   ],
+   "before": {
+    "components": 3,
+    "bodies": 3,
+    "occurrences": 2,
+    "linked": 1,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "before_files": [
+    "zs1g:extra->eKtc"
+   ],
+   "after": {
+    "components": 3,
+    "bodies": 3,
+    "occurrences": 2,
+    "linked": 1,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "after_files": [
+    "eKtc:kept"
+   ],
+   "after_doc_refs": [
+    [
+     "eKtc",
+     1,
+     false
+    ]
+   ],
+   "counts_equal": true,
+   "no_extras": true,
+   "no_outdated": true,
+   "saved": true,
+   "open_docs_after": [],
+   "version_after": 1,
+   "s": 6.0
+  },
+  "sensor module pGmH": {
+   "time": "2026-10-14 20:34:59",
+   "mode": "relink",
+   "version_before": 1,
+   "actions": [
+    {
+     "occ": "5972K159_Ball Bearing:1",
+     "from": "urn:adsk.wipprod:dm.lineage:bYhycXTtRDCF7RLAR_EaWQ",
+     "to": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "to_v": 1,
+     "ok": true
+    }
+   ],
+   "before": {
+    "components": 6,
+    "bodies": 31,
+    "occurrences": 5,
+    "linked": 2,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "before_files": [
+    "bYhy:extra->khSi",
+    "zU49:kept"
+   ],
+   "after": {
+    "components": 6,
+    "bodies": 31,
+    "occurrences": 5,
+    "linked": 2,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "after_files": [
+    "khSi:kept",
+    "zU49:kept"
+   ],
+   "after_doc_refs": [
+    [
+     "khSi",
+     1,
+     false
+    ],
+    [
+     "zU49",
+     1,
+     false
+    ]
+   ],
+   "counts_equal": true,
+   "no_extras": true,
+   "no_outdated": true,
+   "isModified_before_save": true,
+   "saved": true,
+   "note": "saved; left open for upload, closed by dedupe_exo283_close.py",
+   "open_docs_after": [
+    "5972K159_Ball Bearing.f3d ",
+    "XL330",
+    "sensor module",
+    "5972K159_Ball Bearing"
+   ],
+   "version_after": 1,
+   "s": 3.3
+  },
+  "sensor module ocXT": {
+   "time": "2026-10-14 20:30:34",
+   "mode": "relink",
+   "version_before": 1,
+   "actions": [
+    {
+     "occ": "5972K159_Ball Bearing:1",
+     "from": "urn:adsk.wipprod:dm.lineage:z82oImUIQxq1BOI-jrPxBg",
+     "to": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw",
+     "to_v": 1,
+     "ok": true
+    },
+    {
+     "occ": "XL330:1",
+     "from": "urn:adsk.wipprod:dm.lineage:VtO-MkfaRleYqpo3jRa1XA",
+     "to": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA",
+     "to_v": 1,
+     "ok": true
+    }
+   ],
+   "before": {
+    "components": 6,
+    "bodies": 31,
+    "occurrences": 5,
+    "linked": 2,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "before_files": [
+    "VtO-:extra->zU49",
+    "z82o:extra->khSi"
+   ],
+   "after": {
+    "components": 6,
+    "bodies": 31,
+    "occurrences": 5,
+    "linked": 2,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "after_files": [
+    "khSi:kept",
+    "zU49:kept"
+   ],
+   "after_doc_refs": [
+    [
+     "zU49",
+     1,
+     false
+    ],
+    [
+     "khSi",
+     1,
+     false
+    ]
+   ],
+   "counts_equal": true,
+   "no_extras": true,
+   "no_outdated": true,
+   "saved": true,
+   "open_docs_after": [],
+   "version_after": 1,
+   "s": 3.4
+  }
+ },
+ "hang": {
+  "script": ".knuth/fusion/running/20261014-203629-181-dedupe_exo283_activate.py",
+  "submitted": "2026-10-14 20:36:29",
+  "still_running_at": "2026-10-14 20:41:33",
+  "note": "silent >5 min; stopped per hang rule. Script sets app.data.activeHub/activeProject to Estebans/G1 exeskeleton, then activates and saves the open pGmH doc. Which line blocks is unknown (log is only written at the end).",
+  "resolved": "activate script finished FAIL after 459.6s (log 20261014-203629-181): setting app.data.activeHub/activeProject to Estebans/G1 exeskeleton succeeded (\"active now Estebans / G1 exeskeleton\") but took ~7.5 min; pGmH doc had been closed meanwhile (IndexError), so no save was attempted."
+ },
+ "save_finding": "doc.save() returned True for copy v1, sensor module ocXT and pGmH (3 tries), but no new version was created (latestVersionNumber still 1, isModified still True after save). A reopened pGmH still linked bYhy. Nothing changed in the cloud.",
+ "phase2_status": "stopped",
+ "active_start": {
+  "hub": "Team hub - Rodrigo Andrade",
+  "project": "G1 exeskeleton",
+  "source": "organize_exo282 state.json start"
+ },
+ "pGmH_check_2045": "pGmH latestVersionNumber still 1 at 20:44:54 - not saved by hand; no docs open.",
+ "savetest": [
+  {
+   "time": "2026-10-14 20:45:22",
+   "name": "wrist_sketch3_with_straps (copy v1)",
+   "route": "a",
+   "v0": 1,
+   "active": "G1 exeskeleton @ Estebans",
+   "actions": [
+    {
+     "occ": "writst mount_e:1",
+     "from": "zs1g",
+     "to": "eKtc",
+     "ok": true
+    }
+   ],
+   "before": {
+    "components": 3,
+    "bodies": 3,
+    "occurrences": 2,
+    "linked": 1,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "after": {
+    "components": 3,
+    "bodies": 3,
+    "occurrences": 2,
+    "linked": 1,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "refs_after": [
+    [
+     "eKtc",
+     1,
+     false
+    ]
+   ],
+   "counts_equal": true,
+   "no_extras": true,
+   "isModified_pre": true,
+   "save": true,
+   "wait_s": 9.2,
+   "v_in_doc": 2,
+   "isModified_post": false,
+   "open_docs_after": [],
+   "v_after_close": 2,
+   "s": 15.9
+  },
+  {
+   "time": "2026-10-14 20:45:45",
+   "name": "sensor module ocXT",
+   "route": "a",
+   "v0": 1,
+   "active": "G1 exeskeleton @ Estebans",
+   "actions": [
+    {
+     "occ": "5972K159_Ball Bearing:1",
+     "from": "z82o",
+     "to": "khSi",
+     "ok": true
+    },
+    {
+     "occ": "XL330:1",
+     "from": "VtO-",
+     "to": "zU49",
+     "ok": true
+    }
+   ],
+   "before": {
+    "components": 6,
+    "bodies": 31,
+    "occurrences": 5,
+    "linked": 2,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "after": {
+    "components": 6,
+    "bodies": 31,
+    "occurrences": 5,
+    "linked": 2,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "refs_after": [
+    [
+     "zU49",
+     1,
+     false
+    ],
+    [
+     "khSi",
+     1,
+     false
+    ]
+   ],
+   "counts_equal": true,
+   "no_extras": true,
+   "isModified_pre": true,
+   "save": true,
+   "wait_s": 12.7,
+   "v_in_doc": 2,
+   "isModified_post": false,
+   "open_docs_after": [],
+   "v_after_close": 2,
+   "s": 16.7
+  },
+  {
+   "time": "2026-10-14 20:46:03",
+   "name": "sensor module pGmH",
+   "route": "a",
+   "v0": 1,
+   "active": "G1 exeskeleton @ Estebans",
+   "actions": [
+    {
+     "occ": "5972K159_Ball Bearing:1",
+     "from": "bYhy",
+     "to": "khSi",
+     "ok": true
+    }
+   ],
+   "before": {
+    "components": 6,
+    "bodies": 31,
+    "occurrences": 5,
+    "linked": 2,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "after": {
+    "components": 6,
+    "bodies": 31,
+    "occurrences": 5,
+    "linked": 2,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "refs_after": [
+    [
+     "khSi",
+     1,
+     false
+    ],
+    [
+     "zU49",
+     1,
+     false
+    ]
+   ],
+   "counts_equal": true,
+   "no_extras": true,
+   "isModified_pre": true,
+   "save": true,
+   "wait_s": 12.5,
+   "v_in_doc": 2,
+   "isModified_post": false,
+   "open_docs_after": [],
+   "v_after_close": 2,
+   "s": 15.6
+  },
+  {
+   "time": "2026-10-14 20:46:23",
+   "name": "arm test",
+   "route": "a",
+   "v0": 1,
+   "active": "G1 exeskeleton @ Estebans",
+   "actions": [
+    {
+     "occ": "left arm:1+cuffs with soft inside:1",
+     "from": "i1pB",
+     "to": "UmT3",
+     "ok": true
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "from": "dW5W",
+     "to": "yDln",
+     "ok": true
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:1",
+     "from": "_vds",
+     "to": "u2fX",
+     "ok": true
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "from": "3GOu",
+     "to": "Bmc3",
+     "ok": true
+    },
+    {
+     "occ": "cuffs with soft inside:2",
+     "from": "i1pB",
+     "to": "UmT3",
+     "ok": true
+    }
+   ],
+   "before": {
+    "components": 152,
+    "bodies": 963,
+    "occurrences": 173,
+    "linked": 24,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "after": {
+    "components": 152,
+    "bodies": 963,
+    "occurrences": 205,
+    "linked": 30,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "refs_after": [
+    [
+     "Bmc3",
+     1,
+     false
+    ],
+    [
+     "u2fX",
+     1,
+     false
+    ],
+    [
+     "yDln",
+     1,
+     false
+    ],
+    [
+     "UmT3",
+     1,
+     false
+    ]
+   ],
+   "counts_equal": false,
+   "no_extras": true,
+   "open_docs_after": [],
+   "v_after_close": 1,
+   "s": 9.0
+  },
+  {
+   "time": "2026-10-14 20:46:33",
+   "name": "arm complete luna",
+   "route": "a",
+   "v0": 1,
+   "active": "G1 exeskeleton @ Estebans",
+   "actions": [
+    {
+     "occ": "left arm:1+cuffs with soft inside:1",
+     "from": "FYgk",
+     "to": "UmT3",
+     "ok": true
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "from": "l1Z5",
+     "to": "yDln",
+     "ok": true
+    },
+    {
+     "occ": "M4 x 0.7mm Thread HEX NUT:1",
+     "from": "Grel",
+     "to": "u2fX",
+     "ok": true
+    },
+    {
+     "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "from": "06av",
+     "to": "Bmc3",
+     "ok": true
+    }
+   ],
+   "before": {
+    "components": 147,
+    "bodies": 1268,
+    "occurrences": 164,
+    "linked": 22,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "after": {
+    "components": 147,
+    "bodies": 1268,
+    "occurrences": 164,
+    "linked": 22,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "refs_after": [
+    [
+     "yDln",
+     1,
+     false
+    ],
+    [
+     "u2fX",
+     1,
+     false
+    ],
+    [
+     "Bmc3",
+     1,
+     false
+    ],
+    [
+     "UmT3",
+     1,
+     false
+    ]
+   ],
+   "counts_equal": true,
+   "no_extras": true,
+   "isModified_pre": true,
+   "save": true,
+   "wait_s": 34.2,
+   "v_in_doc": 2,
+   "isModified_post": false,
+   "open_docs_after": [],
+   "v_after_close": 2,
+   "s": 45.4
+  },
+  {
+   "time": "2026-10-14 20:48:01",
+   "name": "arm",
+   "route": "a",
+   "v0": 1,
+   "active": "G1 exeskeleton @ Estebans",
+   "actions": [],
+   "before": {
+    "components": 29,
+    "bodies": 72,
+    "occurrences": 94,
+    "linked": 21,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "open_docs_after": [],
+   "v_after_close": 1,
+   "s": 9.0
+  },
+  {
+   "time": "2026-10-14 20:48:11",
+   "name": "arm 2",
+   "route": "a",
+   "v0": 1,
+   "active": "G1 exeskeleton @ Estebans",
+   "actions": [
+    {
+     "ref": "ocXT",
+     "from_v": 1,
+     "to_v": 2,
+     "ok": true
+    }
+   ],
+   "before": {
+    "components": 66,
+    "bodies": 264,
+    "occurrences": 101,
+    "linked": 21,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "after": {
+    "components": 66,
+    "bodies": 264,
+    "occurrences": 101,
+    "linked": 21,
+    "joints": 0,
+    "asBuilt": 0,
+    "rigidGroups": 0
+   },
+   "refs_after": [
+    [
+     "ocXT",
+     2,
+     false
+    ]
+   ],
+   "counts_equal": true,
+   "no_extras": true,
+   "isModified_pre": true,
+   "save": true,
+   "wait_s": 11.1,
+   "v_in_doc": 2,
+   "isModified_post": false,
+   "open_docs_after": [],
+   "v_after_close": 2,
+   "s": 16.1
+  }
+ ],
+ "arm_latest_fail": {
+  "log": ".knuth/fusion/outbox/20261014-204801-013-dedupe_exo283_savetest.py.log",
+  "error": "DocumentReference.getLatestVersion raised RuntimeError 3: many FACE/PROFILE/EDGE/BODY_REFERENCE_LOST (DeleteFace32.., Extrude22.., Fillet14.., Body->Comp7..) in arm timeline; doc closed unsaved; arm stays on pGmH v1 -> bYhy must be kept"
+ },
+ "armtest_occ_growth": {
+  "log": ".knuth/fusion/outbox/20261014-204733-422-dedupe_exo283_diag_armtest.py.log",
+  "finding": "arm test has 2 occurrences of component 'cuffs with soft inside (1)' (link i1pB, 1 child occurrence each) besides 'cuffs with soft inside' (8 children). Replacing them with UmT3 turns them into the 8-child cuffs: occurrences 173->205, linked 24->30 (comps 152, bodies 963 unchanged). Verification failed, arm test closed unsaved. arm complete has the same 1-child '(1)' instances on UmT3."
+ },
+ "deletes": {
+  "_vds": {
+   "id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [
+    [
+     "arm test",
+     "fZK9",
+     1
+    ],
+    [
+     "cuffs with soft inside",
+     "i1pB",
+     1
+    ]
+   ],
+   "action": "kept: has parents protected"
+  },
+  "Grel": {
+   "id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [
+    [
+     "cuffs with soft inside",
+     "FYgk",
+     1
+    ]
+   ],
+   "action": "kept: has parents"
+  },
+  "3GOu": {
+   "id": "urn:adsk.wipprod:dm.lineage:3GOuJvUxRySz5kPInpNDog",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [
+    [
+     "arm test",
+     "fZK9",
+     1
+    ]
+   ],
+   "action": "kept: has parents protected"
+  },
+  "06av": {
+   "id": "urn:adsk.wipprod:dm.lineage:06avThYqTgy4dwOO_7VdOw",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [],
+   "action": "delete FAILED",
+   "ok": null,
+   "errors": [
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res"
+   ]
+  },
+  "dW5W": {
+   "id": "urn:adsk.wipprod:dm.lineage:dW5WClmISqWaUGbJ8iBm6g",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [
+    [
+     "arm test",
+     "fZK9",
+     1
+    ]
+   ],
+   "action": "kept: has parents protected"
+  },
+  "l1Z5": {
+   "id": "urn:adsk.wipprod:dm.lineage:l1Z5i7nDSdCE7Iq-qgLEeQ",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [],
+   "action": "delete FAILED",
+   "ok": null,
+   "errors": [
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res"
+   ]
+  },
+  "i1pB": {
+   "id": "urn:adsk.wipprod:dm.lineage:i1pB70ZESvaIAZxFwU7wSQ",
+   "name": "cuffs with soft inside",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [
+    [
+     "arm test",
+     "fZK9",
+     1
+    ]
+   ],
+   "action": "kept: has parents protected"
+  },
+  "FYgk": {
+   "id": "urn:adsk.wipprod:dm.lineage:FYgk4wLCRVabVtGEiVbFhg",
+   "name": "cuffs with soft inside",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [],
+   "action": "delete FAILED",
+   "ok": null,
+   "errors": [
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res"
+   ]
+  },
+  "_mtP": {
+   "id": "urn:adsk.wipprod:dm.lineage:_mtPirY5TZ6HAGO9Oa0ULQ",
+   "name": "5972K159_Ball Bearing",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [],
+   "action": "deleted",
+   "ok": true,
+   "errors": []
+  },
+  "z82o": {
+   "id": "urn:adsk.wipprod:dm.lineage:z82oImUIQxq1BOI-jrPxBg",
+   "name": "5972K159_Ball Bearing",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [],
+   "action": "delete FAILED",
+   "ok": null,
+   "errors": [
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res"
+   ]
+  },
+  "bYhy": {
+   "id": "urn:adsk.wipprod:dm.lineage:bYhycXTtRDCF7RLAR_EaWQ",
+   "name": "5972K159_Ball Bearing",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [],
+   "action": "kept:  protected"
+  },
+  "VtO-": {
+   "id": "urn:adsk.wipprod:dm.lineage:VtO-MkfaRleYqpo3jRa1XA",
+   "name": "XL330",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [],
+   "action": "delete FAILED",
+   "ok": null,
+   "errors": [
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res"
+   ]
+  },
+  "zs1g": {
+   "id": "urn:adsk.wipprod:dm.lineage:zs1gGokvTayE8cgJrH4veg",
+   "name": "writst mount_e",
+   "folder": "G1 exeskeleton",
+   "parentReferences": [],
+   "action": "delete FAILED",
+   "ok": null,
+   "errors": [
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res"
+   ],
+   "retries": [
+    {
+     "ok": null,
+     "errors": [
+      "2 : InternalValidationError : res",
+      "2 : InternalValidationError : res",
+      "2 : InternalValidationError : res",
+      "2 : InternalValidationError : res",
+      "2 : InternalValidationError : res",
+      "2 : InternalValidationError : res",
+      "2 : InternalValidationError : res",
+      "2 : InternalValidationError : res"
+     ],
+     "time": "20:52:02"
+    }
+   ]
+  }
+ },
+ "backup_moves": {
+  "b28K": {
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "from": "G1 exeskeleton",
+   "ok": true,
+   "now_in_old": true,
+   "parents": [
+    [
+     "cuffs with soft inside",
+     "cjUR"
+    ],
+    [
+     "arm complete BACKUP 2026-08-08",
+     "xWFs"
+    ]
+   ]
+  },
+  "eMNd": {
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "from": "G1 exeskeleton",
+   "ok": true,
+   "now_in_old": true,
+   "parents": [
+    [
+     "arm complete BACKUP 2026-08-08",
+     "xWFs"
+    ]
+   ]
+  },
+  "7XBt": {
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "from": "G1 exeskeleton",
+   "ok": true,
+   "now_in_old": true,
+   "parents": [
+    [
+     "arm complete BACKUP 2026-08-08",
+     "xWFs"
+    ]
+   ]
+  },
+  "cjUR": {
+   "name": "cuffs with soft inside",
+   "from": "G1 exeskeleton",
+   "ok": true,
+   "now_in_old": true,
+   "parents": [
+    [
+     "arm complete BACKUP 2026-08-08",
+     "xWFs"
+    ]
+   ]
+  }
+ }
+}

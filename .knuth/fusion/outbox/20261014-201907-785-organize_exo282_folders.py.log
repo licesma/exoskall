@@ -1,0 +1,21 @@
+OK
+created arm
+created arm/upper body
+created arm/upper body/joint
+created arm/upper body/joint/rotor
+created arm/upper body/joint/stators
+created arm/upper body/link
+created arm/exo upper body
+created arm/exo upper body/joint
+created arm/exo upper body/link
+created arm/old
+created body mount
+created hand
+created hand/cuff
+created hand/robot
+created hand/robot/wuji
+created hand/robot/inspire
+created parts
+created other
+folders: ['arm', 'arm/exo upper body', 'arm/exo upper body/joint', 'arm/exo upper body/link', 'arm/old', 'arm/upper body', 'arm/upper body/joint', 'arm/upper body/joint/rotor', 'arm/upper body/joint/stators', 'arm/upper body/link', 'body mount', 'hand', 'hand/cuff', 'hand/robot', 'hand/robot/inspire', 'hand/robot/wuji', 'other', 'parts']
+bridge: OK in 24.8s

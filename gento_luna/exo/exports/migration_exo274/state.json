@@ -1,0 +1,2785 @@
+{
+ "issue": "EXO-274",
+ "start": {
+  "hub_name": "Team hub - Rodrigo Andrade",
+  "hub_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEz",
+  "project_name": "G1 exeskeleton",
+  "project_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjYwMjAyMTA0NTg3NDkzMQ",
+  "open_docs": [
+   "5972K159_Ball Bearing.f3d ",
+   "sensor module 2",
+   "exo generated",
+   "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW.f3d ",
+   "M4 x 0.7mm Thread HEX NUT.f3d ",
+   "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW.f3d ",
+   "cuffs with soft inside",
+   "arm complete",
+   "cases (~recovered)",
+   "arm complete (~recovered)"
+  ],
+  "active_doc": "arm complete (~recovered)",
+  "time": "2026-10-13 20:42:45",
+  "open_docs_detail": [
+   {
+    "name": "5972K159_Ball Bearing.f3d ",
+    "isModified": false,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:iyVUEZVuR-agd_-XzOOpUA",
+    "df_ver": 1,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   },
+   {
+    "name": "sensor module 2",
+    "isModified": false,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:ynVmLXEjT8aZkUCmFPE85w",
+    "df_ver": 12,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   },
+   {
+    "name": "exo generated",
+    "isModified": false,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:l4wfjISQT1eJe4RQ8jQouQ",
+    "df_ver": 8,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   },
+   {
+    "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW.f3d ",
+    "isModified": false,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:gH7QWRzBQwiaXX_he8NSzQ",
+    "df_ver": 1,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   },
+   {
+    "name": "M4 x 0.7mm Thread HEX NUT.f3d ",
+    "isModified": false,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:WqUa7CO8QSS9eiuN--5j1g",
+    "df_ver": 1,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   },
+   {
+    "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW.f3d ",
+    "isModified": false,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:k9ophutJQYOc_2kgEd7zOQ",
+    "df_ver": 1,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   },
+   {
+    "name": "cuffs with soft inside",
+    "isModified": false,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:HZO-ZkjwQb2IVyOTKpVsNQ",
+    "df_ver": 9,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   },
+   {
+    "name": "arm complete",
+    "isModified": false,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:EXtWGgfjQ1GnGLG53zkBsQ",
+    "df_ver": 35,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   },
+   {
+    "name": "cases (~recovered)",
+    "isModified": true,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:G12eyGCvQwePHwWeCQX0rA",
+    "df_ver": 10,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   },
+   {
+    "name": "arm complete (~recovered)",
+    "isModified": true,
+    "isSaved": true,
+    "df_id": "urn:adsk.wipprod:dm.lineage:eip2VaCiSPOzOXokAfwGWw",
+    "df_ver": 1,
+    "df_project": "G1 exeskeleton",
+    "isVisible": true
+   }
+  ]
+ },
+ "api": {
+  "DataProjects.add": true,
+  "DataFolders.add": true,
+  "DataFolders.itemByName": true,
+  "DataFile.download": true,
+  "DataFile.copy": true,
+  "DataUpload.uploadState": false,
+  "DataUpload.dataFile": false,
+  "Documents.open": true,
+  "DataFolder.uploadFile": true,
+  "UploadStates": [
+   "UploadFailed",
+   "UploadFinished",
+   "UploadProcessing",
+   "thisown"
+  ],
+  "DataProjects.add_doc": "\nCreates a new project in the parent hub.\nname : The name of the project. This is the name visible to the user.\npurpose : Optional description of the purpose of the project. An empty string can be used to not specify a purpose.\ncontributors : Optional list of contributors where the list consists of ",
+  "DataFile.download_doc": "\nPerforms a synchronous or asynchronous download of this DataFile. Only DataFiles that represent\nnon-Fusion data can be downloaded. For example, this will work for TXT or XLS files but will\nfail for F3D files.\nWhen using this in its synchronous mode, Fusion is frozen during the download and the call will not\nreturn until the download is complete or has failed. When using this in its asynchronous m"
+ },
+ "target": {
+  "hub_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0",
+  "hub_name": "Estebans",
+  "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+  "project_name": "G1 exeskeleton",
+  "root_folder_id": "urn:adsk.wipprod:fs.folder:co.LkXm5511RLKuQEE9SBu30A",
+  "cuff_folder_id": "urn:adsk.wipprod:fs.folder:co.BtB2DO-hTDep7RhsJadR0A"
+ },
+ "step1": "done 2026-10-14 17:56:23 (project+cuff were created by the hung 2026-10-13 run; confirmed empty)",
+ "reprobe": {
+  "time": "2026-10-14 18:18:42",
+  "active_hub": "Team hub - Rodrigo Andrade",
+  "active_project": "G1 exeskeleton",
+  "active_doc": "ERR: 'NoneType' object has no attribute 'name'",
+  "estebans_projects": [
+   "Assets",
+   "Default Project",
+   "gvl",
+   "Learn Fusion in 30 days",
+   "G1 exeskeleton"
+  ],
+  "target": {
+   "id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+   "root_files": [
+    "apriltag support",
+    "arm complete_Camera support",
+    "arm complete_chest mount",
+    "cuffs with soft inside v7.mp4",
+    "Direct-Adapter-Mount",
+    "elbow_luna",
+    "inspire_link",
+    "M3x1.8mm Hex Nut",
+    "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+    "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+    "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+    "pan_head_philip_mc_screw_m1-6",
+    "right",
+    "tool_organizer_exo258",
+    "WH_simplified_right_frameonly",
+    "wristband_2.0",
+    "writst_mount_c",
+    "writst mount",
+    "wuji enclosure"
+   ],
+   "root_folders": [
+    "cuff"
+   ]
+  },
+  "open_docs": []
+ },
+ "items": [
+  {
+   "n": 1,
+   "src_id": "urn:adsk.wipprod:dm.lineage:eip2VaCiSPOzOXokAfwGWw",
+   "src_name": "arm complete",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3z",
+   "export_file": "01_arm_complete_v1.f3z",
+   "target_name": "arm complete BACKUP 2026-08-08",
+   "target_folder": "root",
+   "status": "blocked_assembly",
+   "src_check": {
+    "name": "arm complete",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "note": "recovered doc now closed, but it is an assembly (4 child refs): same API limitation as item 2 (EXO-278); not retried per coordinator",
+   "closed_docs": [],
+   "export_s": 0.5
+  },
+  {
+   "n": 2,
+   "src_id": "urn:adsk.wipprod:dm.lineage:EXtWGgfjQ1GnGLG53zkBsQ",
+   "src_name": "arm complete",
+   "src_path": "/",
+   "src_ver": 35,
+   "kind": "f3z",
+   "export_file": "02_arm_complete_v35.f3z",
+   "target_name": "arm complete",
+   "target_folder": "root",
+   "status": "upload_failed",
+   "src_check": {
+    "name": "arm complete",
+    "ver": 35,
+    "latest": 35,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": true,
+   "opened_new_docs": [],
+   "exported_from_version": 35,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/02_arm_complete_v35.f3z.f3d",
+   "export_bytes": 83260404,
+   "closed_docs": [],
+   "export_s": 11.4,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/02/arm complete.f3d",
+   "upload_t0": 1792025786.096839
+  },
+  {
+   "n": 3,
+   "src_id": "urn:adsk.wipprod:dm.lineage:3gFly6CfSRCiBq8AOAefVg",
+   "src_name": "arm complete luna",
+   "src_path": "/",
+   "src_ver": 16,
+   "kind": "f3z",
+   "export_file": "03_arm_complete_luna_v16.f3z",
+   "target_name": "arm complete luna",
+   "target_folder": "root",
+   "status": "blocked_assembly",
+   "note": "not exported: API archive export of a doc with external refs yields a single .f3d whose upload fails (items 2, 8); DataFile.copy across hubs fails"
+  },
+  {
+   "n": 4,
+   "src_id": "urn:adsk.wipprod:dm.lineage:KKG6xi1sRqGQB5vGkcfJDg",
+   "src_name": "arm test",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3z",
+   "export_file": "04_arm_test_v1.f3z",
+   "target_name": "arm test",
+   "target_folder": "root",
+   "status": "blocked_assembly",
+   "note": "not exported: API archive export of a doc with external refs yields a single .f3d whose upload fails (items 2, 8); DataFile.copy across hubs fails"
+  },
+  {
+   "n": 5,
+   "src_id": "urn:adsk.wipprod:dm.lineage:l4wfjISQT1eJe4RQ8jQouQ",
+   "src_name": "exo generated",
+   "src_path": "/",
+   "src_ver": 8,
+   "kind": "f3z",
+   "export_file": "05_exo_generated_v8.f3z",
+   "target_name": "exo generated",
+   "target_folder": "root",
+   "status": "blocked_assembly",
+   "note": "not exported: API archive export of a doc with external refs yields a single .f3d whose upload fails (items 2, 8); DataFile.copy across hubs fails"
+  },
+  {
+   "n": 6,
+   "src_id": "urn:adsk.wipprod:dm.lineage:e4zHGHX1TI-Vg5LOcBdWKg",
+   "src_name": "arm",
+   "src_path": "/",
+   "src_ver": 41,
+   "kind": "f3z",
+   "export_file": "06_arm_v41.f3z",
+   "target_name": "arm",
+   "target_folder": "root",
+   "status": "blocked_assembly",
+   "note": "not exported: API archive export of a doc with external refs yields a single .f3d whose upload fails (items 2, 8); DataFile.copy across hubs fails"
+  },
+  {
+   "n": 7,
+   "src_id": "urn:adsk.wipprod:dm.lineage:XJgJ4P0OTHSeHW0Nobz8pw",
+   "src_name": "arm 2",
+   "src_path": "/",
+   "src_ver": 6,
+   "kind": "f3z",
+   "export_file": "07_arm_2_v6.f3z",
+   "target_name": "arm 2",
+   "target_folder": "root",
+   "status": "blocked_assembly",
+   "note": "not exported: API archive export of a doc with external refs yields a single .f3d whose upload fails (items 2, 8); DataFile.copy across hubs fails"
+  },
+  {
+   "n": 8,
+   "src_id": "urn:adsk.wipprod:dm.lineage:5328GUuwS_SbsBlhkmhZCw",
+   "src_name": "sensor module test",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3z",
+   "export_file": "08_sensor_module_test_v1.f3z",
+   "target_name": "sensor module test",
+   "target_folder": "root",
+   "status": "upload_failed",
+   "src_check": {
+    "name": "sensor module test",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "sensor module test"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/08_sensor_module_test_v1.f3z.f3d",
+   "export_bytes": 3850728,
+   "closed_docs": [
+    "sensor module test"
+   ],
+   "export_s": 5.2,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/08/sensor module test.f3d",
+   "upload_t0": 1792025843.2540312,
+   "error": "uploadState=UploadFailed after 8s; dataFile=ERR: 'NoneType' object has no attribute 'name'"
+  },
+  {
+   "n": 9,
+   "src_id": "urn:adsk.wipprod:dm.lineage:MQGUPDCWQMeCHnTDtaIOjA",
+   "src_name": "wrist_sketch3_with_straps",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3z",
+   "export_file": "09_wrist_sketch3_with_straps_v1.f3z",
+   "target_name": "wrist_sketch3_with_straps",
+   "target_folder": "root",
+   "status": "blocked_assembly",
+   "note": "not exported: API archive export of a doc with external refs yields a single .f3d whose upload fails (items 2, 8); DataFile.copy across hubs fails"
+  },
+  {
+   "n": 10,
+   "src_id": "urn:adsk.wipprod:dm.lineage:FrHFTvTiRtmuwsPlVZ90ew",
+   "src_name": "wrist_sketch3_with_straps",
+   "src_path": "/",
+   "src_ver": 4,
+   "kind": "f3z",
+   "export_file": "10_wrist_sketch3_with_straps_v4.f3z",
+   "target_name": "wrist_sketch3_with_straps",
+   "target_folder": "root",
+   "status": "blocked_assembly",
+   "note": "not exported: API archive export of a doc with external refs yields a single .f3d whose upload fails (items 2, 8); DataFile.copy across hubs fails"
+  },
+  {
+   "n": 11,
+   "src_id": "urn:adsk.wipprod:dm.lineage:lmfe60JNTYqsyCtLIk2KNw",
+   "src_name": "apriltag support",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "11_apriltag_support_v1.f3d",
+   "target_name": "apriltag support",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "apriltag support",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "apriltag support"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/11_apriltag_support_v1.f3d",
+   "export_bytes": 46103,
+   "closed_docs": [
+    "apriltag support"
+   ],
+   "export_s": 5.5,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/11/apriltag support.f3d",
+   "upload_t0": 1792025816.021448,
+   "upload_df_name": "apriltag support",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:D_GhGnMjR-WfYRPHGv216Q",
+   "upload_s": 10.9
+  },
+  {
+   "n": 12,
+   "src_id": "urn:adsk.wipprod:dm.lineage:U0pv1CuESFGxcuxgyK2CeA",
+   "src_name": "arm complete_Camera support",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "12_arm_complete_Camera_support_v1.f3d",
+   "target_name": "arm complete_Camera support",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "arm complete_Camera support",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "arm complete_Camera support"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/12_arm_complete_Camera_support_v1.f3d",
+   "export_bytes": 143093,
+   "closed_docs": [
+    "arm complete_Camera support"
+   ],
+   "export_s": 4.6,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/12/arm complete_Camera support.f3d",
+   "upload_t0": 1792025900.0833821,
+   "upload_df_name": "arm complete_Camera support",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:z15GBJnDRyeQElHZvbYgwg",
+   "upload_s": 8.7
+  },
+  {
+   "n": 13,
+   "src_id": "urn:adsk.wipprod:dm.lineage:zQzeo3-ATLWV4ECPFiOrQw",
+   "src_name": "arm complete_chest mount",
+   "src_path": "/",
+   "src_ver": 2,
+   "kind": "f3d",
+   "export_file": "13_arm_complete_chest_mount_v2.f3d",
+   "target_name": "arm complete_chest mount",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "arm complete_chest mount",
+    "ver": 2,
+    "latest": 2,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "arm complete_chest mount"
+   ],
+   "exported_from_version": 2,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/13_arm_complete_chest_mount_v2.f3d",
+   "export_bytes": 520254,
+   "closed_docs": [
+    "arm complete_chest mount"
+   ],
+   "export_s": 4.0,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/13/arm complete_chest mount.f3d",
+   "upload_t0": 1792025928.240984,
+   "upload_df_name": "arm complete_chest mount",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:lvB_fi9qT02ITHaBJZkTrw",
+   "upload_s": 9.7
+  },
+  {
+   "n": 14,
+   "src_id": "urn:adsk.wipprod:dm.lineage:G12eyGCvQwePHwWeCQX0rA",
+   "src_name": "cases",
+   "src_path": "/",
+   "src_ver": 10,
+   "kind": "f3d",
+   "export_file": "14_cases_v10.f3d",
+   "target_name": "cases",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "cases",
+    "ver": 10,
+    "latest": 10,
+    "project": "G1 exeskeleton"
+   },
+   "note": "was skipped_modified; recovered doc closed by Esteban 2026-10-14, retried",
+   "closed_docs": [
+    "cases"
+   ],
+   "export_s": 5.1,
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "cases"
+   ],
+   "exported_from_version": 10,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/14_cases_v10.f3d",
+   "export_bytes": 2577093,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/14/cases.f3d",
+   "upload_t0": 1792027191.80724,
+   "upload_df_name": "cases",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:AxWRyNAWRiCTr2mIST4vug",
+   "upload_s": 26.3
+  },
+  {
+   "n": 15,
+   "src_id": "urn:adsk.wipprod:dm.lineage:48n4zKf7SjqlNp3hs4C2dg",
+   "src_name": "cuffs with soft inside v7.mp4",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "download",
+   "export_file": "15_cuffs_with_soft_inside_v7.mp4_v1.mp4",
+   "target_name": "cuffs with soft inside v7.mp4",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "cuffs with soft inside v7.mp4",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "downloaded_as": "cuffs with soft inside v7.mp4",
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/15_cuffs_with_soft_inside_v7.mp4_v1.mp4",
+   "export_bytes": 3596465,
+   "closed_docs": [],
+   "export_s": 1.5,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/15/cuffs with soft inside v7.mp4",
+   "upload_t0": 1792025946.788109,
+   "upload_df_name": "cuffs with soft inside v7.mp4",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:oZDS8t08Td-0X_e3QO597g",
+   "upload_s": 12.2
+  },
+  {
+   "n": 16,
+   "src_id": "urn:adsk.wipprod:dm.lineage:gSQIILR1TgeUt-qOcysO2w",
+   "src_name": "Direct-Adapter-Mount",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "16_Direct-Adapter-Mount_v1.f3d",
+   "target_name": "Direct-Adapter-Mount",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "Direct-Adapter-Mount",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "Direct-Adapter-Mount"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/16_Direct-Adapter-Mount_v1.f3d",
+   "export_bytes": 1496785,
+   "closed_docs": [
+    "Direct-Adapter-Mount"
+   ],
+   "export_s": 4.0,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/16/Direct-Adapter-Mount.f3d",
+   "upload_t0": 1792025966.30571,
+   "upload_df_name": "Direct-Adapter-Mount",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:DsxpO1c0TlSIelaD0UMsqA",
+   "upload_s": 10.8
+  },
+  {
+   "n": 17,
+   "src_id": "urn:adsk.wipprod:dm.lineage:WBSQBPPzT5m33RO5FcdPjw",
+   "src_name": "elbow_luna",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "17_elbow_luna_v1.f3d",
+   "target_name": "elbow_luna",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "elbow_luna",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "elbow_luna"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/17_elbow_luna_v1.f3d",
+   "export_bytes": 33780,
+   "closed_docs": [
+    "elbow_luna"
+   ],
+   "export_s": 3.3,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/17/elbow_luna.f3d",
+   "upload_t0": 1792025984.1226308,
+   "upload_df_name": "elbow_luna",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:Y2D2cGtlReWOR-9ilj-zbg",
+   "upload_s": 9.0
+  },
+  {
+   "n": 18,
+   "src_id": "urn:adsk.wipprod:dm.lineage:eXVOPaAOSoGq_N3diG-BnQ",
+   "src_name": "inspire_link",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "18_inspire_link_v1.f3d",
+   "target_name": "inspire_link",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "inspire_link",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "inspire_link"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/18_inspire_link_v1.f3d",
+   "export_bytes": 29714,
+   "closed_docs": [
+    "inspire_link"
+   ],
+   "export_s": 4.7,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/18/inspire_link.f3d",
+   "upload_t0": 1792026001.662097,
+   "upload_df_name": "inspire_link",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:JVOJcOwrRFGzhUhl2svQJw",
+   "upload_s": 8.9
+  },
+  {
+   "n": 19,
+   "src_id": "urn:adsk.wipprod:dm.lineage:lvsGZbiMRQi0pEypKXgvlg",
+   "src_name": "M3x1.8mm Hex Nut",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "19_M3x1.8mm_Hex_Nut_v1.f3d",
+   "target_name": "M3x1.8mm Hex Nut",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "M3x1.8mm Hex Nut",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "M3x1.8mm Hex Nut"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/19_M3x1.8mm_Hex_Nut_v1.f3d",
+   "export_bytes": 208632,
+   "closed_docs": [
+    "M3x1.8mm Hex Nut"
+   ],
+   "export_s": 3.5,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/19/M3x1.8mm Hex Nut.f3d",
+   "upload_t0": 1792026017.6801121,
+   "upload_df_name": "M3x1.8mm Hex Nut",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:KhadPO81QGO68ELzD43byg",
+   "upload_s": 8.1
+  },
+  {
+   "n": 20,
+   "src_id": "urn:adsk.wipprod:dm.lineage:jjoDTGMaRrSFEP86eBRWVg",
+   "src_name": "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "20_M4_x_0.7mm_Thread_10mm_LONG_SOCKET_HEAD_CAP_SCREW_v1.f3d",
+   "target_name": "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/20_M4_x_0.7mm_Thread_10mm_LONG_SOCKET_HEAD_CAP_SCREW_v1.f3d",
+   "export_bytes": 471118,
+   "closed_docs": [
+    "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW"
+   ],
+   "export_s": 4.5,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/20/M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW.f3d",
+   "upload_t0": 1792026034.1618629,
+   "upload_df_name": "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:iUyCL7IcQZKm8tltjMWw6w",
+   "upload_s": 8.9
+  },
+  {
+   "n": 21,
+   "src_id": "urn:adsk.wipprod:dm.lineage:NkCK8-b-RAecqabLK2qF9Q",
+   "src_name": "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "21_M4_x_0.7mm_Thread_12mm_LONG_SOCKET_HEAD_CAP_SCREW_v1.f3d",
+   "target_name": "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/21_M4_x_0.7mm_Thread_12mm_LONG_SOCKET_HEAD_CAP_SCREW_v1.f3d",
+   "export_bytes": 550073,
+   "closed_docs": [
+    "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW"
+   ],
+   "export_s": 3.6,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/21/M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW.f3d",
+   "upload_t0": 1792026050.500452,
+   "upload_df_name": "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:uXMptCMJRIKWpir8qDtnqg",
+   "upload_s": 7.9
+  },
+  {
+   "n": 22,
+   "src_id": "urn:adsk.wipprod:dm.lineage:3SBjlZHyRfSX9K7wdjJ2Yg",
+   "src_name": "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "22_M4_x_0.7mm_Thread_35mm_LONG_SOCKET_HEAD_CAP_SCREW_v1.f3d",
+   "target_name": "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/22_M4_x_0.7mm_Thread_35mm_LONG_SOCKET_HEAD_CAP_SCREW_v1.f3d",
+   "export_bytes": 922018,
+   "closed_docs": [
+    "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW"
+   ],
+   "export_s": 4.3,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/22/M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW.f3d",
+   "upload_t0": 1792026066.263508,
+   "upload_df_name": "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:F582bMLWThGuzPyAvgqsYw",
+   "upload_s": 11.5
+  },
+  {
+   "n": 23,
+   "src_id": "urn:adsk.wipprod:dm.lineage:W3t9fJVTShO3Knea3SvRlw",
+   "src_name": "pan_head_philip_mc_screw_m1-6",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "23_pan_head_philip_mc_screw_m1-6_v1.f3d",
+   "target_name": "pan_head_philip_mc_screw_m1-6",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "pan_head_philip_mc_screw_m1-6",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "pan_head_philip_mc_screw_m1-6"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/23_pan_head_philip_mc_screw_m1-6_v1.f3d",
+   "export_bytes": 4618534,
+   "closed_docs": [
+    "pan_head_philip_mc_screw_m1-6"
+   ],
+   "export_s": 5.4,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/23/pan_head_philip_mc_screw_m1-6.f3d",
+   "upload_t0": 1792026086.769344,
+   "upload_df_name": "pan_head_philip_mc_screw_m1-6",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:wEVGyPXgSwmY8pdfy1G8bw",
+   "upload_s": 11.1
+  },
+  {
+   "n": 24,
+   "src_id": "urn:adsk.wipprod:dm.lineage:zDIMLNooR96mAHuEyHI3Ow",
+   "src_name": "right",
+   "src_path": "/",
+   "src_ver": 9,
+   "kind": "f3d",
+   "export_file": "24_right_v9.f3d",
+   "target_name": "right",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "right",
+    "ver": 9,
+    "latest": 9,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "right"
+   ],
+   "exported_from_version": 9,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/24_right_v9.f3d",
+   "export_bytes": 66457186,
+   "closed_docs": [
+    "right"
+   ],
+   "export_s": 16.5,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/24/right.f3d",
+   "upload_t0": 1792026117.665676,
+   "upload_df_name": "right",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:OvVKEQ-DR2S3bbBg9Sngeg",
+   "upload_s": 28.7
+  },
+  {
+   "n": 25,
+   "src_id": "urn:adsk.wipprod:dm.lineage:Lm7Zl38YTJ6D_gNTZhfUjg",
+   "src_name": "tool_organizer_exo258",
+   "src_path": "/",
+   "src_ver": 6,
+   "kind": "f3d",
+   "export_file": "25_tool_organizer_exo258_v6.f3d",
+   "target_name": "tool_organizer_exo258",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "tool_organizer_exo258",
+    "ver": 6,
+    "latest": 6,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "tool_organizer_exo258"
+   ],
+   "exported_from_version": 6,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/25_tool_organizer_exo258_v6.f3d",
+   "export_bytes": 2609212,
+   "closed_docs": [
+    "tool_organizer_exo258"
+   ],
+   "export_s": 2.1,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/25/tool_organizer_exo258.f3d",
+   "upload_t0": 1792026151.629927,
+   "upload_df_name": "tool_organizer_exo258",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:6dGLUribStKssjuggzFhSQ",
+   "upload_s": 15.2
+  },
+  {
+   "n": 26,
+   "src_id": "urn:adsk.wipprod:dm.lineage:dHkR8UgDS9WuO92CFd3qHw",
+   "src_name": "WH_simplified_right_frameonly",
+   "src_path": "/",
+   "src_ver": 5,
+   "kind": "f3d",
+   "export_file": "26_WH_simplified_right_frameonly_v5.f3d",
+   "target_name": "WH_simplified_right_frameonly",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "WH_simplified_right_frameonly",
+    "ver": 5,
+    "latest": 5,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "WH_simplified_right_frameonly"
+   ],
+   "exported_from_version": 5,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/26_WH_simplified_right_frameonly_v5.f3d",
+   "export_bytes": 10985715,
+   "closed_docs": [
+    "WH_simplified_right_frameonly"
+   ],
+   "export_s": 5.5,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/26/WH_simplified_right_frameonly.f3d",
+   "upload_t0": 1792026176.137488,
+   "upload_df_name": "WH_simplified_right_frameonly",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:1rE3iPU-RTCVq03LqWbxTg",
+   "upload_s": 13.3
+  },
+  {
+   "n": 27,
+   "src_id": "urn:adsk.wipprod:dm.lineage:ENCeIRmySNSY1u9s5LXR6w",
+   "src_name": "wristband_2.0",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "27_wristband_2.0_v1.f3d",
+   "target_name": "wristband_2.0",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "wristband_2.0",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "wristband_2.0"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/27_wristband_2.0_v1.f3d",
+   "export_bytes": 4772574,
+   "closed_docs": [
+    "wristband_2.0"
+   ],
+   "export_s": 4.5,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/27/wristband_2.0.f3d",
+   "upload_t0": 1792026197.250529,
+   "upload_df_name": "wristband_2.0",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:zH4sE1P7TmGf6LuFgu1BvQ",
+   "upload_s": 13.0
+  },
+  {
+   "n": 28,
+   "src_id": "urn:adsk.wipprod:dm.lineage:j49ge6QfRZmHZ_1jAZqU8A",
+   "src_name": "writst_mount_c",
+   "src_path": "/",
+   "src_ver": 3,
+   "kind": "f3d",
+   "export_file": "28_writst_mount_c_v3.f3d",
+   "target_name": "writst_mount_c",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "writst_mount_c",
+    "ver": 3,
+    "latest": 3,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "writst_mount_c"
+   ],
+   "exported_from_version": 3,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/28_writst_mount_c_v3.f3d",
+   "export_bytes": 683258,
+   "closed_docs": [
+    "writst_mount_c"
+   ],
+   "export_s": 1.9,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/28/writst_mount_c.f3d",
+   "upload_t0": 1792026215.3963652,
+   "upload_df_name": "writst_mount_c",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:5JzcB1gaR-aeR6saJuGrTw",
+   "upload_s": 17.2
+  },
+  {
+   "n": 29,
+   "src_id": "urn:adsk.wipprod:dm.lineage:I7WyGqWLS1qKuofCMMDEZA",
+   "src_name": "writst mount",
+   "src_path": "/",
+   "src_ver": 1,
+   "kind": "f3d",
+   "export_file": "29_writst_mount_v1.f3d",
+   "target_name": "writst mount",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "writst mount",
+    "ver": 1,
+    "latest": 1,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "writst mount"
+   ],
+   "exported_from_version": 1,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/29_writst_mount_v1.f3d",
+   "export_bytes": 771735,
+   "closed_docs": [
+    "writst mount"
+   ],
+   "export_s": 2.0,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/29/writst mount.f3d",
+   "upload_t0": 1792026238.424394,
+   "upload_df_name": "writst mount",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:cjQSNAElQAi3LUGFbg_buA",
+   "upload_s": 8.9
+  },
+  {
+   "n": 30,
+   "src_id": "urn:adsk.wipprod:dm.lineage:72befnv7QqC5MFX4fV48rA",
+   "src_name": "wuji enclosure",
+   "src_path": "/",
+   "src_ver": 3,
+   "kind": "f3d",
+   "export_file": "30_wuji_enclosure_v3.f3d",
+   "target_name": "wuji enclosure",
+   "target_folder": "root",
+   "status": "uploaded",
+   "src_check": {
+    "name": "wuji enclosure",
+    "ver": 3,
+    "latest": 3,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "wuji enclosure"
+   ],
+   "exported_from_version": 3,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/30_wuji_enclosure_v3.f3d",
+   "export_bytes": 122921,
+   "closed_docs": [
+    "wuji enclosure"
+   ],
+   "export_s": 8.0,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/30/wuji enclosure.f3d",
+   "upload_t0": 1792026260.5340219,
+   "upload_df_name": "wuji enclosure",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:uC9G0GSuQiW0G83awoUfuA",
+   "upload_s": 8.9
+  },
+  {
+   "n": 31,
+   "src_id": "urn:adsk.wipprod:dm.lineage:-DqgFm6nS6WmTRV2fhPWmQ",
+   "src_name": "lock",
+   "src_path": "/cuff",
+   "src_ver": 3,
+   "kind": "f3d",
+   "export_file": "31_lock_v3.f3d",
+   "target_name": "lock",
+   "target_folder": "cuff",
+   "status": "uploaded",
+   "src_check": {
+    "name": "lock",
+    "ver": 3,
+    "latest": 3,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "lock"
+   ],
+   "exported_from_version": 3,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/31_lock_v3.f3d",
+   "export_bytes": 88853,
+   "closed_docs": [
+    "lock"
+   ],
+   "export_s": 8.3,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/31/lock.f3d",
+   "upload_t0": 1792026283.342483,
+   "upload_df_name": "lock",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:BEl0Gdz8Q3eXnkrcQPsOjg",
+   "upload_s": 9.3
+  },
+  {
+   "n": 32,
+   "src_id": "urn:adsk.wipprod:dm.lineage:GqM4k-EeQVq5TxhaN84rhg",
+   "src_name": "cuff",
+   "src_path": "/cuff",
+   "src_ver": 17,
+   "kind": "f3d",
+   "export_file": "32_cuff_v17.f3d",
+   "target_name": "cuff",
+   "target_folder": "cuff",
+   "status": "uploaded",
+   "src_check": {
+    "name": "cuff",
+    "ver": 17,
+    "latest": 17,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "cuff"
+   ],
+   "exported_from_version": 17,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/32_cuff_v17.f3d",
+   "export_bytes": 2740208,
+   "closed_docs": [
+    "cuff"
+   ],
+   "export_s": 8.1,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/32/cuff.f3d",
+   "upload_t0": 1792026309.300571,
+   "upload_df_name": "cuff",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:7uvY2xdBQ-mQgsQdumc7Gg",
+   "upload_s": 20.1
+  },
+  {
+   "n": 33,
+   "src_id": "urn:adsk.wipprod:dm.lineage:aR_pmPTVRR2j2mSlzBQDsA",
+   "src_name": "spring",
+   "src_path": "/cuff",
+   "src_ver": 3,
+   "kind": "f3d",
+   "export_file": "33_spring_v3.f3d",
+   "target_name": "spring",
+   "target_folder": "cuff",
+   "status": "uploaded",
+   "src_check": {
+    "name": "spring",
+    "ver": 3,
+    "latest": 3,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "spring"
+   ],
+   "exported_from_version": 3,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/33_spring_v3.f3d",
+   "export_bytes": 55182,
+   "closed_docs": [
+    "spring"
+   ],
+   "export_s": 4.1,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/33/spring.f3d",
+   "upload_t0": 1792027228.536365,
+   "upload_df_name": "spring",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:CXeVHuieQBuRgnBiPF3BTA",
+   "upload_s": 8.0
+  },
+  {
+   "n": 34,
+   "src_id": "urn:adsk.wipprod:dm.lineage:ht6_l6VzQyqXsb5jRqg_Ug",
+   "src_name": "side0",
+   "src_path": "/cuff",
+   "src_ver": 3,
+   "kind": "f3d",
+   "export_file": "34_side0_v3.f3d",
+   "target_name": "side0",
+   "target_folder": "cuff",
+   "status": "uploaded",
+   "src_check": {
+    "name": "side0",
+    "ver": 3,
+    "latest": 3,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "side0"
+   ],
+   "exported_from_version": 3,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/34_side0_v3.f3d",
+   "export_bytes": 258703,
+   "closed_docs": [
+    "side0"
+   ],
+   "export_s": 3.8,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/34/side0.f3d",
+   "upload_t0": 1792027243.4972212,
+   "upload_df_name": "side0",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:s9vuznrARd2JLUIwekJnWw",
+   "upload_s": 16.2
+  },
+  {
+   "n": 35,
+   "src_id": "urn:adsk.wipprod:dm.lineage:lsFNm0v_T6q_G9H9WX1ARA",
+   "src_name": "hook",
+   "src_path": "/cuff",
+   "src_ver": 3,
+   "kind": "f3d",
+   "export_file": "35_hook_v3.f3d",
+   "target_name": "hook",
+   "target_folder": "cuff",
+   "status": "uploaded",
+   "src_check": {
+    "name": "hook",
+    "ver": 3,
+    "latest": 3,
+    "project": "G1 exeskeleton"
+   },
+   "reused_open_doc": false,
+   "opened_new_docs": [
+    "hook"
+   ],
+   "exported_from_version": 3,
+   "export_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/35_hook_v3.f3d",
+   "export_bytes": 159392,
+   "closed_docs": [
+    "hook"
+   ],
+   "export_s": 4.2,
+   "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload/35/hook.f3d",
+   "upload_t0": 1792027267.705903,
+   "upload_df_name": "hook",
+   "upload_df_id": "urn:adsk.wipprod:dm.lineage:APSo0xohShOVnpZHGqA25w",
+   "upload_s": 12.1
+  }
+ ],
+ "priority": [
+  14
+ ],
+ "exo278": {
+  "upload_s": 7.6,
+  "upload_status": "finished",
+  "df_name": "arm complete",
+  "df_id": "urn:adsk.wipprod:dm.lineage:p-BdRVWoTmaJDy3jun2ljQ",
+  "compare": {
+   "target_upload": {
+    "df": {
+     "name": "arm complete",
+     "ver": 1,
+     "project": "G1 exeskeleton",
+     "hub": "Estebans"
+    },
+    "root_name": "arm complete",
+    "components": 1,
+    "bodies_total": 1,
+    "root_bodies": [
+     "Body1"
+    ],
+    "occurrences": 0,
+    "top_occurrences": [],
+    "referenced_occurrences": [],
+    "doc_refs": [],
+    "modified_after_open": false,
+    "closed": [
+     "arm complete"
+    ],
+    "s": 3.5
+   },
+   "source_v35": {
+    "df": {
+     "name": "arm complete",
+     "ver": 35,
+     "project": "G1 exeskeleton",
+     "hub": "Team hub - Rodrigo Andrade"
+    },
+    "reused_open": true,
+    "root_name": "arm complete",
+    "components": 152,
+    "bodies_total": 963,
+    "root_bodies": [
+     "Body39",
+     "Body55",
+     "Body57",
+     "Body58",
+     "Body59"
+    ],
+    "occurrences": 173,
+    "top_occurrences": [
+     "left arm:1",
+     "right arm:1",
+     "chest mount:1",
+     "Camera support:1",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "M4 x 0.7mm Thread HEX NUT:1",
+     "M4 x 0.7mm Thread HEX NUT:2",
+     "M4 x 0.7mm Thread HEX NUT:3",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+     "M4 x 0.7mm Thread HEX NUT:4",
+     "M4 x 0.7mm Thread HEX NUT:5",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+     "M4 x 0.7mm Thread HEX NUT:6",
+     "M4 x 0.7mm Thread HEX NUT:7",
+     "M4 x 0.7mm Thread HEX NUT:8",
+     "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+     "M4 x 0.7mm Thread HEX NUT:9",
+     "M4 x 0.7mm Thread HEX NUT:10",
+     "cuffs with soft inside (1):2",
+     "cuffs with soft inside (1):3",
+     "M4 x 0.7mm Thread HEX NUT:11"
+    ],
+    "referenced_occurrences": [
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:1",
+      "ref_df": "ERR: 'str' object has no attribute 'dataFile'",
+      "ref_ver": "ERR: 'str' object has no attribute 'version'",
+      "ref_project": "ERR: 'str' object has no attribute 'dataFile'",
+      "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:2",
+      "ref_df": "ERR: 'str' object has no attribute 'dataFile'",
+      "ref_ver": "ERR: 'str' object has no attribute 'version'",
+      "ref_project": "ERR: 'str' object has no attribute 'dataFile'",
+      "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:3",
+      "ref_df": "ERR: 'str' object has no attribute 'dataFile'",
+      "ref_ver": "ERR: 'str' object has no attribute 'version'",
+      "ref_project": "ERR: 'str' object has no attribute 'dataFile'",
+      "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+      "bodies": 1
+     },
+     {
+      "occ": "cuffs with soft inside:1",
+      "ref_df": "cuffs with soft inside",
+      "ref_ver": 9,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": true,
+      "bodies": 0
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:1",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:2",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:3",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:4",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:5",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:6",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:7",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:8",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+      "ref_df": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+      "ref_df": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:9",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:10",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "cuffs with soft inside (1):2",
+      "ref_df": "cuffs with soft inside",
+      "ref_ver": 9,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": true,
+      "bodies": 0
+     },
+     {
+      "occ": "cuffs with soft inside (1):3",
+      "ref_df": "cuffs with soft inside",
+      "ref_ver": 9,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": true,
+      "bodies": 0
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:11",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     }
+    ],
+    "doc_refs": [
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "ver": 1
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ver": 1
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "ver": 1
+     },
+     {
+      "name": "cuffs with soft inside",
+      "ver": 9
+     }
+    ],
+    "modified_after_open": false,
+    "closed": [],
+    "s": 0.4
+   },
+   "source_aug8_v1": {
+    "df": {
+     "name": "arm complete",
+     "ver": 1,
+     "project": "G1 exeskeleton",
+     "hub": "Team hub - Rodrigo Andrade"
+    },
+    "root_name": "arm complete",
+    "components": 152,
+    "bodies_total": 963,
+    "root_bodies": [
+     "Body39",
+     "Body55",
+     "Body57",
+     "Body58",
+     "Body59"
+    ],
+    "occurrences": 173,
+    "top_occurrences": [
+     "left arm:1",
+     "right arm:1",
+     "chest mount:1",
+     "Camera support:1",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+     "M4 x 0.7mm Thread HEX NUT:1",
+     "M4 x 0.7mm Thread HEX NUT:2",
+     "M4 x 0.7mm Thread HEX NUT:3",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+     "M4 x 0.7mm Thread HEX NUT:4",
+     "M4 x 0.7mm Thread HEX NUT:5",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+     "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+     "M4 x 0.7mm Thread HEX NUT:6",
+     "M4 x 0.7mm Thread HEX NUT:7",
+     "M4 x 0.7mm Thread HEX NUT:8",
+     "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+     "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+     "M4 x 0.7mm Thread HEX NUT:9",
+     "M4 x 0.7mm Thread HEX NUT:10",
+     "cuffs with soft inside (1):2",
+     "cuffs with soft inside (1):3",
+     "M4 x 0.7mm Thread HEX NUT:11"
+    ],
+    "referenced_occurrences": [
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:1",
+      "ref_df": "ERR: 'str' object has no attribute 'dataFile'",
+      "ref_ver": "ERR: 'str' object has no attribute 'version'",
+      "ref_project": "ERR: 'str' object has no attribute 'dataFile'",
+      "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:2",
+      "ref_df": "ERR: 'str' object has no attribute 'dataFile'",
+      "ref_ver": "ERR: 'str' object has no attribute 'version'",
+      "ref_project": "ERR: 'str' object has no attribute 'dataFile'",
+      "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:3",
+      "ref_df": "ERR: 'str' object has no attribute 'dataFile'",
+      "ref_ver": "ERR: 'str' object has no attribute 'version'",
+      "ref_project": "ERR: 'str' object has no attribute 'dataFile'",
+      "outOfDate": "ERR: 'str' object has no attribute 'isOutOfDate'",
+      "bodies": 1
+     },
+     {
+      "occ": "cuffs with soft inside:1",
+      "ref_df": "cuffs with soft inside",
+      "ref_ver": 9,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": true,
+      "bodies": 0
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:1",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:2",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:3",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:2",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:3",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:4",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:5",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:4",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:5",
+      "ref_df": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:6",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:7",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:8",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1",
+      "ref_df": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:2",
+      "ref_df": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:9",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:10",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     },
+     {
+      "occ": "cuffs with soft inside (1):2",
+      "ref_df": "cuffs with soft inside",
+      "ref_ver": 9,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": true,
+      "bodies": 0
+     },
+     {
+      "occ": "cuffs with soft inside (1):3",
+      "ref_df": "cuffs with soft inside",
+      "ref_ver": 9,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": true,
+      "bodies": 0
+     },
+     {
+      "occ": "M4 x 0.7mm Thread HEX NUT:11",
+      "ref_df": "M4 x 0.7mm Thread HEX NUT",
+      "ref_ver": 1,
+      "ref_project": "G1 exeskeleton",
+      "outOfDate": false,
+      "bodies": 1
+     }
+    ],
+    "doc_refs": [
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "ver": 1
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ver": 1
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "ver": 1
+     },
+     {
+      "name": "cuffs with soft inside",
+      "ver": 9
+     }
+    ],
+    "modified_after_open": false,
+    "closed": [
+     "arm complete"
+    ],
+    "s": 3.7
+   }
+  },
+  "test_upload_rename": "ok: arm complete (1-body test upload, delete me)",
+  "f3z": [
+   {
+    "file": "sensor module test.f3z",
+    "target_name": "sensor module test",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/sensor module test.f3z",
+    "bytes": 3890818,
+    "t0": 1792028130.1354759,
+    "method": "uploadFile",
+    "upload_s": 9.7,
+    "df_name": "5972K159_Ball Bearing",
+    "df_id": "urn:adsk.wipprod:dm.lineage:_mtPirY5TZ6HAGO9Oa0ULQ"
+   },
+   {
+    "file": "arm 2.f3z",
+    "target_name": "arm 2",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/arm 2.f3z",
+    "bytes": 5041031,
+    "t0": 1792028147.887145,
+    "method": "uploadFile",
+    "upload_s": 9.7,
+    "df_name": "XL330",
+    "df_id": "urn:adsk.wipprod:dm.lineage:VtO-MkfaRleYqpo3jRa1XA"
+   },
+   {
+    "file": "arm.f3z",
+    "target_name": "arm",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/arm.f3z",
+    "bytes": 5901534,
+    "t0": 1792028161.360233,
+    "method": "uploadFile",
+    "upload_s": 9.7,
+    "df_name": "XL330",
+    "df_id": "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA"
+   },
+   {
+    "file": "exo generated.f3z",
+    "target_name": "exo generated",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/exo generated.f3z",
+    "bytes": 7217824,
+    "t0": 1792028175.381483,
+    "method": "uploadFile",
+    "upload_s": 9.6,
+    "df_name": "5972K159_Ball Bearing",
+    "df_id": "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw"
+   },
+   {
+    "file": "wrist_sketch3_with_straps.f3z",
+    "target_name": "wrist_sketch3_with_straps",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/wrist_sketch3_with_straps.f3z",
+    "bytes": 17596539,
+    "t0": 1792028188.838428,
+    "method": "uploadFile",
+    "upload_s": 12.0,
+    "df_name": "writst mount_e",
+    "df_id": "urn:adsk.wipprod:dm.lineage:zs1gGokvTayE8cgJrH4veg"
+   },
+   {
+    "file": "arm complete.f3z",
+    "target_name": "arm complete",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/arm complete.f3z",
+    "bytes": 91824145,
+    "t0": 1792028204.982924,
+    "method": "uploadFile",
+    "upload_s": 12.8,
+    "df_name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+    "df_id": "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A"
+   },
+   {
+    "file": "arm complete v1.f3z",
+    "target_name": "arm complete BACKUP 2026-08-08",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/arm complete BACKUP 2026-08-08.f3z",
+    "bytes": 91824156,
+    "t0": 1792028222.031598,
+    "method": "uploadFile",
+    "upload_s": 15.9,
+    "df_name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+    "df_id": "urn:adsk.wipprod:dm.lineage:7XBtxEtKQKecKXWSNQMdlQ"
+   },
+   {
+    "file": "arm test.f3z",
+    "target_name": "arm test",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/arm test.f3z",
+    "bytes": 91824182,
+    "t0": 1792028242.28482,
+    "method": "uploadFile",
+    "upload_s": 24.7,
+    "df_name": "M4 x 0.7mm Thread HEX NUT",
+    "df_id": "urn:adsk.wipprod:dm.lineage:_vds__rqTwSDoxaVW9ch6g"
+   },
+   {
+    "file": "arm complete luna.f3z",
+    "target_name": "arm complete luna",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/arm complete luna.f3z",
+    "bytes": 94610636,
+    "t0": 1792028271.218833,
+    "method": "uploadFile",
+    "upload_s": 15.7,
+    "df_name": "M4 x 0.7mm Thread HEX NUT",
+    "df_id": "urn:adsk.wipprod:dm.lineage:Grel7U5zRIKetApTsuNIAw"
+   },
+   {
+    "file": "wrist_sketch3_with_straps (~recovered).f3z",
+    "target_name": "wrist_sketch3_with_straps B",
+    "status": "uploaded",
+    "upload_path": "/Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/upload_f3z/wrist_sketch3_with_straps B.f3z",
+    "bytes": 20111263,
+    "t0": 1792028862.8940742,
+    "method": "uploadFile",
+    "upload_s": 11.5,
+    "df_name": "writst mount_e",
+    "df_id": "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw"
+   }
+  ],
+  "backup_rename": "ok: arm complete BACKUP 2026-08-08",
+  "count_queue": [
+   [
+    "T sensor module test szvVTe",
+    "urn:adsk.wipprod:dm.lineage:szvVTe4oRa2BM_7L4hlHYg"
+   ],
+   [
+    "T arm 2 3E7UqM",
+    "urn:adsk.wipprod:dm.lineage:3E7UqMBkQdKxu7gpyS2oRA"
+   ],
+   [
+    "T arm cXGOAc",
+    "urn:adsk.wipprod:dm.lineage:cXGOAcs-Q6unIh91MhgbSQ"
+   ],
+   [
+    "T exo generated I6f3yG",
+    "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw"
+   ],
+   [
+    "T wrist_sketch3_with_straps jIKLpT",
+    "urn:adsk.wipprod:dm.lineage:jIKLpTb3SCeDiKx5Latkcw"
+   ],
+   [
+    "T arm complete Jy8czx",
+    "urn:adsk.wipprod:dm.lineage:Jy8czxywR4ybJedncZiLhQ"
+   ],
+   [
+    "T arm complete xWFsuH",
+    "urn:adsk.wipprod:dm.lineage:xWFsuHDcTy64WIBsxPfAiQ"
+   ],
+   [
+    "T arm test fZK9GF",
+    "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg"
+   ],
+   [
+    "T arm complete luna S38u3q",
+    "urn:adsk.wipprod:dm.lineage:S38u3qgCTH-_S5ut0JUksA"
+   ],
+   [
+    "S arm v41 e4zHGH",
+    "urn:adsk.wipprod:dm.lineage:e4zHGHX1TI-Vg5LOcBdWKg"
+   ],
+   [
+    "S arm 2 v6 XJgJ4P",
+    "urn:adsk.wipprod:dm.lineage:XJgJ4P0OTHSeHW0Nobz8pw"
+   ],
+   [
+    "S arm complete luna v16 3gFly6",
+    "urn:adsk.wipprod:dm.lineage:3gFly6CfSRCiBq8AOAefVg"
+   ],
+   [
+    "S arm test v1 KKG6xi",
+    "urn:adsk.wipprod:dm.lineage:KKG6xi1sRqGQB5vGkcfJDg"
+   ],
+   [
+    "S exo generated v8 l4wfjI",
+    "urn:adsk.wipprod:dm.lineage:l4wfjISQT1eJe4RQ8jQouQ"
+   ],
+   [
+    "S sensor module test v1 5328GU",
+    "urn:adsk.wipprod:dm.lineage:5328GUuwS_SbsBlhkmhZCw"
+   ],
+   [
+    "S wrist_sketch3_with_straps v1 MQGUPD",
+    "urn:adsk.wipprod:dm.lineage:MQGUPDCWQMeCHnTDtaIOjA"
+   ],
+   [
+    "S wrist_sketch3_with_straps v4 FrHFTv",
+    "urn:adsk.wipprod:dm.lineage:FrHFTvTiRtmuwsPlVZ90ew"
+   ]
+  ],
+  "counts": {
+   "S arm complete v35 EXtWGg": {
+    "components": 152,
+    "bodies_total": 963,
+    "occurrences": 173,
+    "linked_occ": 24,
+    "doc_refs": [
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "ver": 1
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ver": 1
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "ver": 1
+     },
+     {
+      "name": "cuffs with soft inside",
+      "ver": 9
+     }
+    ]
+   },
+   "S arm complete v1 eip2Va": {
+    "components": 152,
+    "bodies_total": 963,
+    "occurrences": 173,
+    "linked_occ": 24,
+    "doc_refs": [
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "ver": 1
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "ver": 1
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "ver": 1
+     },
+     {
+      "name": "cuffs with soft inside",
+      "ver": 9
+     }
+    ]
+   },
+   "T sensor module test szvVTe": {
+    "df": "sensor module test v1 @ Estebans/G1 exeskeleton",
+    "reused_open": false,
+    "components": 9,
+    "bodies_total": 34,
+    "occurrences": 16,
+    "linked_occ": 1,
+    "linked_resolve_to": {
+     "Estebans/G1 exeskeleton": 1
+    },
+    "linked_unreadable": 0,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "5972K159_Ball Bearing",
+      "id": "_mtPirY5TZ6HAGO9Oa0ULQ",
+      "ver": 1,
+      "where": "Estebans"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "sensor module test"
+    ],
+    "s": 2.1
+   },
+   "T arm 2 3E7UqM": {
+    "df": "arm 2 v1 @ Estebans/G1 exeskeleton",
+    "reused_open": false,
+    "components": 66,
+    "bodies_total": 264,
+    "occurrences": 101,
+    "linked_occ": 21,
+    "linked_resolve_to": {
+     "Estebans/G1 exeskeleton": 7
+    },
+    "linked_unreadable": 14,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "sensor module",
+      "id": "ocXTpTytQRyIxEl55toCfw",
+      "ver": 1,
+      "where": "Estebans"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "arm 2"
+    ],
+    "s": 2.7
+   },
+   "T arm cXGOAc": {
+    "df": "arm v1 @ Estebans/G1 exeskeleton",
+    "reused_open": false,
+    "components": 29,
+    "bodies_total": 72,
+    "occurrences": 94,
+    "linked_occ": 21,
+    "linked_resolve_to": {
+     "Estebans/G1 exeskeleton": 7
+    },
+    "linked_unreadable": 14,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "sensor module",
+      "id": "pGmHk0RESMyeqHdQEMWmdw",
+      "ver": 1,
+      "where": "Estebans"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "arm"
+    ],
+    "s": 2.3
+   },
+   "T exo generated I6f3yG": {
+    "df": "exo generated v1 @ Estebans/G1 exeskeleton",
+    "reused_open": false,
+    "components": 46,
+    "bodies_total": 64,
+    "occurrences": 269,
+    "linked_occ": 17,
+    "linked_resolve_to": {
+     "Estebans/G1 exeskeleton": 16
+    },
+    "linked_unreadable": 1,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "sensor module 2",
+      "id": "CzEATRrQSnuX-w_dwKCH6A",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "5972K159_Ball Bearing",
+      "id": "khSiwew-RLGCubfLBKzzKw",
+      "ver": 1,
+      "where": "Estebans"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "exo generated"
+    ],
+    "s": 2.2
+   },
+   "T wrist_sketch3_with_straps jIKLpT": {
+    "df": "wrist_sketch3_with_straps v1 @ Estebans/G1 exeskeleton",
+    "reused_open": false,
+    "components": 3,
+    "bodies_total": 3,
+    "occurrences": 2,
+    "linked_occ": 1,
+    "linked_resolve_to": {
+     "Estebans/G1 exeskeleton": 1
+    },
+    "linked_unreadable": 0,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "writst mount_e",
+      "id": "zs1gGokvTayE8cgJrH4veg",
+      "ver": 1,
+      "where": "Estebans"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "wrist_sketch3_with_straps"
+    ],
+    "s": 4.5
+   },
+   "T arm complete Jy8czx": {
+    "df": "arm complete v1 @ Estebans/G1 exeskeleton",
+    "reused_open": false,
+    "components": 152,
+    "bodies_total": 963,
+    "occurrences": 173,
+    "linked_occ": 24,
+    "linked_resolve_to": {
+     "Estebans/G1 exeskeleton": 21
+    },
+    "linked_unreadable": 3,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "cuffs with soft inside",
+      "id": "UmT3rfbjTOqW97ZqcdqOgA",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "id": "u2fXVhGnTnWSL4pORlPOTw",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "id": "yDlnR5NwS16jA0o2fXON7A",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "id": "Bmc3JQj_TxiHKtTGBQDIBQ",
+      "ver": 1,
+      "where": "Estebans"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "arm complete"
+    ],
+    "s": 4.7
+   },
+   "T arm complete xWFsuH": {
+    "df": "arm complete BACKUP 2026-08-08 v1 @ Estebans/G1 exeskeleton",
+    "reused_open": false,
+    "components": 152,
+    "bodies_total": 963,
+    "occurrences": 173,
+    "linked_occ": 24,
+    "linked_resolve_to": {
+     "Estebans/G1 exeskeleton": 21
+    },
+    "linked_unreadable": 3,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "cuffs with soft inside",
+      "id": "cjURVua5QTO85UwocGuaFQ",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "id": "b28KoYRTTCOU1lsWTZr0ag",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "id": "7XBtxEtKQKecKXWSNQMdlQ",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "id": "eMNdbWDpTq20Uclv6skCVA",
+      "ver": 1,
+      "where": "Estebans"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "arm complete"
+    ],
+    "s": 4.7
+   },
+   "T arm test fZK9GF": {
+    "df": "arm test v1 @ Estebans/G1 exeskeleton",
+    "reused_open": false,
+    "components": 152,
+    "bodies_total": 963,
+    "occurrences": 173,
+    "linked_occ": 24,
+    "linked_resolve_to": {
+     "Estebans/G1 exeskeleton": 21
+    },
+    "linked_unreadable": 3,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "cuffs with soft inside",
+      "id": "i1pB70ZESvaIAZxFwU7wSQ",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "id": "_vds__rqTwSDoxaVW9ch6g",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "id": "dW5WClmISqWaUGbJ8iBm6g",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "id": "3GOuJvUxRySz5kPInpNDog",
+      "ver": 1,
+      "where": "Estebans"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "arm test"
+    ],
+    "s": 4.7
+   },
+   "T arm complete luna S38u3q": {
+    "df": "arm complete luna v1 @ Estebans/G1 exeskeleton",
+    "reused_open": false,
+    "components": 147,
+    "bodies_total": 1268,
+    "occurrences": 164,
+    "linked_occ": 22,
+    "linked_resolve_to": {
+     "Estebans/G1 exeskeleton": 19
+    },
+    "linked_unreadable": 3,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "id": "06avThYqTgy4dwOO_7VdOw",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "id": "l1Z5i7nDSdCE7Iq-qgLEeQ",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "id": "Grel7U5zRIKetApTsuNIAw",
+      "ver": 1,
+      "where": "Estebans"
+     },
+     {
+      "name": "cuffs with soft inside",
+      "id": "FYgk4wLCRVabVtGEiVbFhg",
+      "ver": 1,
+      "where": "Estebans"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "arm complete luna"
+    ],
+    "s": 4.1
+   },
+   "S arm v41 e4zHGH": {
+    "df": "arm v41 @ Team hub - Rodrigo Andrade/G1 exeskeleton",
+    "reused_open": true,
+    "components": 29,
+    "bodies_total": 72,
+    "occurrences": 94,
+    "linked_occ": 21,
+    "linked_resolve_to": {
+     "Team hub - Rodrigo Andrade/G1 exeskeleton": 7
+    },
+    "linked_unreadable": 14,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "sensor module",
+      "id": "GFpCb0PWQXC3GaCc0xaUrA",
+      "ver": 26,
+      "where": "Team hub - Rodrigo Andrade"
+     }
+    ],
+    "modified": false,
+    "closed": [],
+    "s": 0.2
+   },
+   "S arm 2 v6 XJgJ4P": {
+    "df": "arm 2 v6 @ Team hub - Rodrigo Andrade/G1 exeskeleton",
+    "reused_open": true,
+    "components": 66,
+    "bodies_total": 264,
+    "occurrences": 101,
+    "linked_occ": 21,
+    "linked_resolve_to": {
+     "Team hub - Rodrigo Andrade/G1 exeskeleton": 7
+    },
+    "linked_unreadable": 14,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "sensor module",
+      "id": "GFpCb0PWQXC3GaCc0xaUrA",
+      "ver": 26,
+      "where": "Team hub - Rodrigo Andrade"
+     }
+    ],
+    "modified": false,
+    "closed": [],
+    "s": 0.2
+   },
+   "S arm complete luna v16 3gFly6": {
+    "df": "arm complete luna v16 @ Team hub - Rodrigo Andrade/G1 exeskeleton",
+    "reused_open": false,
+    "components": 147,
+    "bodies_total": 1268,
+    "occurrences": 164,
+    "linked_occ": 22,
+    "linked_resolve_to": {
+     "Team hub - Rodrigo Andrade/G1 exeskeleton": 19
+    },
+    "linked_unreadable": 3,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "cuffs with soft inside",
+      "id": "HZO-ZkjwQb2IVyOTKpVsNQ",
+      "ver": 10,
+      "where": "Team hub - Rodrigo Andrade"
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "id": "WqUa7CO8QSS9eiuN--5j1g",
+      "ver": 1,
+      "where": "Team hub - Rodrigo Andrade"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "id": "gH7QWRzBQwiaXX_he8NSzQ",
+      "ver": 1,
+      "where": "Team hub - Rodrigo Andrade"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "id": "k9ophutJQYOc_2kgEd7zOQ",
+      "ver": 1,
+      "where": "Team hub - Rodrigo Andrade"
+     }
+    ],
+    "modified": false,
+    "closed": [
+     "arm complete luna"
+    ],
+    "s": 4.1
+   },
+   "S arm test v1 KKG6xi": {
+    "df": "arm test v1 @ Team hub - Rodrigo Andrade/G1 exeskeleton",
+    "reused_open": true,
+    "components": 152,
+    "bodies_total": 963,
+    "occurrences": 173,
+    "linked_occ": 24,
+    "linked_resolve_to": {
+     "Team hub - Rodrigo Andrade/G1 exeskeleton": 21
+    },
+    "linked_unreadable": 3,
+    "linked_outOfDate": 3,
+    "doc_refs": [
+     {
+      "name": "cuffs with soft inside",
+      "id": "HZO-ZkjwQb2IVyOTKpVsNQ",
+      "ver": 9,
+      "where": "Team hub - Rodrigo Andrade"
+     },
+     {
+      "name": "M4 x 0.7mm Thread HEX NUT",
+      "id": "WqUa7CO8QSS9eiuN--5j1g",
+      "ver": 1,
+      "where": "Team hub - Rodrigo Andrade"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+      "id": "gH7QWRzBQwiaXX_he8NSzQ",
+      "ver": 1,
+      "where": "Team hub - Rodrigo Andrade"
+     },
+     {
+      "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+      "id": "k9ophutJQYOc_2kgEd7zOQ",
+      "ver": 1,
+      "where": "Team hub - Rodrigo Andrade"
+     }
+    ],
+    "modified": false,
+    "closed": [],
+    "s": 0.3
+   },
+   "S exo generated v8 l4wfjI": {
+    "df": "exo generated v8 @ Team hub - Rodrigo Andrade/G1 exeskeleton",
+    "reused_open": true,
+    "components": 46,
+    "bodies_total": 64,
+    "occurrences": 269,
+    "linked_occ": 17,
+    "linked_resolve_to": {
+     "Team hub - Rodrigo Andrade/G1 exeskeleton": 16
+    },
+    "linked_unreadable": 1,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "sensor module 2",
+      "id": "ynVmLXEjT8aZkUCmFPE85w",
+      "ver": 12,
+      "where": "Team hub - Rodrigo Andrade"
+     },
+     {
+      "name": "5972K159_Ball Bearing",
+      "id": "iyVUEZVuR-agd_-XzOOpUA",
+      "ver": 1,
+      "where": "Team hub - Rodrigo Andrade"
+     }
+    ],
+    "modified": false,
+    "closed": [],
+    "s": 0.5
+   },
+   "S sensor module test v1 5328GU": {
+    "df": "sensor module test v1 @ Team hub - Rodrigo Andrade/G1 exeskeleton",
+    "reused_open": true,
+    "components": 9,
+    "bodies_total": 34,
+    "occurrences": 16,
+    "linked_occ": 1,
+    "linked_resolve_to": {
+     "Team hub - Rodrigo Andrade/G1 exeskeleton": 1
+    },
+    "linked_unreadable": 0,
+    "linked_outOfDate": 0,
+    "doc_refs": [
+     {
+      "name": "5972K159_Ball Bearing",
+      "id": "iyVUEZVuR-agd_-XzOOpUA",
+      "ver": 1,
+      "where": "Team hub - Rodrigo Andrade"
+     }
+    ],
+    "modified": false,
+    "closed": [],
+    "s": 0.2
+   },
+   "S wrist_sketch3_with_straps v1 MQGUPD": {
+    "df": "wrist_sketch3_with_straps v1 @ Team hub - Rodrigo Andrade/G1 exeskeleton",
+    "reused_open": true,
+    "components": 3,
+    "bodies_total": 3,
+    "occurrences": 2,
+    "linked_occ": 1,
+    "linked_resolve_to": {
+     "Team hub - Rodrigo Andrade/G1 exeskeleton": 1
+    },
+    "linked_unreadable": 0,
+    "linked_outOfDate": 1,
+    "doc_refs": [
+     {
+      "name": "writst mount_e",
+      "id": "Rb2YmsgBR82HcFzthdMtag",
+      "ver": 2,
+      "where": "Team hub - Rodrigo Andrade"
+     }
+    ],
+    "modified": false,
+    "closed": [],
+    "s": 0.2
+   },
+   "S wrist_sketch3_with_straps v4 FrHFTv": {
+    "df": "wrist_sketch3_with_straps v5 @ Team hub - Rodrigo Andrade/G1 exeskeleton",
+    "reused_open": true,
+    "components": 3,
+    "bodies_total": 3,
+    "occurrences": 2,
+    "linked_occ": 1,
+    "linked_resolve_to": {
+     "Team hub - Rodrigo Andrade/G1 exeskeleton": 1
+    },
+    "linked_unreadable": 0,
+    "linked_outOfDate": 1,
+    "doc_refs": [
+     {
+      "name": "writst mount_e",
+      "id": "Rb2YmsgBR82HcFzthdMtag",
+      "ver": 2,
+      "where": "Team hub - Rodrigo Andrade"
+     }
+    ],
+    "modified": false,
+    "closed": [],
+    "s": 0.2
+   }
+  }
+ },
+ "exo278b": {
+  "start": {
+   "time": "2026-10-14 18:47:36",
+   "active_hub": "Team hub - Rodrigo Andrade",
+   "active_hub_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEz",
+   "active_project": "G1 exeskeleton",
+   "active_project_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjYwMjAyMTA0NTg3NDkzMQ",
+   "active_doc": "wrist_sketch3_with_straps",
+   "open_docs": [
+    [
+     "writst mount",
+     "urn:adsk.wipprod:dm.lineage:Rb2YmsgBR82HcFzthdMtag",
+     2
+    ],
+    [
+     "wrist_sketch3_with_straps",
+     "urn:adsk.wipprod:dm.lineage:FrHFTvTiRtmuwsPlVZ90ew",
+     5
+    ],
+    [
+     "wrist_sketch3_with_straps",
+     "urn:adsk.wipprod:dm.lineage:MQGUPDCWQMeCHnTDtaIOjA",
+     1
+    ]
+   ]
+  },
+  "wrist_compare": {
+   "S_v1_MQGUPD": {
+    "id": "urn:adsk.wipprod:dm.lineage:MQGUPDCWQMeCHnTDtaIOjA",
+    "df": "wrist_sketch3_with_straps v1 @ Team hub - Rodrigo Andrade",
+    "latest": 1,
+    "reused_open": true,
+    "open_ver": 1,
+    "open_modified": false,
+    "comps": [
+     "MeshBody1 (1)",
+     "wrist_sketch3_with_straps",
+     "writst mount_e"
+    ],
+    "bodies": [
+     "MeshBody1 (1)/MeshBody1 (1) v=65.725 a=453.538",
+     "wrist_sketch3_with_straps/MeshBody1 v=25.668 a=310.309",
+     "writst mount_e/Body1 v=29.567 a=106.914"
+    ],
+    "sketches": [
+     "wrist_sketch3_with_straps/Sketch1 n=4",
+     "wrist_sketch3_with_straps/Sketch2 n=4",
+     "wrist_sketch3_with_straps/Sketch3 n=7"
+    ],
+    "features": 21,
+    "timeline": 22,
+    "params": [],
+    "n_model_params": 19,
+    "occ": [
+     [
+      "writst mount_e:1",
+      true,
+      "writst mount_e",
+      2,
+      "Team hub - Rodrigo Andrade"
+     ],
+     [
+      "MeshBody1 (1):1",
+      false,
+      "ERR: 3 : Occurrence is not referencing an external component",
+      "ERR: 3 : Occurrence is not referencing an external component",
+      "ERR: 3 : Occurrence is not referencing an external component"
+     ]
+    ],
+    "desc": "User Saved"
+   },
+   "S_v4now5_FrHFTv": {
+    "id": "urn:adsk.wipprod:dm.lineage:FrHFTvTiRtmuwsPlVZ90ew",
+    "df": "wrist_sketch3_with_straps v5 @ Team hub - Rodrigo Andrade",
+    "latest": 5,
+    "reused_open": true,
+    "open_ver": 5,
+    "open_modified": false,
+    "comps": [
+     "MeshBody1 (1)",
+     "wrist_sketch3_with_straps",
+     "writst mount_e"
+    ],
+    "bodies": [
+     "MeshBody1 (1)/MeshBody1 (1) v=65.725 a=453.538",
+     "wrist_sketch3_with_straps/MeshBody1 v=25.668 a=310.309",
+     "writst mount_e/Body1 v=29.567 a=106.914"
+    ],
+    "sketches": [
+     "wrist_sketch3_with_straps/Sketch1 n=4",
+     "wrist_sketch3_with_straps/Sketch2 n=4",
+     "wrist_sketch3_with_straps/Sketch3 n=7"
+    ],
+    "features": 21,
+    "timeline": 22,
+    "params": [],
+    "n_model_params": 19,
+    "occ": [
+     [
+      "writst mount_e:1",
+      true,
+      "writst mount_e",
+      2,
+      "Team hub - Rodrigo Andrade"
+     ],
+     [
+      "MeshBody1 (1):1",
+      false,
+      "ERR: 3 : Occurrence is not referencing an external component",
+      "ERR: 3 : Occurrence is not referencing an external component",
+      "ERR: 3 : Occurrence is not referencing an external component"
+     ]
+    ],
+    "desc": "Save for export"
+   },
+   "T_A_jIKLpT": {
+    "id": "urn:adsk.wipprod:dm.lineage:jIKLpTb3SCeDiKx5Latkcw",
+    "df": "wrist_sketch3_with_straps v1 @ Estebans",
+    "latest": 1,
+    "comps": [
+     "MeshBody1 (1)",
+     "wrist_sketch3_with_straps",
+     "writst mount_e"
+    ],
+    "bodies": [
+     "MeshBody1 (1)/MeshBody1 (1) v=65.725 a=453.538",
+     "wrist_sketch3_with_straps/MeshBody1 v=25.668 a=310.309",
+     "writst mount_e/Body1 v=29.567 a=106.914"
+    ],
+    "sketches": [
+     "wrist_sketch3_with_straps/Sketch1 n=4",
+     "wrist_sketch3_with_straps/Sketch2 n=4",
+     "wrist_sketch3_with_straps/Sketch3 n=7"
+    ],
+    "features": 21,
+    "timeline": 22,
+    "params": [],
+    "n_model_params": 19,
+    "occ": [
+     [
+      "writst mount_e:1",
+      true,
+      "writst mount_e",
+      1,
+      "Estebans"
+     ],
+     [
+      "MeshBody1 (1):1",
+      false,
+      "ERR: 3 : Occurrence is not referencing an external component",
+      "ERR: 3 : Occurrence is not referencing an external component",
+      "ERR: 3 : Occurrence is not referencing an external component"
+     ]
+    ],
+    "desc": "Imported from wrist_sketch3_with_straps.f3z",
+    "closed": true
+   },
+   "T_B": {
+    "id": "urn:adsk.wipprod:dm.lineage:s_bSGtj1SL-TvkFV7MHp3Q",
+    "df": "wrist_sketch3_with_straps v1 @ Estebans",
+    "latest": 1,
+    "comps": [
+     "MeshBody1 (1)",
+     "wrist_sketch3_with_straps",
+     "writst mount_e"
+    ],
+    "bodies": [
+     "MeshBody1 (1)/MeshBody1 (1) v=65.725 a=453.538",
+     "wrist_sketch3_with_straps/MeshBody1 v=25.668 a=310.309",
+     "writst mount_e/Body1 v=29.567 a=106.914"
+    ],
+    "sketches": [
+     "wrist_sketch3_with_straps/Sketch1 n=4",
+     "wrist_sketch3_with_straps/Sketch2 n=4",
+     "wrist_sketch3_with_straps/Sketch3 n=7"
+    ],
+    "features": 21,
+    "timeline": 22,
+    "params": [],
+    "n_model_params": 19,
+    "occ": [
+     [
+      "writst mount_e:1",
+      true,
+      "writst mount_e",
+      1,
+      "Estebans"
+     ],
+     [
+      "MeshBody1 (1):1",
+      false,
+      "ERR: 3 : Occurrence is not referencing an external component",
+      "ERR: 3 : Occurrence is not referencing an external component",
+      "ERR: 3 : Occurrence is not referencing an external component"
+     ]
+    ],
+    "desc": "Imported from wrist_sketch3_with_straps B.f3z",
+    "closed": true
+   }
+  },
+  "wrist_B_id": "urn:adsk.wipprod:dm.lineage:s_bSGtj1SL-TvkFV7MHp3Q",
+  "wrist_rename": {
+   "jIKLpTb3SCeDiKx5Latkcw": "ok: wrist_sketch3_with_straps (copy v1)",
+   "s_bSGtj1SL-TvkFV7MHp3Q": "ok: wrist_sketch3_with_straps"
+  },
+  "end": {
+   "active_hub_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEz",
+   "active_project_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjYwMjAyMTA0NTg3NDkzMQ",
+   "active_doc": "wrist_sketch3_with_straps",
+   "open_docs": [
+    [
+     "writst mount",
+     "urn:adsk.wipprod:dm.lineage:Rb2YmsgBR82HcFzthdMtag",
+     2
+    ],
+    [
+     "wrist_sketch3_with_straps",
+     "urn:adsk.wipprod:dm.lineage:FrHFTvTiRtmuwsPlVZ90ew",
+     5
+    ],
+    [
+     "wrist_sketch3_with_straps",
+     "urn:adsk.wipprod:dm.lineage:MQGUPDCWQMeCHnTDtaIOjA",
+     1
+    ]
+   ],
+   "modified": [
+    false,
+    false,
+    false
+   ]
+  },
+  "end_matches_start": true
+ }
+}

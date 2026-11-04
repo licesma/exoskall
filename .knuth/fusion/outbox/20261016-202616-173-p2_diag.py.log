@@ -1,0 +1,37 @@
+OK
+doc 'Untitled'
+ROOT 'sensor module 2' ref=True
+   '5972K159_Ball Bearing' bodies 22 (comp bodies 22) x -21.000..21.000 z -11.000..-4.000
+   'Component1' bodies 1 (comp bodies 1) x -27.000..27.000 z -24.500..-0.400
+   'Component2' bodies 1 (comp bodies 1) x -18.000..18.000 z -9.000..0.000
+   'Component3' bodies 1 (comp bodies 1) x -17.500..17.500 z -13.200..-9.000
+   'XL330 v2' bodies 6 (comp bodies 6) x -10.000..10.000 z -36.500..-10.500
+   'screw 1' bodies 1 (comp bodies 1) x 2.602..5.802 z -12.989..-3.647
+   'screw 1' bodies 1 (comp bodies 1) x -5.783..-2.583 z -12.989..-3.647
+   'screw 1' bodies 1 (comp bodies 1) x -5.767..-2.567 z -12.989..-3.647
+   'screw 1' bodies 1 (comp bodies 1) x 2.650..5.850 z -12.989..-3.647
+   'm3_6mm_insert' bodies 1 (comp bodies 1) x -3.460..3.460 z -24.510..-18.510
+   'm3_6mm_insert' bodies 1 (comp bodies 1) x -22.710..-15.790 z -24.510..-18.510
+   'm3_6mm_insert' bodies 1 (comp bodies 1) x 15.790..22.710 z -24.510..-18.510
+   'm3 hex nut' bodies 1 (comp bodies 1) x -14.175..-7.825 z -6.900..-5.100
+   'm3 hex nut' bodies 1 (comp bodies 1) x 7.825..14.175 z -6.900..-5.100
+   'm3 hex nut' bodies 1 (comp bodies 1) x -4.140..4.148 z -6.900..-5.100
+   'm3 hex nut' bodies 1 (comp bodies 1) x -4.114..4.107 z -6.900..-5.100
+ROOT 'sensor module 2 v4' ref=False
+   'stator' bodies 1 (comp bodies 1) x -27.000..27.000 z -17.000..7.100
+   'Component3' bodies 1 (comp bodies 1) x -18.000..18.000 z -1.500..7.500
+   'Component4' bodies 1 (comp bodies 1) x -17.500..17.500 z -5.700..-1.500
+   'XL330 v2' bodies 6 (comp bodies 6) x -10.000..10.000 z -36.500..-10.500
+   'screw 1' bodies 1 (comp bodies 1) x 2.602..5.802 z -10.409..-1.067
+   'm3_6mm_insert' bodies 1 (comp bodies 1) x 177.147..183.147 z 11.186..18.106
+   'm3 hex nut' bodies 1 (comp bodies 1) x -14.175..-7.825 z -26.000..-24.200
+   '5972K159_Ball Bearing' bodies 22 (comp bodies 22) x -21.000..21.000 z -3.500..3.500
+   'screw 1' bodies 1 (comp bodies 1) x -5.783..-2.583 z -10.409..-1.067
+   'screw 1' bodies 1 (comp bodies 1) x -5.767..-2.567 z -10.409..-1.067
+   'screw 1' bodies 1 (comp bodies 1) x 2.650..5.850 z -10.409..-1.067
+   'm3_6mm_insert' bodies 1 (comp bodies 1) x -22.710..-15.790 z -24.500..-18.500
+   'm3_6mm_insert' bodies 1 (comp bodies 1) x 15.790..22.710 z -24.500..-18.500
+   'm3 hex nut' bodies 1 (comp bodies 1) x 7.825..14.175 z -6.900..-5.100
+   'm3 hex nut' bodies 1 (comp bodies 1) x -4.140..4.148 z -6.900..-5.100
+   'm3 hex nut' bodies 1 (comp bodies 1) x -4.114..4.107 z -6.900..-5.100
+bridge: OK in 0.1s

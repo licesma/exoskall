@@ -1,0 +1,33 @@
+OK
+module rotations: J1 +0.000 deg, J2 +0.000 deg, J3 +0.000 deg, J4 +0.000 deg, J5 +44.997 deg
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_12_land_face.png
+link_12_land_face -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_12_land_face.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_12_insert_0deg.png
+link_12_insert_0deg -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_12_insert_0deg.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_12_land_iso.png
+link_12_land_iso -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_12_land_iso.png
+   link_12: L route, land fillet r 3.000 (nominal 3.000), corner r 5.500, tightest stator insert 0 deg ring 6.150 mm bound by the slab outline
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_23_land_face.png
+link_23_land_face -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_23_land_face.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_23_insert_0deg.png
+link_23_insert_0deg -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_23_insert_0deg.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_23_land_iso.png
+link_23_land_iso -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_23_land_iso.png
+   link_23: bar route, land fillet r 8.500 (nominal 8.500), corner r 7.900, tightest stator insert 0 deg ring 6.150 mm bound by the slab outline
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_34_land_face.png
+link_34_land_face -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_34_land_face.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_34_insert_180deg.png
+link_34_insert_180deg -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_34_insert_180deg.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_34_land_iso.png
+link_34_land_iso -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_34_land_iso.png
+   link_34: L route, land fillet r 3.000 (nominal 3.000), corner r 5.500, tightest stator insert 180 deg ring 6.150 mm bound by the slab outline
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_45_land_face.png
+link_45_land_face -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_45_land_face.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_45_insert_180deg.png
+link_45_insert_180deg -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_45_insert_180deg.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_45_land_iso.png
+link_45_land_iso -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_link_45_land_iso.png
+   link_45: ramp route, land fillet r 5.000 (nominal 5.000), corner r 5.000, tightest stator insert 180 deg ring 2.788 mm bound by the run and its r 5.0 land fillet
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_arm_iso.png
+arm_iso -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo130_arm_iso.png
+bridge: OK in 37.3s

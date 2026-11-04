@@ -1,0 +1,24 @@
+OK
+root occurrences before: 25 (generated_R_arm*: 0)
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+Design type: direct
+Deleted previous: none
+Origin at: left_shoulder_pitch_joint
+
+Component: generated_R_arm
+link_12 (lbracket): J1 rotor pad -> J2 stator pad; B origin in J1 frame (mm) = (-0.0, -13.8, 38.0); stator slab centre (-28.5, -13.8, 38.0), module J2 lowest point z=11.0
+link_23 (bar): J2 rotor pad -> J3 stator pad; B origin in J2 frame (mm) = (103.2, -6.2, 0.0); bar level z=-35.3, landing 71.0 mm from axis A, flange to Y_B=39.4
+Snapshot captured: False
+
+J1 right_shoulder_pitch_joint: intended pos(mm)=(0.00, -200.43, 0.00) Z=(0.000, -0.961, 0.276) [set via transform2 on proxy]
+    read back pos(mm)=(0.00, -200.43, 0.00) Z=(0.000, -0.961, 0.276) -> OK (max diff 1.11e-15 cm); module under wrapper: PROBLEM (1 child occurrences)
+    world module bbox centre (mm) = (0.0, 0.0, -18.3), size (54.0, 54.0, 36.5); 200.4 mm from the joint origin
+J2 right_shoulder_roll_joint: intended pos(mm)=(0.01, -240.77, -2.82) Z=(1.000, 0.000, -0.000) [set via transform2 on proxy]
+    read back pos(mm)=(0.01, -240.77, -2.82) Z=(1.000, 0.000, -0.000) -> OK (max diff 5.55e-17 cm); module under wrapper: PROBLEM (1 child occurrences)
+    world module bbox centre (mm) = (0.0, -0.0, -18.2), size (54.0, 54.0, 36.5); 240.8 mm from the joint origin
+J3 right_shoulder_yaw_joint: intended pos(mm)=(0.00, -247.02, -106.02) Z=(-0.000, -0.000, -1.000) [set via transform2 on proxy]
+    read back pos(mm)=(0.00, -247.02, -106.02) Z=(-0.000, -0.000, -1.000) -> OK (max diff 1.78e-15 cm); module under wrapper: PROBLEM (1 child occurrences)
+    world module bbox centre (mm) = (0.0, 0.0, -18.2), size (54.0, 54.0, 36.5); 247.0 mm from the joint origin
+arm component transform: identity (diff 0.00e+00)
+root occurrences after: 26 (generated_R_arm*: 1) -> ['generated_R_arm']
+bridge: OK in 3.0s

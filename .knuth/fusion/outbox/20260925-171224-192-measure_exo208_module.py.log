@@ -1,0 +1,16 @@
+OK
+sensor module 2: body 'Body1', volume 25729.996 mm3, bbox z -24.500..-0.400
+  80 sample(s) inside, 1 contiguous run(s)
+  BLOCK 158.00258 .. 178.00192 deg   arc 19.99935   centre 168.00225
+        r 21.060..27.000 mm, z -6.000..-0.400 mm (at the block centre)
+sensor module 2 stop15: body 'Body1', volume 25685.093 mm3, bbox z -24.500..-0.400
+  60 sample(s) inside, 1 contiguous run(s)
+  BLOCK 160.50223 .. 175.50227 deg   arc 15.00005   centre 168.00225
+        r 21.060..27.000 mm, z -6.000..-0.400 mm (at the block centre)
+  ASKED  160.50225 .. 175.50225 deg (JOINT_STOP_DEG 15.0 on the measured centre 168.00225)
+  ANGLE  error 2.39e-05 / 2.39e-05 deg -> PASS
+  UNMOVED vs the original block: r 0.000 / 0.000 mm, z 0.000 / 0.000 mm -> PASS
+  1 block(s) left on the rim (must be 1) -> PASS
+
+generated_R_arm_general: modules placed -> {'sensor module 2 stop15': 7}
+bridge: OK in 0.8s

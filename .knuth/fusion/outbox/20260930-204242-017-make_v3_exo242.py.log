@@ -1,0 +1,80 @@
+OK
+document: 'exo generated'
+SAVED: "exo generated" in project "G1 exeskeleton", folder "G1 exeskeleton"
+sensor module 2 v3 was here but is WRONG (its printed parts are not renamed (stator is still called "Component2"; inner_top is still called "Component3"; inner_bottom is still called "Component4")) - discarded and re-made
+  parts renamed: Component27 -> stator, Component28 -> inner_top, Component29 -> inner_bottom
+  upper fill horn screw holes        +453.520 mm3
+  upper horn screw head columns      -706.858 mm3
+  upper fill hex nut pockets         +498.831 mm3
+  upper M3 through                   -128.680 mm3
+  upper register pegs                 +67.858 mm3
+  lower M3 through                   -135.114 mm3
+  lower hex nut pockets              -219.342 mm3
+  lower register sockets              -88.951 mm3
+    screw 0 before: z  -12.989..  -3.647  t=['4.2016', '-4.2252', '-4.9885']
+    screw 1 before: z  -12.989..  -3.647  t=['-4.1832', '-4.2252', '-4.9885']
+    screw 2 before: z  -12.989..  -3.647  t=['-4.1667', '4.2873', '-4.9885']
+    screw 3 before: z  -12.989..  -3.647  t=['4.2496', '4.2873', '-4.9885']
+    screw axis in its own frame e=[0.0, 1.0, 0.0]
+    screw 0 after move (transform2 on occurrence): z  -16.989..  -7.647
+    screw 1 after move (transform2 on occurrence): z  -16.989..  -7.647
+    screw 2 after move (transform2 on occurrence): z  -16.989..  -7.647
+    screw 3 after move (transform2 on occurrence): z  -16.989..  -7.647
+    horn screw trimmed in screw 1 (1) at its own y = -4.0000 mm, 5.9579 mm3 off
+    4 standard nuts 45.9088 mm3 each, 4 bolts 212.6466 mm3 each
+    screw trim removed 5.9579 mm3; screws now z -12.989..-7.647
+  upper: head column open at the mating face r  6.001   45.0 deg z  -8.900  want void  got void  OK
+  upper: head column open at the old ceiling r  6.001   45.0 deg z  -6.800  want void  got void  OK
+  upper: head column open at mid depth   r  6.001   45.0 deg z  -4.000  want void  got void  OK
+  upper: head column breaks the rotor face r  6.001   45.0 deg z  -0.100  want void  got void  OK
+  upper: solid inside the column         r  3.300   45.0 deg z  -4.000  want solid got solid OK
+  upper: solid outside the column        r  8.700   45.0 deg z  -4.000  want solid got solid OK
+  upper: solid between two columns       r  6.001    0.0 deg z  -4.000  want solid got solid OK
+  upper: M3 through at the joint face    r 11.000    0.0 deg z  -8.500  want void  got void  OK
+  upper: M3 through at mid depth         r 11.000   90.0 deg z  -6.000  want void  got void  OK
+  upper: hex nut pocket filled           r 13.500    0.0 deg z  -7.000  want solid got solid OK
+  upper: peg root, in the solid          r 12.200   22.5 deg z  -8.900  want solid got solid OK
+  upper: peg at mid height               r 12.200   67.5 deg z  -9.600  want solid got solid OK
+  upper: peg tip                         r 12.200  247.5 deg z -10.150  want solid got solid OK
+  upper: nothing below the tip           r 12.200  247.5 deg z -10.250  want void  got void  OK
+  upper: air between two pegs            r 12.200   45.0 deg z  -9.600  want void  got void  OK
+  upper: void just inside a peg          r 10.400  337.5 deg z  -9.600  want void  got void  OK
+  upper: rim wall outside a peg          r 14.500  157.5 deg z  -8.500  want solid got solid OK
+  upper: outside the r 15 rim            r 15.500  157.5 deg z  -8.500  want void  got void  OK
+  upper: index notch still cut           r 16.000   90.0 deg z  -0.500  want void  got void  OK
+  lower: M3 through the web              r 11.000    0.0 deg z  -9.500  want void  got void  OK
+  lower: M3 through above the pocket     r 11.000   90.0 deg z -10.000  want void  got void  OK
+  lower: nut pocket open                 r 13.500    0.0 deg z -12.000  want void  got void  OK
+  lower: nut pocket open at the top      r 13.500    0.0 deg z -10.700  want void  got void  OK
+  lower: nut pocket ceiling              r 13.500    0.0 deg z -10.500  want solid got solid OK
+  lower: wall band, hole to bore         r  8.800    0.0 deg z -10.550  want solid got solid OK
+  lower: solid between pockets           r 11.000   45.0 deg z -12.000  want solid got solid OK
+  lower: socket open under the face      r 12.200   22.5 deg z  -9.100  want void  got void  OK
+  lower: socket open at the bottom       r 12.200  112.5 deg z -10.250  want void  got void  OK
+  lower: socket floor solid              r 12.200  112.5 deg z -10.450  want solid got solid OK
+  lower: nut pocket corner pulled in     r 11.531   17.5 deg z -12.000  want solid got solid OK
+  lower: floor, socket side              r 11.452   16.1 deg z -10.250  want void  got void  OK
+  lower: floor itself                    r 11.452   16.1 deg z -10.450  want solid got solid OK
+  lower: floor, nut pocket side          r 11.452   16.1 deg z -10.700  want void  got void  OK
+  lower: solid between two sockets       r 12.200   45.0 deg z  -9.600  want solid got solid OK
+  lower: wall outside a socket           r 14.500  202.5 deg z  -9.600  want solid got solid OK
+  lower: outside the r 15 rim            r 15.500  202.5 deg z  -9.600  want void  got void  OK
+  lower: horn bore still clear           r  7.000    0.0 deg z -12.000  want void  got void  OK
+  lower: horn screw hole open            r  6.001   45.0 deg z  -9.500  want void  got void  OK
+  lower: web solid on the axis           r  2.000    0.0 deg z  -9.500  want solid got solid OK
+sensor module 2 v3: made now: a copy of "sensor module 2" (addExistingComponent + breakLink), renamed. PARTS - parts renamed: Component27 -> stator, Component28 -> inner_top, Component29 -> inner_bottom. JOINT STOP - two wedge bodies combine-cut out of stator/Body1; wedges 155.00258..160.50225 and 175.50225..181.00192 deg, r 20.0..30.0, z -4.0..1.0. Block MEASURED 158.00258..178.00192 deg before, 160.50223..175.50227 after (arc 15.00005, centre 168.00225, asked 15.0 on 168.00225); stator body 25729.996 -> 25685.093 mm3 (-44.902). ROTOR - upper part 6473.293 -> 6657.964 mm3 (+184.671): O2.2 and O5.0 at r 6.001 filled to the rotor face, O5.0 head columns z -9.1..0.1 THROUGH, hex pockets filled, O3.2 at r 11.0 taken down to z -9.0, 8x O3.0 register PEGS at r 12.2 (22.5 + k*45.0 deg) down to z -10.2 (EXO-238); lower part 2950.793 -> 2507.386 mm3 (-443.407): O3.2 at r 11.0 through, 4x hex 5.8 across flats FLATS-RADIAL z -13.3..-10.6, 8x O3.3 register SOCKETS z -9.0..-10.3 at the same r and angles (EXO-238). FASTENERS - horn screws z -12.989..-7.647 (5.958 mm3 trimmed off the shank), head seated on z -9.0, tip unchanged at -12.989, under-head length 3.989 -> M2x4 (was 7.989); the module's four 1.8 mm THIN nuts deleted and four STANDARD ISO 4032 M3 nuts drawn instead (5.5 across flats, 2.4 thick, bored Ø3.0, flats radial, z -13.000..-10.600 - pulled up onto the pocket ceiling -10.600 with 0.200 left under them inside the mouth -13.2; inner flat r 8.250, 0.250 clear of the XL330 horn disk r 8.000); four M3x20 bolts drawn (Ø3.0 shank, Ø5.5 x 3.0 head seated on the link's rotor pad outer face z 8.0): tip z -12.000, 1.400 mm of thread in the nut. All 39 rotor probes read back.
+sensor module 2 v3: made now: a copy of "sensor module 2" (addExistingComponent + breakLink), renamed. PARTS - parts renamed: Component27 -> stator, Component28 -> inner_top, Component29 -> inner_bottom. JOINT STOP - two wedge bodies combine-cut out of stator/Body1; wedges 155.00258..160.50225 and 175.50225..181.00192 deg, r 20.0..30.0, z -4.0..1.0. Block MEASURED 158.00258..178.00192 deg before, 160.50223..175.50227 after (arc 15.00005, centre 168.00225, asked 15.0 on 168.00225); stator body 25729.996 -> 25685.093 mm3 (-44.902). ROTOR - upper part 6473.293 -> 6657.964 mm3 (+184.671): O2.2 and O5.0 at r 6.001 filled to the rotor face, O5.0 head columns z -9.1..0.1 THROUGH, hex pockets filled, O3.2 at r 11.0 taken down to z -9.0, 8x O3.0 register PEGS at r 12.2 (22.5 + k*45.0 deg) down to z -10.2 (EXO-238); lower part 2950.793 -> 2507.386 mm3 (-443.407): O3.2 at r 11.0 through, 4x hex 5.8 across flats FLATS-RADIAL z -13.3..-10.6, 8x O3.3 register SOCKETS z -9.0..-10.3 at the same r and angles (EXO-238). FASTENERS - horn screws z -12.989..-7.647 (5.958 mm3 trimmed off the shank), head seated on z -9.0, tip unchanged at -12.989, under-head length 3.989 -> M2x4 (was 7.989); the module's four 1.8 mm THIN nuts deleted and four STANDARD ISO 4032 M3 nuts drawn instead (5.5 across flats, 2.4 thick, bored Ø3.0, flats radial, z -13.000..-10.600 - pulled up onto the pocket ceiling -10.600 with 0.200 left under them inside the mouth -13.2; inner flat r 8.250, 0.250 clear of the XL330 horn disk r 8.000); four M3x20 bolts drawn (Ø3.0 shank, Ø5.5 x 3.0 head seated on the link's rotor pad outer face z 8.0): tip z -12.000, 1.400 mm of thread in the nut. All 39 rotor probes read back.
+
+--- the ORIGINAL, still LINKED ---
+  stator  V= 25729.996 mm3 (record  25729.996)
+  upper   V=  6473.293 mm3 (record   6473.293)
+  lower   V=  2950.793 mm3 (record   2950.793)
+
+--- v3 rotor parts against the EXO-240 record ---
+  upper  V=  6657.964 mm3 (record   6657.964, -0.0000)  r  4.588..18.000 z  -10.200..   0.000
+  lower  V=  2507.386 mm3 (record   2507.386, -0.0003)  r  5.280..17.500 z  -13.200..  -9.000
+  fasteners: nuts True, bolts True
+
+SAVED: "exo generated" in project "G1 exeskeleton", folder "G1 exeskeleton"
+EXO-242 step 2: module reproduces its recorded numbers, document saved.
+bridge: OK in 11.3s

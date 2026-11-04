@@ -1,0 +1,35 @@
+OK
+link_45 stator-pad holes: what surface is at EACH end, and how flat it is
+
+hole at (  87.3,-268.1,-196.5):
+   adjoins Cylinder   area  339.01 mm2 r=5.00 mm
+   adjoins Plane      area 1390.89 mm2
+   adjoins Cylinder   area  339.01 mm2 r=5.00 mm
+   adjoins Plane      area    1.22 mm2
+   adjoins Plane      area 1735.31 mm2
+
+hole at (  87.3,-248.9,-177.3):
+   adjoins Plane      area 1735.31 mm2
+   adjoins Plane      area 1390.89 mm2
+
+hole at (  87.3,-248.9,-215.8):
+   adjoins Plane      area 1735.31 mm2
+   adjoins Plane      area 1390.89 mm2
+
+hole at (  15.8,-251.0,-197.5):
+   adjoins Plane      area 1655.83 mm2
+   adjoins Plane      area 2214.76 mm2
+
+hole at (   4.8,-251.0,-186.5):
+   adjoins Plane      area 1655.83 mm2
+   adjoins Plane      area 2214.76 mm2
+
+hole at (  15.8,-251.0,-175.5):
+   adjoins Plane      area 1655.83 mm2
+   adjoins Plane      area 2214.76 mm2
+
+hole at (  26.8,-251.0,-186.5):
+   adjoins Plane      area 1655.83 mm2
+   adjoins Cylinder   area 1116.47 mm2 r=20.00 mm
+   adjoins Plane      area 2214.76 mm2
+bridge: OK in 0.1s

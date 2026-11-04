@@ -1,0 +1,14 @@
+FAIL
+stop module component: 'sensor module 2 stop15'
+root occ 'sensor module 2:1'                comp='sensor module 2'
+root occ 'generated_R_arm_general:1'        comp='generated_R_arm_general'
+root occ 'sensor module 2 stop15 (rejected):1' comp='sensor module 2 stop15 (rejected)'
+root occ 'sensor module 2 stop15:1'         comp='sensor module 2 stop15'
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260925-165730-478-probe_exo208_frame.py", line 28, in <module>
+    raise RuntimeError('no stop module occurrence to probe')
+RuntimeError: no stop module occurrence to probe
+bridge: FAIL in 0.2s

@@ -1,0 +1,12 @@
+OK
+bridge: no active Fusion design - design is None
+hub: Estebans
+projects (5): ['Assets', 'Default Project', 'gvl', 'Learn Fusion in 30 days', 'G1 exeskeleton']
+project: G1 exeskeleton
+pass1 10 files (7s)
+pass1 20 files (12s)
+pass1 done: 2 folders, 25 files (16s)
+pass2 10/25 (26s)
+pass2 20/25 (37s)
+DONE 2 folders 25 files in 72s -> /Users/esteban/repos/exo/gento_luna/exo/exports/fusion_data_inventory_exo274_target.json
+bridge: OK in 71.8s

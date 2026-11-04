@@ -1,0 +1,7 @@
+OK
+bridge: no active Fusion design - design is None
+item 35 upload started: hook.f3d -> G1 exeskeleton/cuff
+item 35 uploaded as 'hook' (12s)
+counts: {'blocked_assembly': 8, 'uploaded': 25, 'upload_failed': 2}
+active hub/project: Team hub - Rodrigo Andrade / G1 exeskeleton (15s)
+bridge: OK in 14.7s

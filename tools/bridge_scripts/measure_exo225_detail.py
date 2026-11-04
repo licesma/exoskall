@@ -1,0 +1,81 @@
+"""EXO-225 detail: vertices of the rotor parts, the horn screw and the M3 nut, plus a
+radius-vs-z profile of the XL330 and the stator bore, all in the module frame.
+
+Run: /usr/bin/python3 tools/bridge_scripts/measure_exo225_detail.py
+Pure Python (steplib), nothing written.
+"""
+import math
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+sys.path.insert(0, os.path.join(ROOT, 'fusion_scripts', 'BuildArm'))
+import steplib                                     # noqa: E402
+import armgen as g                                 # noqa: E402
+
+STEP = os.path.join(ROOT, 'gento_luna', 'Gento Luna_URDF 20260428', 'urdf',
+                    'sensor module 2.step')
+s = steplib.Step(STEP)
+occs = s.occurrences()
+
+
+def verts(name, idx=0):
+    hits = [(p, n, pd, T) for p, n, pd, T in occs if n == name]
+    p, n, pd, T = hits[idx]
+    return [steplib._apply(T, v) for v in s.vertices(pd)]
+
+
+def dump(name, idx=0, zlo=-1e9, zhi=1e9):
+    w = verts(name, idx)
+    rows = sorted(((round(p[2], 3), round(math.hypot(p[0], p[1]), 3),
+                    round(math.degrees(math.atan2(p[1], p[0])) % 360.0, 2),
+                    round(p[0], 3), round(p[1], 3)) for p in w))
+    print('\n--- %s [%d]: %d vertices (z, r, ang, x, y) ---' % (name, idx, len(rows)))
+    for z, r, a, x, y in rows:
+        if zlo <= z <= zhi:
+            print('   z %8.3f  r %8.3f  ang %7.2f   (%8.3f, %8.3f)' % (z, r, a, x, y))
+
+
+# EXO-242: either name - Fusion's default on the original, the real one on a v3 copy.
+for _which in ('inner_top', 'inner_bottom'):
+    for _nm in g.module_part_names(_which):
+        dump(_nm)
+dump('pan_head_philip_mc_screw_m1-6')
+dump('m3 hex nut')
+
+print('\n\n=== screw: cylindrical surfaces (module frame) ===')
+for p, n, pd, T in occs:
+    if n != 'pan_head_philip_mc_screw_m1-6':
+        continue
+    seen = set()
+    for c, a, rad in s.cylinders(pd):
+        cw = steplib._apply(T, c)
+        aw = steplib._rot(T, a)
+        k = (round(rad, 4), round(cw[2], 3))
+        if k in seen:
+            continue
+        seen.add(k)
+        print('   r %7.4f  origin (%7.3f,%7.3f,%8.3f) axis z %6.3f'
+              % (rad, cw[0], cw[1], cw[2], aw[2]))
+    break
+
+print('\n\n=== max radius vs z (0.5 mm bins), from vertices ===')
+for name in ('XL330',) + g.module_part_names('stator'):
+    w = [p for p, n, pd, T in occs if n == name]
+    pts = []
+    for path, n, pd, T in occs:
+        if n != name:
+            continue
+        pts += [steplib._apply(T, v) for v in s.vertices(pd)]
+    bins = {}
+    for p in pts:
+        b = math.floor(p[2] * 2) / 2.0
+        r = math.hypot(p[0], p[1])
+        lo, hi, c = bins.get(b, (1e9, -1e9, 0))
+        bins[b] = (min(lo, r), max(hi, r), c + 1)
+    print('\n--- %s ---' % name)
+    for b in sorted(bins):
+        lo, hi, c = bins[b]
+        print('   z %8.2f .. %8.2f   r %8.3f .. %8.3f   n=%d' % (b, b + 0.5, lo, hi, c))

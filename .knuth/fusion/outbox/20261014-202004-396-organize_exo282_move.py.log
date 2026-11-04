@@ -1,0 +1,19 @@
+OK
+move sensor module 2 CzEATR -> arm/upper body/joint/rotor: True
+verify sensor module 2: in dest=1 gone from src=True (6s)
+move cases AxWRyN -> arm/upper body/joint/stators: True
+verify cases: in dest=1 gone from src=True (12s)
+move exo generated I6f3yG -> arm/exo upper body: True
+verify exo generated: in dest=1 gone from src=True (16s)
+move arm cXGOAc -> arm/old: True
+verify arm: in dest=1 gone from src=True (21s)
+move arm 2 3E7UqM -> arm/old: True
+verify arm 2: in dest=1 gone from src=True (25s)
+move arm test fZK9GF -> arm/old: True
+verify arm test: in dest=1 gone from src=True (29s)
+move sensor module pGmHk0 -> arm/old: True
+verify sensor module: in dest=1 gone from src=True (34s)
+move sensor module ocXTpT -> arm/old: True
+verify sensor module: in dest=1 gone from src=True (38s)
+verified 9/9
+bridge: OK in 38.2s

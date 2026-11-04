@@ -1,0 +1,97 @@
+OK
+generated_R_arm_general      on=True visible=True bodies=0
+  g_link_12                    on=True visible=True bodies=1
+  g_link_23                    on=True visible=True bodies=1
+  g_link_34                    on=True visible=True bodies=1
+  g_link_45                    on=True visible=True bodies=1
+  GJ1_right_shoulder_pitch_joint on=True visible=True bodies=0
+    sensor module 2              on=True visible=True bodies=0
+      5972K159_Ball Bearing        on=True visible=True bodies=22
+      Component1                   on=True visible=True bodies=1
+      Component2                   on=True visible=True bodies=1
+      Component3                   on=True visible=True bodies=1
+      XL330 v2                     on=True visible=True bodies=6
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+  GJ2_right_shoulder_roll_joint on=True visible=True bodies=0
+    sensor module 2              on=True visible=True bodies=0
+      5972K159_Ball Bearing        on=True visible=True bodies=22
+      Component1                   on=True visible=True bodies=1
+      Component2                   on=True visible=True bodies=1
+      Component3                   on=True visible=True bodies=1
+      XL330 v2                     on=True visible=True bodies=6
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+  GJ3_right_shoulder_yaw_joint on=True visible=True bodies=0
+    sensor module 2              on=True visible=True bodies=0
+      5972K159_Ball Bearing        on=True visible=True bodies=22
+      Component1                   on=True visible=True bodies=1
+      Component2                   on=True visible=True bodies=1
+      Component3                   on=True visible=True bodies=1
+      XL330 v2                     on=True visible=True bodies=6
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+  GJ4_right_elbow_joint        on=True visible=True bodies=0
+    sensor module 2              on=True visible=True bodies=0
+      5972K159_Ball Bearing        on=True visible=True bodies=22
+      Component1                   on=True visible=True bodies=1
+      Component2                   on=True visible=True bodies=1
+      Component3                   on=True visible=True bodies=1
+      XL330 v2                     on=True visible=True bodies=6
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+  GJ5_right_wrist_roll_joint   on=True visible=True bodies=0
+    sensor module 2              on=True visible=True bodies=0
+      5972K159_Ball Bearing        on=True visible=True bodies=22
+      Component1                   on=True visible=True bodies=1
+      Component2                   on=True visible=True bodies=1
+      Component3                   on=True visible=True bodies=1
+      XL330 v2                     on=True visible=True bodies=6
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      screw 1                      on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3_6mm_insert                on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+      m3 hex nut                   on=True visible=True bodies=1
+bridge: OK in 0.1s

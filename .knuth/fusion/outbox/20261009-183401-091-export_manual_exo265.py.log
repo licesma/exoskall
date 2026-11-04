@@ -1,0 +1,57 @@
+OK
+original document 'sensor module 2' version 12 isModified=False
+original root occurrences: ['5972K159_Ball Bearing:1', 'Component1:1', 'Component2:1', 'Component3:1', 'XL330 v2:1', 'screw 1:1', 'screw 1:2', 'screw 1:3', 'screw 1:4', 'm3_6mm_insert:1', 'm3_6mm_insert:2', 'm3_6mm_insert:3', 'm3 hex nut:1', 'm3 hex nut:2', 'm3 hex nut:3', 'm3 hex nut:4']
+ORIGINAL upper: occ 'Component2:1' comp 'Component2' body 'Body1' V=6473.293 (record 6473.293); module frame r 4.587..18.000 z -9.000..0.000; occ transform t=(0.000,0.000,-7.500)
+   own-frame bbox 36.000 x 36.000 x 9.000 min (-18.000, -18.000, -1.500); faces 53
+ORIGINAL lower: occ 'Component3:1' comp 'Component3' body 'Body1' V=2950.793 (record 2950.793); module frame r 5.280..17.500 z -13.200..-9.000; occ transform t=(0.000,0.000,-7.500)
+   own-frame bbox 35.000 x 35.000 x 4.200 min (-17.500, -17.500, -5.700); faces 11
+   orig child '5972K159_Ball Bearing:1'                body 0: r 19.290..21.000 z -11.000..-4.000
+   orig child '5972K159_Ball Bearing:1'                body 1: r 15.000..16.181 z -11.000..-4.000
+   orig child '5972K159_Ball Bearing:1'                body 2: r nan..2.100 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 3: r nan..8.988 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 4: r nan..14.828 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 5: r nan..18.730 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 6: r nan..20.100 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 7: r nan..18.730 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 8: r nan..14.828 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 9: r nan..8.988 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 10: r 16.181..18.864 z -5.400..-4.124
+   orig child '5972K159_Ball Bearing:1'                body 11: r 16.181..18.864 z -10.876..-9.600
+   orig child '5972K159_Ball Bearing:1'                body 12: r nan..2.100 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 13: r 18.695..19.290 z -4.702..-4.045
+   orig child '5972K159_Ball Bearing:1'                body 14: r nan..8.988 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 15: r 18.695..19.290 z -10.955..-10.298
+   orig child '5972K159_Ball Bearing:1'                body 16: r nan..14.828 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 17: r nan..18.730 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 18: r nan..20.100 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 19: r nan..18.730 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 20: r nan..14.828 z -9.600..-5.400
+   orig child '5972K159_Ball Bearing:1'                body 21: r nan..8.988 z -9.600..-5.400
+   orig child 'Component1:1'                           body 0: r 13.793..27.000 z -24.500..-0.400
+   orig child 'Component2:1'                           body 0: r 4.587..18.000 z -9.000..0.000
+   orig child 'Component3:1'                           body 0: r 5.280..17.500 z -13.200..-9.000
+   orig child 'XL330 v2:1'                             body 0: r 0.958..26.101 z -36.500..-10.500
+   orig child 'XL330 v2:1'                             body 1: r 8.789..10.287 z -35.500..-31.500
+   orig child 'XL330 v2:1'                             body 2: r 8.789..10.287 z -35.500..-31.500
+   orig child 'XL330 v2:1'                             body 3: r 23.255..23.611 z -35.500..-31.500
+   orig child 'XL330 v2:1'                             body 4: r 20.817..21.492 z -35.500..-31.500
+   orig child 'XL330 v2:1'                             body 5: r 1.075..1.075 z -20.100..-12.100
+   orig child 'screw 1:1'                              body 0: r 5.037..7.182 z -12.989..-3.647
+   orig child 'screw 1:2'                              body 0: r 5.022..7.172 z -12.989..-3.647
+   orig child 'screw 1:3'                              body 0: r 4.958..7.008 z -12.989..-3.647
+   orig child 'screw 1:4'                              body 0: r 5.028..7.058 z -12.989..-3.647
+   orig child 'm3_6mm_insert:1'                        body 0: r 17.710..18.284 z -24.510..-18.510
+   orig child 'm3_6mm_insert:2'                        body 0: r 17.501..18.160 z -24.510..-18.510
+   orig child 'm3_6mm_insert:3'                        body 0: r 20.392..21.139 z -24.510..-18.510
+   orig child 'm3 hex nut:1'                           body 0: r 7.825..14.175 z -6.900..-5.100
+   orig child 'm3 hex nut:2'                           body 0: r 7.825..14.175 z -6.900..-5.100
+   orig child 'm3 hex nut:3'                           body 0: r 7.826..14.175 z -6.900..-5.100
+   orig child 'm3 hex nut:4'                           body 0: r 7.827..14.177 z -6.900..-5.100
+V3 upper: comp 'inner_top' body 'Body1' V=6657.964 (record 6657.964); own-frame bbox 36.000 x 36.000 x 10.200 min (-18.000, -18.000, -2.700); faces 33
+V3 lower: comp 'inner_bottom' body 'Body1' V=2507.386 (record 2507.386); own-frame bbox 35.000 x 35.000 x 4.200 min (-17.500, -17.500, -5.700); faces 59
+LINKED original in exo generated upper: V=6473.293
+LINKED original in exo generated lower: V=2950.793
+export ORIGINAL upper body 'Body1' of 'Component2' (refinement 1): True -> /Users/esteban/repos/exo/parts/manual_inner_top.3mf
+export ORIGINAL lower body 'Body1' of 'Component3' (refinement 1): True -> /Users/esteban/repos/exo/parts/manual_inner_bottom.3mf
+original isModified after export: False
+bridge: OK in 8.4s

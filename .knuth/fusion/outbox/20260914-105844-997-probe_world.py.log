@@ -1,0 +1,16 @@
+OK
+--- generated arm ---
+generated_R_arm (ctx=None) bodies=0 children=5
+  occ.boundingBox min=(-3.94, -27.40, -8.26) max=(2.70, 2.70, 2.72)
+  transform t=(0.00, 0.00, 0.00)
+  link_12 (ctx=generated_R_arm) bodies=1 children=0
+    body link_12 ctx=proxy bbox min=(-3.25, -26.78, -3.92) max=(2.60, -19.33, 2.72)
+    occ.boundingBox min=(-3.25, -26.78, -3.93) max=(2.60, -19.33, 2.72)
+    transform t=(0.00, 0.00, 0.00)
+  link_23 (ctx=generated_R_arm) bodies=1 children=0
+    body link_23 ctx=proxy bbox min=(-3.93, -27.40, -8.26) max=(2.70, -21.38, 2.42)
+    occ.boundingBox min=(-3.94, -27.40, -8.26) max=(2.70, -21.38, 2.42)
+    transform t=(0.00, 0.00, 0.00)
+--- existing Module 0 R (known good) ---
+no root-level "Module 0 R"; root occurrences: ['left arm', 'right arm', 'chest mount', 'Camera support', 'M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW', 'M4 x 0.7mm Thread HEX NUT', 'M4 x 0.7mm Thread HEX NUT', 'M4 x 0.7mm Thread HEX NUT', 'M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW', 'M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW', 'M4 x 0.7mm Thread HEX NUT', 'M4 x 0.7mm Thread HEX NUT', 'M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW', 'M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW', 'M4 x 0.7mm Thread HEX NUT', 'M4 x 0.7mm Thread HEX NUT', 'M4 x 0.7mm Thread HEX NUT', 'M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW', 'M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW', 'M4 x 0.7mm Thread HEX NUT', 'M4 x 0.7mm Thread HEX NUT', 'cuffs with soft inside (1)', 'cuffs with soft inside (1)', 'M4 x 0.7mm Thread HEX NUT', 'sensor module 2', 'generated_R_arm']
+bridge: OK in 0.0s

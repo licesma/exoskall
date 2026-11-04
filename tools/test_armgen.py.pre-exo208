@@ -1,0 +1,2461 @@
+"""Checks armgen (the pure-Python part of fusion_scripts/BuildArm) against the
+numbers measured from the exo STEP (exo_skeleton_2026-08-08.step) for the right
+shoulder. Run: /usr/bin/python3 tools/test_armgen.py
+"""
+import math
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, '..', 'fusion_scripts', 'BuildArm'))
+import armgen  # noqa: E402
+
+URDF = os.path.join(HERE, '..', 'g1', 'g1_29dof.urdf')
+
+# Same config as BuildArm.py (kept in sync by hand; the test is about the math).
+JOINTS = {
+    'J1': ('right_shoulder_pitch_joint', -1, (0, 0, 1)),
+    'J2': ('right_shoulder_roll_joint', +1, (0, 1, 0)),
+    'J3': ('right_shoulder_yaw_joint', -1, (-1, 0, 0)),
+}
+ORIGIN_AT = 'left_shoulder_pitch_joint'
+
+# Measured in the exo STEP (mm, exo frame = left J1 rotor-face centre at origin).
+EXO_J1_ORIGIN = (0.0, -200.440, 0.0)
+EXO_J1_Z_PHYS = (0.0, -0.9613, 0.2756)     # physical rotor-face normal (mirrored arm)
+EXO_J2_ORIGIN = (0.0, -240.772, -2.791)
+EXO_J2_Z = (1.0, 0.0, 0.0)
+EXO_J2_IN_J1 = (0.0, -13.80, 38.00)        # J2 origin in the J1 module frame
+EXO_STATOR_SLAB_X = (-32.5, -24.5)         # Link 1 R stator pad faces (world x = J1R-frame x)
+EXO_STATOR_SLAB_Z_LOW = 11.0               # module J2 rim above the rotor pad plane
+
+fails = []
+
+
+def close(name, got, want, tol):
+    got = list(got) if hasattr(got, '__iter__') else [got]
+    want = list(want) if hasattr(want, '__iter__') else [want]
+    err = max(abs(g - w) for g, w in zip(got, want))
+    status = 'ok ' if err <= tol else 'FAIL'
+    print('%s %-38s got=%s want=%s err=%.4f tol=%g' % (
+        status, name, [round(v, 4) for v in got], [round(v, 4) for v in want], err, tol))
+    if err > tol:
+        fails.append(name)
+
+
+joints, by_child = armgen.parse_urdf(URDF)
+shift, _ = armgen.joint_world_pose(ORIGIN_AT, joints, by_child)
+F = {}
+for lab, (name, sign, yh) in JOINTS.items():
+    R, t = armgen.module_frame(name, joints, by_child, sign, yh)
+    F[lab] = (R, t)
+    print(lab, armgen.fmt_frame(R, t))
+
+
+def col(R, k):
+    return [R[i][k] for i in range(3)]
+
+
+def exo_pos(t):
+    return [(t[i] - shift[i]) * 1000 for i in range(3)]
+
+
+R1, t1 = F['J1']
+R2, t2 = F['J2']
+close('J1 origin in exo frame (mm)', exo_pos(t1), EXO_J1_ORIGIN, 0.05)
+close('J1 Z = physical rotor normal', col(R1, 2), EXO_J1_Z_PHYS, 0.001)
+close('J1 Y (connector side, up)', col(R1, 1), (0, 0.2756, 0.9613), 0.001)
+close('J1 X', col(R1, 0), (1, 0, 0), 0.001)
+close('J2 origin in exo frame (mm)', exo_pos(t2), EXO_J2_ORIGIN, 0.05)
+close('J2 Z', col(R2, 2), EXO_J2_Z, 0.001)
+close('J2 Y (connector side, +Y)', col(R2, 1), (0, 1, 0), 0.001)
+close('J2 X', col(R2, 0), (0, 0, -1), 0.001)
+# right-handedness
+for lab, (R, _) in F.items():
+    x, y, z = col(R, 0), col(R, 1), col(R, 2)
+    close(lab + ' right-handed (X x Y = Z)', armgen.cross(x, y), z, 1e-6)
+
+R_ab, t_ab = armgen.relative_frame(R1, t1, R2, t2)
+close('J2 origin in J1 frame (mm)', t_ab, EXO_J2_IN_J1, 0.05)
+close('J2 axis in J1 frame', col(R_ab, 2), (1, 0, 0), 0.001)
+
+# ---------------- EXO-81: link 12 is the 'L' (shoulder) pattern, measured on Link 1 R ----------------
+spec12 = armgen.route(F['J1'], F['J2'], 26.0)
+gl = spec12['geometry']
+close('link 12: router picks the L pattern', 1.0 if spec12['pattern'] == 'L' else 0.0, 1.0, 0)
+# EXO-89: the two slab faces, the plate coplanar with the rotor pad, the elbow's radii
+close('L slab faces s (= exo |x| 24.5 / 32.5)', (gl['s_lo'], gl['s_hi']),
+      (-EXO_STATOR_SLAB_X[1], -EXO_STATOR_SLAB_X[0]), 0.05)
+close('L plate z = the rotor pad thickness', gl['plate_z'], (0.0, armgen.PAD_T), 1e-9)
+close('L inner fillet r (Link 1 R r 3)', gl['r_in'], 3.0, 1e-9)
+close('L measured outer round r (Link 1 R r 10)', gl['r_out_measured'], 10.0, 1e-9)
+# the rim rule (EXO-74) caps the outer round so the plate crosses the rim FLAT
+close('L outer round capped by the rim rule', gl['r_out'], 32.5 - 26.0 - armgen.JOIN_RIM_MARGIN, 1e-9)
+close('L rotor-side face flat past the rim = JOIN_RIM_MARGIN',
+      (gl['s_hi'] - gl['r_out']) - 26.0, armgen.JOIN_RIM_MARGIN, 1e-9)
+close('module J2 clears the plate (exo rim 11 mm over the pad plane)',
+      gl['clearance_b'] + armgen.PAD_T, EXO_STATOR_SLAB_Z_LOW, 0.05)
+# the tongue runs down the LINK frame, ending flush with the plate's rotor-side plane
+close('L tongue end y = the J1->J2 axial offset', gl['y_end'], EXO_J2_IN_J1[2], 0.05)
+close('L tongue centred on the plate, off-centre on the disk', gl['x_off'], -gl['w_off'], 1e-9)
+
+
+def slab_to_link(g, x, y):
+    """(w, z) in the link frame of a point (x, y) drawn in the snapped slab frame B'."""
+    return (g['w_off'] + x * g['x_sign'], g['axial'] + y * g['y_sign'])
+
+
+# the invariant the whole L rests on: the tongue drawn in the slab frame must land exactly on
+# the plate's own band, and its end must be flush with the plate's rotor-side plane. Read it
+# off the outline itself (segment 0 is the +x tongue wall, segment 2 the -x one, segment 1
+# the end), not off the numbers that produced it.
+_wall_p, _wall_m = gl['flange'][0][1][0], gl['flange'][2][1][0]
+close('L tongue walls land on the plate band (no step at the slab)',
+      sorted((slab_to_link(gl, _wall_p, 0)[0], slab_to_link(gl, _wall_m, 0)[0])),
+      [-armgen.L_W / 2, armgen.L_W / 2], 1e-9)
+close('L tongue width = the plate width', abs(_wall_p - _wall_m), armgen.L_W, 1e-9)
+close('L plate width = the rotor pad diameter (Link 1 R)', armgen.L_W, 2 * 26.0, 1e-9)
+close('L width is its own constant, not the bar\'s',
+      1.0 if armgen.L_W != armgen.BAR_W else 0.0, 1.0, 0)
+close('L tongue end is flush with the plate rotor-side plane z = 0',
+      slab_to_link(gl, 0.0, gl['y_end'])[1], 0.0, 1e-9)
+close('L plate top face is the cutout web away from the tongue',
+      slab_to_link(gl, 0.0, gl['y_plate_top'])[1], armgen.PAD_T, 1e-9)
+
+# EXO-90: a 52 mm plate on a r 27 disk offset 13.83 mm OVERHANGS the disk on one side, so
+# that wall cannot blend into the rim. Link 1 R answers with one r 500 arc externally
+# tangent to the rim; flange_toe reproduces it, and the other side still takes a real blend.
+_ep, _em = gl['edges']
+close('L +x tongue wall is inside the disk -> a blend', 1.0 if _ep['kind'] == 'blend' else 0.0, 1.0, 0)
+close('L -x tongue wall overhangs the disk -> Link 1 R\'s toe arc',
+      1.0 if _em['kind'] == 'toe' else 0.0, 1.0, 0)
+close('L toe radius = Link 1 R\'s r 500', _em['r'], 500.0, 1e-9)
+close('L toe arc is EXTERNALLY tangent to the rim (|C| = pad_r + r)',
+      math.hypot(*_em['c']), armgen.STATOR_PAD_R + _em['r'], 1e-6)
+close('L toe tangent point is on the rim', math.hypot(*_em['t']), armgen.STATOR_PAD_R, 1e-6)
+# of the two arcs of that radius touching the rim, only the one leading AWAY from the tongue
+# is the edge; the other crosses the tongue (flange_toe raises on it)
+close('L toe leads away from the tongue, not across it',
+      1.0 if (_em['t'][0] - gl['x_off']) * _em['side'] >= 0.0 else 0.0, 1.0, 0)
+close('L toe arc stays outside the disk',
+      min(math.hypot(*pt) for pt in armgen._seg_points(gl['flange'][3], 0.5)),
+      armgen.STATOR_PAD_R, 0.01)
+# and it only ever runs from the corner TOWARD the disk: the other tangent arc would come
+# back up past the corner and cut across the tongue
+close('L toe arc never rises past its corner',
+      max(pt[1] for pt in armgen._seg_points(gl['flange'][3], 0.5)), _em['y_wall'], 1e-6)
+try:
+    armgen.flange_toe(gl['x_off'] - gl['half_w'], -1, gl['y_up'], armgen.STATOR_PAD_R,
+                      armgen.FLANGE_TOE_R, gl['x_off'] - 40.0)
+    fails.append('a toe landing across the tongue should raise')
+except ValueError as e:
+    print('ok  a toe landing across the tongue raises: %s' % str(e)[:70])
+try:
+    armgen.flange_toe(0.0, -1, 5.0, armgen.STATOR_PAD_R)
+    fails.append('a toe corner inside the disk should raise')
+except ValueError as e:
+    print('ok  a toe corner inside the disk raises: %s' % str(e)[:70])
+close('L toe corner is the profile\'s buried top', _em['y_wall'], gl['y_up'], 1e-9)
+close('L toe arc starts at the tongue wall', _em['x'], gl['x_off'] - gl['half_w'], 1e-9)
+close('L blend tangent point is on the rim', math.hypot(*_ep['t']), armgen.STATOR_PAD_R, 1e-6)
+# the toe is a taper, not a lobe: its sagitta over the chord is well under a millimetre
+_chord = math.hypot(_em['t'][0] - _em['x'], _em['t'][1] - _em['y_wall'])
+close('L toe sagitta under 0.5 mm (it reads as a straight taper)',
+      _chord ** 2 / (8 * _em['r']), 0.0, 0.5)
+# the profile's own material stops exactly where the toe corner is: no step at the slab
+close('L buried top meets the toe corner', slab_to_link(gl, 0.0, _em['y_wall'])[1],
+      gl['z_up'], 1e-9)
+close('L slab frame snapped by the pad-axis tilt (16 deg)',
+      math.degrees(gl['snap_rad']), 16.0, 0.01)
+# no S: the offset is taken in the slab, and the fit test says why
+close('L has no plan-view S', 1.0 if gl['s_curve'] is None else 0.0, 1.0, 0)
+close('L: an S would need more run than the plate has',
+      1.0 if not gl['s_fit']['fits'] else 0.0, 1.0, 0)
+# the fit is reported at the radius THIS band could turn through - s_radius(52) = 31.0, not
+# the 25-wide bar's 17.5, at which a 52 mm band's inner wall would be inside out (EXO-96)
+close('L: S fit radius is the one a 52 mm band can turn through', gl['s_fit']['r'],
+      armgen.s_radius(armgen.L_W), 1e-12)
+close('L: s_curve_run agrees with the S geometry', gl['s_fit']['run'],
+      armgen.s_curve_run(gl['w_off'], gl['s_fit']['r'])[1], 1e-9)
+close('L: the bar\'s S radius would turn a 52 mm band inside out',
+      1.0 if armgen.S_RADIUS <= armgen.L_W / 2 else 0.0, 1.0, 0)
+# the profile: plate, buried top, one fillet; nothing below the pad's rotor-side plane
+close('L profile segments / arcs', (len(gl['profile']),
+                                    sum(1 for sg in gl['profile'] if sg[0] == 'arc')), (7, 1), 0)
+_pz = [p[1] for sg in gl['profile'] for p in (sg[1:4] if sg[0] == 'arc' else sg[1:3])]
+close('L profile never goes below the rotor-side plane', min(_pz), 0.0, 1e-9)
+
+# loud-failure paths
+try:
+    armgen.module_frame('right_shoulder_roll_joint', joints, by_child, 1, (1, 0, 0))
+    fails.append('y_hint parallel to axis should raise')
+except ValueError:
+    print('ok  y_hint parallel to axis raises')
+try:
+    armgen.route_relative([[1, 0, 0], [0, 1, 0], [0, 0, 1]], [0, 0, 60], 26.0)
+    fails.append('parallel axes should raise')
+except ValueError as e:
+    print('ok  parallel axes raise: %s' % str(e)[:70])
+try:
+    armgen.link_l_geometry(R_ab, [t_ab[0], t_ab[1], 20.0], 26.0)
+    fails.append('module intersecting pad should raise')
+except ValueError as e:
+    print('ok  module intersecting the pad raises: %s' % str(e)[:70])
+
+# ---------------- J3 and link 23 ----------------
+EXO_J3_ORIGIN = (6.240, -240.766, -105.991)   # exo Module 2 R: 8.83 mm off the URDF (known deviation)
+R3, t3 = F['J3']
+close('J3 Z = physical rotor normal', col(R3, 2), (0, 0, -1), 0.001)
+close('J3 Y (connector side, world -X)', col(R3, 1), (-1, 0, 0), 0.001)
+close('J3 X', col(R3, 0), (0, -1, 0), 0.001)
+close('J3 right-handed', armgen.cross(col(R3, 0), col(R3, 1)), col(R3, 2), 1e-6)
+p3 = exo_pos(t3)
+close('J3 origin z vs exo Module 2 R', p3[2], EXO_J3_ORIGIN[2], 0.05)
+dev = math.sqrt(sum((p3[i] - EXO_J3_ORIGIN[i]) ** 2 for i in range(3)))
+close('J3 origin deviation from exo (known 8.83 mm)', dev, 8.83, 0.05)
+
+# bar geometry against Link 2 measured in the exo LEFT frames (J3 in J2 frame):
+R_exo = [[0, 0, -1], [1, 0, 0], [0, -1, 0]]     # columns X_B=(0,1,0) Y_B=(0,0,-1) Z_B=(-1,0,0)
+t_exo = [-103.2, 0.0, 6.24]
+bg = armgen.link_bar_geometry(R_exo, t_exo, 27.0)
+close('Link 2: bar direction u (stator axis in the pad plane)', bg['u'], (-1, 0, 0), 1e-6)
+close('Link 2: bar centred on axis A (w_off)', bg['w_off'], 0.0, 1e-6)
+close('Link 2: bar level zL (measured -33..-25.21 -> -29.11)', bg['zL'], -29.105, 0.05)
+close('Link 2: bar z range (measured -33..-25.21)', bg['bar_z'], (-33.0, -25.21), 0.02)
+close('Link 2: riser inner face (measured 28.44)', bg['riser_s'][0], 28.44, 0.05)
+close('Link 2: riser outer face (measured 34.88)', bg['riser_s'][1], 34.88, 0.05)
+close('Link 2: riser thickness 6.44', bg['s_out'] - bg['s_in'], 6.44, 1e-6)
+close('Link 2: riser clearance to r 27 module/slab', bg['clearance_a'], 1.44, 1e-6)
+if bg['clearance_a'] < armgen.MIN_CLEARANCE:
+    fails.append('riser clearance below MIN_CLEARANCE')
+close('Link 2: slab bar-side face (measured 70.7)', bg['s_face'], 70.7, 0.05)
+close('Link 2: bar end buried mid-slab (74.7)', bg['s_end'], 74.7, 0.05)
+close('Link 2: flange extent along Y_B (measured 39.24)', bg['flange_y'][1], 39.24, 0.05)
+close('Link 2: landing point', bg['landing'], (-70.7, 0.0, -29.11), 0.1)
+
+
+# ---------------- EXO-58: the side profile as data (lines + tangent arcs) ----------------
+def seg_end(seg):
+    return seg[2] if seg[0] == 'line' else seg[3]
+
+
+def sweep_deg(p0, pm, p1, c):
+    """Angle swept by the arc p0 -> pm -> p1 about c (the way THROUGH pm)."""
+    a0, am, a1 = (math.degrees(math.atan2(q[1] - c[1], q[0] - c[0])) for q in (p0, pm, p1))
+    to_m, to_1 = (am - a0) % 360.0, (a1 - a0) % 360.0
+    return to_1 if to_m < to_1 else 360.0 - to_1
+
+
+def check_profile(label, segs, want_arcs, tol=0.02, long_r=None):
+    """Closure, arc consistency (all three points on the circle), tangency to the
+    neighbouring lines, the measured fillet centres / radii, and that every arc is the
+    SHORT way round (<= 90 deg) except arcs of radius long_r (a pad rim). The r 15 slab
+    blends once swept 311 deg and grew lobes on the slab - found in Fusion, not here."""
+    if not armgen.profile_closed(segs):
+        fails.append(label + ' closed')
+        print('FAIL %s: profile not closed' % label)
+    else:
+        print('ok  %s: closed loop of %d segments' % (label, len(segs)))
+    arcs = [sg for sg in segs if sg[0] == 'arc']
+    for k, sg in enumerate(segs):
+        if sg[0] != 'arc':
+            continue
+        _, p0, pm, p1, c, r = sg
+        for q in (p0, pm, p1):
+            close('%s arc r%.1f point on circle' % (label, r), math.hypot(q[0] - c[0], q[1] - c[1]), r, 1e-6)
+        sw = sweep_deg(p0, pm, p1, c)
+        if long_r is None or abs(r - long_r) > 1e-9:
+            close('%s arc r%.1f sweeps the short way (<= 90 deg)' % (label, r), min(sw, 90.0), sw, 1e-6)
+        prev, nxt = segs[k - 1], segs[(k + 1) % len(segs)]
+        if prev[0] == 'line':
+            d = (prev[2][0] - prev[1][0], prev[2][1] - prev[1][1])
+            close('%s arc r%.1f tangent to incoming line' % (label, r),
+                  (d[0] * (p0[0] - c[0]) + d[1] * (p0[1] - c[1])) / math.hypot(*d), 0.0, 1e-6)
+        if nxt[0] == 'line':
+            d = (nxt[2][0] - nxt[1][0], nxt[2][1] - nxt[1][1])
+            close('%s arc r%.1f tangent to outgoing line' % (label, r),
+                  (d[0] * (p1[0] - c[0]) + d[1] * (p1[1] - c[1])) / math.hypot(*d), 0.0, 1e-6)
+    got = sorted((round(c[0], 3), round(c[1], 3), r) for _, p0, pm, p1, c, r in arcs)
+    for cx, cz, r in want_arcs:
+        best = min(got, key=lambda g: abs(g[0] - cx) + abs(g[1] - cz) + 100 * abs(g[2] - r))
+        close('%s fillet r%.1f centre (%.2f, %.2f)' % (label, r, cx, cz), best[:2], (cx, cz), tol)
+        if abs(best[2] - r) > 1e-9:
+            fails.append('%s fillet r%.1f missing' % (label, r))
+    if len(arcs) != len(want_arcs):
+        fails.append('%s has %d arcs, want %d' % (label, len(arcs), len(want_arcs)))
+
+
+# Link 2 R fillet centres measured in the exo STEP (tools/bridge_scripts/measure_link2_profile.py);
+# the flange fillet sits PROFILE_BURY inside the slab face. EXO-74 replaced the exo's two
+# rotor-pad join fillets (r 12.5 about (22.38, -4.5) and r 5 about (23.44, -5)) with the
+# filled join: the outer face runs flat past the rim and turns down through JOIN_ROUND_R
+# about (s_out - R, PAD_T - R), and the inside steps out on the pad's rotor-side plane.
+# EXO-83 puts one more arc back: the relief where the riser inner face meets the ledge,
+# tangent to both, centre (s_in - R, -R).
+JOIN_C = (34.88 - armgen.JOIN_ROUND_R, armgen.PAD_T - armgen.JOIN_ROUND_R, armgen.JOIN_ROUND_R)
+RELIEF_C = (28.44 - armgen.JOIN_RELIEF_R, -armgen.JOIN_RELIEF_R, armgen.JOIN_RELIEF_R)
+check_profile('Link 2 profile', bg['profile'], [
+    JOIN_C, RELIEF_C, (47.38, -12.71, 12.5), (62.20 + armgen.PROFILE_BURY, -16.71, 8.5),
+    (43.44, -18.0, 15.0)], tol=0.02)
+lines = [sg for sg in bg['profile'] if sg[0] == 'line']
+close('Link 2 profile: pad top face at z=8', [sg[1][1] for sg in lines[:1]], [8.0], 1e-9)
+close('Link 2 profile: bar bottom at z=-33', min(sg[1][1] for sg in lines), -33.0, 0.02)
+close('Link 2 profile: root inside the r 27 pad', bg['root_s'], 15.0, 1e-9)
+# the r 15 bend must start 1.44 mm outside r 27 for the whole slab z range of the previous link
+close('Link 2 profile: riser inner face straight down to z', bg['bar_z'][0] + armgen.FILLET_IN_BOT, -18.0, 0.02)
+
+
+# ---------------- EXO-74: the filled rotor-pad join ----------------
+def prof_points(segs, step=0.02):
+    pts = []
+    for sg in segs:
+        pts.extend(armgen._seg_points(sg, step)[:-1])
+    return pts
+
+
+def inside(pts, p):
+    """Point in the closed profile polygon (ray cast along +s)."""
+    x, y = p
+    n = 0
+    for i in range(len(pts)):
+        x0, y0 = pts[i]
+        x1, y1 = pts[(i + 1) % len(pts)]
+        if (y0 > y) != (y1 > y) and x0 + (y - y0) * (x1 - x0) / (y1 - y0) > x:
+            n += 1
+    return n % 2 == 1
+
+
+def check_join(label, bgx, pad_r):
+    """The join Esteban asked for: over the pad's own thickness the link covers the rim and
+    its outside surface IS the pad's outer-face plane; the step out to RISER_CLEAR happens
+    on the pad's rotor-side plane, as a ledge, below which nothing comes inside r 27."""
+    L = label + ' join: '
+    segs, pts = bgx['profile'], prof_points(bgx['profile'])
+    s_in, s_out, r_keep = bgx['s_in'], bgx['s_out'], max(armgen.MODULE_R, armgen.STATOR_PAD_R)
+    s_round = s_out - armgen.JOIN_ROUND_R
+    close(L + 'smallest fillet in the profile is the relief',
+          min([sg[5] for sg in segs if sg[0] == 'arc']), armgen.JOIN_RELIEF_R, 1e-9)
+    close(L + 'the relief is the only arc below the join round',
+          len([sg for sg in segs if sg[0] == 'arc' and sg[5] < armgen.JOIN_ROUND_R - 1e-9]), 1, 0)
+    # 1. outside: one flat strip at the pad's outer face, out past the rim, then the round
+    top = [sg for sg in segs if sg[0] == 'line' and abs(sg[1][1] - armgen.PAD_T) < 1e-9
+           and abs(sg[2][1] - armgen.PAD_T) < 1e-9]
+    close(L + 'one outer-face line at z=PAD_T', len(top), 1, 0)
+    if top:
+        close(L + 'outer face runs from the root to the join round',
+              (top[0][1][0], top[0][2][0]), (bgx['root_s'], s_round), 1e-9)
+    close(L + 'the round starts JOIN_RIM_MARGIN outside the rim (s=%.3f)' % s_round,
+          min(s_round - pad_r, armgen.JOIN_RIM_MARGIN), armgen.JOIN_RIM_MARGIN, 1e-9)
+    # nothing of the body rises above the outer face, and the outer face is the TOP of the
+    # body everywhere from the root to the round: no cove, no pocket (the exo's r 12.5 round
+    # left that plane at s=22.38, 4.62 mm inside the rim, and crossed the rim 0.885 mm down)
+    close(L + 'no profile point above the pad outer face',
+          max(p[1] for p in pts), armgen.PAD_T, 1e-9)
+    holes = [s for s in [bgx['root_s'] + 0.1 + 0.25 * k
+                         for k in range(int((s_round - bgx['root_s']) / 0.25))]
+             if not inside(pts, (s, armgen.PAD_T - 0.02))]
+    close(L + 'outer face is solid from the root to the round', len(holes), 0, 0)
+    # 2. the rim is covered over the pad's whole thickness (across the band: the profile is
+    #    extruded to BAR_W, so one (s, z) test covers the width)
+    bare = [z for z in [0.05 + 0.1 * k for k in range(int((armgen.PAD_T - 0.1) / 0.1))]
+            if not inside(pts, (pad_r + 0.02, z))]
+    close(L + 'link material outside the rim over the whole pad thickness', len(bare), 0, 0)
+    # 3. inside: the step out to RISER_CLEAR is the pad's rotor-side plane, and below it
+    #    nothing comes inside r_keep + RISER_CLEAR (the stop block turns past there)
+    ledge = [sg for sg in segs if sg[0] == 'line' and abs(sg[1][1]) < 1e-9 and abs(sg[2][1]) < 1e-9]
+    close(L + 'one ledge line on the pad rotor-side plane', len(ledge), 1, 0)
+    if ledge:
+        close(L + 'ledge runs from the relief back over the rim',
+              (max(ledge[0][1][0], ledge[0][2][0]), min(ledge[0][1][0], ledge[0][2][0])),
+              (s_in - armgen.JOIN_RELIEF_R, bgx['root_s']), 1e-9)
+        close(L + 'flat ledge = RISER_CLEAR - JOIN_RELIEF_R outside the rim',
+              (s_in - armgen.JOIN_RELIEF_R) - pad_r,
+              armgen.RISER_CLEAR - armgen.JOIN_RELIEF_R, 1e-9)
+    riser = [sg for sg in segs if sg[0] == 'line' and abs(sg[1][0] - s_in) < 1e-9
+             and abs(sg[2][0] - s_in) < 1e-9]
+    close(L + 'riser inner face is one line up to the relief', len(riser), 1, 0)
+    if riser:
+        close(L + 'riser inner face reaches the relief tangent point',
+              max(riser[0][1][1], riser[0][2][1]), -armgen.JOIN_RELIEF_R, 1e-9)
+    # EXO-83: the relief is the only body material inside s_in below the pad. It is tangent
+    # to both neighbours (check_profile proves that), its innermost point is its tangent
+    # point on the ledge, and that point is OUTSIDE the rim - so nothing the relief adds
+    # ever comes inside r 27 below z = 0.
+    relief = [sg for sg in segs if sg[0] == 'arc' and abs(sg[5] - armgen.JOIN_RELIEF_R) < 1e-9]
+    close(L + 'one relief arc at the ledge', len(relief), 1, 0)
+    if relief:
+        close(L + 'relief centre = (s_in - R, -R)', relief[0][4],
+              (s_in - armgen.JOIN_RELIEF_R, -armgen.JOIN_RELIEF_R), 1e-9)
+        close(L + 'relief tangent points on the riser face and on the ledge',
+              [relief[0][1][0], relief[0][1][1], relief[0][3][0], relief[0][3][1]],
+              [s_in, -armgen.JOIN_RELIEF_R, s_in - armgen.JOIN_RELIEF_R, 0.0], 1e-9)
+    s_below = [p[0] for p in pts if p[1] < -1e-9]
+    close(L + 'nothing inside r %.0f below the pad rotor-side plane' % r_keep,
+          min(min(s_below) - r_keep, armgen.RISER_CLEAR - armgen.JOIN_RELIEF_R),
+          armgen.RISER_CLEAR - armgen.JOIN_RELIEF_R, 1e-6)
+    near = [z for z in [-0.02 - 0.1 * k for k in range(60)] if inside(pts, (pad_r + 0.02, z))]
+    close(L + 'no material over the rim below the pad', len(near), 0, 0)
+    below = [z for z in [-armgen.JOIN_RELIEF_R - 0.02 - 0.1 * k for k in range(60)]
+             if inside(pts, (r_keep + armgen.RISER_CLEAR - 0.02, z))]
+    close(L + 'below the relief nothing is inside the riser inner face', len(below), 0, 0)
+    # 4. the stop block (r 21.05..27, top face z=-0.4 in the module STEP) turns past the
+    #    link: below that plane the body must keep MIN_CLEARANCE to r 27. The exo's r 5 join
+    #    fillet measured -1.60 mm here (s 25.40 at z=-0.4), inside the block's own annulus.
+    #    EXO-83: the relief, not the riser inner face, now sets that clearance - it crosses
+    #    the stop block's top plane at s = s_in - R + sqrt(R^2 - (R + z)^2), which is where
+    #    the cap on JOIN_RELIEF_R comes from (R <= 1.4333 here; RISER_CLEAR = 1.44 would
+    #    measure 0.996 mm and be refused).
+    R_rl, z_st = armgen.JOIN_RELIEF_R, armgen.MODULE_STOP_Z_TOP
+    want_stop = (s_in - R_rl + math.sqrt(max(0.0, R_rl ** 2 - (R_rl + z_st) ** 2)) - r_keep
+                 if R_rl > -z_st else s_in - r_keep)
+    clr_stop, at_stop = armgen.riser_radial_clearance(bgx, z_top=armgen.MODULE_STOP_Z_TOP)
+    close(L + 'clears r %.0f below the stop block top (z=%.1f)' % (r_keep, armgen.MODULE_STOP_Z_TOP),
+          clr_stop, want_stop, 5e-3)          # tol: riser_radial_clearance samples at 0.02 mm
+    close(L + 'stop-block clearance still >= MIN_CLEARANCE',
+          max(clr_stop, armgen.MIN_CLEARANCE), clr_stop, 1e-9)
+    close(L + 'reported clearance_stop = measured', bgx['clearance_stop'], clr_stop, 1e-12)
+    print('    %sflat ledge %.2f mm wide at z=0 (relief r %.2f from s=%.2f down to z=%.2f), '
+          'outer face flat to s=%.2f (rim %.1f), round r %.1f meets the riser outer face at '
+          'z=%.2f, clearance below z=%.1f: %.3f mm at s=%.2f z=%.2f'
+          % (L, s_in - R_rl - pad_r, R_rl, s_in - R_rl, -R_rl, s_round, pad_r,
+             armgen.JOIN_ROUND_R, armgen.PAD_T - armgen.JOIN_ROUND_R,
+             armgen.MODULE_STOP_Z_TOP, clr_stop, at_stop[0], at_stop[2]))
+
+
+check_join('Link 2', bg, 27.0)
+# loud failures at the join: a round too big to clear the rim, and a pad bigger than the
+# riser clearance (the ledge would point the wrong way)
+_saved_r = armgen.JOIN_ROUND_R
+armgen.JOIN_ROUND_R = 7.5      # tangent point at 27.38: inside pad_r + JOIN_RIM_MARGIN
+try:
+    armgen.bar_side_profile(28.44, 34.88, -25.21, -33.0, 70.7, 74.7, pad_r=27.0)
+    fails.append('join round starting on the rim should raise')
+except ValueError as e:
+    print('ok  join round too close to the rim raises: %s' % e)
+finally:
+    armgen.JOIN_ROUND_R = _saved_r
+try:
+    armgen.bar_side_profile(28.44, 34.88, -25.21, -33.0, 70.7, 74.7, pad_r=29.0)
+    fails.append('pad rim outside the riser inner face should raise')
+except ValueError as e:
+    print('ok  pad rim past the riser inner face raises: %s' % e)
+# EXO-83: the relief is capped twice - by the flat ledge it must leave outside the rim, and
+# by the stop block it reaches down into. Both caps must be loud.
+_saved_rl = armgen.JOIN_RELIEF_R
+armgen.JOIN_RELIEF_R = armgen.RISER_CLEAR      # tangent to the rim: no flat ledge left
+try:
+    armgen.bar_side_profile(28.44, 34.88, -25.21, -33.0, 70.7, 74.7, pad_r=27.0)
+    fails.append('relief eating the whole ledge should raise')
+except ValueError as e:
+    print('ok  relief tangent to the rim (R = RISER_CLEAR) raises: %s' % e)
+armgen.JOIN_RELIEF_R = 1.438                   # 0.002 mm of ledge left, but 0.997 at the block
+try:
+    armgen.link_bar_geometry(R_exo, t_exo, 27.0)
+    fails.append('relief reaching into the stop block should raise')
+except ValueError as e:
+    print('ok  relief inside the stop block annulus raises: %s' % e)
+finally:
+    armgen.JOIN_RELIEF_R = _saved_rl
+_saved_z = armgen.MODULE_STOP_Z_TOP
+armgen.MODULE_STOP_Z_TOP = 1.0     # pretend the fixed module reaches over the pad itself
+try:
+    armgen.link_bar_geometry(R_exo, t_exo, 27.0)
+    fails.append('body inside r 27 below the stop block should raise')
+except ValueError as e:
+    print('ok  body inside r 27 below the stop block raises: %s' % e)
+finally:
+    armgen.MODULE_STOP_Z_TOP = _saved_z
+check_profile('Link 2 flange', bg['flange'], [
+    (-27.5, 31.745, 15.0), (0.0, 0.0, 27.0), (27.5, 31.745, 15.0)], tol=0.02, long_r=27.0)
+# the slab outline never leaves the r 27 disk sideways nor the tongue end lengthways
+fl_pts = [q for sg in bg['flange'] for q in (sg[1:3] if sg[0] == 'line' else sg[1:4])]
+fl_x = max(abs(q[0]) for q in fl_pts)
+close('Link 2 flange: outline within |x| <= 27', min(fl_x, 27.0), fl_x, 1e-6)
+close('Link 2 flange: outline within y <= tongue end', max(q[1] for q in fl_pts), bg['y_end'], 1e-6)
+close('Link 2 flange: blend sweep 49.1 deg', sweep_deg(*bg['flange'][3][1:5]), 180 - 130.9, 0.1)
+close('Link 2: exo frames need no snap', bg['snap_rad'], 0.0, 1e-9)
+close('Link 2 flange: blend/rim tangent point', bg['flange'][4][1], (-17.68, 20.40), 0.02)
+close('Link 2 flange: tongue end y', bg['y_end'], 39.245, 1e-6)
+# round on the tongue's end edge (measured r 7.9 about (70.8, -25.1)); its cut is wider than
+# the tongue and must not reach the r 15 blends
+check_profile('Link 2 tongue round', bg['tongue_round'], [(70.8, -25.1, 7.9)], tol=0.02)
+close('Link 2 tongue round: slab far face 78.7', bg['s_far'], 78.7, 0.05)
+close('Link 2 tongue round: cut width = bar + 2 x margin', bg['tongue_round_w'], 27.0, 1e-9)
+# the buried bar end: every corner lies inside the slab (s > face, z within the tongue)
+buried = [sg for sg in bg['profile'] if sg[0] == 'line' and min(sg[1][0], sg[2][0]) > bg['s_face']]
+close('Link 2 profile: buried segments', len(buried), 3, 0)
+for sg in buried:
+    for q in (sg[1], sg[2]):
+        if not (bg['s_face'] < q[0] <= bg['s_end'] and bg['bar_z'][0] <= q[1] <= 0):
+            fails.append('buried point %s outside the slab' % (q,))
+# all straight parts of the profile are one width: the extrude width is a single constant
+close('one bar width (riser = bend = bar = tongue)', armgen.BAR_W, 25.0, 1e-9)
+# loud failures: a bar level too close to the pad leaves no riser outer face between the
+# join round and the r 12.5 bend fillet (EXO-74 shrank that round, so the bar has to be
+# 0.5 mm higher than it was for this to bite: (PAD_T - 5) - (z_top + 12.5) <= 0)
+try:
+    armgen.bar_side_profile(28.44, 34.88, -9.0, -16.79, 70.7, 74.7)
+    fails.append('profile with no riser should raise')
+except ValueError as e:
+    print('ok  profile too short raises: %s' % e)
+try:
+    armgen.flange_outline(30.0)
+    fails.append('short flange should raise')
+except ValueError as e:
+    print('ok  short flange raises: %s' % e)
+# stop block / tab outlines close
+if not armgen.profile_closed(armgen.stop_block_outline(270.0, 10.0, r_out=27.0)):
+    fails.append('stop block outline closed')
+if not armgen.profile_closed(armgen.rect_outline(-1.8, 14.95, 1.8, 17.7)):
+    fails.append('rect outline closed')
+
+# generator frames for the right arm: link 23
+R_23, t_23 = armgen.relative_frame(R2, t2, R3, t3)
+close('J3 origin in J2 frame (URDF)', t_23, (103.2, -6.247, 0.0), 0.05)
+close('J3 axis in J2 frame', col(R_23, 2), (1, 0, 0), 0.001)
+bg2 = armgen.link_bar_geometry(R_23, t_23, 27.0)
+close('link 23: bar level', bg2['zL'], -35.35, 0.05)
+close('link 23: bar runs along the stator axis (square to the slab)', bg2['u'], col(R_23, 2), 1e-9)
+# the URDF J3 sits 6.247 mm off the J2 pad centre along X_B: the bar keeps square to the
+# slab and the tongue root is offset on the rotor pad instead (EXO-58 judgment call).
+# 0.02 tolerance: the URDF J3 axis is 2e-4 rad off J2's X, which moves the landing 0.014 mm.
+close('link 23: bar lateral offset = J3 X_B offset', abs(bg2['w_off']), 6.247, 0.02)
+# the root stays at PROFILE_ROOT_S because the r 27 pad still covers the whole bar width
+# there (EXO-64: the band leaves the pad centred, so the root only spans +/-12.5)
+avail = math.sqrt(27.0 ** 2 - 12.5 ** 2)
+close('link 23: root at PROFILE_ROOT_S (pad covers to s=%.1f)' % avail, bg2['root_s'], armgen.PROFILE_ROOT_S, 1e-9)
+# the slab frame is snapped to the bar by the URDF's rounding error (1.3e-4 rad, 0.004 mm at
+# r 27): bar walls and tongue walls are then the same planes (w_off = t_ab . w exactly)
+print('link 23: slab frame snap %.3e rad (%.4f mm at r 27)' % (bg2['snap_rad'], bg2['snap_rad'] * 27))
+close('link 23: snap below BAR_SNAP_MAX', min(bg2['snap_rad'], armgen.BAR_SNAP_MAX), bg2['snap_rad'], 1e-12)
+close('link 23: snap is tiny (URDF rounding)', bg2['snap_rad'], 0.0, 3e-4)
+close('link 23: tongue centred on the bar (w_off = t_ab . w)', bg2['w_off'], armgen.dot(t_23, bg2['w']), 1e-9)
+close("link 23: snapped Z' = bar direction", [bg2['R_b'][i][2] for i in range(3)], bg2['u'], 1e-12)
+close("link 23: snapped Y' = -pad axis", [bg2['R_b'][i][1] for i in range(3)], (0, 0, -1), 1e-12)
+close("link 23: snapped frame right-handed", armgen.cross([bg2['R_b'][i][0] for i in range(3)], [bg2['R_b'][i][1] for i in range(3)]), [bg2['R_b'][i][2] for i in range(3)], 1e-12)
+# a stator tilted 0.01 rad out of the pad plane is refused (0.27 mm at the rim)
+tilt = [[math.cos(0.01), 0, math.sin(0.01)], [0, 1, 0], [-math.sin(0.01), 0, math.cos(0.01)]]
+try:
+    armgen.link_bar_geometry(armgen.matmul(tilt, R_exo), t_exo, 27.0)
+    fails.append('stator 0.01 rad off square should raise')
+except ValueError as e:
+    print('ok  stator 0.01 rad off square raises: %s' % e)
+if bg2['root_s'] > avail - 1.0:
+    fails.append('link 23 root leaves the pad')
+# a stator whose connector side is not along the pad axis cannot take the bar pattern
+try:
+    armgen.link_bar_geometry([[0, 1, 0], [0, 0, 1], [1, 0, 0]], [103.2, 0.0, 0.0], 27.0)
+    fails.append('Y_B in the pad plane should raise')
+except ValueError as e:
+    print('ok  Y_B in the pad plane raises: %s' % e)
+close('link 23: riser inner face outside r 27', bg2['s_in'], 27.0 + armgen.RISER_CLEAR, 1e-9)
+close('link 23: slab face along the bar (J3 - 32.5)', bg2['s_face'], 103.2 - 32.5, 0.05)
+# EXO-83: the relief is the only body material inside s_in, so link_clearance's hulls need a
+# box that covers it or they would no longer contain the body (they must stay a lower bound)
+_R = armgen.JOIN_RELIEF_R
+close('link 23: a hull box covers the relief', 1 if any(
+    s0 <= bg2['s_in'] - _R + 1e-9 and s1 >= bg2['s_in'] - 1e-9 and z0 <= -_R + 1e-9 and z1 >= -1e-9
+    for (s0, s1), (z0, z1), _w in bg2['hull_parts']) else 0, 1, 0)
+check_profile('link 23 profile', bg2['profile'], [
+    JOIN_C, RELIEF_C, (47.38, -35.35 + 3.895 + 12.5, 12.5), (70.7 + armgen.PROFILE_BURY - 8.5, -35.35 + 3.895 + 8.5, 8.5),
+    (43.44, -35.35 - 3.895 + 15.0, 15.0)], tol=0.05)
+# EXO-74: the same filled join on the link the arm actually gets, at both placements
+check_join('link 23', bg2, 27.0)
+check_profile('link 23 tongue round', bg2['tongue_round'], [(78.7 - 7.9, -35.35 - 3.895 + 7.9, 7.9)], tol=0.05)
+check_profile('link 23 flange', bg2['flange'], [
+    (-27.5, 31.745, 15.0), (0.0, 0.0, 27.0), (27.5, 31.745, 15.0)], tol=0.02, long_r=27.0)
+
+# ---------------- EXO-64 / EXO-69: the S in plan view, at either placement ----------------
+# EXO-58 shifted the whole bar by the URDF's 6.24 mm J2->J3 lateral offset, so the bar left
+# J2's rotor pad off-centre (built walls measured at y -18.74 / +6.26 instead of +/-12.5).
+# The bar now leaves the pad centred and the offset is absorbed by an S of two tangent arcs.
+# EXO-69: the SAME S sits either in the riser/bend ('riser', EXO-64) or in the straight bar
+# between the end of the bend and the slab ('bar'). Every check below runs for BOTH.
+# EXO-83: Esteban chose 'bar'; 'riser' stays on offer and still reproduces EXO-64 exactly
+close("default S placement is Esteban's bar", 1 if armgen.S_PLACEMENT == 'bar' else 0, 1, 0)
+close('the two placements on offer', 1 if armgen.S_PLACEMENTS == ('riser', 'bar') else 0, 1, 0)
+BG_P = dict((p, armgen.link_bar_geometry(R_23, t_23, 27.0, placement=p))
+            for p in armgen.S_PLACEMENTS)
+# with no placement argument the geometry must be the module default, to the last bit
+close('no placement argument = the %s S, bit for bit' % armgen.S_PLACEMENT,
+      [bg2['s_curve']['s_start'], bg2['s_curve']['s_end'], bg2['s_curve']['length'],
+       bg2['s_curve']['r'], bg2['s_curve']['theta_deg']],
+      [BG_P[armgen.S_PLACEMENT]['s_curve'][k]
+       for k in ('s_start', 's_end', 'length', 'r', 'theta_deg')], 0.0)
+# and 'riser' must still be EXO-64's S, bit for bit, wherever the default now points
+close('riser placement still reproduces EXO-64',
+      [BG_P['riser']['s_curve'][k] for k in ('s_start', 's_end', 'length', 'r', 'theta_deg')],
+      [27.4335, 47.3800, 19.9465, 17.5, 34.7432], 1e-3)
+# expected s-range per placement: 'riser' ends where the r 12.5 bend fillet ends (47.38);
+# 'bar' is centred in the straight bar (bend end 47.38 .. slab face 70.70 = 23.32 mm of
+# window for a 19.9465 mm run, so 1.6868 mm of straight bar on each side)
+S_EXPECT = {'riser': (27.4335, 47.3800), 'bar': (49.0668, 69.0132)}
+
+
+def check_s(bg2, placement):
+    """Every centring / tangency / width / clearance check of the S, for one placement."""
+    P = '[%s] ' % placement
+    sc = bg2['s_curve']
+
+    def close_(name, got, want, tol):
+        close(P + name, got, want, tol)
+
+    def check_profile_(name, *a, **kw):
+        check_profile(P + name, *a, **kw)
+
+    if sc is None:
+        fails.append(P + 'link 23 has no S')
+        return
+    close_('S is the placement that was asked for',
+           1 if sc['placement'] == placement else 0, 1, 0)
+    HALF = armgen.BAR_W / 2.0
+    pad_exit = math.sqrt(27.0 ** 2 - HALF ** 2)                 # 23.932: band leaves the rim
+    close_('S: centre-line radius = BAR_W/2 + smallest fillet', sc['r'], 17.5, 1e-9)
+    # "radius >= the existing fillets": the centre line is not tighter than the r 15 bend and
+    # the tightest wall arc is not tighter than the smallest fillet in the side profile
+    close_('S: centre radius >= the r 15 bend', min(sc['r'], armgen.FILLET_IN_BOT), armgen.FILLET_IN_BOT, 1e-9)
+    close_('S: tight wall radius >= smallest profile fillet (r 5)',
+           min(sc['wall_r'][0], armgen.JOIN_ROUND_R), armgen.JOIN_ROUND_R, 1e-9)
+    close_('S: wall radii are the centre radius -/+ half the width', sc['wall_r'], (5.0, 30.0), 1e-9)
+    close_('S: shift = the bar lateral offset', sc['w_off'], bg2['w_off'], 1e-12)
+    close_('S: geometry closes (2R(1-cos th) = offset)',
+           2 * sc['r'] * (1 - math.cos(math.radians(sc['theta_deg']))), abs(sc['w_off']), 1e-9)
+    close_('S: run length = 2R sin th',
+           2 * sc['r'] * math.sin(math.radians(sc['theta_deg'])), sc['length'], 1e-9)
+    close_('S: s_curve_run agrees with the drawn arcs',
+           armgen.s_curve_run(sc['w_off'], sc['r']), (sc['theta_deg'], sc['length']), 1e-12)
+    # the run is the same 19.9465 mm either way - only where it sits changes
+    close_('S: run 19.95 mm from s=%.2f to s=%.2f' % S_EXPECT[placement],
+           (sc['s_start'], sc['s_end'], sc['length']),
+           (S_EXPECT[placement][0], S_EXPECT[placement][1], 19.9465), 0.001)
+    # located between the pad and the slab: it starts outside the rotor pad rim either way
+    close_('S: starts outside the r 27 pad rim by >= S_PAD_MARGIN',
+           min(sc['s_start'] - pad_exit, armgen.S_PAD_MARGIN), armgen.S_PAD_MARGIN, 1e-9)
+    if placement == 'riser':
+        # EXO-64: the whole shift happens across the riser and the bend, so the S is over
+        # where the r 12.5 bend fillet ends and the bar top starts running straight
+        close_('S: ends where the bend ends (s_out + r 12.5)', sc['s_end'],
+               bg2['s_out'] + armgen.FILLET_OUT_BOT, 1e-9)
+        if not (pad_exit <= sc['s_start'] <= bg2['s_in'] + armgen.RISER_T):
+            fails.append(P + 'S does not start in the riser (s=%.2f, riser %.2f..%.2f)'
+                         % (sc['s_start'], bg2['s_in'], bg2['s_out']))
+        else:
+            print('ok  ' + P + 'S starts inside the riser region (s=%.2f)' % sc['s_start'])
+    else:
+        # EXO-69: riser and bend stay straight and flush with the pad; the S sits in the
+        # straight bar with equal, non-zero straight bar on both sides of it
+        close_('S: window = end of the bend .. the slab bar-side face',
+               sc['window'], (bg2['s_bend_end'], bg2['s_face']), 1e-9)
+        close_('S: straight bar before it = straight bar after it',
+               (sc['s_start'] - sc['window'][0], sc['window'][1] - sc['s_end']),
+               (sc['margin'][0], sc['margin'][1]), 1e-9)
+        close_('S: straight bar of %.3f mm on each side (>= S_BAR_MARGIN)' % sc['margin'][0],
+               min(sc['margin'][0], armgen.S_BAR_MARGIN), armgen.S_BAR_MARGIN, 1e-9)
+        close_('S: the whole run fits in the straight bar',
+               sc['margin'][0] + sc['length'] + sc['margin'][1], bg2['s_face'] - bg2['s_bend_end'], 1e-9)
+        close_('S: starts past the end of the bend', min(sc['s_start'], bg2['s_bend_end']),
+               bg2['s_bend_end'], 1e-9)
+        close_('S: ends before the slab face', max(sc['s_end'], bg2['s_face']), bg2['s_face'], 1e-9)
+        # the riser and the bend are then the full band, centred on the J2 pad
+        for s_at in (bg2['s_in'], bg2['s_out'], bg2['s_bend_end']):
+            close_('S: band at s=%.2f (riser/bend) centred on the J2 pad' % s_at,
+                   armgen.s_curve_w(sc, s_at), (-HALF, HALF), 1e-9)
+
+    # 1. BOTH ENDS CENTRED: the band is +/-12.5 about axis A where it leaves the pad and
+    #    +/-12.5 about the stator's lateral offset from the end of the S onwards.
+    for s_at in (bg2['root_s'], pad_exit, sc['s_start']):
+        close_('S: band at s=%.2f centred on the J2 pad' % s_at,
+               armgen.s_curve_w(sc, s_at), (-HALF, HALF), 1e-9)
+    for s_at in (sc['s_end'], bg2['s_face'], bg2['s_end']):
+        close_('S: band at s=%.2f centred on the J3 stator' % s_at, armgen.s_curve_w(sc, s_at),
+               (bg2['w_off'] - HALF, bg2['w_off'] + HALF), 1e-9)
+
+    # 2. TANGENCY at all four arc joins of each wall (line->arc, arc->arc, arc->line) and
+    #    of the centre line; plus closure and arc consistency of the sketched band.
+    def tangent_dir(seg, at_end):
+        if seg[0] == 'line':
+            d = (seg[2][0] - seg[1][0], seg[2][1] - seg[1][1])
+        else:
+            p, c = (seg[3] if at_end else seg[1]), seg[4]
+            radial = (p[0] - c[0], p[1] - c[1])
+            mid_side = (seg[2][0] - c[0], seg[2][1] - c[1])
+            d = (-radial[1], radial[0])
+            # orient along the chain: the tangent must point the same way as the sweep
+            if (d[0] * mid_side[0] + d[1] * mid_side[1]) * (1 if at_end else -1) > 0:
+                d = (-d[0], -d[1])
+        n = math.hypot(*d)
+        return (d[0] / n, d[1] / n)
+
+    for label, chain in (('centre line', sc['centre_line']), ('wall -12.5', sc['wall_lo']),
+                         ('wall +12.5', sc['wall_hi'])):
+        for k in range(len(chain) - 1):
+            a, b = chain[k], chain[k + 1]
+            pa, pb = (a[2] if a[0] == 'line' else a[3]), b[1]
+            close_('S %s join %d shares its point' % (label, k), pa, pb, 1e-9)
+            da, db = tangent_dir(a, True), tangent_dir(b, False)
+            close_('S %s join %d tangent (cross of directions)' % (label, k),
+                   da[0] * db[1] - da[1] * db[0], 0.0, 1e-9)
+            close_('S %s join %d not reversed' % (label, k), da[0] * db[0] + da[1] * db[1], 1.0, 1e-9)
+    check_profile_('S band', sc['band'],
+                   [(sc['centres'][0][0], sc['centres'][0][1], sc['wall_r'][0]),
+                    (sc['centres'][0][0], sc['centres'][0][1], sc['wall_r'][1]),
+                    (sc['centres'][1][0], sc['centres'][1][1], sc['wall_r'][0]),
+                    (sc['centres'][1][0], sc['centres'][1][1], sc['wall_r'][1])], tol=0.01)
+
+    # 3. FULL 25 mm WIDTH carried through: the walls are CONCENTRIC offsets of the centre
+    #    arcs, so the band is exactly BAR_W across everywhere, not pinched.
+    cl_arcs = [g for g in sc['centre_line'] if g[0] == 'arc']
+    lo_arcs = [g for g in sc['wall_lo'] if g[0] == 'arc']
+    hi_arcs = [g for g in sc['wall_hi'] if g[0] == 'arc']
+    close_('S: two centre arcs', len(cl_arcs), 2, 0)
+    for k in range(2):
+        close_('S arc %d: walls share the centre-line centre' % k,
+               lo_arcs[k][4] + hi_arcs[k][4], cl_arcs[k][4] * 2, 1e-12)
+        close_('S arc %d: band is BAR_W across' % k,
+               abs(lo_arcs[k][5] - cl_arcs[k][5]) + abs(hi_arcs[k][5] - cl_arcs[k][5]),
+               armgen.BAR_W, 1e-12)
+    close_('S: arcs meet on the line joining the centres', armgen.cross(
+        [sc['inflection'][0] - sc['centres'][0][0], sc['inflection'][1] - sc['centres'][0][1], 0.0],
+        [sc['centres'][1][0] - sc['centres'][0][0], sc['centres'][1][1] - sc['centres'][0][1], 0.0]),
+        (0, 0, 0), 1e-9)
+    close_('S: inflection half way across the shift', sc['inflection'][1], sc['w_off'] / 2, 1e-9)
+    close_('S: inflection half way along the run', sc['inflection'][0],
+           (sc['s_start'] + sc['s_end']) / 2.0, 1e-9)
+    # no step / no overshoot: both walls move monotonically from one end to the other
+    prev_lo, prev_hi = HALF, HALF
+    for k in range(201):
+        s_at = sc['s_start'] + sc['length'] * k / 200.0
+        w_lo, w_hi = armgen.s_curve_w(sc, s_at)
+        if w_lo > -HALF + 1e-9 or w_lo < bg2['w_off'] - HALF - 1e-9 or w_lo > prev_lo + 1e-9:
+            fails.append(P + 'S wall -12.5 not monotone at s=%.2f (w=%.3f)' % (s_at, w_lo))
+            break
+        if w_hi > HALF + 1e-9 or w_hi < bg2['w_off'] + HALF - 1e-9 or w_hi > prev_hi + 1e-9:
+            fails.append(P + 'S wall +12.5 not monotone at s=%.2f (w=%.3f)' % (s_at, w_hi))
+            break
+        prev_lo, prev_hi = w_lo, w_hi
+    else:
+        print('ok  ' + P + 'S: both walls run monotonically from the pad centring to the stator centring')
+
+    # 4. CLEARANCE: the S moves material sideways, so it can only increase the distance to
+    #    module A's r 27 cylinder; prove it by measuring with and without the S.
+    clr, at = armgen.riser_radial_clearance(bg2)
+    clr_riser, at_r = armgen.riser_radial_clearance(bg2, z_top=-5.0)
+    straight = dict(bg2)
+    straight['s_curve'] = None                     # EXO-58's whole-bar shift, same profile
+    clr_old, _ = armgen.riser_radial_clearance(straight)
+    print(P + 'link 23: radial clearance to r 27 below the module top %.4f mm at s=%.3f z=%.3f '
+          '(riser proper, below z=-5: %.4f at s=%.3f z=%.3f)'
+          % (clr, at[0], at[2], clr_riser, at_r[0], at_r[2]))
+    close_('S: riser inner face keeps RISER_CLEAR to r 27', clr_riser, armgen.RISER_CLEAR, 1e-9)
+    close_('S: does not change the clearance at all (same as the unshifted bar)', clr, clr_old, 1e-12)
+    close_('S: clearance along the S >= RISER_CLEAR',
+           min(armgen.riser_radial_clearance(bg2, z_top=-5.0, s_from=sc['s_start'])[0],
+               armgen.RISER_CLEAR), armgen.RISER_CLEAR, 1e-9)
+
+
+for _p in armgen.S_PLACEMENTS:
+    check_s(BG_P[_p], _p)
+# both placements are the SAME S, only somewhere else along the bar
+close('both placements: identical arcs, identical run',
+      [BG_P['bar']['s_curve'][k] for k in ('r', 'theta_deg', 'length')],
+      [BG_P['riser']['s_curve'][k] for k in ('r', 'theta_deg', 'length')], 1e-12)
+close("both placements: same wall radii", BG_P['bar']['s_curve']['wall_r'],
+      BG_P['riser']['s_curve']['wall_r'], 1e-12)
+close('bar placement moves the S %.3f mm further out' % (S_EXPECT['bar'][0] - S_EXPECT['riser'][0]),
+      BG_P['bar']['s_curve']['s_start'] - BG_P['riser']['s_curve']['s_start'], 21.6333, 0.001)
+# an unknown placement is refused, and a bar too short for the run is refused loudly
+try:
+    armgen.link_bar_geometry(R_23, t_23, 27.0, placement='slab')
+    fails.append('unknown S placement should raise')
+except ValueError as e:
+    print('ok  unknown S placement raises: %s' % e)
+try:
+    armgen.bar_s_curve(-6.24, 47.38, 66.0, 13.0, 76.7, 27.0)
+    fails.append('bar S with no room should raise')
+except ValueError as e:
+    print('ok  bar S with a too-short straight bar raises: %s' % e)
+# the run grows with the radius, so r 17.5 (wall r 5) is the SHORTEST S there is: nothing
+# smaller can be used to buy more straight bar without breaking the r 5 wall minimum
+close('S: r 17.5 is the shortest run (r 20 needs more)',
+      1 if armgen.s_curve_run(-6.24, 20.0)[1] > armgen.s_curve_run(-6.24, 17.5)[1] else 0, 1, 0)
+# the exo's own Link 2 R has intersecting axes: no offset, no S
+close('Link 2 R needs no S (axes intersect)', 1 if bg['s_curve'] is None else 0, 1, 0)
+# loud failures
+try:
+    armgen.riser_s_curve(-6.24, 47.38, 13.0, 76.7, 27.0, r=12.0)
+    fails.append('S radius below half the bar width should raise')
+except ValueError as e:
+    print('ok  S radius below half the bar width raises: %s' % e)
+try:
+    armgen.riser_s_curve(-6.24, 26.0, 13.0, 76.7, 27.0)
+    fails.append('S ending on the pad rim should raise')
+except ValueError as e:
+    print('ok  S with no room outside the pad rim raises: %s' % e)
+try:
+    armgen.riser_s_curve(-40.0, 47.38, 13.0, 76.7, 27.0)
+    fails.append('offset larger than the S can reach should raise')
+except ValueError as e:
+    print('ok  offset beyond 2R raises: %s' % e)
+
+# ---------------- KNUTH-2: link 12 vs link 23 clearance (pure-Python proxy) ----------------
+# Before the fix the vplate's -Y corner sat at J2-frame x 26.7..30.9 inside the riser
+# (176.5 mm3, Fusion analyzeInterference). The exo pair has 1.44 mm at the riser face.
+clr = armgen.link_clearance(R_ab, t_ab, gl, R_23, t_23, bg2)
+print('link_12 / link_23 sampled clearance: %.3f mm' % clr)
+close('link 12 / link 23 clearance >= MIN_CLEARANCE', max(clr, armgen.MIN_CLEARANCE), clr, 1e-9)
+close('link 12 / link 23 clearance = riser clearance (slab rim -> riser face)', clr, 1.44, 0.1)
+# the pre-fix geometry (plates at the full stator-slab footprint, EXO-3) must still be
+# caught as a penetration: widen the L's plate hull to that footprint and re-measure
+bad = dict(gl)
+bad['hull_parts'] = [((gl['s_lo'], gl['s_hi']), (0.0, EXO_J2_IN_J1[2]),
+                      (0.0, abs(gl['w_off']) + armgen.STATOR_PAD_R))] + gl['hull_parts']
+clr_bad = armgen.link_clearance(R_ab, t_ab, bad, R_23, t_23, bg2)
+print('pre-fix (full-footprint plates) clearance: %.3f mm' % clr_bad)
+if clr_bad >= 0.0:
+    fails.append('full-footprint plate should penetrate the riser')
+else:
+    print('ok  full-footprint plate penetrates the riser (%.2f mm)' % clr_bad)
+# sabotage guard: a negative riser clearance must be refused
+_saved = armgen.RISER_CLEAR
+armgen.RISER_CLEAR = -1.0
+try:
+    armgen.link_bar_geometry(R_23, t_23, 27.0)
+    fails.append('negative RISER_CLEAR should raise')
+except ValueError:
+    print('ok  negative RISER_CLEAR raises')
+finally:
+    armgen.RISER_CLEAR = _saved
+
+# ---------------- EXO-81: the router over every G1 pair (and Gento Luna) ----------------
+# armgen.route must pick the pattern from the two joint frames alone, size it, and RAISE -
+# naming the number that failed - for a pair no pattern covers. Frames: J1..J3 are the
+# measured exo ones above; J4..J7 follow the chain rule of classify_pairs.py (the connector
+# side faces back down the arm), which is provisional until EXO-82 builds them.
+ARM_NAMES = ['right_shoulder_pitch_joint', 'right_shoulder_roll_joint',
+             'right_shoulder_yaw_joint', 'right_elbow_joint', 'right_wrist_roll_joint',
+             'right_wrist_pitch_joint', 'right_wrist_yaw_joint']
+
+
+def chain(names, known):
+    out = []
+    for i, nm in enumerate(names):
+        if i + 1 in known:
+            sign, hint = known[i + 1]
+        else:
+            z_prev = col(out[-1][0], 2)
+            t_prev = out[-1][1]
+            t_j, axis = armgen.joint_world_pose(nm, joints, by_child)
+            back = [t_prev[k] - t_j[k] for k in range(3)]
+            sign = -1 if armgen.dot(axis, back) > 1e-9 else 1
+            hint = [-v for v in z_prev]
+        out.append(armgen.module_frame(nm, joints, by_child, sign, hint))
+    return out
+
+
+# EXO-103: J4 is no longer provisional - (axis_sign -1, y_hint (-1, 0, 0)) reproduces the
+# exo `Module 3 R` pose (orientation to 1.9e-4 rad, the same rounding as J1..J3), and the
+# J3->J4 pair it makes agrees with the exo's own modules to 0.003 mm.
+# EXO-114: J5 is no longer provisional either - (axis_sign +1, y_hint (0, 1, 0)) reproduces
+# the exo `Module 4 R` pose to 2.07e-4 rad and the J4->J5 pair to 0.005 mm.
+ARM = chain(ARM_NAMES, {1: (-1, (0, 0, 1)), 2: (1, (0, 1, 0)), 3: (-1, (-1, 0, 0)),
+                        4: (-1, (-1, 0, 0)), 5: (1, (0, 1, 0))})
+# EXO-130: ARM is the SEED - the poses measured in the exo STEP. The module's rotation about
+# its own axis is a free parameter and is SOLVED; ARM_SPUN is the arm BuildArm builds.
+ARM_LINKS = [('link_12', 0, 1, 26.0, 52.0), ('link_23', 1, 2, 27.0, 25.0),
+             ('link_34', 2, 3, 26.0, 52.0), ('link_45', 3, 4, 27.0, 44.0)]
+SPUN, SPINS = armgen.spun_frames(dict((i, ARM[i]) for i in range(5)), ARM_LINKS)
+ARM_SPUN = [SPUN[i] for i in range(5)] + ARM[5:]
+# pair -> (pattern or None, pad_r, s_land, zL, w_off). Numbers from EXO-88's table, with
+# J3->J4 and J4->J5 re-read on the measured J4 frame (EXO-103): the reach and the level are
+# the tabulated ones, the lateral keeps its size and changes sign with the frame.
+G1_PAIRS = [
+    ('J1->J2', 'L', 26.0, 32.50, 2.65, 13.83),
+    ('J2->J3', 'bar', 27.0, 70.70, -35.35, -6.24),
+    # the up-column pair: the same coplanar-join route as the shoulder, with the slab 45 mm
+    # above the pad plane instead of inside it, so the tongue runs down as a column (EXO-103)
+    ('J3->J4', 'L', 26.0, 32.50, 45.17, 15.78),
+    # J4->J5 looks like a bar, but its 10.00 mm offset needs 24.49 mm of S run at S_RADIUS
+    # and neither placement's window is that long (EXO-95), so the bar still refuses it.
+    # `Link 4 R`, measured, is not a bar at all: it is the RAMP (EXO-114). Note that
+    # `landing_numbers`' zL is still the connector-side landing; the ramp lands on the far
+    # rim instead, at zL +28.89, and says so itself.
+    ('J4->J5', 'ramp', 27.0, 67.50, -33.46, -10.00),
+    ('J5->J6', 'L', 27.0, 32.50, 2.65, 0.00),
+    ('J6->J7', None, 27.0, 32.50, -35.35, -46.00),
+]
+for k, (lab, want, pad_r, s_land, zL, w_off) in enumerate(G1_PAIRS):
+    R_p, t_p = armgen.relative_frame(ARM[k][0], ARM[k][1], ARM[k + 1][0], ARM[k + 1][1])
+    num = armgen.landing_numbers(R_p, t_p)
+    close('%s axes perpendicular' % lab, num['axis_angle_deg'], 90.0, 0.01)
+    close('%s stator axis lies in the pad plane' % lab, num['zb_in_plane'], 1.0, 1e-6)
+    close('%s reach / level / offset' % lab, (num['s_land'], num['zL'], num['w_off']),
+          (s_land, zL, w_off), 0.01)
+    got, err = None, None
+    try:
+        got = armgen.route(ARM[k], ARM[k + 1], pad_r)['pattern']
+    except ValueError as e:
+        err = str(e)
+    if want is None:
+        if got is not None:
+            fails.append('%s should not be routable, got %r' % (lab, got))
+        else:
+            for name in armgen.PATTERNS:
+                if ('%s:' % name) not in err:
+                    fails.append('%s refusal does not name the %s pattern' % (lab, name))
+            print('ok  %-7s no pattern, raises naming both: %s' % (lab, err[:96]))
+    else:
+        close('%s routes to %r' % (lab, want), 1.0 if got == want else 0.0, 1.0, 0)
+        # The router takes the FIRST route that fits, so every pattern tried before the
+        # winner must refuse the pair. (Up to EXO-103 exactly one pattern could claim any
+        # pair; the ramp - tried last - can also be drawn on J2->J3, which the hand builder
+        # made a bar, so the ORDER is what decides there. EXO-114 records that.)
+        earlier = list(armgen.PATTERNS[:armgen.PATTERNS.index(want)])
+        if earlier:
+            try:
+                armgen.route(ARM[k], ARM[k + 1], pad_r, patterns=earlier)
+                fails.append('%s: the %s pattern should refuse it' % (lab, earlier))
+            except ValueError:
+                print('ok  %-7s every pattern before %r refuses it (%s)'
+                      % (lab, want, ', '.join(earlier)))
+        also = []
+        for _n in armgen.PATTERNS[armgen.PATTERNS.index(want) + 1:]:
+            try:
+                armgen.route(ARM[k], ARM[k + 1], pad_r, patterns=[_n])
+                also.append(_n)
+            except ValueError:
+                pass
+        print('ok  %-7s %r wins; later patterns that would also fit: %s'
+              % (lab, want, ', '.join(also) or 'none'))
+
+# every routed pair clears module A's stator / the previous slab
+for k, (lab, want, pad_r, _, _, _) in enumerate(G1_PAIRS):
+    if want is None:
+        continue
+    geo = armgen.route(ARM[k], ARM[k + 1], pad_r)['geometry']
+    if want == 'bar':
+        close('%s riser clearance to r 27' % lab, geo['clearance_a'], armgen.RISER_CLEAR, 1e-9)
+        close('%s clearance below the stop block' % lab,
+              max(geo['clearance_stop'], armgen.MIN_CLEARANCE), geo['clearance_stop'], 1e-9)
+    else:
+        close('%s: nothing below the rotor-side plane' % lab,
+              min(p[1] for sg in geo['profile']
+                  for p in (sg[1:4] if sg[0] == 'arc' else sg[1:3])), 0.0, 1e-9)
+        close('%s module B clears the plate' % lab,
+              max(geo['clearance_b'], armgen.MIN_CLEARANCE), geo['clearance_b'], 1e-9)
+        if want == 'ramp':
+            close('%s run clears the actuator cutout' % lab,
+                  max(geo['clear_cut'], armgen.BAR_CLEAR), geo['clear_cut'], 1e-9)
+        else:
+            close('%s slab web past the actuator cutout' % lab,
+                  max(geo['cut_web'], armgen.L_CUT_CLEAR), geo['cut_web'], 1e-9)
+
+# Gento Luna: the URDF puts three pairs' joint origins at the SAME point, so no link can be
+# derived from it at all; the two long pairs are bars (EXO-88).
+GL = os.path.join(HERE, '..', 'gento_luna', 'Gento Luna_URDF 20260428', 'urdf',
+                  'Gento Luna_URDF.urdf')
+if os.path.isfile(GL):
+    gj, gb = armgen.parse_urdf(GL)
+    gframes, names = [], ['Arm_R%d_Joint' % i for i in range(1, 8)]
+    for i, nm in enumerate(names):
+        if i == 0:
+            gframes.append(armgen.module_frame(nm, gj, gb, 1, (0, 0, 1)))
+        else:
+            z_prev = col(gframes[-1][0], 2)
+            t_prev = gframes[-1][1]
+            t_j, axis = armgen.joint_world_pose(nm, gj, gb)
+            back = [t_prev[k] - t_j[k] for k in range(3)]
+            gframes.append(armgen.module_frame(
+                nm, gj, gb, -1 if armgen.dot(axis, back) > 1e-9 else 1, [-v for v in z_prev]))
+    for k, want in enumerate([None, 'bar', None, 'bar', None, None]):
+        lab = 'R%d->R%d' % (k + 1, k + 2)
+        R_p, t_p = armgen.relative_frame(gframes[k][0], gframes[k][1],
+                                         gframes[k + 1][0], gframes[k + 1][1])
+        close('%s axes perpendicular' % lab,
+              armgen.landing_numbers(R_p, t_p)['axis_angle_deg'], 90.0, 0.01)
+        try:
+            got = armgen.route(gframes[k], gframes[k + 1], 27.0)['pattern']
+        except ValueError:
+            got = None
+        close('%s routes to %r' % (lab, want), 1.0 if got == want else 0.0, 1.0, 0)
+
+# ---------------- EXO-96: the route - one ribbon, any pair ----------------
+# The two links are now two ROUTES drawn by one renderer. These checks are about the route
+# being the thing that decides: the data must describe the shape that was actually drawn,
+# the renderer must not know the names 'bar' and 'L', and the width must be an input.
+ROUTES = {}
+for _lab, _fa, _fb, _pad, _wid, _want in (('link_12', 'J1', 'J2', 26.0, 52.0, 'L'),
+                                          ('link_23', 'J2', 'J3', 27.0, 25.0, 'bar')):
+    _spec = armgen.route(F[_fa], F[_fb], _pad, width=_wid)
+    ROUTES[_lab] = _spec
+    close('%s: route name' % _lab, 1.0 if _spec['pattern'] == _want else 0.0, 1.0, 0)
+    close('%s: ribbon width is the input, not a rule' % _lab,
+          _spec['geometry']['width'], _wid, 1e-12)
+
+_r12, _r23 = ROUTES['link_12']['route'], ROUTES['link_23']['route']
+# the shapes as data: the shoulder is one in-plane run; the bar is riser, bend, run
+close('link_12 route: one run, no bend',
+      1.0 if [sg['kind'] for sg in _r12['segments']] == ['run'] else 0.0, 1.0, 0)
+close('link_12 route: the run is the plate, pad-thick, in the pad plane',
+      [_r12['segments'][0]['thickness'], _r12['start'][1], _r12['start_dir'][0]],
+      [armgen.PAD_T, armgen.PAD_T / 2, 1.0], 1e-12)
+close('link_23 route: run, bend, run',
+      1.0 if [sg['kind'] for sg in _r23['segments']] == ['run', 'bend', 'run'] else 0.0,
+      1.0, 0)
+close('link_23 route: leaves along the pad axis', list(_r23['start_dir']), [0.0, -1.0], 1e-12)
+close('link_23 route: riser thickness = RISER_T, bar thickness = BAR_T',
+      [_r23['segments'][0]['thickness'], _r23['segments'][2]['thickness']],
+      [armgen.RISER_T, armgen.BAR_T], 1e-12)
+close('link_23 route: the bend is 90 deg in the side plane',
+      [_r23['segments'][1]['angle'], 1.0 if _r23['segments'][1]['plane'] == 'side' else 0.0],
+      [90.0, 1.0], 1e-12)
+close('link_23 route: the bend carries Link 2 R\'s two measured wall radii',
+      [_r23['segments'][1]['r_left'], _r23['segments'][1]['r_right']],
+      [armgen.FILLET_OUT_BOT, armgen.FILLET_IN_BOT], 1e-12)
+# the two walls of that bend are NOT offsets of one centre-line radius - that is why both are
+# carried, and the disagreement is reported rather than averaged away
+_rc, _dis = armgen.bend_centre_radius(_r23['segments'][1], armgen.RISER_T)
+close('link_23 bend: the two wall radii disagree about the centre line', _dis,
+      (armgen.FILLET_OUT_BOT + armgen.RISER_T) - armgen.FILLET_IN_BOT, 1e-12)
+# the route's centre line must reach the stator slab's near face
+for _lab, _rt in (('link_12', _r12), ('link_23', _r23)):
+    _runs = armgen.route_runs(_rt)
+    close('%s: the centre line ends on the slab near face' % _lab,
+          _runs[-1]['p1'][0], _rt['stator_land']['s_face'], 1e-9)
+    close('%s: the last run travels along u' % _lab, list(_runs[-1]['d']), [1.0, 0.0], 1e-12)
+# every radius the route names is on the profile the renderer drew, and nothing else is
+for _lab, _rt in (('link_12', _r12), ('link_23', _r23)):
+    _prof = ROUTES[_lab]['geometry']['profile']
+    _drawn = sorted(round(sg[5], 9) for sg in _prof if sg[0] == 'arc')
+    _want = [round(_rt['stator_land']['fillet_r'], 9)]
+    for _sg in _rt['segments']:
+        if _sg['kind'] == 'bend':
+            _want += [round(_sg['r_left'], 9), round(_sg['r_right'], 9)]
+    if _rt['rotor_join']['kind'] == 'ledge':
+        _want += [round(_rt['rotor_join']['round_r'], 9),
+                  round(_rt['rotor_join']['relief_r'], 9)]
+    close('%s: the drawn profile is exactly the route\'s radii' % _lab,
+          _drawn, sorted(_want), 1e-9)
+# one code path: route_path -> render_route is what the thin wrappers give, segment for segment
+close('link_23: route_path == link_bar_geometry',
+      [q for sg in armgen.link_bar_geometry(R_23, t_23, 27.0)['profile']
+       for q in (sg[1] + sg[3] if sg[0] == 'arc' else sg[1] + sg[2])],
+      [q for sg in ROUTES['link_23']['geometry']['profile']
+       for q in (sg[1] + sg[3] if sg[0] == 'arc' else sg[1] + sg[2])], 1e-12)
+close('link_12: route_path == link_l_geometry',
+      [q for sg in armgen.link_l_geometry(R_ab, t_ab, 26.0)['profile']
+       for q in (sg[1] + sg[3] if sg[0] == 'arc' else sg[1] + sg[2])],
+      [q for sg in ROUTES['link_12']['geometry']['profile']
+       for q in (sg[1] + sg[3] if sg[0] == 'arc' else sg[1] + sg[2])], 1e-12)
+# the corner round at the slab's FAR face is one feature of one join, at both links
+for _lab, _r in (('link_12', 5.5), ('link_23', armgen.TONGUE_END_R)):
+    _g, _rt = ROUTES[_lab]['geometry'], ROUTES[_lab]['route']
+    close('%s: corner round r at the slab far face' % _lab, _rt['stator_land']['corner_r'],
+          _r, 1e-9)
+    close('%s: the corner cut sits on the slab far face' % _lab, _g['s_far'],
+          _rt['stator_land']['s_face'] + armgen.PAD_T, 1e-9)
+    close('%s: the corner cut is the old name too' % _lab,
+          len(_g['corner_cut']), len(_g['tongue_round' if _lab == 'link_23' else 'round_cut']), 0)
+# where the lateral offset goes follows the ROTOR JOIN, not a shape name
+for _lab, _kind, _takes in (('link_12', 'coplanar', 'slab'), ('link_23', 'ledge', 's-bend')):
+    close('%s: %r join takes the offset in the %s' % (_lab, _kind, _takes),
+          1.0 if (ROUTES[_lab]['route']['rotor_join']['kind'] == _kind
+                  and ROUTES[_lab]['geometry']['offset_taken'] == _takes
+                  and armgen.JOIN_TAKES_OFFSET[_kind] == _takes) else 0.0, 1.0, 0)
+# width is an INPUT: the same pair at the other approved width must not quietly build
+try:
+    armgen.route(F['J2'], F['J3'], 27.0, width=armgen.L_W)
+    fails.append('a 52 mm ribbon on J2->J3 should not route silently')
+except ValueError as e:
+    print('ok  J2->J3 at width 52 refuses: %s' % str(e).split('). ', 1)[-1][:90])
+# a plan-plane bend is the renderer's stated limit and must be REFUSED by name, not drawn
+_dogleg = armgen.make_route(
+    25.0, (31.66, 4.0), (0.0, -1.0),
+    [armgen.Run(39.35, 6.44, 'riser'), armgen.Bend(90.0, 'plan', 15.0, 12.5, 'dogleg'),
+     armgen.Run(39.04, 7.79, 'bar')],
+    (armgen.rotor_join('ledge', 15.0, 27.0),
+     armgen.stator_land(70.7, 8.5, 0.05, 1.0, 4.0, 7.9, 27.0)), pattern='bar')
+try:
+    armgen.route_profile(_dogleg)
+    fails.append('a plan-plane bend should be refused by this renderer')
+except ValueError as e:
+    if 'plan' not in str(e) or 'sweep' not in str(e):
+        fails.append('the plan-plane refusal does not name the plane and the alternative')
+    print('ok  a plan-plane bend is refused by name: %s' % str(e)[:96])
+for _bad, _why in (([armgen.Bend(90.0, 'side', 15.0, 12.5, 'b')], 'a route starting with a bend'),
+                   ([armgen.Run(10.0, 5.0, 'r'), armgen.Bend(90.0, 'side', 15.0, 12.5, 'b')],
+                    'a route ending with a bend'),
+                   ([], 'a route with no runs')):
+    try:
+        armgen.route_runs(armgen.make_route(25.0, (0.0, 4.0), (1.0, 0.0), _bad,
+                                            (armgen.rotor_join('coplanar', 0.0, 26.0),
+                                             armgen.stator_land(24.5, 3.0, 0.0, 1.0, 8.0, 5.5, 56.0))))
+        fails.append('%s should raise' % _why)
+    except ValueError as e:
+        print('ok  %s raises: %s' % (_why, str(e)[:70]))
+# a straight part shorter than ROUTE_MIN_STRAIGHT is a zero-length face, not a small one:
+# the relief tangent to the rim leaves 3.6e-15 mm of ledge and must still be refused
+_saved_rl = armgen.JOIN_RELIEF_R
+armgen.JOIN_RELIEF_R = armgen.RISER_CLEAR
+try:
+    armgen.bar_side_profile(28.44, 34.88, -25.21, -33.0, 70.7, 74.7, pad_r=27.0)
+    fails.append('a 3.6e-15 mm ledge should be refused')
+except ValueError as e:
+    print('ok  a straight part under ROUTE_MIN_STRAIGHT is refused: %s' % str(e)[:80])
+finally:
+    armgen.JOIN_RELIEF_R = _saved_rl
+close('ROUTE_MIN_STRAIGHT is far below the shortest real straight part (the 0.240 mm ledge)',
+      1.0 if armgen.ROUTE_MIN_STRAIGHT < 1e-6 else 0.0, 1.0, 0)
+
+# interference classification used by BuildArm's post-build check (labels are
+# 'parentComponent/body' - analyzeInterference returns native bodies)
+big = ((-32.5, -245.7, -33.7), (-24.5, -230.7, -29.5))          # the KNUTH-2 hit, 4 mm deep
+thin = ((-24.513, -262.5, -5.3), (-24.5, -257.6, -0.4))         # pad vs insert, 0.013 mm
+cases = [
+    ('link vs link, thick -> FAIL', ('link_12/link_12', 'link_23/link_23', big, False), 'FAIL'),
+    ('link vs stator, thick -> FAIL', ('link_12/link_12', 'Component1/Body1', big, False), 'FAIL'),
+    ('link vs insert, 0.013 mm -> sliver', ('link_12/link_12', 'm3_6mm_insert/Body1', thin, False), 'sliver'),
+    ('insert in stator, seen in single-module run -> internal',
+     ('Component1/Body1', 'm3_6mm_insert/Body1', big, True), 'module-internal'),
+    ('module vs other module (not in single-module run) -> FAIL',
+     ('Component1/Body1', 'Component1/Body1', big, False), 'FAIL'),
+    ('link vs link thin -> sliver', ('link_12/link_12', 'link_23/link_23', thin, False), 'sliver'),
+    ('no bbox -> FAIL', ('link_12/link_12', 'm3_6mm_insert/Body1', None, False), 'FAIL'),
+    ('depth exactly at tolerance -> sliver',
+     ('link_12/link_12', 'Component1/Body1', ((0, 0, 0), (10, 10, armgen.INTERFERENCE_DEPTH_TOL)), False), 'sliver'),
+    ('depth just over tolerance -> FAIL',
+     ('link_12/link_12', 'Component1/Body1', ((0, 0, 0), (10, 10, armgen.INTERFERENCE_DEPTH_TOL + 0.001)), False), 'FAIL'),
+]
+for label, args, want in cases:
+    got = armgen.classify_interference(*args)
+    print('%s classify: %-58s got=%s want=%s' % ('ok ' if got == want else 'FAIL', label, got, want))
+    if got != want:
+        fails.append('classify ' + label)
+
+
+# ---------------- EXO-103: the up-column pair J3->J4 ----------------
+# `Link 3 R` (measured, EXO-104/EXO-105) is the shoulder L with the stator slab 45 mm above
+# the pad plane instead of inside it: same coplanar join, same 52 mm plate, same elbow, and
+# the tongue running on down the slab's own plane as a column. Numbers below are that part's.
+print()
+L34 = armgen.route(ARM[2], ARM[3], 26.0, width=armgen.L_W)
+g34, r34 = L34['geometry'], L34['route']
+n34 = L34['numbers']
+close('link 34: the route is the in-plane departure',
+      1.0 if r34['departure'] == 'in-plane' else 0.0, 1.0, 0)
+close('link 34: the rotor join is coplanar (Link 3 R: plate in the pad plane)',
+      1.0 if r34['rotor_join']['kind'] == 'coplanar' else 0.0, 1.0, 0)
+close('link 34: it is a column, not an elbow', 1.0 if g34['column'] else 0.0, 1.0, 0)
+close('link 34: ribbon 52 wide (Link 3 R measures y -26..26)', r34['width'], 52.0, 1e-9)
+close('link 34: plate coplanar with the pad, z 0..8', g34['plate_z'], (0.0, 8.0), 1e-9)
+close('link 34: slab faces s 24.5 / 32.5 (Link 3 R x -24.5 / -32.5)',
+      (g34['s_lo'], g34['s_hi']), (24.5, 32.5), 1e-9)
+close('link 34: nothing below the rotor-side plane',
+      min(p[1] for sg in g34['profile'] for p in (sg[1:4] if sg[0] == 'arc' else sg[1:3])),
+      0.0, 1e-9)
+close('link 34: the offset is taken in the SLAB, as Link 3 R does',
+      1.0 if g34['offset_taken'] == 'slab' else 0.0, 1.0, 0)
+close('link 34: disk offset from the plate centre line = the whole lateral (Link 3 R 15.783)',
+      abs(g34['x_off']), 15.783, 0.005)
+close('link 34: no S fits the plate either', 0.0 if g34['s_fit']['fits'] else 1.0, 1.0, 0)
+# Y_B lies in the pad plane here, so the connector side cannot give the sign (EXO-103)
+close('link 34: |Y_B . Z_A| is below YB_AXIAL_MIN',
+      1.0 if n34['yb_axial'] < armgen.YB_AXIAL_MIN else 0.0, 1.0, 0)
+close('link 34: the tongue direction comes from the pair, not from Y_B',
+      1.0 if n34['y_sign_from'] == 'the pair axial offset' else 0.0, 1.0, 0)
+for lab in ('J1->J2', 'J2->J3'):
+    k = 0 if lab == 'J1->J2' else 1
+    close('%s: the connector side still decides the tongue direction' % lab,
+          1.0 if armgen.landing_numbers(*armgen.relative_frame(
+              ARM[k][0], ARM[k][1], ARM[k + 1][0], ARM[k + 1][1]))['y_sign_from']
+          == 'connector side Y_B' else 0.0, 1.0, 0)
+
+# the crown: wall, fillet, flat, rim - tangent at every joint, and the arc stays OUTSIDE the
+# rim (Link 3 R's own is r 35 on a r 26 disk; the rule keeps FLANGE_CROWN_FLAT of flat)
+crown = [e for e in g34['edges'] if e['kind'] == 'crown']
+blend = [e for e in g34['edges'] if e['kind'] == 'blend']
+close('link 34: one overhanging wall takes a crown, the other a blend',
+      (len(crown), len(blend)), (1, 1), 0)
+cr = crown[0]
+close('crown: the wall it rounds is outside the disk',
+      1.0 if abs(cr['x']) > armgen.STATOR_PAD_R else 0.0, 1.0, 0)
+close('crown: tangent to the wall', abs(cr['c'][0] - cr['x']), cr['r'], 1e-9)
+close('crown: tangent to the disk\'s far tangent line',
+      cr['c'][1] + armgen.STATOR_PAD_R, cr['r'], 1e-9)
+close('crown: the flat is FLANGE_CROWN_FLAT long and ends on the rim',
+      (abs(cr['flat'][0] - cr['t'][0]), math.hypot(*cr['t'])),
+      (armgen.FLANGE_CROWN_FLAT, armgen.STATOR_PAD_R), 1e-9)
+sweep = [(cr['c'][0] + cr['r'] * math.cos(math.radians(a)),
+          cr['c'][1] + cr['r'] * math.sin(math.radians(a)))
+         for a in range(180, 271)] if cr['side'] < 0 else [
+        (cr['c'][0] + cr['r'] * math.cos(math.radians(a)),
+         cr['c'][1] + cr['r'] * math.sin(math.radians(a))) for a in range(-90, 1)]
+close('crown: the whole arc stays outside the r %.0f rim' % armgen.STATOR_PAD_R,
+      min(math.hypot(*q) for q in sweep) >= armgen.STATOR_PAD_R - 1e-9, True, 0)
+try:
+    armgen.flange_crown(10.0, +1, armgen.STATOR_PAD_R)
+except ValueError as e:
+    print('ok  a crown on a wall INSIDE the disk raises: %s' % str(e)[:78])
+else:
+    fails.append('flange_crown accepted a wall inside the disk')
+# the shoulder L keeps Link 1 R's toe: the crown is only for a tongue long enough to be a
+# column, and nothing about link_12 moved
+close('link 12: its overhanging wall still takes the r 500 toe',
+      1.0 if [e['kind'] for e in gl['edges']] == ['blend', 'toe'] else 0.0, 1.0, 0)
+
+# EXO-102: the hulls cover the whole rendered body. tools/bridge_scripts/hull_coverage.py
+# checks every point; here just the three parts that used to be missing.
+def in_hulls(geo, p, slab=True):
+    """Is the link-frame point p = (s, w, z) inside one of the body's hull boxes?"""
+    parts = list(geo['hull_parts']) + (list(geo['slab_hulls']) if slab else [])
+    return any(s0 - 1e-9 <= p[0] <= s1 + 1e-9 and z0 - 1e-9 <= p[2] <= z1 + 1e-9
+               and abs(p[1] - wc) <= wh + 1e-9
+               for (s0, s1), (z0, z1), (wc, wh) in parts)
+
+
+# ---------------- EXO-114: the ramp pair J4->J5 ----------------
+# `Link 4 R` (measured first, tools/bridge_scripts/measure_link4_profile.py) is neither a bar
+# nor a shoulder L: it leaves the rotor pad COPLANAR, climbs over the stator's actuator
+# cutout through an S in the SIDE plane (four r 20 arcs, two per boundary) and lands with the
+# run's centre line ON the stator disk's rim, away from the connector. Its 10 mm lateral goes
+# in the PLAN TAPER - each band wall tangent to the rim it has to stay inside.
+print()
+L45 = armgen.route(ARM_SPUN[3], ARM_SPUN[4], 27.0, width=44.0)
+g45, r45, n45 = L45['geometry'], L45['route'], L45['numbers']
+tp45 = g45['taper']
+close('link 45: the route is the ramp', 1.0 if r45['departure'] == 'ramp' else 0.0, 1.0, 0)
+close('link 45: the rotor join is coplanar (Link 4 R: plate in the pad plane)',
+      1.0 if r45['rotor_join']['kind'] == 'coplanar' else 0.0, 1.0, 0)
+close('link 45: ribbon 44 wide (Link 4 R measures w -27..17)', r45['width'], 44.0, 1e-9)
+close('link 45: plate coplanar with the pad', g45['plate_z'], (0.0, armgen.PAD_T), 1e-9)
+close('link 45: nothing below the rotor-side plane',
+      min(p[1] for sg in g45['profile'] for p in (sg[1:4] if sg[0] == 'arc' else sg[1:3])),
+      0.0, 1e-9)
+close('link 45: the profile root is the pad\'s own diameter, s = 0',
+      r45['rotor_join']['root_s'], 0.0, 1e-9)
+# the landing: the run's centre line ON the disk rim, on the side away from the connector
+close('link 45: the run lands on the disk rim (Link 4 R: Y_B -27.000)',
+      g45['y_land'], -armgen.STATOR_PAD_R, 1e-9)
+close('link 45: the run straddles the rim (Link 4 R z 25.889..31.889, 6 thick)',
+      (g45['bar_z'][1] - g45['bar_z'][0],
+       (g45['bar_z'][0] + g45['bar_z'][1]) / 2.0 - n45['axial']),
+      (armgen.PAD_T, armgen.STATOR_PAD_R), 1e-9)
+# EXO-130: the web is measured against the TRUE cutout projected into the slab's own frame,
+# because the cutout turns with the module; at the solved +45 deg it is 9.211, not the 13.5
+# an axis-aligned CUTOUT_Y[0] would report, and BAR_CLEAR is still the bar.
+close('link 45: it clears the actuator cutout, measured in the slab frame',
+      g45['clear_cut'],
+      (g45['y_end'] - armgen.PAD_T)
+      - armgen.cutout_reach(n45, [g45['R_b'][i][1] for i in range(3)]), 1e-12)
+close('link 45: and that web is at least BAR_CLEAR',
+      max(g45['clear_cut'], armgen.BAR_CLEAR), g45['clear_cut'], 1e-9)
+# the offset: the plan taper, the third device, and only a coplanar join may use it
+close('link 45: the offset is taken in the PLAN TAPER',
+      1.0 if g45['offset_taken'] == 'taper' else 0.0, 1.0, 0)
+close('taper is a coplanar-join device only',
+      1.0 if ('taper' in armgen.JOIN_OFFSET_DEVICES['coplanar']
+              and 'taper' not in armgen.JOIN_OFFSET_DEVICES['ledge']) else 0.0, 1.0, 0)
+close('link 45: band w -27.000..17.000 centred on w_off/2 (Link 4 R, measured)',
+      (tp45['w_lo'], tp45['w_hi'], tp45['centre']), (-27.0, 17.0, g45['w_off'] / 2.0), 1e-9)
+close('link 45: 44 is the widest band that stays inside both rims', tp45['w_max'], 44.0, 1e-9)
+close('link 45: the far wall is ON the rotor pad rim tangent line',
+      abs(tp45['w_lo']), r45['rotor_join']['pad_r'], 1e-9)
+close('link 45: the near wall is ON the stator disk rim tangent line',
+      abs(tp45['w_hi'] - g45['w_off']), armgen.STATOR_PAD_R, 1e-9)
+_tw = tp45['walls'][+1]
+close('link 45: the taper arc is EXTERNALLY tangent to the rotor rim (Link 4 R r 50.000)',
+      (math.hypot(*_tw['c']), _tw['r'], math.hypot(*_tw['t'])),
+      (r45['rotor_join']['pad_r'] + armgen.PLAN_TAPER_R, armgen.PLAN_TAPER_R,
+       r45['rotor_join']['pad_r']), 1e-9)
+close('link 45: the taper meets the rim where Link 4 R does (13.306, 23.494)',
+      _tw['t'], (13.306, 23.494), 0.002)
+close('link 45: the taper leaves the rim tangent to the wall (Link 4 R s 37.945)',
+      (_tw['s_tan'], _tw['c'][1] - _tw['w']), (37.945, armgen.PLAN_TAPER_R), 0.003)
+# Honesty: at 44 mm across an S of radius 27 would need 31.30 mm and the window is 62.5 mm
+# long, so one WOULD fit here. It is still not used, for EXO-92's reason - a coplanar join's
+# walls must leave the rotor rim straight - and `Link 4 R` does not use one either. The route
+# reports the fit rather than hiding it.
+close('link 45: the S fit is reported, not hidden (it would fit, and is still not used)',
+      (g45['s_fit']['run'], 1.0 if g45['s_fit']['fits'] else 0.0,
+       1.0 if 'coplanar join cannot carry one' in g45['s_fit']['why'] else 0.0),
+      (armgen.s_curve_run(g45['w_off'], armgen.s_radius(44.0))[1], 1.0, 1.0), 1e-9)
+# the rise: two tangent arcs per boundary, both r 20, equal and opposite
+_arcs = [sg for sg in g45['profile'] if sg[0] == 'arc' and abs(sg[5] - armgen.RAMP_RISE_R) < 1e-9]
+close('link 45: four r 20 arcs in the profile (Link 4 R: exactly these)', len(_arcs), 4, 0)
+_th, _run = armgen.rise_numbers(g45['rise'], armgen.RAMP_RISE_R)
+close('link 45: the S rises 2R(1 - cos th) over 2R sin th, both arcs together',
+      (2.0 * armgen.RAMP_RISE_R * (1 - math.cos(math.radians(_th))),
+       2.0 * armgen.RAMP_RISE_R * math.sin(math.radians(_th))),
+      (g45['rise'], _run), 1e-9)
+close('link 45: the S is centred in its window (EXO-69\'s rule)',
+      g45['rise_margin'][0], g45['rise_margin'][1], 1e-12)
+close('link 45: the two boundaries are staggered t tan(th/2), not drawn at one station',
+      _arcs[0][4][0] - _arcs[3][4][0],
+      -(armgen.PAD_T / 2.0) * math.tan(math.radians(_th) / 2.0) * 2.0, 1e-6)
+# the land: the slab hangs BELOW the run here, so the fillet and the round swap boundaries
+close('link 45: the land fillet is on the run\'s underside', r45['stator_land']['side'], -1, 0)
+# EXO-124: the far-face round is still Link 4 R's r 5, but the LAND fillet is now solved
+# against the insert hole the run passes over - see the EXO-124 section below.
+close('link 45: the far-face round is r 5 (Link 4 R, measured)',
+      r45['stator_land']['corner_r'], armgen.RAMP_FILLET, 1e-9)
+close('link 45: the run passes THROUGH the slab, as the shoulder plate does',
+      r45['stator_land']['bury_depth'], armgen.LAND_BURY_THROUGH, 1e-9)
+close('link 45: the corner round sits on the slab far face',
+      g45['s_far'], g45['s_lo'] + armgen.PAD_T, 1e-9)
+close('link 45: the round is on the run\'s TOP boundary',
+      max(q[1] for sg in g45['corner_cut'] for q in (sg[1:4] if sg[0] == 'arc' else sg[1:3])),
+      g45['bar_z'][1], 1e-9)
+# the tongue: one wall exactly on the rim (no edge at all), one an ordinary blend
+close('link 45: tongue edges are one tangent wall and one blend',
+      1.0 if sorted(e['kind'] for e in g45['edges']) == ['blend', 'tangent'] else 0.0, 1.0, 0)
+_tan = [e for e in g45['edges'] if e['kind'] == 'tangent'][0]
+close('link 45: the tangent wall touches the rim at one point',
+      (abs(_tan['x']), math.hypot(*_tan['t'])), (armgen.STATOR_PAD_R, armgen.STATOR_PAD_R), 1e-9)
+close('link 45: the tongue sits w_off/2 off the disk centre, not the whole offset',
+      abs(g45['x_off']), abs(g45['w_off']) / 2.0, 1e-9)
+# the slab body frame is the snapped frame turned 180 deg about its own axis
+close('link 45: the tongue leaves the disk AWAY from the connector side',
+      [g45['R_b'][i][1] for i in range(3)], [-v for v in n45['y_s']], 1e-12)
+# refusals, by name
+for _bad, _what in (
+        (lambda: armgen.rise_numbers(50.0, 20.0), 'a rise beyond 2R'),
+        (lambda: armgen.plan_taper(-10.0, 50.0, 27.0, (-2.0, 80.0)), 'a band wider than both rims'),
+        (lambda: armgen.plan_taper(-10.0, 44.0, 27.0, (-2.0, 80.0), s_wall_end=20.0),
+         'a taper with no straight wall before the slab'),
+        (lambda: armgen.route_runs(armgen.make_route(
+            25.0, (0.0, 4.0), (1.0, 0.0), [armgen.Run(10.0, 8.0, 'a'), armgen.Rise(5.0, 20.0)],
+            (armgen.rotor_join('coplanar', 0.0, 26.0), None))), 'a route ending with a rise'),
+        (lambda: armgen.route_runs(armgen.make_route(
+            25.0, (0.0, 4.0), (1.0, 0.0), [armgen.Rise(5.0, 20.0), armgen.Run(10.0, 8.0, 'a')],
+            (armgen.rotor_join('coplanar', 0.0, 26.0), None))), 'a route starting with a rise')):
+    try:
+        _bad()
+    except ValueError as e:
+        print('ok  %-48s raises: %s' % (_what, str(e)[:70]))
+    else:
+        fails.append('%s was accepted' % _what)
+# nothing the ramp added moved link_12 / link_23 / link_34: those three are checked bit for
+# bit by geom_snapshot; here just that the two older offset devices still answer as before
+for _lab, _kind, _takes in (('link_12', 'coplanar', 'slab'), ('link_23', 'ledge', 's-bend')):
+    close('%s: still takes the offset in the %s' % (_lab, _takes),
+          1.0 if ROUTES[_lab]['geometry']['offset_taken'] == _takes else 0.0, 1.0, 0)
+
+
+# ---------------- EXO-124: every screw hole's flat seating ring, by construction ----------
+# Esteban found it by eye: the ramp's lift-off tangent landed on the rotor pad's outermost
+# M3 hole (0.00 mm of flat ring, in fact -2.556), and the run's r 5 land fillet had eaten
+# into the stator insert it passes over (-2.850). Both are now SOLVED, not asserted: the
+# climb's window opens where the plate must stay flat to, and the two land radii are the
+# largest that leave every insert its ring.
+print()
+_L124 = (('link_12', gl, ROUTES['link_12']['route']), ('link_23', bg2, ROUTES['link_23']['route']),
+         ('link_34', g34, L34['route']), ('link_45', g45, r45))
+for _lab, _geo, _rt in _L124:
+    _rings = armgen.hole_flat_rings(_rt)
+    _seat = [h for h in _rings if h['seating']]
+    close('%s: every screw hole opening has its %.1f mm flat ring' % (_lab, armgen.HOLE_FLAT_RING),
+          1.0 if min(h['ring'] for h in _seat) >= armgen.HOLE_FLAT_RING - 1e-9 else 0.0, 1.0, 0)
+    close('%s: both ends of every hole are counted (2 pads x holes x 2 faces)' % _lab,
+          len(_seat), 2 * len(armgen.ROTOR_HOLE_ANGLES) + 2 * len(armgen.INSERT_ANGLES), 0)
+    # the rotor pad's outer face is where the four M3 heads seat
+    _reach = armgen.plane_flat_reach(_geo['profile'], armgen.PAD_T, _rt['rotor_join']['root_s'])
+    close('%s: the pad outer face stays flat past every hole edge + the ring' % _lab,
+          1.0 if _reach >= armgen.rotor_flat_needed(_geo['u']) - 1e-9
+          or _reach >= _rt['rotor_join']['pad_r'] else 0.0, 1.0, 0)
+# the index tab is what every link is held to - the number Esteban's own walk reported
+close('the tightest ring on all four links is the index tab (TAB_R_IN - r_hole - HOLE_R)',
+      min(h['ring'] for _l, _g, _r in _L124 for h in armgen.hole_flat_rings(_r)
+          if h['seating'] and h['bound'].startswith('the index tab')),
+      armgen.TAB_R_IN - armgen.ROTOR_HOLE_RADIUS - armgen.HOLE_R, 1e-9)
+# link_45, the pair that made the rule: both defects, solved
+_ring45 = dict(((h['pad'], h['angle'], h['face']), h) for h in armgen.hole_flat_rings(r45))
+_stag45 = (armgen.PAD_T / 2.0) * math.tan(math.radians(g45['rise_theta_deg']) / 2.0)
+close('link 45: the climb starts where the plate must stay flat to, plus the S stagger',
+      g45['rise_window'][0], armgen.rotor_flat_needed(g45['u']) + _stag45, 1e-9)
+# EXO-130: the window now CLOSES on the straight bar before the land fillet, not on the rim
+# margin - restoring the fillet to r 5.000 took 4.85 mm off the run window's far end.
+close('link 45: and no later than the straight bar before the r 5 land fillet leaves room',
+      g45['rise_window'][1],
+      (g45['s_lo'] - r45['stator_land']['fillet_r']) - g45['rise_run']
+      - _stag45 - armgen.RAMP_LAND_MARGIN, 1e-9)
+close('link 45: which is inside the JOIN_RIM_MARGIN cap, so the rim cap no longer binds',
+      1.0 if g45['rise_window'][1]
+      < r45['rotor_join']['pad_r'] - armgen.JOIN_RIM_MARGIN - _stag45 else 0.0, 1.0, 0)
+close('link 45: the climb leaves the pad plane clear of the rim on the INSIDE',
+      1.0 if g45['rise_lift_off'][1]
+      <= r45['rotor_join']['pad_r'] - armgen.JOIN_RIM_MARGIN + 1e-9 else 0.0, 1.0, 0)
+# EXO-123 said a ramp at r 20 cannot keep material outside the rim; EXO-129 found that it
+# COULD once EXO-124 shrank the land fillet to r 0.150. With EXO-130 giving that fillet back
+# its measured r 5.000 the window is 4.85 mm shorter again and EXO-123's statement stands.
+close('link 45: leaving the pad plane OUTSIDE the rim does NOT fit at r 5 (EXO-129 reversed)',
+      1.0 if g45['rim_rule'] else 0.0, 0.0, 0)
+close('link 45: the rotor hole the lift-off used to cross now has its ring',
+      1.0 if _ring45[('rotor', 270.0, 'outer')]['ring'] >= armgen.HOLE_FLAT_RING else 0.0, 1.0, 0)
+# EXO-130: with J5 turned into the insert gap no insert is crossed at all, so the solve
+# returns the MEASURED radii untouched - EXO-124's r 0.150 was the price of the rotation, not
+# of the route.
+close('link 45: the land fillet is back to Link 4 R\'s measured r 5',
+      r45['stator_land']['fillet_r'], armgen.RAMP_FILLET, 1e-9)
+close('link 45: and it is the nominal, not something cut back',
+      r45['stator_land']['fillet_r'], r45['stator_land']['fillet_r_nominal'], 1e-12)
+close('link 45: no insert cut either land radius back',
+      1.0 if (g45['land_tight'] is None and g45['corner_tight'] is None) else 0.0, 1.0, 0)
+close('link 45: the insert EXO-124 had to shrink the fillet for now has 2.788 mm of ring',
+      min(h['ring'] for h in armgen.hole_flat_rings(r45) if h['pad'] == 'stator'),
+      2.78818962760, 1e-6)
+# the solve refuses, by name, when no radius is enough
+for _bad, _what in (
+        (lambda: armgen.land_radius_fit(5.0, 10.0, 8.0, [{'angle': 270.0, 'slab': (0.0, 5.0)}],
+                                        -10.0, 10.0, 'land fillet'),
+         'a land fillet no radius can save'),):
+    try:
+        _bad()
+    except ValueError as e:
+        print('ok  %-48s raises: %s' % (_what, str(e)[:70]))
+    else:
+        fails.append('%s was accepted' % _what)
+# and the guard in route_path is the proof the solve worked, at any ring
+for _lab, _geo, _rt in _L124:
+    try:
+        armgen.check_hole_flat_rings(_rt, ring=6.0)
+    except ValueError as e:
+        print('ok  %-48s refuses at ring 6.0: %s' % (_lab, str(e)[:55]))
+    else:
+        fails.append('%s accepted a 6 mm ring it does not have' % _lab)
+
+
+# ---------------- EXO-130: the module's rotation about its own axis, SOLVED ----------------
+# The URDF fixes a joint's position and axis and says nothing about the rotation of the
+# module about that axis - which carries the three stator inserts, the actuator cutout, the
+# rotor index notch and the stop block. `y_hint` used to BE that rotation; now it is the seed
+# and `solve_module_spins` is the answer.
+print()
+_R45, _t45 = armgen.relative_frame(ARM[3][0], ARM[3][1], ARM[4][0], ARM[4][1])
+_fit45 = armgen.module_spin_fit(_R45, _t45, 27.0, 44.0)
+close('spin: the measured J5 pose is REFUSED - an insert sits under the landing',
+      0.0 if _fit45['seed_ok'] else 1.0, 1.0, 0)
+close('spin: J5 has exactly two feasible windows',
+      len(_fit45['windows']), 2, 0)
+# the two windows are mirror images to 0.007 deg - the tongue's own x offset and the pair's
+# 6e-5 rad squareness are all that separates them - so which one is taken is a TIEBREAK, not
+# a result. `module_spin_fit` takes the lower `lo`, which is +45.
+close('spin: and they are mirror images (+45 and -45) to better than 0.01 deg',
+      [_fit45['windows'][0][0], _fit45['windows'][0][1]],
+      [360.0 - _fit45['windows'][1][1], 360.0 - _fit45['windows'][1][0]], 0.01)
+close('spin: the two windows are the same width to 1e-6 deg',
+      _fit45['windows'][0][1] - _fit45['windows'][0][0],
+      _fit45['windows'][1][1] - _fit45['windows'][1][0], 1e-6)
+# the two windows are equidistant from the seed, so the ring decides: the mirror rotation is
+# worth 0.0016 mm less and is not taken. That is the whole margin between them - if Esteban
+# wants -45 for cable routing it costs 0.002 mm of flat.
+close('spin: the mirror rotation is worth slightly LESS, which is what breaks the tie',
+      _fit45['margin'] - armgen.stator_ring_margin(armgen.spin_feasible(
+          _R45, _t45, 27.0, 44.0, 360.0 - _fit45['spin'])[0]), 0.00158, 1e-4)
+close('spin: J5 is turned to the middle of the nearer window',
+      _fit45['spin'], sum(_fit45['windows'][0]) / 2.0, 1e-6)
+close('spin: which is 45 deg to within the pair\'s own squareness rounding',
+      _fit45['spin'], 45.0, 0.01)
+close('spin: the window is 6.84 deg wide, so it is resolved by a %.2f deg sweep'
+      % armgen.SPIN_STEP,
+      _fit45['windows'][0][1] - _fit45['windows'][0][0], 6.84375, 1e-5)
+close('spin: every other joint keeps the pose measured in the exo STEP',
+      [SPINS[i]['spin'] for i in range(4)], [0.0, 0.0, 0.0, 0.0], 0)
+close('spin: and each of those says so by name',
+      1.0 if all(SPINS[i]['why'].startswith(('no link', 'the measured pose already'))
+                 for i in range(4)) else 0.0, 1.0, 0)
+close('spin: the solve reports the maximin it did NOT take at J4 (0.084 mm, 174 deg away)',
+      SPINS[3]['best']['margin'] - SPINS[3]['margin'], 0.0835051923823, 1e-9)
+_res = armgen.spin_windows_resolved(SPINS)
+close('spin: the narrowest window found is at least two sweep steps wide',
+      1.0 if _res['ok'] else 0.0, 1.0, 0)
+# the two ways to apply a rotation are the same rotation
+_mf = armgen.module_frame('right_wrist_roll_joint', joints, by_child, 1, (0, 1, 0), 33.0)[0]
+close('spin: module_frame(spin_deg) and frame_spun are the same turn',
+      [v for row in _mf for v in row],
+      [v for row in armgen.frame_spun(ARM[4][0], 33.0) for v in row], 1e-12)
+# the chain: turning the ROTOR module does not move the landing, but it DOES reshape the link
+_R45b, _t45b = armgen.relative_frame(armgen.frame_spun(ARM[3][0], 61.0), ARM[3][1],
+                                     ARM[4][0], ARM[4][1])
+_n_a, _n_b = armgen.landing_numbers(_R45, _t45), armgen.landing_numbers(_R45b, _t45b)
+close('chain: turning the rotor module leaves the pair - and so the landing - unmoved',
+      [_n_b['s_land'], _n_b['zL'], _n_b['w_off']],
+      [_n_a['s_land'], _n_a['zL'], _n_a['w_off']], 1e-9)
+close('chain: so the stator-end solve is the same whichever way the rotor module points',
+      armgen.module_spin_fit(_R45b, _t45b, 27.0, 44.0)['spin'], _fit45['spin'], 1e-9)
+close('chain: but the four M3 holes turn under the route, so the flat the heads need moves',
+      1.0 if abs(armgen.rotor_flat_needed(_n_b['u'])
+                 - armgen.rotor_flat_needed(_n_a['u'])) > 0.1 else 0.0, 1.0, 0)
+# and the chain closes on the solved frames
+_chain = armgen.spin_chain_check(SPUN, ARM_LINKS, SPINS)
+close('chain: all four links close on the solved rotations', len(_chain), 4, 0)
+close('chain: and every one of them keeps both land radii at the measured value',
+      1.0 if all(abs(c['fillet_r'] - armgen.route(ARM_SPUN[c['a']], ARM_SPUN[c['b']],
+                                                  ARM_LINKS[i][3],
+                                                  width=ARM_LINKS[i][4]
+                                                  )['route']['stator_land']['fillet_r_nominal'])
+                 < 1e-9 for i, c in enumerate(_chain)) else 0.0, 1.0, 0)
+# the refusal, by name: freeze the rotation at the seed and the route cannot keep r 5
+_seed45 = armgen.route(ARM[3], ARM[4], 27.0, width=44.0)
+close('spin: frozen at the measured pose the fillet is still cut back to r 0.150 (EXO-124)',
+      _seed45['route']['stator_land']['fillet_r'], 0.15, 1e-3)
+close('spin: and spin_feasible says so, naming the insert',
+      1.0 if 'insert at 270 deg' in
+      armgen.spin_feasible(_R45, _t45, 27.0, 44.0, 0.0)[1] else 0.0, 1.0, 0)
+
+
+for lab, geo in (('link_12', gl), ('link_23', bg2), ('link_34', g34), ('link_45', g45)):
+    close('%s: the slab has its own hull boxes' % lab,
+          1.0 if len(geo['slab_hulls']) > 0 else 0.0, 1.0, 0)
+    # the back of the rotor pad disk, which no run box ever reached
+    close('%s: the far side of the rotor pad disk is hulled' % lab,
+          in_hulls(geo, (-geo['root_s'] - 5.0, 0.0, armgen.PAD_T / 2)), True, 0)
+    close('%s: the stop block under the pad is hulled' % lab,
+          in_hulls(geo, (-15.0, 0.0, armgen.STOP_BLOCK_Z + 0.01)), True, 0)
+    # EXO-102's two findings, as points: the buried end climbing the slab's near face, and
+    # the slab's own rim (which was in no box at all)
+    close('%s: the buried end up the slab near face is hulled' % lab,
+          in_hulls(geo, (geo['s_face'] + 0.05, geo['corner_cut_w_centre'], geo['zL'])),
+          True, 0)
+    close('%s: the far rim of the stator slab is hulled' % lab,
+          in_hulls(geo, (geo['s_face'] + armgen.PAD_T / 2,
+                         geo['w_off'] if geo['offset_taken'] == 's-bend' else 0.0,
+                         geo['zL'])), True, 0)
+
+# ---------------- sweepgen: the general method (EXO-144) ----------------
+# No bit-for-bit anything here. These are the CONSTRAINTS Esteban restated in EXO-41:
+# the route sizes at all, every screw hole keeps HOLE_FLAT_RING, the actuator cutout is
+# cleared, the ribbon stays clear of both modules, and the path a sweep is run along is
+# actually continuous and tangent. Numbers that move when a default moves are not asserted.
+import sweepgen  # noqa: E402
+
+print()
+SW_LINKS = [('link_12', 'J1', 'J2', 26.0, 52.0), ('link_23', 'J2', 'J3', 27.0, 25.0),
+            ('link_34', 'J3', 'J4', 26.0, 52.0), ('link_45', 'J4', 'J5', 27.0, 44.0)]
+SW_JOINTS = {'J1': ('right_shoulder_pitch_joint', -1, (0, 0, 1)),
+             'J2': ('right_shoulder_roll_joint', +1, (0, 1, 0)),
+             'J3': ('right_shoulder_yaw_joint', -1, (-1, 0, 0)),
+             'J4': ('right_elbow_joint', -1, (-1, 0, 0)),
+             'J5': ('right_wrist_roll_joint', +1, (0, 1, 0))}
+_seed = {}
+for _lab, (_n, _s, _y) in SW_JOINTS.items():
+    _R, _t = armgen.module_frame(_n, joints, by_child, _s, _y)
+    _seed[_lab] = (_R, [_t[i] - shift[i] for i in range(3)])
+SW_FRAMES, SW_SPINS = sweepgen.solve_spins(_seed, SW_LINKS)
+_, SW_SPINS2 = sweepgen.solve_spins(_seed, SW_LINKS)
+close('sweepgen: the rotation solve is a function of the pair alone',
+      [SW_SPINS[k]['spin'] for k in sorted(SW_SPINS)],
+      [SW_SPINS2[k]['spin'] for k in sorted(SW_SPINS2)], 0)
+
+# ---------------- EXO-150: the spin is FIXED by the link, not searched ----------------
+# The rule: a module's +Y - the encoder / connector side - faces the direction the link
+# arrives from at that stator pad. Across the pad that direction is the landing plate's own
+# tongue axis, which is `arrival_sign` * z_A, so the rule is Y_B = arrival_sign * z_A and the
+# plate extends the pad outward exactly where the encoder overhangs. J1 is nobody's stator
+# end and keeps its measured pose.
+close('EXO-150: J1 is nobody\'s stator end and keeps its measured pose',
+      SW_SPINS['J1']['spin'], 0.0, 0)
+for _name, _a, _b, _pad, _w in SW_LINKS:
+    _Rab, _tab = armgen.relative_frame(SW_FRAMES[_a][0], SW_FRAMES[_a][1],
+                                       SW_FRAMES[_b][0], SW_FRAMES[_b][1])
+    _num = armgen.landing_numbers(_Rab, _tab)
+    _sgn = sweepgen.arrival_sign(_num)
+    close('%s: the arrival side is the side the rotor pad plane is on' % _name,
+          _sgn, 1.0 if armgen.PAD_T / 2.0 > _num['axial'] else -1.0, 0)
+    # _Rab is already built on the SOLVED frames, so the rule must already hold on it
+    close('%s: the encoder +Y lies on the pad axis, on the arriving side' % _name,
+          _Rab[2][1], _sgn, 1e-9)
+    close('%s: the encoder is square to the landing plate tongue' % _name,
+          _num['spin_rad'], 0.0, 1e-7)
+    close('%s: the plate tongue runs out on the same side as the encoder' % _name,
+          _num['y_sign'], _sgn, 0)
+    # spin_rad 0 is what makes the cutout reach its measured CUTOUT_Y[1] exactly
+    close('%s: the actuator cutout reaches CUTOUT_Y[1] along the tongue' % _name,
+          _num['cut_reach'], armgen.CUTOUT_Y[1], 1e-6)
+    # and the rule is idempotent: re-running it on the solved frame asks for no further turn
+    _again = sweepgen.encoder_spin(_Rab, _tab)[0] % 360.0
+    close('%s: the fixed spin is a fixed point of its own rule' % _name,
+          min(_again, 360.0 - _again), 0.0, 1e-5)
+
+
+def _tan_at(sg, end):
+    """Unit tangent of a path segment at its start (end=0) or end (end=1)."""
+    if sg[0] == 'line':
+        d = [sg[2][i] - sg[1][i] for i in range(3)]
+    else:
+        _, p0, pm, p1, c, r = sg
+        a = [p0[i] - c[i] for i in range(3)]
+        b = [p1[i] - c[i] for i in range(3)]
+        npl = armgen.cross(a, b)
+        d = armgen.cross(npl, b if end else a)
+    n = math.sqrt(sum(v * v for v in d))
+    return [v / n for v in d]
+
+
+for _name, _a, _b, _pad, _w in SW_LINKS:
+    _Rab, _tab = armgen.relative_frame(SW_FRAMES[_a][0], SW_FRAMES[_a][1],
+                                       SW_FRAMES[_b][0], SW_FRAMES[_b][1])
+    rt = sweepgen.sweep_route(_Rab, _tab, _pad, _w)
+    close('%s: every screw hole keeps HOLE_FLAT_RING' % _name,
+          min(h['ring'] for h in rt['rings']) >= armgen.HOLE_FLAT_RING, True, 0)
+    close('%s: the actuator cutout is cleared by LAND_WEB' % _name,
+          rt['cut_web'] >= sweepgen.LAND_WEB - 1e-9, True, 0)
+    close('%s: the ribbon dies inside the plate and never reaches its far face' % _name,
+          rt['s_near'] < rt['s_end'] < rt['s_far'], True, 0)
+    close('%s: the tongue covers the ribbon footprint' % _name,
+          rt['y_end'] >= rt['y_land'] + rt['thickness'] / 2.0 - 1e-9, True, 0)
+    # the two devices must add back up to w_off: on a square landing the plate's share is
+    # x_off = (w_route - w_off) * x_sign; on an angled one it is the tongue's aim, the entry
+    # point r_land * sin(theta) along the plate's x (EXO-176; link_45 lands angled since the
+    # EXO-187 opening grew - see EXO-192)
+    _xs = rt['numbers']['y_sign'] * rt['numbers']['u_sign']
+    _plate = (-rt['x_off'] * _xs if rt['landing'] == 'square'
+              else -rt['r_land'] * math.sin(math.radians(rt['tongue_deg'])) * _xs)
+    close('%s: the offset is split, not lost' % _name, rt['w_route'] + _plate, rt['w_off'],
+          1e-9)
+    close('%s: and the plate\'s share is what the route reports' % _name,
+          rt['share'] * rt['w_off'], _plate, 1e-9)
+    close('%s: the ribbon leaves the pad plane only past the rim' % _name,
+          rt['s_b'] >= rt['pad_r'] + sweepgen.RIM_MARGIN - 1e-9, True, 0)
+    if rt['clearance_a'] is not None:
+        close('%s: clear of the r 27 cylinder under the pad' % _name,
+              rt['clearance_a'] >= sweepgen.CLEAR_R + armgen.MIN_CLEARANCE - 1e-9, True, 0)
+    if rt['clearance_b'] is not None:
+        close('%s: clear of module B\'s own body' % _name,
+              rt['clearance_b'] >= sweepgen.CLEAR_R + armgen.MIN_CLEARANCE - 1e-9, True, 0)
+    gap = 0.0
+    kink = 0.0
+    for _i in range(len(rt['path']) - 1):
+        s1, s2 = rt['path'][_i], rt['path'][_i + 1]
+        e1 = s1[2] if s1[0] == 'line' else s1[3]
+        p2 = s2[1]
+        gap = max(gap, max(abs(e1[k] - p2[k]) for k in range(3)))
+        t1, t2 = _tan_at(s1, 1), _tan_at(s2, 0)
+        kink = max(kink, max(abs(t1[k] - t2[k]) for k in range(3)))
+    close('%s: the sweep path is continuous' % _name, gap, 0.0, 1e-9)
+    close('%s: the sweep path is tangent at every join' % _name, kink, 0.0, 1e-9)
+
+    # ---- EXO-151: the two default rounds, and the guard that reduces them ----
+    _rad = sweepgen.elbow_radii(rt)
+    close('%s: the inner round keeps its default' % _name,
+          _rad['r_in'], sweepgen.ELBOW_R_IN, 1e-9)
+    close('%s: the inner round is under the seating cap' % _name,
+          _rad['r_in'] <= _rad['cap_seat'] + 1e-9, True, 0)
+    # EXO-79: the plate's far face must stay flat where it crosses the rim, so the outer
+    # round starts no closer than RIM_MARGIN past r STATOR_PAD_R. That is what reduces r 10
+    # to 7.5 on the two links whose tongue ends 35.5 mm out.
+    close('%s: the outer round is the default or the guard' % _name,
+          _rad['r_out'], min(sweepgen.ELBOW_R_OUT, _rad['cap_rim']), 1e-9)
+    close('%s: the outer round starts clear of the rim' % _name,
+          rt['y_end'] - _rad['r_out'] >= armgen.STATOR_PAD_R + sweepgen.RIM_MARGIN - 1e-9,
+          True, 0)
+    close('%s: a reduction is reported, never silent' % _name,
+          bool(_rad['why_out']) == (_rad['r_out'] < sweepgen.ELBOW_R_OUT - 1e-9), True, 0)
+
+
+# ---------------- EXO-158: the ORDER of the moves, J6 and J7 ----------------
+# The route has two moves - a plan turn for the lateral offset and a level change for the
+# landing's height - and the order used to be fixed, which gave the level change the
+# SHORTEST leg the route has. It is now placed by rule. These are constraints, not numbers
+# off a built link: the arithmetic of the advance, that the placement is a function of the
+# pair alone, that the four G1 links the old order could take keep EXACTLY the route they
+# had, and that a pair no placement fits is refused naming every leg it tried.
+print()
+close('EXO-158: a level change of 2r costs 2r of run (two quarter turns)',
+      sweepgen._level_advance(30.0, 15.0), 30.0, 1e-9)
+close('EXO-158: past 2r the riser is vertical and costs no more run',
+      sweepgen._level_advance(60.0, 15.0), 30.0, 1e-9)
+close('EXO-158: a half drop costs 2 r sin(60 deg)',
+      sweepgen._level_advance(15.0, 15.0), 30.0 * math.sin(math.radians(60.0)), 1e-9)
+close('EXO-158: no level change costs no run', sweepgen._level_advance(0.0, 15.0), 0.0, 0)
+
+for _adeg in (17.0, 45.0, 73.0):
+    _segs = []
+    _d = (math.cos(math.radians(_adeg)), math.sin(math.radians(_adeg)))
+    _e, _adv, _th, _mid = sweepgen._level_change(_segs, (2.0, 3.0, 4.0), _d, 21.0, 15.0)
+    close('EXO-158: the level change advances along its own leg (%.0f deg)' % _adeg,
+          (_e[0] - 2.0, _e[1] - 3.0, _e[2] - 4.0),
+          (_d[0] * _adv, _d[1] * _adv, 21.0), 1e-9)
+    close('EXO-158: it costs the same run whichever leg it is on (%.0f deg)' % _adeg,
+          _adv, sweepgen._level_advance(21.0, 15.0), 1e-9)
+    _gap = 0.0
+    for _k in range(len(_segs) - 1):
+        _pp = _segs[_k][3] if _segs[_k][0] == 'arc' else _segs[_k][2]
+        _qq = _segs[_k + 1][1]
+        _gap = max(_gap, max(abs(_pp[i] - _qq[i]) for i in range(3)))
+    close('EXO-158: the level change is continuous (%.0f deg)' % _adeg, _gap, 0.0, 1e-9)
+
+for _name, _a, _b, _pad, _w in SW_LINKS:
+    _Rab, _tab = armgen.relative_frame(SW_FRAMES[_a][0], SW_FRAMES[_a][1],
+                                       SW_FRAMES[_b][0], SW_FRAMES[_b][1])
+    _rt = sweepgen.sweep_route(_Rab, _tab, _pad, _w)
+    close('%s: the level change stays on the final leg' % _name,
+          _rt['level_order'] == 'final', True, 0)
+    close('%s: none of it moved to the lateral leg' % _name, _rt['drop_lat'], 0.0, 0)
+    close('%s: every placement is sized and reported' % _name,
+          len(_rt['level_tried']), len(sweepgen.LEVEL_ORDERS), 0)
+    _rt2 = sweepgen.sweep_route(_Rab, _tab, _pad, _w)
+    close('%s: the placement is a function of the pair alone' % _name,
+          [v for sg in _rt2['path'] for v in sg[1]],
+          [v for sg in _rt['path'] for v in sg[1]], 0)
+
+# EXO-158: the module's axis DIRECTION. The URDF fixes the line, not the way it points.
+_t4, _a4 = armgen.joint_world_pose('right_elbow_joint', joints, by_child)
+_t5, _a5 = armgen.joint_world_pose('right_wrist_roll_joint', joints, by_child)
+_t6, _a6 = armgen.joint_world_pose('right_wrist_pitch_joint', joints, by_child)
+_t7, _a7 = armgen.joint_world_pose('right_wrist_yaw_joint', joints, by_child)
+_sg, _why = sweepgen.axis_sign_rule(_a5, _t4, _t5)
+close('EXO-158: J5 - the step down the arm decides the sign, and it is the measured one',
+      _sg, +1, 0)
+_sg, _why = sweepgen.axis_sign_rule(_a6, _t5, _t6)
+close('EXO-158: J6 - the axis is square to the step, so the rule declines to decide',
+      _sg is None and 'solved' in _why, True, 0)
+_sg, _why = sweepgen.axis_sign_rule(_a7, _t6, _t7)
+close('EXO-158: J7 - the same, and it says so', _sg is None and 'solved' in _why, True, 0)
+
+# J5->J6 and J6->J7 from the URDF, at the signs the solve takes and the spins the encoder
+# rule fixes. link_56 routes; link_67 is REFUSED and names every leg it tried.
+_J6 = armgen.module_frame('right_wrist_pitch_joint', joints, by_child, +1,
+                          [-v for v in col(SW_FRAMES['J5'][0], 2)])
+_J7 = armgen.module_frame('right_wrist_yaw_joint', joints, by_child, +1,
+                          [-v for v in col(_J6[0], 2)])
+_WRIST = dict(SW_FRAMES)
+_WRIST['J6'] = (_J6[0], [_J6[1][i] - shift[i] for i in range(3)])
+_WRIST['J7'] = (_J7[0], [_J7[1][i] - shift[i] for i in range(3)])
+_WLINKS = SW_LINKS + [('link_56', 'J5', 'J6', 27.0, 25.0),
+                      ('link_67', 'J6', 'J7', 27.0, 25.0)]
+_WF, _WS = sweepgen.solve_spins(_WRIST, _WLINKS)
+close('EXO-158: the chain still walks past a pair the route refuses',
+      len(_WS), 7, 0)
+close('EXO-158: link_56 routes', _WS['J6']['refused'] is None, True, 0)
+close('EXO-158: link_56 keeps every screw ring',
+      min(_WS['J6']['rotor_ring'], _WS['J6']['margin']) >= armgen.HOLE_FLAT_RING, True, 0)
+close('EXO-158: link_56 clears the actuator cutout',
+      _WS['J6']['web'] >= sweepgen.LAND_WEB, True, 0)
+# EXO-176: these are the UNSLID frames - the two wrist modules interfere on them (EXO-163),
+# so no arm is ever built here. link_67 is still refused, and the point is that it is refused
+# by a MEASURED number on every landing and every leg. The square landing refuses on the
+# climb, as EXO-162 / EXO-173 measured; the angled one refuses on the PLATE - at `axial` 0 the
+# ribbon enters the plate plane 4.00 mm on the wrong side of the plate axis, so the tongue
+# leans back under the rotor pad and no blend carries its wall into the (EXO-186-grown) disk.
+close('EXO-176: at the URDF spacing link_67 is still refused',
+      _WS['J7']['refused'] is not None, True, 0)
+close('EXO-176: the square landing is refused on every one of its legs',
+      all('square landing, %s' % _o in _WS['J7']['refused']
+          for _o in sweepgen.LEVEL_ORDERS), True, 0)
+close('EXO-176/186: and the angled landing is refused there by the PLATE, not by the climb',
+      ('landing plate itself' in _WS['J7']['refused']
+       or 'flange' in _WS['J7']['refused']), True, 0)
+for _lab, _nm in (('J6', 'right_wrist_pitch_joint'), ('J7', 'right_wrist_yaw_joint')):
+    _R, _t = _WF[_lab]
+    _tw, _aw = armgen.joint_world_pose(_nm, joints, by_child)
+    close('EXO-158: %s axis is the URDF axis' % _lab,
+          abs(armgen.dot([_R[i][2] for i in range(3)], _aw)), 1.0, 1e-12)
+    close('EXO-158: %s origin is the URDF joint' % _lab,
+          [(_t[i] + shift[i]) * 1000.0 for i in range(3)],
+          [v * 1000.0 for v in _tw], 1e-9)
+
+# EXO-158: the two wrist modules do not fit at the URDF spacing, and it is not the link's
+# doing - two r MODULE_R stators on perpendicular axes need 2 * MODULE_R between them.
+close('EXO-158: J6 -> J7 is 46.00 mm and two r 27 modules need 54.00',
+      math.sqrt(sum((_t7[i] - _t6[i]) ** 2 for i in range(3))) * 1000.0, 46.0, 0.01)
+close('EXO-158: so the two wrist modules overlap radially, at any axis sign',
+      2 * armgen.MODULE_R - math.sqrt(sum((_t7[i] - _t6[i]) ** 2
+                                          for i in range(3))) * 1000.0 > 0, True, 0)
+
+# ---------------- EXO-170: `slide`, the module's position along its own axis ----------------
+# A revolute joint fixes the AXIS LINE, not where the module sits on it. These are
+# constraints: that a slide moves nothing kinematic, that the gap comes off the module's
+# REAL profile of revolution and not an infinite cylinder, that the solve is the SMALLEST
+# slide and a function of the frames alone, and that a joint whose neighbours already clear
+# does not move at all. No number is copied from the hand-made arm.
+print()
+_SL = 17.0
+_R0, _t0 = armgen.module_frame('right_wrist_pitch_joint', joints, by_child, +1, (0, 0, 1))
+_R1, _t1 = armgen.module_frame('right_wrist_pitch_joint', joints, by_child, +1, (0, 0, 1),
+                               slide=_SL)
+_z0 = col(_R0, 2)
+close('EXO-170: a slide turns nothing - the frame is the same rotation',
+      [_R1[i][k] for i in range(3) for k in range(3)],
+      [_R0[i][k] for i in range(3) for k in range(3)], 0)
+close('EXO-170: a slide moves the origin ALONG the axis, by exactly that much',
+      armgen.dot([(_t1[i] - _t0[i]) * 1000.0 for i in range(3)], _z0), _SL, 1e-9)
+_d = [(_t1[i] - _t0[i]) * 1000.0 for i in range(3)]
+close('EXO-170: and not one micron off it',
+      math.sqrt(max(0.0, armgen.dot(_d, _d) - armgen.dot(_d, _z0) ** 2)), 0.0, 1e-9)
+close('EXO-170: slide 0 is the URDF joint origin, unchanged',
+      armgen.module_frame('right_wrist_pitch_joint', joints, by_child, +1, (0, 0, 1),
+                          slide=0.0)[1], _t0, 0)
+
+# the module is 35 mm long, not an infinite cylinder: that IS the whole of EXO-170
+close('EXO-170: the module profile spans the module, root to rotor face',
+      (armgen.MODULE_PROFILE[0][0], armgen.MODULE_PROFILE[-1][1]), (-35.0, 0.0), 0.01)
+close('EXO-170: its widest band is the r MODULE_R shell EXO-163 used',
+      max(b[2] for b in armgen.MODULE_PROFILE), armgen.MODULE_R, 0.01)
+close('EXO-170: the profile is continuous in z',
+      max(abs(armgen.MODULE_PROFILE[i][1] - armgen.MODULE_PROFILE[i + 1][0])
+          for i in range(len(armgen.MODULE_PROFILE) - 1)), 0.0, 1e-9)
+
+# `slid_offset` is the whole of the arithmetic: A's own Z is e_z of frame A, B's own Z is
+# the third column of R_ab. Nothing else about the pair changes.
+_Rab, _tab = armgen.relative_frame(_WF['J6'][0], _WF['J6'][1], _WF['J7'][0], _WF['J7'][1])
+close('EXO-170: sliding A moves the pair back along the pad axis',
+      sweepgen.slid_offset(_Rab, _tab, 5.0, 0.0),
+      [_tab[0], _tab[1], _tab[2] - 5.0], 1e-12)
+close('EXO-170: sliding B moves it along B\'s own axis',
+      sweepgen.slid_offset(_Rab, _tab, 0.0, 5.0),
+      [_tab[i] + 5.0 * _Rab[i][2] for i in range(3)], 1e-12)
+close('EXO-170: no slide is no move', sweepgen.slid_offset(_Rab, _tab), list(_tab), 0)
+
+close('EXO-170: on the URDF origins the two wrist modules interfere (EXO-163)',
+      sweepgen.module_gap(_Rab, _tab), 0.0, 0)
+close('EXO-170: either module, either way, a big enough slide opens the pair',
+      [sweepgen.module_gap(_Rab, sweepgen.slid_offset(_Rab, _tab, _sa, _sb)) > 0.0
+       for _sa, _sb in ((80.0, 0.0), (-80.0, 0.0), (0.0, 80.0), (0.0, -80.0))],
+      [True] * 4, 0)
+
+_ORDER = ['J1', 'J2', 'J3', 'J4', 'J5', 'J6', 'J7']
+_SLIDES, _SROWS = sweepgen.solve_slides(_WRIST, _ORDER)
+close('EXO-170: the solve is a function of the frames alone - no per-joint input',
+      [sweepgen.solve_slides(_WRIST, _ORDER)[0][l] for l in _ORDER],
+      [_SLIDES[l] for l in _ORDER], 0)
+close('EXO-170: a joint whose neighbours already clear does not move',
+      [_SLIDES[l] for l in ('J1', 'J2', 'J3', 'J4', 'J5', 'J7')], [0.0] * 6, 0)
+close('EXO-170: exactly one pair on G1 has to be fixed', len(_SROWS), 1, 0)
+close('EXO-170: and it is the wrist pair', _SROWS[0]['pair'] == ('J6', 'J7'), True, 0)
+close('EXO-170: all four candidates are sized and reported',
+      len(_SROWS[0]['candidates']), 4, 0)
+close('EXO-170: the rule takes the smallest of them',
+      _SROWS[0]['taken']['slide'],
+      min(c['slide'] for c in _SROWS[0]['candidates']
+          if c['slide'] is not None and not c['why']), 1e-12)
+_SL6 = _SLIDES['J6']
+close('EXO-170: the solved slide opens the pair past MIN_CLEARANCE + SLIDE_MARGIN',
+      sweepgen.module_gap(_Rab, sweepgen.slid_offset(_Rab, _tab, _SL6, 0.0))
+      >= armgen.MIN_CLEARANCE + sweepgen.SLIDE_MARGIN - 1e-6, True, 0)
+close('EXO-170: and it is the SMALLEST such slide - a hair less does not clear',
+      sweepgen.module_gap(_Rab, sweepgen.slid_offset(
+          _Rab, _tab, _SL6 * (1.0 - 1e-3), 0.0))
+      < armgen.MIN_CLEARANCE + sweepgen.SLIDE_MARGIN, True, 0)
+
+_SLID = dict(_WRIST)
+for _lab in ('J6', 'J7'):
+    _nm = {'J6': 'right_wrist_pitch_joint', 'J7': 'right_wrist_yaw_joint'}[_lab]
+    _hint = [-v for v in col(_SLID['J5' if _lab == 'J6' else 'J6'][0], 2)]
+    _Rs, _ts = armgen.module_frame(_nm, joints, by_child, +1, _hint, slide=_SLIDES[_lab])
+    _SLID[_lab] = (_Rs, [_ts[i] - shift[i] for i in range(3)])
+close('EXO-170: after the solve every module pair clears MIN_CLEARANCE',
+      min(p[2] for p in sweepgen.module_pairs(_SLID, _ORDER))
+      >= armgen.MIN_CLEARANCE - 1e-9, True, 0)
+for _lab, _nm in (('J6', 'right_wrist_pitch_joint'), ('J7', 'right_wrist_yaw_joint')):
+    _Rq, _tq = _SLID[_lab]
+    _tw, _aw = armgen.joint_world_pose(_nm, joints, by_child)
+    _zq = col(_Rq, 2)
+    close('EXO-170: %s still turns about the URDF axis' % _lab,
+          abs(armgen.dot(_zq, _aw)), 1.0, 1e-12)
+    _dq = [(_tq[i] + shift[i] - _tw[i]) * 1000.0 for i in range(3)]
+    close('EXO-170: %s origin is still ON that axis line' % _lab,
+          math.sqrt(max(0.0, armgen.dot(_dq, _dq) - armgen.dot(_dq, _zq) ** 2)), 0.0, 1e-9)
+
+# what the slide costs: the link that LANDS on the slid module pays it as extra centre line,
+# one for one, and no other link moves at all.
+_SPUN0, _ = sweepgen.solve_spins(_WRIST, _WLINKS)
+_SPUN1, _ = sweepgen.solve_spins(_SLID, _WLINKS)
+for _name, _a, _b, _pad, _w in _WLINKS:
+    try:
+        _r0 = sweepgen.sweep_route(*armgen.relative_frame(
+            _SPUN0[_a][0], _SPUN0[_a][1], _SPUN0[_b][0], _SPUN0[_b][1]), _pad, _w)
+        _r1 = sweepgen.sweep_route(*armgen.relative_frame(
+            _SPUN1[_a][0], _SPUN1[_a][1], _SPUN1[_b][0], _SPUN1[_b][1]), _pad, _w)
+    except ValueError:
+        continue
+    _d0 = sweepgen.path_length(_r1) - sweepgen.path_length(_r0)
+    if _b == 'J6':
+        close('EXO-170: %s pays the slide one-for-one as extra run' % _name,
+              _d0, abs(_SL6), 1e-6)
+    else:
+        close('EXO-170: %s does not move' % _name,
+              [v for sg in _r1['path'] for v in sg[1]],
+              [v for sg in _r0['path'] for v in sg[1]], 0)
+
+# ---------------- EXO-176: the ANGLED landing primitive ----------------
+# Constraints, not copies. The tongue's direction inside the landing plate's plane is a free
+# direction the method did not have; what has to hold is that freeing it changes NOTHING
+# where the square landing already worked, that the angled one is aimed at the ribbon and not
+# chosen, that the plate is still a drawable outline, and that the encoder rule still fixes
+# the spin - now along the tongue instead of along the pad axis.
+print()
+_AJ6 = armgen.module_frame('right_wrist_pitch_joint', joints, by_child, +1,
+                           [-v for v in col(SW_FRAMES['J5'][0], 2)], slide=_SLIDES['J6'])
+_AJ7 = armgen.module_frame('right_wrist_yaw_joint', joints, by_child, +1,
+                           [-v for v in col(_AJ6[0], 2)], slide=_SLIDES['J7'])
+_AF = dict(SW_FRAMES)
+_AF['J6'] = (_AJ6[0], [_AJ6[1][i] - shift[i] for i in range(3)])
+_AF['J7'] = (_AJ7[0], [_AJ7[1][i] - shift[i] for i in range(3)])
+# EXO-193: the opening is the XL330's own footprint, so it no longer breaks out of link_67's
+# angled plate and the STRICT solve takes every link. `plate_check=False` stays as the
+# measurement knob it was (the builder never passes it) and must change nothing anywhere.
+_AFS, _AS = sweepgen.solve_spins(_AF, _WLINKS, plate_check=False)
+_AFS_STRICT, _AS_STRICT = sweepgen.solve_spins(_AF, _WLINKS)
+close('EXO-193: the strict spin solve refuses nothing - the opening fits every plate',
+      [_AS_STRICT[l]['refused'] is None for l in ('J2', 'J3', 'J4', 'J5', 'J6', 'J7')],
+      [True] * 6, 0)
+close('EXO-193: and the knob changes no spin at all',
+      [_AS_STRICT[l]['spin'] for l in ('J2', 'J3', 'J4', 'J5', 'J6', 'J7')],
+      [_AS[l]['spin'] for l in ('J2', 'J3', 'J4', 'J5', 'J6', 'J7')], 1e-9)
+close('EXO-193: sized strictly, link_67 routes',
+      sweepgen.sweep_route(*armgen.relative_frame(
+          _AFS['J6'][0], _AFS['J6'][1],
+          _AFS['J7'][0], _AFS['J7'][1]), 27.0, 25.0)['act_opening_in_plate'], True, 0)
+_AR = {}
+for _name, _a, _b, _pad, _w in _WLINKS:
+    try:
+        _AR[_name] = sweepgen.sweep_route(*armgen.relative_frame(
+            _AFS[_a][0], _AFS[_a][1], _AFS[_b][0], _AFS[_b][1]), _pad, _w,
+            plate_check=False)
+    except ValueError:
+        _AR[_name] = None
+
+close('EXO-176: every link of the G1 arm routes now, link_67 included',
+      sorted(k for k, v in _AR.items() if v is not None) == sorted(n for n, *_r in _WLINKS),
+      True, 0)
+# EXO-193: with the opening back at the footprint every landing the square primitive could
+# take, it takes - link_45 included (EXO-187 had pushed its drop 1 mm and MIN_RUN refused it).
+close('EXO-176/193: the five links the square landing took all keep it',
+      [_AR[n]['landing'] for n in ('link_12', 'link_23', 'link_34', 'link_45', 'link_56')]
+      == ['square'] * 5, True, 0)
+close('EXO-176/193: their tongues are square to the pad axis, exactly',
+      [_AR[n]['tongue_deg'] for n in ('link_12', 'link_23', 'link_34', 'link_45', 'link_56')],
+      [0.0] * 5, 0)
+close('EXO-176: link_67 is the one that needs the tongue aimed',
+      _AR['link_67']['landing'] == 'angled', True, 0)
+
+_R67 = _AR['link_67']
+# the tongue is AIMED, not chosen: it points from the disk centre AT the entry point, so the
+# entry sits on the tongue's own centre line and nowhere else.
+close('EXO-176: the tongue is aimed at the entry - no lateral offset left on the plate',
+      _R67['x_off'], 0.0, 1e-12)
+close('EXO-176: and the entry is `r_land` along it',
+      _R67['r_land'] > armgen.STATOR_PAD_R, True, 0)
+_num67 = _R67['numbers']
+_xe = (_R67['w_route'] - _R67['w_off']) * _num67['y_sign'] * _num67['u_sign']
+_ye = _num67['y_sign'] * (_R67['z_arr'] - _num67['axial'])
+close('EXO-176: the tongue angle IS atan2 of where the ribbon enters the plate plane',
+      _R67['tongue_deg'], math.degrees(math.atan2(_xe, _ye)), 1e-9)
+close('EXO-176: and `r_land` is that entry point\'s distance from the plate axis',
+      _R67['r_land'], math.hypot(_xe, _ye), 1e-9)
+close('EXO-176: theta = 0 is the square landing, exactly - the frames agree',
+      [v for r in armgen.tongue_R(_num67, 0.0) for v in r],
+      [v for r in _num67['R_b'] for v in r], 1e-15)
+close('EXO-176: and the footprint extents reduce to (half_t, half_w) there',
+      list(armgen.footprint_extent(12.5, 4.0, 0.0)), [4.0, 12.5], 1e-15)
+close('EXO-176: the tongue is wide enough to carry the ribbon\'s rotated footprint',
+      _R67['tongue_half_w'], 12.5 * abs(math.cos(math.radians(_R67['tongue_deg'])))
+      + 4.0 * abs(math.sin(math.radians(_R67['tongue_deg']))), 1e-12)
+
+# what the angled landing BUYS: the level change EXO-173 could not pay for is simply not
+# spent - the lateral offset is taken inside the plate's own plane, where it costs no run.
+close('EXO-176: link_67 spends no level change at all', _R67['drop'], 0.0, 1e-9)
+close('EXO-176: so the ribbon never leaves the rotor pad plane',
+      max(abs(v[2] - armgen.PAD_T / 2.0) for sg in _R67['path']
+          for v in (sg[1], sg[2] if sg[0] == 'line' else sg[3])), 0.0, 1e-9)
+close('EXO-176: the plate takes part of the lateral offset and the route turns the rest',
+      abs(_R67['w_route']) < abs(_R67['w_off']) and abs(_R67['w_route']) > 1e-9, True, 0)
+close('EXO-176: the two shares add up to the pair\'s own offset',
+      abs(_xe) + abs(_R67['w_route']), abs(_R67['w_off']), 1e-9)
+
+# every number the deliverable names, on the pair the method used to refuse
+close('EXO-176: link_67 keeps HOLE_FLAT_RING at every rotor screw',
+      min(h['ring'] for h in _R67['rings'] if h['pad'] == 'rotor')
+      >= armgen.HOLE_FLAT_RING, True, 0)
+close('EXO-176: link_67 keeps HOLE_FLAT_RING at every stator insert',
+      min(h['ring'] for h in _R67['rings'] if h['pad'] == 'stator')
+      >= armgen.HOLE_FLAT_RING, True, 0)
+close('EXO-176: link_67 clears the actuator cutout by LAND_WEB along the tongue',
+      _R67['cut_web'] >= sweepgen.LAND_WEB, True, 0)
+close('EXO-176: and the TRUE planar gap is never smaller than the solved web',
+      _R67['cut_gap'] >= _R67['cut_web'] - 1e-9, True, 0)
+close('EXO-176: link_67 stays clear of module B\'s own body',
+      _R67['clearance_b'] >= sweepgen.CLEAR_R + armgen.MIN_CLEARANCE - 1e-9, True, 0)
+close('EXO-176: the plate outline closes',
+      armgen.profile_closed(_R67['flange'], 1e-4), True, 0)
+close('EXO-176: EXO-79 still holds - the outer round starts past the rim',
+      _R67['y_end'] - sweepgen.elbow_radii(_R67)['r_out']
+      >= armgen.STATOR_PAD_R + sweepgen.RIM_MARGIN - 1e-9, True, 0)
+
+# the share is SOLVED, not chosen: a hair less of it and some check refuses. EXO-186: that
+# is now checked by SIZING at a forced share, not by arithmetic on the share the solve chose.
+_k = abs(_xe) / abs(_R67['w_off'])
+
+
+def _share_routes(k):
+    """Does link_67's angled landing size at plate share `k`?"""
+    try:
+        sweepgen.sweep_route(*armgen.relative_frame(
+            _AFS['J6'][0], _AFS['J6'][1], _AFS['J7'][0], _AFS['J7'][1]), 27.0, 25.0,
+            landings=('angled',), share=k, plate_check=False)
+        return True
+    except ValueError:
+        return False
+
+
+close('EXO-176/186: the share the solve chose routes, and a hair less does not',
+      [_share_routes(_k), _share_routes(_k - 10.0 * sweepgen.LAND_SHARE_TOL)], [True, False], 0)
+close('EXO-176: and it is a real share of the offset, not zero',
+      _k > sweepgen.LAND_SHARE_TOL, True, 0)
+
+
+close('EXO-176: the solve is a function of the pair alone - twice is the same number',
+      sweepgen.sweep_route(*armgen.relative_frame(
+          _AFS['J6'][0], _AFS['J6'][1], _AFS['J7'][0], _AFS['J7'][1]),
+          27.0, 25.0, plate_check=False)['tongue_deg'], _R67['tongue_deg'], 0)
+close('EXO-176: both landings are sized and reported, with their lengths or their refusals',
+      len(_R67['landing_tried']), len(sweepgen.LEVEL_ORDERS) + 1, 0)
+
+# ---------------- EXO-186: the spin is AXIS-ALIGNED, and it is snapped, not walked --------
+# Spin about the module's own axis is kinematically free (EXO-171), so it decides how the
+# encoder LOOKS and where the cable leaves. EXO-176/180 pointed +Y along the tongue, which on
+# link_67's 66.7 deg landing left J7 visibly crooked. The rule now: solve the tongue ONCE at
+# the EXO-150 spin, snap the spin ONCE to the multiple of 90 deg nearest it. A square landing
+# draws tongue 0, whose nearest quarter turn IS 0, so EXO-150 is unchanged to the bit.
+_S7 = _AS['J7']
+close('EXO-186: the snap is the multiple of 90 deg nearest the tongue the route solved',
+      [_S7['spin_snap_deg'],
+       sweepgen.SPIN_QUARTER * round(_S7['tongue_solved_deg'] / sweepgen.SPIN_QUARTER)],
+      [90.0, 90.0], 0)
+close('EXO-186: and the spin is exactly the one that puts +Y there',
+      _S7['spin'], sweepgen.encoder_spin(*armgen.relative_frame(
+          _AFS['J6'][0], _AFS['J6'][1], _AF['J7'][0], _AF['J7'][1]),
+          _S7['spin_snap_deg'])[0], 1e-6)
+close('EXO-186: J7 lands on a quarter turn of the pad axis, to the bit',
+      _S7['spin'] % sweepgen.SPIN_QUARTER, 0.0, 1e-9)
+close('EXO-186: the encoder is NOT along the tongue any more - that is the whole point',
+      abs(_S7['spin_snap_deg'] - _S7['tongue_solved_deg']) > 1.0, True, 0)
+close('EXO-186: a square landing is sized once and snapped to nothing, so EXO-150 is unchanged',
+      [len(_AS[l]['spin_walk']) for l in ('J2', 'J3', 'J4', 'J5', 'J6')], [1] * 5, 0)
+close('EXO-186: every square link\'s snap is 0 and its solved tongue is 0',
+      [v for l in ('J2', 'J3', 'J4', 'J5', 'J6')
+       for v in (_AS[l]['spin_snap_deg'], _AS[l]['tongue_solved_deg'])], [0.0] * 10, 0)
+close('EXO-186: link_67 is sized twice - once to read the tongue, once at the snapped spin',
+      len(_S7['spin_walk']), 2, 0)
+# EXO-193/186: J5 is settled twice over. EXO-187's grown opening pushed link_45's square drop
+# past MIN_RUN and the old fixpoint 2-cycled between tongue 0 and +14.5 deg; the footprint
+# opening makes the square landing feasible at spin 0 again, and EXO-186 removes the walk
+# altogether, so there is no fixpoint left to fail to settle anywhere in the chain.
+close('EXO-193: J5 is sized once, refuses nothing, and its tongue is 0',
+      [_AS['J5']['refused'] is None, len(_AS['J5']['spin_walk']),
+       _AR['link_45']['tongue_deg']], [True, 1, 0.0], 0)
+close('EXO-193: J5 sits at the tongue-0 spin',
+      _AS['J5']['spin'] % 360.0, 0.0, 1e-6)
+close('EXO-150/176: the rule is idempotent - re-spinning a spun chain asks for nothing',
+      [min(_AS[l]['spin'], 360.0 - _AS[l]['spin']) for l in ('J2', 'J3', 'J4', 'J5', 'J6')],
+      [0.0] * 5, 1e-6)
+close('EXO-150/176: and re-spinning does not move the tongue either',
+      [sweepgen.solve_spins(_AFS, _WLINKS, plate_check=False)[1]['J7']['tongue_deg']],
+      [_S7['tongue_deg']], 1e-6)
+close('EXO-150/176: tongue 0 gives EXO-150\'s own spin back, exactly',
+      sweepgen.encoder_spin(*armgen.relative_frame(
+          _AFS['J1'][0], _AFS['J1'][1], _AF['J2'][0], _AF['J2'][1]), 0.0)[0],
+      sweepgen.encoder_spin(*armgen.relative_frame(
+          _AFS['J1'][0], _AFS['J1'][1], _AF['J2'][0], _AF['J2'][1]))[0], 0)
+# the module still turns about the URDF axis and nothing kinematic moved
+for _lab, _nm in (('J6', 'right_wrist_pitch_joint'), ('J7', 'right_wrist_yaw_joint')):
+    _Rq, _tq = _AFS[_lab]
+    _tw, _aw = armgen.joint_world_pose(_nm, joints, by_child)
+    close('EXO-176: %s still turns about the URDF axis after the tongue spin' % _lab,
+          abs(armgen.dot(col(_Rq, 2), _aw)), 1.0, 1e-12)
+    _dq = [(_tq[i] + shift[i] - _tw[i]) * 1000.0 for i in range(3)]
+    close('EXO-176: %s origin is still ON that axis line' % _lab,
+          math.sqrt(max(0.0, armgen.dot(_dq, _dq)
+                        - armgen.dot(_dq, col(_Rq, 2)) ** 2)), 0.0, 1e-9)
+
+# ---------------- EXO-177: the tongue ends ON THE RIBBON ----------------
+print()
+close('EXO-177: at theta 0 the tongue end is the one flat line the square tongue drew',
+      [v for p in armgen.tongue_end(12.5, 4.0, 0.0, 40.0)[0] for v in p],
+      [12.5, 44.0, -12.5, 44.0], 1e-12)
+close('EXO-177: two points there, so the square outline has exactly the segments it had',
+      len(armgen.tongue_end(12.5, 4.0, 0.0, 40.0)[0]), 2, 0)
+for _th in (-120.0, -64.9, -30.0, -1.0, 0.0, 1.0, 30.0, 64.9, 90.0, 120.0, 179.0):
+    _pts, _yp, _ym, _hw = armgen.tongue_end(12.5, 4.0, math.radians(_th), 60.0)
+    _c, _s2 = math.cos(math.radians(_th)), math.sin(math.radians(_th))
+    _corners = [(_a * _c - _b * _s2, _a * _s2 + _b * _c + 60.0)
+                for _a, _b in ((12.5, 4.0), (12.5, -4.0), (-12.5, -4.0), (-12.5, 4.0))]
+    close('EXO-177: the tongue is as wide as the footprint at %.0f deg' % _th,
+          _hw, max(p[0] for p in _corners), 1e-12)
+    close('EXO-177: its walls stop at the footprint corners at %.0f deg' % _th,
+          [_pts[0][0], _pts[-1][0]], [_hw, -_hw], 1e-9)
+    # every footprint corner is on or below the end polyline, i.e. inside the tongue
+    _worst = 0.0
+    for _q in _corners:
+        _above = None
+        for _k in range(len(_pts) - 1):
+            _p0, _p1 = _pts[_k], _pts[_k + 1]
+            if min(_p0[0], _p1[0]) - 1e-9 <= _q[0] <= max(_p0[0], _p1[0]) + 1e-9:
+                if abs(_p1[0] - _p0[0]) < 1e-12:
+                    _y = max(_p0[1], _p1[1])
+                else:
+                    _f = (_q[0] - _p0[0]) / (_p1[0] - _p0[0])
+                    _y = _p0[1] + _f * (_p1[1] - _p0[1])
+                _above = _y if _above is None else max(_above, _y)
+        if _above is not None:
+            _worst = max(_worst, _q[1] - _above)
+    close('EXO-177: and no footprint corner sticks out past it at %.0f deg' % _th,
+          _worst <= 1e-9, True, 0)
+
+# on the built pair: the end really is the ribbon's own two edges
+close('EXO-177: link_67 ends on the ribbon - three points, not two',
+      len(_R67['tongue_end']), 3, 0)
+close('EXO-177: the square links keep the two-point flat end (link_45 lands angled, EXO-187)',
+      [len(_AR[n]['tongue_end']) for n in ('link_12', 'link_23', 'link_34', 'link_56')],
+      [2] * 4, 0)
+close('EXO-177: the EXO-79 cap is measured where the end really is',
+      _R67['y_round'], min(p[1] for p in _R67['tongue_end']), 1e-12)
+close('EXO-177: and for a square tongue that is still `y_end`',
+      [_AR[n]['y_round'] - _AR[n]['y_end'] for n in ('link_12', 'link_23', 'link_34',
+                                                     'link_56')], [0.0] * 4, 0)
+
+# ---------------- EXO-178: the plate is measured against module A ----------------
+print()
+close('EXO-178: link_67\'s plate clears the r 27 cylinder under the pad',
+      _R67['clearance_plate'] >= sweepgen.CLEAR_R + armgen.MIN_CLEARANCE - 1e-9, True, 0)
+close('EXO-178: a square tongue never reaches below the pad plane at all',
+      [_AR[n]['clearance_plate'] is None for n in ('link_12', 'link_34', 'link_56')],
+      [True] * 3, 0)
+close('EXO-178: and where a square plate does go low it is far out',
+      [_AR[n]['clearance_plate'] >= sweepgen.CLEAR_R + armgen.MIN_CLEARANCE
+       for n in ('link_23', 'link_45')], [True] * 2, 0)
+# WHY a square tongue cannot get down there, on all five of them: its tip sits at
+# `z_arr + y_sign * half_t`, which is one of the RIBBON's own two faces - and the ribbon is
+# in the pad plane whenever the landing lets it be.
+for _n in ('link_12', 'link_23', 'link_34', 'link_56'):
+    _sg7 = _AR[_n]['numbers']['y_sign']
+    close('EXO-178: %s\'s square tongue stops on the ribbon\'s own face' % _n,
+          _AR[_n]['numbers']['axial'] + _sg7 * _AR[_n]['y_end'],
+          _AR[_n]['z_arr'] + _sg7 * _AR[_n]['thickness'] / 2.0, 1e-9)
+
+# ---------------- EXO-181: the rotor pad measured against module B ----------------
+print()
+_PADS = {}
+for _name, _a, _b, _pad, _w in _WLINKS:
+    _R, _t = armgen.relative_frame(_AFS[_a][0], _AFS[_a][1], _AFS[_b][0], _AFS[_b][1])
+    _PADS[_name] = (armgen.landing_numbers(_R, _t), _pad)
+close('EXO-181: the five links the method already built keep a clear rotor pad',
+      [sweepgen.rotor_join_clearance(*_PADS[n])[0] >= armgen.MIN_CLEARANCE
+       for n in ('link_12', 'link_23', 'link_34', 'link_45', 'link_56')], [True] * 5, 0)
+close('EXO-181: so none of them is chorded, and their pads are still plain disks',
+      [_AR[n]['pad_trim'] is None and _AR[n]['pad_outline'] is None
+       for n in ('link_12', 'link_23', 'link_34', 'link_45', 'link_56')], [True] * 5, 0)
+close('EXO-181: link_67\'s pad DOES foul module J7 - that is the 65 mm3 Fusion found',
+      sweepgen.rotor_join_clearance(*_PADS['link_67'])[0] < armgen.MIN_CLEARANCE, True, 0)
+# EXO-186: a chord is still cut only when the pad does NOT clear by MIN_CLEARANCE, but when
+# one is cut it is solved to MIN_CLEARANCE + SOLVE_MARGIN, so the answer is never on the line
+# (EXO-182 caught this one opening to exactly 1.000). The REFUSAL is still at MIN_CLEARANCE.
+close('EXO-181/186: the solved chord opens it to MIN_CLEARANCE + SOLVE_MARGIN',
+      sweepgen.rotor_join_clearance(_PADS['link_67'][0], _PADS['link_67'][1],
+                                    _R67['pad_trim'])[0],
+      armgen.MIN_CLEARANCE + sweepgen.SOLVE_MARGIN, 5e-3)
+close('EXO-181/186: it is the SMALLEST such chord - 0.2 mm less does not reach the target',
+      sweepgen.rotor_join_clearance(
+          _PADS['link_67'][0], _PADS['link_67'][1],
+          (_R67['pad_trim'][0], _R67['pad_trim'][1], _R67['pad_trim'][2] - 0.2))[0]
+      < armgen.MIN_CLEARANCE + sweepgen.SOLVE_MARGIN, True, 0)
+close('EXO-186: and it clears the bar it is REFUSED at by the whole margin',
+      _R67['clearance_pad'] >= armgen.MIN_CLEARANCE + sweepgen.SOLVE_MARGIN - 5e-3, True, 0)
+close('EXO-181: the chord is one straight cut, so the outline is a line and an arc',
+      [sg[0] for sg in _R67['pad_outline']] == ['line', 'arc'], True, 0)
+close('EXO-181: and it closes', armgen.profile_closed(_R67['pad_outline'], 1e-6), True, 0)
+close('EXO-181: no chord means no outline at all, so those links draw the circle they did',
+      armgen.pad_outline(27.0, None) is None, True, 0)
+close('EXO-181: a chord that misses the disk is no chord',
+      armgen.pad_outline(27.0, (0.0, 1.0, -27.5)) is None, True, 0)
+close('EXO-181: the chord depth is what the outline actually takes off',
+      armgen.pad_trim_depth(27.0, _R67['pad_trim']), 27.0 + _R67['pad_trim'][2], 1e-12)
+# the chord is a BOUND on the screw rings, not a silent cut
+close('EXO-181: every rotor screw still seats flat past the chord',
+      min(h['ring'] for h in _R67['rings'] if h['pad'] == 'rotor')
+      >= armgen.HOLE_FLAT_RING, True, 0)
+_TR = _R67['pad_trim']
+for _ang in armgen.ROTOR_HOLE_ANGLES:
+    _x = armgen.ROTOR_HOLE_RADIUS * math.cos(math.radians(_ang))
+    _y = armgen.ROTOR_HOLE_RADIUS * math.sin(math.radians(_ang))
+    close('EXO-181: the hole at %.0f deg is on the kept side of the chord' % _ang,
+          _x * _TR[0] + _y * _TR[1] - _TR[2] - armgen.HOLE_R
+          >= armgen.HOLE_FLAT_RING, True, 0)
+# the two features that live ON the pad survive it whole
+for _r in (armgen.STOP_R_IN, 27.0):
+    for _k in (-1.0, 0.0, 1.0):
+        _a2 = math.radians(_R67['stop_angle'] + _k * _R67['stop_half'])
+        close('EXO-181: the stop block at r %.0f, %+.0f, is kept whole' % (_r, _k),
+              _r * math.cos(_a2) * _TR[0] + _r * math.sin(_a2) * _TR[1] - _TR[2] >= 0.0,
+              True, 0)
+for _x in (-armgen.TAB_W / 2.0, armgen.TAB_W / 2.0):
+    for _y in (armgen.TAB_R_IN, armgen.TAB_R_OUT):
+        close('EXO-181: the index tab corner (%.1f, %.1f) is kept' % (_x, _y),
+              _x * _TR[0] + _y * _TR[1] - _TR[2] >= 0.0, True, 0)
+# and the chord is solved from the pair, not chosen
+close('EXO-181: the chord is a function of the pair and the pad radius alone',
+      list(sweepgen.solve_pad_trim(*_PADS['link_67'])[0]), list(_TR), 0)
+
+# ---------------- EXO-183: the EXO-151 collar is material ----------------
+print()
+for _n in ('link_12', 'link_34', 'link_56', 'link_67'):
+    close('EXO-183: %s carries a collar, so the collared gap is the smaller one' % _n,
+          _AR[_n]['clearance_b_collar'] <= _AR[_n]['clearance_b'] + 1e-9, True, 0)
+    close('EXO-183: and the collar stays out of module B\'s r 27 body on %s' % _n,
+          _AR[_n]['clearance_b_collar'] >= sweepgen.CLEAR_R - 1e-9, True, 0)
+    close('EXO-183: while the bare ribbon keeps MIN_CLEARANCE on %s' % _n,
+          _AR[_n]['clearance_b'] >= sweepgen.CLEAR_R + armgen.MIN_CLEARANCE - 1e-9, True, 0)
+close('EXO-183: the two links that never come alongside module B report neither',
+      [_AR[n]['clearance_b'] is None and _AR[n]['clearance_b_collar'] is None
+       for n in ('link_23', 'link_45')], [True] * 2, 0)
+close('EXO-183: the collar is only grown where the fillet is - within ELBOW_R_IN of the plate',
+      sweepgen._module_b_clearance(_R67['path'], _R67['numbers'], 12.5, 4.0,
+                                   collar=sweepgen.ELBOW_R_IN, s_near=_R67['s_near'] - 1e3)[0],
+      _R67['clearance_b'], 1e-9)
+close('EXO-183: no collar asked for is the bare ribbon',
+      sweepgen._module_b_clearance(_R67['path'], _R67['numbers'], 12.5, 4.0)[0],
+      _R67['clearance_b'], 1e-9)
+
+# EXO-176: link_67 needs BOTH free parameters - the EXO-170 slide AND the aimed tongue.
+# Neither alone builds it, and the reason is one number: the slide moves the pair's `axial`
+# from 0.000 to 21.380 mm, which is what puts the ribbon's entry on the far side of the
+# plate axis and lets the tongue lean AWAY from the rotor pad instead of back under it.
+print()
+_P0 = armgen.relative_frame(_WF['J6'][0], _WF['J6'][1], _WF['J7'][0], _WF['J7'][1])
+_P1 = armgen.relative_frame(_AFS['J6'][0], _AFS['J6'][1], _AFS['J7'][0], _AFS['J7'][1])
+close('EXO-176: the slide alone does not build link_67 - the square landing refuses it slid',
+      len([e for _ln, _o, _L, e in _R67['landing_tried']
+           if _ln == 'square' and e is None]), 0, 0)
+close('EXO-176: and the aimed tongue alone does not either - it refuses unslid',
+      armgen.landing_numbers(*_P0)['axial'], 0.0, 1e-9)
+close('EXO-176: the slide is what moves the entry to the far side of the plate axis',
+      [round(armgen.landing_numbers(*_P0)['axial'], 3),
+       round(armgen.landing_numbers(*_P1)['axial'], 3)], [0.0, 21.38], 1e-3)
+
+# ---------------- EXO-187/EXO-193: the actuator is an EXCLUSION VOLUME ----------------
+# The XL330 IS a body in `sensor module 2` - `XL330 v2/Body1`, measured (EXO-201) at exactly
+# this footprint, back at ACT_Z[0], carrying on up to z -10.5 inside the stator - so
+# `check_interference` sees the real actuator as one of its module wrapper's own bodies and
+# EXO-187's proxy body is gone. The rules below are pure Python and unchanged: the landing
+# plate's opening is cut to that footprint EXACTLY (EXO-193 - `ACT_OPEN_MARGIN` 0: the
+# hand-made links do that and the real actuator fits) and through the whole volume, and every
+# other solid the builder makes is checked against the volume grown by MIN_CLEARANCE in pure
+# Python before build and refused by name.
+print()
+close('EXO-193: the opening grows by ACT_OPEN_MARGIN and that is ZERO',
+      armgen.ACT_OPEN_MARGIN, 0.0, 0)
+close('EXO-187: at m 0 the rectangle IS the XL330 footprint',
+      list(armgen.actuator_rect(0.0)),
+      [armgen.CUTOUT_X[0], armgen.CUTOUT_X[1], armgen.CUTOUT_Y[0], armgen.CUTOUT_Y[1]], 0)
+close('EXO-193: and the OPENING is that same rectangle - zero growth, the validated opening',
+      list(armgen.actuator_rect()), list(armgen.actuator_rect(0.0)), 0)
+close('EXO-193: the volume runs from the actuator back to the stator underside',
+      list(armgen.actuator_volume()[4:]),
+      [armgen.ACT_Z[0] - armgen.ACT_OPEN_MARGIN, armgen.STATOR_UNDERSIDE_Z], 0)
+close('EXO-187: the XL330 sticks 12 mm out of the stator underside (exo-joint.md)',
+      armgen.STATOR_UNDERSIDE_Z - armgen.ACT_Z[0], 12.0, 1e-9)
+_cz, _cl = armgen.actuator_cut_z()
+close('EXO-187: the cut spans the whole volume plus eps each side',
+      [_cz - _cl / 2.0, _cz + _cl / 2.0],
+      [armgen.actuator_volume()[4] - 0.5, armgen.actuator_volume()[5] + 0.5], 1e-9)
+close('EXO-193: the non-plate check still grows the volume by MIN_CLEARANCE',
+      list(armgen.actuator_volume(armgen.MIN_CLEARANCE)),
+      [armgen.CUTOUT_X[0] - 1.0, armgen.CUTOUT_X[1] + 1.0,
+       armgen.CUTOUT_Y[0] - 1.0, armgen.CUTOUT_Y[1] + 1.0,
+       armgen.ACT_Z[0] - 1.0, armgen.STATOR_UNDERSIDE_Z], 0)
+close('EXO-187: a point in the middle of the volume is inside, by its depth to the nearest face',
+      armgen.actuator_box_dist((0.0, 7.5, -31.0)), -min(10.0, 17.0, 5.5), 1e-9)
+close('EXO-187: outside, the distance is Euclidean',
+      armgen.actuator_box_dist((13.0, 28.5, -31.0)), 5.0, 1e-9)
+close('EXO-187: on the face it is 0', armgen.actuator_box_dist((10.0, 0.0, -30.0)), 0.0, 1e-12)
+close('EXO-187: in_actuator_rect is the opening over the cut\'s z span',
+      [armgen.in_actuator_rect((0.0, 0.0, -30.0)), armgen.in_actuator_rect((0.0, 0.0, -20.0)),
+       armgen.in_actuator_rect((10.5, 0.0, -30.0))], [True, False, False], 0)
+# the OLD router's datum is untouched: the XL330's own edge
+# (the measured exo pair is 1.9e-4 rad off spin 0, hence the tolerance; at a solved spin the
+# SW_LINKS loop above checks CUTOUT_Y[1] to 1e-6)
+close('EXO-187: the old router still measures the XL330\'s own edge (EXO-130 datum)',
+      armgen.landing_numbers(R_23, t_23)['cut_reach'], armgen.CUTOUT_Y[1], 5e-3)
+close('EXO-193: and the OPENING reaches exactly as far - zero growth',
+      armgen.landing_numbers(R_23, t_23)['cut_reach_clear'],
+      armgen.CUTOUT_Y[1] + armgen.ACT_OPEN_MARGIN, 5e-3)
+_ACT_LINKS = ('link_12', 'link_23', 'link_34', 'link_45', 'link_56', 'link_67')
+for _n in _ACT_LINKS:
+    _r = _AR[_n]
+    # the opening's reach along the tongue is the rectangle's support function, and since
+    # EXO-193 the opening IS the footprint, so the two reaches coincide on every landing
+    close('EXO-193: %s sizes its web off the OPENING = the XL330\'s own edge' % _n,
+          _r['cut_reach'] - _r['cut_reach_act'], armgen.ACT_OPEN_MARGIN, 1e-9)
+    close('EXO-187: %s keeps LAND_WEB of plate between the OPENING and the ribbon' % _n,
+          _r['cut_web'] >= sweepgen.LAND_WEB - 1e-9, True, 0)
+    close('EXO-187: %s\'s true planar gap to the opening is no less than the solved web' % _n,
+          _r['cut_gap'] >= _r['cut_web'] - 1e-9, True, 0)
+    close('EXO-187: %s has no non-plate material inside the grown volume' % _n,
+          _r['act_clear'] >= -1e-9, True, 0)
+    close('EXO-187: %s\'s nearest non-plate material keeps MIN_CLEARANCE from the XL330' % _n,
+          _r['act_gap'] >= armgen.MIN_CLEARANCE - 1e-9, True, 0)
+    close('EXO-193: %s\'s opening lies wholly inside the plate outline' % _n,
+          _r['act_opening_in_plate'], True, 0)
+    close('EXO-187/193: %s\'s opening takes the footprint x PAD_T off the plate' % _n,
+          _r['act_cut_mm3'],
+          (armgen.CUTOUT_X[1] - armgen.CUTOUT_X[0] + 2 * armgen.ACT_OPEN_MARGIN)
+          * (armgen.CUTOUT_Y[1] - armgen.CUTOUT_Y[0] + 2 * armgen.ACT_OPEN_MARGIN)
+          * armgen.PAD_T, 1e-6)
+    # the thinnest plate ANYWHERE round the opening is measured (EXO-186's number, not enforced)
+    close('EXO-187: %s reports the thinnest plate round the opening, at a +Y corner' % _n,
+          _r['act_web_min'] > 0.0 and abs(_r['act_web_at'][0]) == 10.0
+          and _r['act_web_at'][1] == 24.5, True, 0)
+    close('EXO-187: %s\'s stator rings are bounded by the OPENING where the opening binds' % _n,
+          all(h['bound'] != 'the actuator cutout' for h in _r['rings']), True, 0)
+# the check is by NAME: grow the volume until it swallows link_23's collar and it says which
+_bad = sweepgen.actuator_check(_AR['link_23'], m=10.0)
+close('EXO-187: a volume grown by 10 mm catches link_23\'s material', _bad['clear'] < 0.0, True, 0)
+close('EXO-187: and names the part', _bad['part'] in ('ribbon', sweepgen.COLLAR_PART), True, 0)
+close('EXO-187: the collar is what stands nearest the XL330 on every link',
+      all(_AR[n]['act_part'] == sweepgen.COLLAR_PART for n in _ACT_LINKS), True, 0)
+# EXO-193: the collar is a BLEND tangent to the landing plate, so its bar is the XL330's own
+# box, not the grown volume - it cannot come closer to the actuator than the plate it is
+# tangent to, and the plate's opening edge IS the actuator's face. Every BODY keeps 1 mm.
+close('EXO-193: every link\'s collar clears the XL330\'s own box',
+      [_AR[n]['act_collar_gap'] >= -1e-9 for n in _ACT_LINKS], [True] * 6, 0)
+close('EXO-193: and on the two links the web binds, the collar stands exactly on it',
+      [round(_AR[n]['act_collar_gap'], 6) for n in ('link_23', 'link_45')], [0.0, 0.0], 1e-9)
+close('EXO-193: the bar a BODY gets is still the volume grown by MIN_CLEARANCE',
+      [_AR[n]['act_gap'] >= armgen.MIN_CLEARANCE - 1e-9 for n in _ACT_LINKS], [True] * 6, 0)
+close('EXO-193: and no body is the nearest thing - the collar is, on every link',
+      [_AR[n]['act_gap_part'] != sweepgen.COLLAR_PART for n in _ACT_LINKS], [True] * 6, 0)
+# the cable exit is measured, never enforced (EXO-192): the two bars stand below the plate
+close('EXO-187: the two links that arrive from below the plate report a cable exit',
+      [_AR[n]['cable_exit'] is not None for n in _ACT_LINKS],
+      [False, True, False, True, False, False], 0)
+# the sample set covers every solid the builder makes except the plate
+_parts = set(p for p, _q in sweepgen.link_samples(_AR['link_23']))
+close('EXO-187: the samples cover ribbon, collar, rotor pad, stop block and index tab',
+      sorted(_parts) == ['fillet collar', 'index tab', 'ribbon', 'rotor pad', 'stop block'],
+      True, 0)
+
+# ---------------- EXO-204: the limited joint ----------------
+# The rule is pure geometry and it is checked here the way everything else is: against the
+# MEASURED module and against the one hand-built block that exists. The measurements are
+# `tools/bridge_scripts/measure_exo204.py` over `sensor module 2.step`, module frame.
+print()
+_J1U = joints['right_shoulder_pitch_joint']
+close('EXO-204: parse_urdf now carries the joint\'s <limit>, in radians',
+      [_J1U['lower'], _J1U['upper']], [-3.0892, 2.6704], 0)
+close('EXO-204: the module\'s JOINT stop, measured: 158.0026..178.0019 deg',
+      [math.degrees(armgen.JOINT_STOP_MID) - math.degrees(armgen.JOINT_STOP_ARC) / 2.0,
+       math.degrees(armgen.JOINT_STOP_MID) + math.degrees(armgen.JOINT_STOP_ARC) / 2.0],
+      [158.0026, 178.0019], 1e-9)
+close('EXO-204: its arc a is 19.9993 deg (nominal 20)',
+      math.degrees(armgen.JOINT_STOP_ARC), 19.9993, 1e-4)
+# the zero pose. The rotor notch is x -2.018..1.982, r 14.746..17.891, 1.5 deep - centred on
+# module +Y to 0.06 deg - and the link's index tab is the rectangle that mates with it. That
+# ONE orientation (the four M3 holes are 90 deg symmetric) is what makes 'as drawn' = q = 0.
+close('EXO-204: the link\'s index tab is centred on module +Y, like the rotor\'s notch',
+      [(-armgen.TAB_W / 2.0 + armgen.TAB_W / 2.0) / 2.0,
+       math.degrees(math.atan2((armgen.TAB_R_IN + armgen.TAB_R_OUT) / 2.0, 0.0))],
+      [0.0, 90.0], 1e-9)
+close('EXO-204: and it fits inside the measured notch, 0.2 mm per side, 0.3 shallower',
+      [armgen.TAB_W, armgen.TAB_R_IN, armgen.TAB_R_OUT, armgen.TAB_H],
+      [4.0 - 0.4, 14.75 + 0.2, 17.89 - 0.19, 1.5 - 0.3], 0.02)
+
+_L1 = armgen.limited_joint(_J1U, -1, 26.0)          # J1 as the arm actually builds it
+_L1P = armgen.limited_joint(_J1U, +1, 26.0)         # the same joint with the axis flipped
+close('EXO-204: b = 2*pi - a - range, and the travel it leaves IS the URDF range',
+      [_L1['arc'], _L1['travel']],
+      [2 * math.pi - armgen.JOINT_STOP_ARC - (_J1U['upper'] - _J1U['lower']),
+       _J1U['upper'] - _J1U['lower']], 1e-15)
+close('EXO-204: J1\'s link stop is 9.99993 deg - the 330 deg shoulder leaves exactly +/-5',
+      math.degrees(_L1['arc']), 9.999928, 1e-6)
+# B_MIN is the hand-built `Link 1 R` block's own arc; J1 lands 7e-5 deg under it, which is
+# 0.016 um of chord at r 20 and far inside B_TOL (the STEP scatter on a's own two edges).
+close('EXO-204: J1 is 7.2e-5 deg UNDER B_MIN, inside the measurement tolerance',
+      [_L1['b_margin'] < 0.0, _L1['b_margin'] > -armgen.LINK_STOP_B_TOL], [True, True], 0)
+close('EXO-204: B_MIN is the hand-built Link 1 R block: +/-5 deg',
+      math.degrees(armgen.LINK_STOP_B_MIN), 2.0 * 5.0, 1e-12)
+# the cross-check that matters: run the rule with the OTHER axis sign and it lands on the
+# hand-built block, angle and arc, with nothing copied from it (EXO-42: the hand-made right
+# arm is a Fusion mirror, so its J1 is the mirror-image placement).
+close('EXO-204: with axis_sign +1 the rule reproduces Link 1 R\'s block at 0 deg, +/-5',
+      [(_L1P['stop_angle'] + 180.0) % 360.0 - 180.0, _L1P['stop_half']],
+      [0.0, 5.0], 1e-4)
+close('EXO-204: J1 is axis_sign -1, so the block is the mirror placement at 336.0045 deg',
+      _L1['stop_angle'], 336.00451, 1e-4)
+close('EXO-204: the two signs are mirror images about the joint stop, exactly',
+      ((_L1['centre'] - armgen.JOINT_STOP_MID)
+       + (_L1P['centre'] - armgen.JOINT_STOP_MID)) % (2 * math.pi), 0.0, 1e-12)
+# the verification: sweep the rotor and find first contact, through `stop_gap` only
+for _lab, _sp in (('J1 as built', _L1), ('J1 axis flipped', _L1P)):
+    _lo, _hi, _n = armgen.stop_sweep(_sp)
+    close('EXO-204: %s - the swept rotor first touches at `lower`, within 0.5 deg' % _lab,
+          math.degrees(abs(_lo - _J1U['lower'])) < 0.5, True, 0)
+    close('EXO-204: %s - and at `upper`, within 0.5 deg' % _lab,
+          math.degrees(abs(_hi - _J1U['upper'])) < 0.5, True, 0)
+    close('EXO-204: %s - in fact to 1e-9 deg, both ends' % _lab,
+          [math.degrees(_lo), math.degrees(_hi)],
+          [math.degrees(_J1U['lower']), math.degrees(_J1U['upper'])], 1e-9)
+    close('EXO-204: %s - the two blocks are clear at the zero pose' % _lab,
+          _sp['zero_gap'] > 0.0, True, 0)
+    close('EXO-204: %s - and just outside either limit they are not' % _lab,
+          [armgen.stop_gap(_sp, _J1U['lower'] - 1e-6) < 0.0,
+           armgen.stop_gap(_sp, _J1U['upper'] + 1e-6) < 0.0], [True, True], 0)
+close('EXO-204: the gap at q = 0 is 153.003 deg, the far side of the circle',
+      math.degrees(_L1['zero_gap']), 153.0026, 1e-3)
+# refusals, by name and with numbers - no silent clipping
+try:
+    armgen.limited_joint({'name': 'wide', 'lower': -math.pi, 'upper': math.pi}, -1)
+    _why = None
+except ValueError as _e:
+    _why = str(_e)
+close('EXO-204: a 360 deg range is refused, by name, with B_MIN in the message',
+      _why is not None and 'wide' in _why and 'B_MIN' in _why, True, 0)
+try:
+    armgen.limited_joint({'name': 'free', 'lower': None, 'upper': None}, +1)
+    _why2 = None
+except ValueError as _e:
+    _why2 = str(_e)
+close('EXO-204: a joint with no <limit> is refused, not given an invented range',
+      _why2 is not None and 'free' in _why2, True, 0)
+# what the module CAN limit, stated once
+close('EXO-204: the widest range this module can limit is 330.0007 deg',
+      math.degrees(2 * math.pi - armgen.JOINT_STOP_ARC - armgen.LINK_STOP_B_MIN),
+      330.0007, 1e-3)
+
+# the route carries the three numbers through, and the DEFAULT path is untouched
+_R12L = sweepgen.sweep_route(*armgen.relative_frame(
+    _AFS['J1'][0], _AFS['J1'][1], _AFS['J2'][0], _AFS['J2'][1]), 26.0, 52.0,
+    stop_angle=_L1['stop_angle'], stop_half=_L1['stop_half'], stop_h=_L1['stop_h'],
+    stop_why='EXO-204')
+close('EXO-204: sweep_route carries the generated block through unchanged',
+      [_R12L['stop_angle'], _R12L['stop_half'], _R12L['stop_h']],
+      [_L1['stop_angle'], _L1['stop_half'], armgen.STOP_H], 1e-12)
+close('EXO-204: a route that is NOT given one keeps the placement-only default',
+      [_AR['link_12']['stop_angle'], _AR['link_12']['stop_half'],
+       _AR['link_12']['stop_h']], [sweepgen.STOP_ANGLE, 10.0, armgen.STOP_H], 1e-12)
+close('EXO-204: and says so, so no report can read a placement as a limit',
+      'no joint limit designed' in _AR['link_12']['stop_why'], True, 0)
+close('EXO-204: giving link_12 its real stop changes nothing else about the route',
+      _R12L['landing'] == _AR['link_12']['landing'], True, 0)
+close('EXO-204: ...not the drop, not the landing y, not the centre line',
+      [_R12L['drop'], _R12L['y_end'], len(_R12L['path'])],
+      [_AR['link_12']['drop'], _AR['link_12']['y_end'], len(_AR['link_12']['path'])], 1e-12)
+# the ribbon-root check: REPORT ONLY (EXO-204). It has to answer, and it has to be able to
+# say yes - a block put right on the ribbon's own direction must come back as an overlap.
+_OV = sweepgen.stop_ribbon_overlap(_R12L, _L1)
+close('EXO-204: the ribbon-root check answers for link_12, over real ribbon samples',
+      _OV['n'] > 100 and _OV['band_deg'] is not None, True, 0)
+close('EXO-204: and link_12\'s generated block is clear of the ribbon root',
+      [_OV['clear'], _OV['gap_deg'] > 1.0], [True, True], 0)
+# it has to be able to say NO: put the same block in the middle of the ribbon's own band
+_mid = (_OV['band_deg'][0] + ((_OV['band_deg'][1] - _OV['band_deg'][0]) % 360.0) / 2.0) % 360.0
+_OVBAD = sweepgen.stop_ribbon_overlap(_R12L, dict(_L1, centre=math.radians(_mid)))
+close('EXO-204: a block in the middle of the ribbon band is caught as an overlap',
+      [_OVBAD['clear'], _OVBAD['gap_deg']], [False, 0.0], 1e-12)
+close('EXO-204: sweep_route already seats every screw beside the generated block',
+      min(h['ring'] for h in _R12L['rings'] if h['pad'] == 'rotor')
+      >= armgen.HOLE_FLAT_RING - 1e-9, True, 0)
+
+print()
+if fails:
+    print('FAILED:', fails)
+    sys.exit(1)
+print('all checks passed')

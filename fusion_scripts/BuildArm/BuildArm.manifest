@@ -1,0 +1,10 @@
+{
+    "autodeskProduct": "Fusion",
+    "type": "script",
+    "author": "esteban",
+    "description": {
+        "": "Place exo joints at URDF joint frames and generate the links between them"
+    },
+    "supportedOS": "windows|mac",
+    "editEnabled": true
+}

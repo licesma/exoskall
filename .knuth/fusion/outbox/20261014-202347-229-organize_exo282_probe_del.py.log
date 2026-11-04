@@ -1,0 +1,13 @@
+OK
+bridge: no active Fusion design - design is None
+name = arm complete (1-body test upload, delete me)
+isInUse = False
+inUseBy = <adsk.core.UserVector; proxy of <Swig Object of type 'std::vector< adsk::core::Ptr< adsk::core::User >,std::allocator< adsk::core::Ptr< adsk::core::User > > > *' at 0x46b836af0> >
+isReadOnly = False
+hasChildReferences = False
+hasParentReferences = False
+hasOutofDateChildReferences = False
+versionNumber = 1
+fileExtension = f3d
+deleteMe -> True
+bridge: OK in 5.6s

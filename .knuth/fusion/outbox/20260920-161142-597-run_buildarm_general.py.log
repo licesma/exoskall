@@ -1,0 +1,136 @@
+FAIL
+Module axis direction, the one thing the URDF does not fix (EXO-158):
+  J1  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J2  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J3  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J4  -1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J5  +1 - the pose measured in the exo STEP (EXO-103 / EXO-114)
+  J6  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -5.85e-17): the sign is free and is solved by the link. 6 of 6 links route at this combination, total centre line 399.784 mm
+  J7  +1 - SOLVED from the link: the axis is square to the step from the previous joint (axis . step -9.42e-17): the sign is free and is solved by the link. 6 of 6 links route at this combination, total centre line 399.784 mm
+
+Module position ALONG ITS OWN AXIS - `slide`, the degree of freedom a revolute joint leaves free (EXO-170). SOLVED from the module bodies alone (armgen.MODULE_PROFILE, the real solid of revolution EXO-166 measured, not an infinite cylinder); never an input, no per-joint override. The axis LINE is untouched, so the kinematics stay the URDF's exactly.
+  target gap 2.00 mm = MIN_CLEARANCE 1.0 + SLIDE_MARGIN 1.0; scanned at 2.0 mm and bisected to 1e-03 mm; module surface sampled 120 x 71
+  J1  slide    +0.000 mm  (its neighbours already clear: nothing moves)
+  J2  slide    +0.000 mm  (its neighbours already clear: nothing moves)
+  J3  slide    +0.000 mm  (its neighbours already clear: nothing moves)
+  J4  slide    +0.000 mm  (its neighbours already clear: nothing moves)
+  J5  slide    +0.000 mm  (its neighbours already clear: nothing moves)
+  J6  slide   -21.380 mm
+  J7  slide    +0.000 mm  (its neighbours already clear: nothing moves)
+  J6 <-> J7: the two module bodies are 0.000 mm apart on the URDF origins, which is under MIN_CLEARANCE 1.0. Four candidates, each the smallest slide of ONE module in ONE direction that opens the pair:
+      J6  +1:   56.063 mm -> gap  2.000 mm
+      J6  -1:   21.380 mm -> gap  2.001 mm   <- TAKEN (the smallest)
+      J7  +1:   55.921 mm -> gap  2.000 mm
+      J7  -1:   21.434 mm -> gap  2.001 mm
+      the rule chose by 0.054 mm (the next candidate is 21.434 mm)
+  module-to-module gap at every pair, nearest first (need >= 1.0):
+      J6 <-> J7     2.001 mm  OK
+      J1 <-> J2    10.999 mm  OK
+      J5 <-> J6    11.499 mm  OK
+      J4 <-> J5    37.999 mm  OK
+      J2 <-> J3    41.199 mm  OK
+      J1 <-> J3    46.918 mm  OK
+      J3 <-> J4    53.517 mm  OK
+      J5 <-> J7    56.999 mm  OK
+
+URDF: /Users/esteban/repos/exo/g1/g1_29dof.urdf
+Method: one ribbon swept on a 3D centre line + one wrapping landing plate (EXO-144), spun by the encoder rule (EXO-150). Ribbon thickness 8.0 mm, bend r 15.0, wall r min 5.0, land web 3.0 mm - defaults, none measured off a hand-built link.
+Origin at: left_shoulder_pitch_joint
+
+Module rotation about its own axis, FIXED BY THE LINK (EXO-150): +Y - the encoder / connector side - faces the direction the link arrives from at that stator pad, and the landing plate then extends the pad outward exactly where the encoder overhangs. The hole / cutout solve is a CHECK.
+  J1     +0.000 deg - nobody's stator end: the measured pose is kept (EXO-150)
+  J2   +343.997 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both lean - z_A
+      encoder +Y is 0.00e+00 deg off the TONGUE by construction, and the tongue is +0.000 deg off the pad axis (EXO-176); the spin and the tongue are one fixpoint and it settled in 1 round(s)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 5.500 mm (need 3.0); cutout reach 24.500 mm; landing y 34.000, drop +0.000 mm
+  J3   +179.989 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is above module B's axis (z 4.00 vs 0.00), so the tongue and the encoder both lean + z_A
+      encoder +Y is 0.00e+00 deg off the TONGUE by construction, and the tongue is +0.000 deg off the pad axis (EXO-176); the spin and the tongue are one fixpoint and it settled in 1 round(s)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +27.500 mm
+  J4   +269.997 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 80.52), so the tongue and the encoder both lean - z_A
+      encoder +Y is 0.00e+00 deg off the TONGUE by construction, and the tongue is +0.000 deg off the pad axis (EXO-176); the spin and the tongue are one fixpoint and it settled in 1 round(s)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 48.018 mm (need 3.0); cutout reach 24.500 mm; landing y 76.518, drop +0.000 mm
+  J5   +179.997 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is above module B's axis (z 4.00 vs 1.89), so the tongue and the encoder both lean + z_A
+      encoder +Y is 8.54e-07 deg off the TONGUE by construction, and the tongue is +0.000 deg off the pad axis (EXO-176); the spin and the tongue are one fixpoint and it settled in 1 round(s)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 3.000 mm (need 3.0); cutout reach 24.500 mm; landing y 31.500, drop +29.388 mm
+  J6     +0.000 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both lean - z_A
+      encoder +Y is 0.00e+00 deg off the TONGUE by construction, and the tongue is +0.000 deg off the pad axis (EXO-176); the spin and the tongue are one fixpoint and it settled in 1 round(s)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 5.500 mm (need 3.0); cutout reach 24.500 mm; landing y 34.000, drop +0.000 mm
+  J7   +293.264 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 66.736 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 21.38), so the tongue and the encoder both lean - z_A
+      encoder +Y is 0.00e+00 deg off the TONGUE by construction, and the tongue is +66.736 deg off the pad axis (EXO-176); the spin and the tongue are one fixpoint and it settled in 2 round(s)
+      CHECK: smallest rotor ring 2.350 mm, smallest stator ring 6.150 mm (need 2.00); cutout web 6.440 mm (need 3.0); cutout reach 24.500 mm; landing y 44.004, drop +0.000 mm
+
+Which LANDING primitive the pair gets (EXO-176) and where the level change is taken inside it (EXO-158). The landing plate is a flat disk, so its plane carries two free directions; `square` is EXO-144's, with the tongue pinned to the rotor pad axis, and `angled` aims the tongue FROM THE DISK CENTRE AT THE POINT WHERE THE RIBBON ENTERS THE PLANE, so the pair may spend its lateral offset inside the plate plane, where it costs no straight run. Both are sized in full, square then angled first, and the first feasible one is taken - so a pair the square landing can take keeps exactly the route it had.
+  link_12  square landing, tongue +0.000 deg off the pad axis, 52.00 mm wide, reaching 38.00 mm from the plate axis
+      the tongue runs along the plate frame's own +Y, the rotor pad axis (EXO-144); the 0.00 mm of level change is what reaching past the actuator cutout costs
+      level change: the final leg (the run between the pad and the plate)
+      square landing, final   leg: route 28.500 mm long
+      square landing, lateral leg: there is no lateral leg: the plate takes the whole 13.83 mm offset and the route leaves straight along u
+      square landing, split   leg: there is no lateral leg: the plate takes the whole 13.83 mm offset and the route leaves straight along u
+      angled landing, final   leg: with the plate taking the whole 13.83 mm lateral offset the tongue still has to climb 5.45 mm, and the angled landing still needs -5.45 mm of level change and the final leg holds 0.50 mm of straight for the 17.24 mm it costs at r 15.0
+      cutout web 5.500 mm along the tongue, true planar gap 5.500 mm (need 3.0); the plate is never below it from axis A below z -0.4 (need 1.0 outside r 27.0)
+      rotor pad vs module B (EXO-181): the rotor pad already clears module B by 2.999 mm (need 1.0): no chord
+  link_23  square landing, tongue +0.000 deg off the pad axis, 25.00 mm wide, reaching 35.50 mm from the plate axis
+      the tongue runs along the plate frame's own +Y, the rotor pad axis (EXO-144); the 27.50 mm of level change is what reaching past the actuator cutout costs
+      level change: the final leg (the run between the pad and the plate)
+      square landing, final   leg: route 113.108 mm long
+      square landing, lateral leg: route 112.623 mm long
+      square landing, split   leg: route 112.623 mm long
+      angled landing, final   leg: with the plate taking the whole 6.24 mm lateral offset the tongue still has to climb 30.49 mm, and route run 2 is only 0.490 mm long (need 1.0): the pair has no room between the pad, the bend and the landing plate
+      cutout web 3.000 mm along the tongue, true planar gap 3.000 mm (need 3.0); the plate is 70.700 mm from axis A below z -0.4 (need 1.0 outside r 27.0)
+      rotor pad vs module B (EXO-181): the rotor pad already clears module B by 41.200 mm (need 1.0): no chord
+  link_34  square landing, tongue +0.000 deg off the pad axis, 52.00 mm wide, reaching 80.52 mm from the plate axis
+      the tongue runs along the plate frame's own +Y, the rotor pad axis (EXO-144); the 0.00 mm of level change is what reaching past the actuator cutout costs
+      level change: the final leg (the run between the pad and the plate)
+      square landing, final   leg: route 28.500 mm long
+      square landing, lateral leg: there is no lateral leg: the plate takes the whole 15.78 mm offset and the route leaves straight along u
+      square landing, split   leg: there is no lateral leg: the plate takes the whole 15.78 mm offset and the route leaves straight along u
+      angled landing, final   leg: route 28.500 mm long
+      cutout web 48.018 mm along the tongue, true planar gap 48.018 mm (need 3.0); the plate is never below it from axis A below z -0.4 (need 1.0 outside r 27.0)
+      rotor pad vs module B (EXO-181): the rotor pad already clears module B by 45.517 mm (need 1.0): no chord
+  link_45  square landing, tongue +0.000 deg off the pad axis, 44.00 mm wide, reaching 35.50 mm from the plate axis
+      the tongue runs along the plate frame's own +Y, the rotor pad axis (EXO-144); the 29.39 mm of level change is what reaching past the actuator cutout costs
+      level change: the final leg (the run between the pad and the plate)
+      square landing, final   leg: route 104.738 mm long
+      square landing, lateral leg: route 103.389 mm long
+      square landing, split   leg: route 103.389 mm long
+      angled landing, final   leg: route 108.640 mm long
+      cutout web 3.000 mm along the tongue, true planar gap 3.000 mm (need 3.0); the plate is 67.500 mm from axis A below z -0.4 (need 1.0 outside r 27.0)
+      rotor pad vs module B (EXO-181): the rotor pad already clears module B by 38.000 mm (need 1.0): no chord
+  link_56  square landing, tongue +0.000 deg off the pad axis, 25.00 mm wide, reaching 38.00 mm from the plate axis
+      the tongue runs along the plate frame's own +Y, the rotor pad axis (EXO-144); the 0.00 mm of level change is what reaching past the actuator cutout costs
+      level change: the final leg (the run between the pad and the plate)
+      square landing, final   leg: route 72.812 mm long
+      square landing, lateral leg: there is no lateral leg: the plate takes the whole -0.00 mm offset and the route leaves straight along u
+      square landing, split   leg: there is no lateral leg: the plate takes the whole -0.00 mm offset and the route leaves straight along u
+      angled landing, final   leg: the pair has no lateral offset (-0.000 mm), so aiming the tongue changes nothing: this IS the square landing
+      cutout web 5.500 mm along the tongue, true planar gap 5.500 mm (need 3.0); the plate is never below it from axis A below z -0.4 (need 1.0 outside r 27.0)
+      rotor pad vs module B (EXO-181): the rotor pad already clears module B by 2.999 mm (need 1.0): no chord
+  link_67  angled landing, tongue +66.736 deg off the pad axis, 17.22 mm wide, reaching 57.07 mm from the plate axis
+      the tongue is aimed from the disk centre at where the ribbon enters the plate plane, 66.74 deg off the pad axis; the plate takes 40.43 mm of the 46.00 mm lateral offset and the route turns the rest
+      level change: the final leg (the run between the pad and the plate)
+      square landing, final   leg: the final leg holds 0.00 mm of straight between s 28.00 (the rotor pad flat) and the plate, and the -8.48 mm level change needs 20.91 mm at r 15.0
+      square landing, lateral leg: the lateral leg holds 6.53 mm of straight between l 28.00 (the rotor pad flat) and the plan turn, and the -8.48 mm level change needs 20.91 mm at r 15.0
+      square landing, split   leg: the lateral leg took -0.72 mm of the -8.48 mm level change and the final leg holds 0.00 mm of straight for the remaining -7.76 mm, which needs 20.14 mm at r 15.0
+      angled landing, final   leg: route 52.127 mm long
+      cutout web 6.440 mm along the tongue, true planar gap 6.440 mm (need 3.0); the plate is 38.894 mm from axis A below z -0.4 (need 1.0 outside r 27.0)
+      rotor pad vs module B (EXO-181): the rotor pad came 0.000 mm of module B at (s 0.53, w -26.99, z 8.00) and needs 1.0; one chord 5.597 mm deep, 48.40 mm of pad left across it, opens it to 1.000 mm
+
+Deleted previous: generated_R_arm_general
+Component: generated_R_arm_general
+
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260920-161142-597-run_buildarm_general.py", line 7, in <module>
+    log(BuildArmGen.build_general(app, ui, design, log))
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArmGen.py", line 810, in build_general
+    body = build_link(occ.component, arm, R_ab, t_ab, route, gname, flines.append)
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArmGen.py", line 589, in build_link
+    body, _rad, _applied = fillet_elbows(comp, body, arm, route, name, rep)
+                           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArmGen.py", line 495, in fillet_elbows
+    raise RuntimeError('%s: no radius down to %.2f mm rounds the %s set and '
+                       'still seats every screw' % (name, floor, where))
+RuntimeError: g_link_12: no radius down to 0.05 mm rounds the inside set and still seats every screw
+bridge: FAIL in 27.3s

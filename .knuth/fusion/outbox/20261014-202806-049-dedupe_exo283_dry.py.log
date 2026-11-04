@@ -1,0 +1,29 @@
+FAIL
+bridge: no active Fusion design - design is None
+opened wrist_sketch3_with_straps in 3.6s
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20261014-202806-049-dedupe_exo283_dry.py", line 15, in <module>
+    r.update(C.inspect(adsk, doc))
+             ~~~~~~~~~^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/tools/bridge_scripts/dedupe_exo283_common.py", line 80, in inspect
+    joints = [('joint', j) for j in items(root.allJoints)] + [('asBuilt', j) for j in items(root.allAsBuiltJoints)]
+                                    ~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/tools/bridge_scripts/dedupe_exo283_common.py", line 55, in items
+    return [retry(lambda i=i: c.item(i), tries) for i in range(c.count)]
+                                                               ^^^^^^^
+AttributeError: 'JointVector' object has no attribute 'count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20261014-202806-049-dedupe_exo283_dry.py", line 20, in <module>
+    d.close(False)
+    ~~~~~~~^^^^^^^
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/c139e2731e42a0340acc3d34de2cbdb01237a27c/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/fusion.py", line 109096, in close
+    return _fusion.FusionDocument_close(self, saveChanges)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+RuntimeError: 4 : An API Object refers to a deleted Object
+bridge: FAIL in 4.6s

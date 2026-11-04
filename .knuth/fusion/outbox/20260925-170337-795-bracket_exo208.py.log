@@ -1,0 +1,28 @@
+OK
+EXO-208: JOINT_STOP_DEG = 15.0000 deg, block 160.50225..175.50225 about the measured centre 168.00225
+
+J2  right_shoulder_roll_joint (g_link_23), axis_sign +1, stator Component116
+    URDF  -129.00145 .. +90.99716 deg, range 219.99860; link stop 125.00140 deg wide, centre 7.00440
+    PY    110000 poses, first contact -129.001448 / +90.997157 deg, error 0.0e+00 / 2.5e-14
+    lower -129.00145 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_23/g_link_23<->Component116/Body1 1.996 mm3 [+8 excluded]   PASS
+    upper +90.99716 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_23/g_link_23<->Component116/Body1 1.996 mm3 [+8 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+J3  right_shoulder_yaw_joint (g_link_34), axis_sign -1, stator Component116
+    URDF  -150.00035 .. +150.00035 deg, range 300.00070; link stop 44.99930 deg wide, centre 348.00225
+    PY    150002 poses, first contact -150.000351 / +150.000351 deg, error 7.6e-14 / 7.6e-14
+    lower -150.00035 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_34/g_link_34<->Component116/Body1 1.626 mm3 [+8 excluded]   PASS
+    upper +150.00035 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_34/g_link_34<->Component116/Body1 1.626 mm3 [+8 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+J4  right_elbow_joint (g_link_45), axis_sign -1, stator Component116
+    URDF  -60.00014 .. +120.00028 deg, range 180.00042; link stop 164.99958 deg wide, centre 18.00232
+    PY    90002 poses, first contact -60.000140 / +120.000281 deg, error 3.8e-14 / 7.6e-14
+    lower -60.00014 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_45/g_link_45<->Component116/Body1 1.996 mm3 [+8 excluded]   PASS
+    upper +120.00028 deg: 0.25 INSIDE -> 0 hit(s) [+8 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_45/g_link_45<->Component116/Body1 1.996 mm3 [+8 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+
+J1  NOT BRACKETED - no link carries its stop block (end of the chain)
+J5  NOT BRACKETED - no link carries its stop block (end of the chain)
+J6  NOT BRACKETED - no link carries its stop block (end of the chain)
+J7  NOT BRACKETED - no link carries its stop block (end of the chain)
+EXO-208 Fusion bracket: ALL PASS   (J2 ok, J3 ok, J4 ok)
+bridge: OK in 19.4s

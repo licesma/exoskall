@@ -1,0 +1,4 @@
+OK
+4000 pointContainment calls in 0.581s = 145.3 us each, 6880 calls/s
+a 466k-call sweep would take 68 s
+bridge: OK in 1.5s

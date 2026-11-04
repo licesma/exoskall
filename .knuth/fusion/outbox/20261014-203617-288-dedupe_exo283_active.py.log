@@ -1,0 +1,8 @@
+OK
+active hub=Team hub - Rodrigo Andrade project=G1 exeskeleton
+app.data attrs: ['activeFolder', 'activeHub', 'activeProject', 'activeSpaceCollectionId', 'cast', 'classType', 'dataHubs', 'dataProjects', 'findFileById', 'findFolderById', 'isDataPanelVisible', 'isValid', 'objectType', 'personalUseLimits', 'refreshDataPanel', 'this', 'thisown']
+isOffline=False
+personalUseLimits=None
+{'isReadOnly': False, 'isLocked': "ERR: 'DataFile' object has no attribute 'isLocked'", 'lockedBy': "ERR: 'DataFile' object has no attribute 'lockedBy'", 'isInUse': True, 'inUseBy': <adsk.core.UserVector; proxy of <Swig Object of type 'std::vector< adsk::core::Ptr< adsk::core::User >,std::allocator< adsk::core::Ptr< adsk::core::User > > > *' at 0x462465860> >, 'versionNumber': 1, 'latestVersionNumber': 1}
+hub attrs: {'name': 'Estebans', 'hubType': 1, 'isValid': True}
+bridge: OK in 0.0s

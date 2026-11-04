@@ -1,0 +1,7 @@
+OK
+bridge: no active Fusion design - design is None
+actions [{'occ': 'left arm:1+cuffs with soft inside:1', 'from': 'i1pB', 'to': 'UmT3', 'ok': True}, {'occ': 'M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1', 'from': 'dW5W', 'to': 'yDln', 'ok': True}, {'occ': 'M4 x 0.7mm Thread HEX NUT:1', 'from': '_vds', 'to': 'u2fX', 'ok': True}, {'occ': 'M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1', 'from': '3GOu', 'to': 'Bmc3', 'ok': True}, {'occ': 'cuffs with soft inside:2', 'from': 'i1pB', 'to': 'UmT3', 'ok': True}]
+before {'components': 152, 'bodies': 963, 'occurrences': 173, 'linked': 24, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0}
+after  {'components': 152, 'bodies': 963, 'occurrences': 205, 'linked': 30, 'joints': 0, 'asBuilt': 0, 'rigidGroups': 0} refs [('Bmc3', 1, False), ('u2fX', 1, False), ('yDln', 1, False), ('UmT3', 1, False)]
+arm test route a: v1 -> in-doc vNone, after close v1, isModified_post None, open after [] (9.0s)
+bridge: OK in 9.0s

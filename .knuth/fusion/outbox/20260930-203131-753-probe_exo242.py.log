@@ -1,0 +1,48 @@
+FAIL
+active document: 'arm complete'
+open documents: 5
+  [0] name='M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW.f3d ' isSaved=True dataFile='M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW'
+  [1] name='M4 x 0.7mm Thread HEX NUT.f3d ' isSaved=True dataFile='M4 x 0.7mm Thread HEX NUT'
+  [2] name='M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW.f3d ' isSaved=True dataFile='M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW'
+  [3] name='cuffs with soft inside' isSaved=True dataFile='cuffs with soft inside'
+  [4] name='arm complete' isSaved=True dataFile='arm complete'
+activeProject: 'G1 exeskeleton'
+activeHub: 'Team hub - Rodrigo Andrade'
+find_data_file('sensor module 2') -> 'sensor module 2'
+  parentFolder: 'G1 exeskeleton'
+  parentProject: 'G1 exeskeleton'
+  id: urn:adsk.wipprod:dm.lineage:ynVmLXEjT8aZkUCmFPE85w
+rootFolder 'G1 exeskeleton': 37 files, 1 folders
+   file: '5972K159_Ball Bearing'
+   file: 'apriltag support'
+   file: 'arm'
+   file: 'arm 2'
+   file: 'arm complete'
+   file: 'arm complete'
+   file: 'arm complete_Camera support'
+   file: 'arm complete_chest mount'
+   file: 'arm complete luna'
+   file: 'arm test'
+   file: 'cases'
+   file: 'cuffs with soft inside'
+   file: 'cuffs with soft inside v7.mp4'
+   file: 'Direct-Adapter-Mount'
+   file: 'elbow_luna'
+   file: 'inspire_link'
+   file: 'M3x1.8mm Hex Nut'
+   file: 'M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW'
+   file: 'M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW'
+   file: 'M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW'
+   file: 'M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW'
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260930-203131-753-probe_exo242.py", line 38, in <module>
+    log('   file: %r' % rf.dataFiles.item(i).name)
+                        ~~~~~~~~~~~~~~~~~^^^
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/5b508d94493ed3344e38945ffca1b03b713ee401/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/core.py", line 11212, in item
+    return _core.DataFiles_item(self, index)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+RuntimeError: 2 : InternalValidationError : status.isOk() && files
+bridge: FAIL in 71.3s

@@ -1,0 +1,11 @@
+OK
+active 'tool_organizer_exo258'
+design type: parametric
+organizer bbox cm min (-10.001 -10.001 -0.001) max (10.001 10.001 8.001)
+root bodies 1 occ 0 features(base) 1
+tmp doc 'Untitled' root occ 16 bodies 0
+  '5972K159_Ball Bearing' path='5972K159_Ball Bearing:1' bodies=22 sub=0 bbox mm 42.020 x 42.020 x 7.040
+  'XL330 v2' path='XL330 v2:1' bodies=6 sub=0 bbox mm 20.040 x 34.040 x 26.043
+all component names (8): ['5972K159_Ball Bearing', 'Component1', 'Component2', 'Component3', 'XL330 v2', 'm3 hex nut', 'm3_6mm_insert', 'screw 1']
+closed tmp, active 'tool_organizer_exo258'
+bridge: OK in 2.9s

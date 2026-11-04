@@ -1,0 +1,7 @@
+OK
+item 17 elbow_luna v1 kind=f3d
+doc: elbow_luna ver=1 modified=False (open 2.6s)
+export execute=True (2.6s)
+exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/17_elbow_luna_v1.f3d (33780 bytes)
+closed=['elbow_luna']; remaining open docs=10; 3.3s
+bridge: OK in 3.3s

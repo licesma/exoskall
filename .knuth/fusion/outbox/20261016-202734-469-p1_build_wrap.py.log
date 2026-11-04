@@ -1,0 +1,30 @@
+FAIL
+source sensor module 2 v1
+linked occurrence 'sensor module 2' referenced=True
+original upper V 6473.293, lower V 2950.793
+  16 children re-placed from the link, worst box difference 0.000000 mm
+  parts renamed: Component2 -> stator, Component3 -> inner_top, Component4 -> inner_bottom
+scratch doc closed after failure
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20261016-202734-469-p1_build_wrap.py", line 2, in <module>
+    exec(open('/tmp/exo304/p1_build.py').read())
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 19, in <module>
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 1998, in build_v4_copy
+    how_stop = _narrow_stop_block(comp, occ)
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 578, in _narrow_stop_block
+    sk = PlaneSketch(st, '%s joint stop %g deg' % (comp.name, armgen.JOINT_STOP_DEG),
+                     adsk.core.Point3D.create(0.0, 0.0,
+                                              ((Z_LO + Z_HI) / 2.0 + dz) * MM_TO_CM),
+                     V(1, 0, 0), V(0, 1, 0))
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 207, in __init__
+    self.cplane = comp.constructionPlanes.add(pin)
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/c139e2731e42a0340acc3d34de2cbdb01237a27c/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/fusion.py", line 27985, in add
+    return _fusion.ConstructionPlanes_add(self, input)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+RuntimeError: 3 : Environment is not supported
+bridge: FAIL in 1.9s

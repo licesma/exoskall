@@ -1,0 +1,1074 @@
+{
+ "issue": "EXO-271",
+ "started": "2026-10-13 20:21:15",
+ "errors": [],
+ "hub": "Team hub - Rodrigo Andrade",
+ "projects": [
+  "Assets",
+  "Default Project",
+  "G1 exeskeleton",
+  "Standard Components"
+ ],
+ "project": "G1 exeskeleton",
+ "project_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjYwMjAyMTA0NTg3NDkzMQ",
+ "folders": [
+  {
+   "path": "",
+   "name": "G1 exeskeleton",
+   "id": "urn:adsk.wipprod:fs.folder:co.tcY-BiPmQb-so84nX0_05A",
+   "file_count": 39,
+   "subfolder_count": 1
+  },
+  {
+   "path": "/cuff",
+   "name": "cuff",
+   "id": "urn:adsk.wipprod:fs.folder:co.zeB6ncKEQ22pI2WRkbMxzw",
+   "file_count": 5,
+   "subfolder_count": 0
+  }
+ ],
+ "files": [
+  {
+   "path": "",
+   "name": "5972K159_Ball Bearing",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:iyVUEZVuR-agd_-XzOOpUA",
+   "dateCreated": "2026-02-02 10:50:41",
+   "dateModified": "2026-02-02 10:51:11",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:GFpCb0PWQXC3GaCc0xaUrA",
+     "versionNumber": 26
+    },
+    {
+     "name": "sensor module 2",
+     "id": "urn:adsk.wipprod:dm.lineage:ynVmLXEjT8aZkUCmFPE85w",
+     "versionNumber": 12
+    },
+    {
+     "name": "sensor module test",
+     "id": "urn:adsk.wipprod:dm.lineage:5328GUuwS_SbsBlhkmhZCw",
+     "versionNumber": 1
+    },
+    {
+     "name": "exo generated",
+     "id": "urn:adsk.wipprod:dm.lineage:l4wfjISQT1eJe4RQ8jQouQ",
+     "versionNumber": 8
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "apriltag support",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:lmfe60JNTYqsyCtLIk2KNw",
+   "dateCreated": "2026-06-01 04:43:22",
+   "dateModified": "2026-06-01 04:43:29",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:e4zHGHX1TI-Vg5LOcBdWKg",
+   "dateCreated": "2026-04-04 18:25:54",
+   "dateModified": "2026-04-13 18:32:11",
+   "latestVersionNumber": 41,
+   "versionNumber": 41,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:GFpCb0PWQXC3GaCc0xaUrA",
+     "versionNumber": 26
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm 2",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:XJgJ4P0OTHSeHW0Nobz8pw",
+   "dateCreated": "2026-04-08 11:07:08",
+   "dateModified": "2026-04-08 11:07:16",
+   "latestVersionNumber": 6,
+   "versionNumber": 6,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:GFpCb0PWQXC3GaCc0xaUrA",
+     "versionNumber": 26
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm complete",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:EXtWGgfjQ1GnGLG53zkBsQ",
+   "dateCreated": "2026-05-28 19:08:50",
+   "dateModified": "2026-05-28 19:09:07",
+   "latestVersionNumber": 35,
+   "versionNumber": 35,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:WqUa7CO8QSS9eiuN--5j1g",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:HZO-ZkjwQb2IVyOTKpVsNQ",
+     "versionNumber": 9
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:gH7QWRzBQwiaXX_he8NSzQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:k9ophutJQYOc_2kgEd7zOQ",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm complete",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:eip2VaCiSPOzOXokAfwGWw",
+   "dateCreated": "2026-08-08 16:56:08",
+   "dateModified": "2026-08-08 16:56:08",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:k9ophutJQYOc_2kgEd7zOQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:WqUa7CO8QSS9eiuN--5j1g",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:gH7QWRzBQwiaXX_he8NSzQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:HZO-ZkjwQb2IVyOTKpVsNQ",
+     "versionNumber": 9
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm complete_Camera support",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:U0pv1CuESFGxcuxgyK2CeA",
+   "dateCreated": "2026-05-24 14:11:07",
+   "dateModified": "2026-05-24 14:11:11",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm complete_chest mount",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:zQzeo3-ATLWV4ECPFiOrQw",
+   "dateCreated": "2026-05-23 02:07:57",
+   "dateModified": "2026-05-23 02:08:06",
+   "latestVersionNumber": 2,
+   "versionNumber": 2,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm complete luna",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:3gFly6CfSRCiBq8AOAefVg",
+   "dateCreated": "2026-09-19 23:41:39",
+   "dateModified": "2026-09-19 23:42:18",
+   "latestVersionNumber": 16,
+   "versionNumber": 16,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:WqUa7CO8QSS9eiuN--5j1g",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:gH7QWRzBQwiaXX_he8NSzQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:k9ophutJQYOc_2kgEd7zOQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:HZO-ZkjwQb2IVyOTKpVsNQ",
+     "versionNumber": 10
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "arm test",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:KKG6xi1sRqGQB5vGkcfJDg",
+   "dateCreated": "2026-08-15 18:15:20",
+   "dateModified": "2026-08-15 18:15:36",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:gH7QWRzBQwiaXX_he8NSzQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+     "id": "urn:adsk.wipprod:dm.lineage:k9ophutJQYOc_2kgEd7zOQ",
+     "versionNumber": 1
+    },
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:WqUa7CO8QSS9eiuN--5j1g",
+     "versionNumber": 1
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:HZO-ZkjwQb2IVyOTKpVsNQ",
+     "versionNumber": 9
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "cases",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:G12eyGCvQwePHwWeCQX0rA",
+   "dateCreated": "2026-04-25 14:41:05",
+   "dateModified": "2026-04-25 14:41:17",
+   "latestVersionNumber": 10,
+   "versionNumber": 10,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "cuffs with soft inside",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:HZO-ZkjwQb2IVyOTKpVsNQ",
+   "dateCreated": "2026-06-01 04:43:34",
+   "dateModified": "2026-06-01 04:43:49",
+   "latestVersionNumber": 10,
+   "versionNumber": 10,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "M4 x 0.7mm Thread HEX NUT",
+     "id": "urn:adsk.wipprod:dm.lineage:WqUa7CO8QSS9eiuN--5j1g",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:eip2VaCiSPOzOXokAfwGWw",
+     "versionNumber": 1
+    },
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:KKG6xi1sRqGQB5vGkcfJDg",
+     "versionNumber": 1
+    },
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:EXtWGgfjQ1GnGLG53zkBsQ",
+     "versionNumber": 35
+    },
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:3gFly6CfSRCiBq8AOAefVg",
+     "versionNumber": 16
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "cuffs with soft inside v7.mp4",
+   "fileExtension": "3g2",
+   "id": "urn:adsk.wipprod:dm.lineage:48n4zKf7SjqlNp3hs4C2dg",
+   "dateCreated": "2026-05-19 23:40:36",
+   "dateModified": "2026-05-19 23:40:39",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "Direct-Adapter-Mount",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:gSQIILR1TgeUt-qOcysO2w",
+   "dateCreated": "2026-05-08 17:50:27",
+   "dateModified": "2026-05-08 17:50:47",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "elbow_luna",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:WBSQBPPzT5m33RO5FcdPjw",
+   "dateCreated": "2026-08-08 16:00:49",
+   "dateModified": "2026-08-08 16:00:58",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "exo generated",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:l4wfjISQT1eJe4RQ8jQouQ",
+   "dateCreated": "2026-09-30 21:44:24",
+   "dateModified": "2026-09-30 21:44:31",
+   "latestVersionNumber": 8,
+   "versionNumber": 8,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:iyVUEZVuR-agd_-XzOOpUA",
+     "versionNumber": 1
+    },
+    {
+     "name": "sensor module 2",
+     "id": "urn:adsk.wipprod:dm.lineage:ynVmLXEjT8aZkUCmFPE85w",
+     "versionNumber": 12
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "inspire_link",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:eXVOPaAOSoGq_N3diG-BnQ",
+   "dateCreated": "2026-04-04 18:23:24",
+   "dateModified": "2026-04-04 18:23:27",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M3x1.8mm Hex Nut",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:lvsGZbiMRQi0pEypKXgvlg",
+   "dateCreated": "2026-05-08 15:36:49",
+   "dateModified": "2026-05-08 15:37:04",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:jjoDTGMaRrSFEP86eBRWVg",
+   "dateCreated": "2026-05-19 23:22:02",
+   "dateModified": "2026-05-19 23:22:19",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:NkCK8-b-RAecqabLK2qF9Q",
+   "dateCreated": "2026-05-22 14:02:47",
+   "dateModified": "2026-05-22 14:03:09",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:k9ophutJQYOc_2kgEd7zOQ",
+   "dateCreated": "2026-05-22 14:06:46",
+   "dateModified": "2026-05-22 14:07:06",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:eip2VaCiSPOzOXokAfwGWw",
+     "versionNumber": 1
+    },
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:KKG6xi1sRqGQB5vGkcfJDg",
+     "versionNumber": 1
+    },
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:EXtWGgfjQ1GnGLG53zkBsQ",
+     "versionNumber": 35
+    },
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:3gFly6CfSRCiBq8AOAefVg",
+     "versionNumber": 16
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:gH7QWRzBQwiaXX_he8NSzQ",
+   "dateCreated": "2026-05-21 00:21:14",
+   "dateModified": "2026-05-21 00:23:14",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:KKG6xi1sRqGQB5vGkcfJDg",
+     "versionNumber": 1
+    },
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:eip2VaCiSPOzOXokAfwGWw",
+     "versionNumber": 1
+    },
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:EXtWGgfjQ1GnGLG53zkBsQ",
+     "versionNumber": 35
+    },
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:3gFly6CfSRCiBq8AOAefVg",
+     "versionNumber": 16
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:3SBjlZHyRfSX9K7wdjJ2Yg",
+   "dateCreated": "2026-05-19 23:26:02",
+   "dateModified": "2026-05-19 23:26:22",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:WqUa7CO8QSS9eiuN--5j1g",
+   "dateCreated": "2026-05-19 23:22:02",
+   "dateModified": "2026-05-19 23:22:22",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:eip2VaCiSPOzOXokAfwGWw",
+     "versionNumber": 1
+    },
+    {
+     "name": "arm complete",
+     "id": "urn:adsk.wipprod:dm.lineage:EXtWGgfjQ1GnGLG53zkBsQ",
+     "versionNumber": 35
+    },
+    {
+     "name": "arm test",
+     "id": "urn:adsk.wipprod:dm.lineage:KKG6xi1sRqGQB5vGkcfJDg",
+     "versionNumber": 1
+    },
+    {
+     "name": "arm complete luna",
+     "id": "urn:adsk.wipprod:dm.lineage:3gFly6CfSRCiBq8AOAefVg",
+     "versionNumber": 16
+    },
+    {
+     "name": "cuffs with soft inside",
+     "id": "urn:adsk.wipprod:dm.lineage:HZO-ZkjwQb2IVyOTKpVsNQ",
+     "versionNumber": 10
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "pan_head_philip_mc_screw_m1-6",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:W3t9fJVTShO3Knea3SvRlw",
+   "dateCreated": "2026-05-08 15:12:44",
+   "dateModified": "2026-05-08 15:13:13",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "right",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:zDIMLNooR96mAHuEyHI3Ow",
+   "dateCreated": "2026-04-19 13:17:24",
+   "dateModified": "2026-04-19 13:17:33",
+   "latestVersionNumber": 9,
+   "versionNumber": 9,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "sensor module",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:GFpCb0PWQXC3GaCc0xaUrA",
+   "dateCreated": "2026-03-27 14:25:36",
+   "dateModified": "2026-03-27 14:25:42",
+   "latestVersionNumber": 26,
+   "versionNumber": 26,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:iyVUEZVuR-agd_-XzOOpUA",
+     "versionNumber": 1
+    },
+    {
+     "name": "XL330",
+     "id": "urn:adsk.wipprod:dm.lineage:0XCPaBa2SySUMO02q_rWfQ",
+     "versionNumber": 2
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "arm 2",
+     "id": "urn:adsk.wipprod:dm.lineage:XJgJ4P0OTHSeHW0Nobz8pw",
+     "versionNumber": 6
+    },
+    {
+     "name": "arm",
+     "id": "urn:adsk.wipprod:dm.lineage:e4zHGHX1TI-Vg5LOcBdWKg",
+     "versionNumber": 41
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "sensor module 2",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:ynVmLXEjT8aZkUCmFPE85w",
+   "dateCreated": "2026-05-08 16:58:47",
+   "dateModified": "2026-05-08 16:58:58",
+   "latestVersionNumber": 12,
+   "versionNumber": 12,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": true,
+   "hasParentReferences": true,
+   "childReferences": [
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:iyVUEZVuR-agd_-XzOOpUA",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": [
+    {
+     "name": "exo generated",
+     "id": "urn:adsk.wipprod:dm.lineage:l4wfjISQT1eJe4RQ8jQouQ",
+     "versionNumber": 8
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "sensor module test",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:5328GUuwS_SbsBlhkmhZCw",
+   "dateCreated": "2026-08-15 17:56:04",
+   "dateModified": "2026-08-15 17:56:15",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "5972K159_Ball Bearing",
+     "id": "urn:adsk.wipprod:dm.lineage:iyVUEZVuR-agd_-XzOOpUA",
+     "versionNumber": 1
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "tool_organizer_exo258",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:Lm7Zl38YTJ6D_gNTZhfUjg",
+   "dateCreated": "2026-10-08 13:16:45",
+   "dateModified": "2026-10-08 13:16:46",
+   "latestVersionNumber": 6,
+   "versionNumber": 6,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "WH_simplified_right_frameonly",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:dHkR8UgDS9WuO92CFd3qHw",
+   "dateCreated": "2026-05-26 15:40:45",
+   "dateModified": "2026-05-26 15:41:00",
+   "latestVersionNumber": 5,
+   "versionNumber": 5,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "wrist_sketch3_with_straps",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:MQGUPDCWQMeCHnTDtaIOjA",
+   "dateCreated": "2026-04-08 19:29:05",
+   "dateModified": "2026-04-08 19:29:05",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "writst mount_e",
+     "id": "urn:adsk.wipprod:dm.lineage:Rb2YmsgBR82HcFzthdMtag",
+     "versionNumber": 2
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "wrist_sketch3_with_straps",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:FrHFTvTiRtmuwsPlVZ90ew",
+   "dateCreated": "2026-03-07 13:04:46",
+   "dateModified": "2026-03-07 13:04:55",
+   "latestVersionNumber": 4,
+   "versionNumber": 4,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": true,
+   "hasParentReferences": false,
+   "childReferences": [
+    {
+     "name": "writst mount_e",
+     "id": "urn:adsk.wipprod:dm.lineage:Rb2YmsgBR82HcFzthdMtag",
+     "versionNumber": 2
+    }
+   ],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "wristband_2.0",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:ENCeIRmySNSY1u9s5LXR6w",
+   "dateCreated": "2026-03-06 10:39:38",
+   "dateModified": "2026-03-07 16:26:11",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "writst_mount_c",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:j49ge6QfRZmHZ_1jAZqU8A",
+   "dateCreated": "2026-04-11 18:21:16",
+   "dateModified": "2026-04-11 18:21:20",
+   "latestVersionNumber": 3,
+   "versionNumber": 3,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "writst mount",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:I7WyGqWLS1qKuofCMMDEZA",
+   "dateCreated": "2026-04-13 16:05:12",
+   "dateModified": "2026-04-13 16:05:12",
+   "latestVersionNumber": 1,
+   "versionNumber": 1,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Esteban Martinez",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "writst mount_e",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:Rb2YmsgBR82HcFzthdMtag",
+   "dateCreated": "2026-04-12 15:09:31",
+   "dateModified": "2026-04-12 15:09:36",
+   "latestVersionNumber": 8,
+   "versionNumber": 8,
+   "isComplete": true,
+   "lastUpdatedBy": "Esteban Martinez",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "wrist_sketch3_with_straps",
+     "id": "urn:adsk.wipprod:dm.lineage:FrHFTvTiRtmuwsPlVZ90ew",
+     "versionNumber": 4
+    },
+    {
+     "name": "wrist_sketch3_with_straps",
+     "id": "urn:adsk.wipprod:dm.lineage:MQGUPDCWQMeCHnTDtaIOjA",
+     "versionNumber": 1
+    }
+   ]
+  },
+  {
+   "path": "",
+   "name": "wuji enclosure",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:72befnv7QqC5MFX4fV48rA",
+   "dateCreated": "2026-05-27 15:45:50",
+   "dateModified": "2026-05-27 15:45:54",
+   "latestVersionNumber": 3,
+   "versionNumber": 3,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "",
+   "name": "XL330",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:0XCPaBa2SySUMO02q_rWfQ",
+   "dateCreated": "2026-03-27 14:25:02",
+   "dateModified": "2026-03-27 14:25:06",
+   "latestVersionNumber": 2,
+   "versionNumber": 2,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": true,
+   "childReferences": [],
+   "parentReferences": [
+    {
+     "name": "sensor module",
+     "id": "urn:adsk.wipprod:dm.lineage:GFpCb0PWQXC3GaCc0xaUrA",
+     "versionNumber": 26
+    }
+   ]
+  },
+  {
+   "path": "/cuff",
+   "name": "lock",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:-DqgFm6nS6WmTRV2fhPWmQ",
+   "dateCreated": "2026-04-11 16:27:30",
+   "dateModified": "2026-04-11 16:27:36",
+   "latestVersionNumber": 3,
+   "versionNumber": 3,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/cuff",
+   "name": "cuff",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:GqM4k-EeQVq5TxhaN84rhg",
+   "dateCreated": "2026-05-28 17:20:59",
+   "dateModified": "2026-05-28 17:21:05",
+   "latestVersionNumber": 17,
+   "versionNumber": 17,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/cuff",
+   "name": "spring",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:aR_pmPTVRR2j2mSlzBQDsA",
+   "dateCreated": "2026-04-11 16:27:38",
+   "dateModified": "2026-04-11 16:27:40",
+   "latestVersionNumber": 3,
+   "versionNumber": 3,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/cuff",
+   "name": "side0",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:ht6_l6VzQyqXsb5jRqg_Ug",
+   "dateCreated": "2026-04-11 16:26:20",
+   "dateModified": "2026-04-11 16:26:23",
+   "latestVersionNumber": 3,
+   "versionNumber": 3,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  },
+  {
+   "path": "/cuff",
+   "name": "hook",
+   "fileExtension": "f3d",
+   "id": "urn:adsk.wipprod:dm.lineage:lsFNm0v_T6q_G9H9WX1ARA",
+   "dateCreated": "2026-04-11 16:25:43",
+   "dateModified": "2026-04-11 16:25:53",
+   "latestVersionNumber": 3,
+   "versionNumber": 3,
+   "isComplete": true,
+   "lastUpdatedBy": "Rodrigo Andrade",
+   "createdBy": "Rodrigo Andrade",
+   "hasChildReferences": false,
+   "hasParentReferences": false,
+   "childReferences": [],
+   "parentReferences": []
+  }
+ ],
+ "stage": "done",
+ "elapsed_s": 76.6
+}

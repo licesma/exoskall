@@ -1,0 +1,10 @@
+OK
+bridge: no active Fusion design - design is None
+start: comps 152 occ 173 linked 24 cuffs [('left arm:1+cuffs with soft inside:1', 'i1pB', 8, 'cuffs with soft inside'), ('cuffs with soft inside (1):2', 'i1pB', 1, 'cuffs with soft inside (1)'), ('cuffs with soft inside (1):3', 'i1pB', 1, 'cuffs with soft inside (1)')]
+after left arm:1+cuffs with soft inside:1 i1pB->UmT3 ok=True: comps 155 occ 173 linked 24 cuffs [('left arm:1+cuffs with soft inside:1', 'UmT3', 8, 'cuffs with soft inside'), ('cuffs with soft inside (1):2', 'i1pB', 1, 'cuffs with soft inside (1)'), ('cuffs with soft inside (1):3', 'i1pB', 1, 'cuffs with soft inside (1)')]
+after M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW:1 dW5W->yDln ok=True: comps 155 occ 173 linked 24 cuffs [('left arm:1+cuffs with soft inside:1', 'UmT3', 8, 'cuffs with soft inside'), ('cuffs with soft inside (1):2', 'i1pB', 1, 'cuffs with soft inside (1)'), ('cuffs with soft inside (1):3', 'i1pB', 1, 'cuffs with soft inside (1)')]
+after M4 x 0.7mm Thread HEX NUT:1 _vds->u2fX ok=True: comps 154 occ 173 linked 24 cuffs [('left arm:1+cuffs with soft inside:1', 'UmT3', 8, 'cuffs with soft inside'), ('cuffs with soft inside (1):2', 'i1pB', 1, 'cuffs with soft inside (1)'), ('cuffs with soft inside (1):3', 'i1pB', 1, 'cuffs with soft inside (1)')]
+after M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW:1 3GOu->Bmc3 ok=True: comps 154 occ 173 linked 24 cuffs [('left arm:1+cuffs with soft inside:1', 'UmT3', 8, 'cuffs with soft inside'), ('cuffs with soft inside (1):2', 'i1pB', 1, 'cuffs with soft inside (1)'), ('cuffs with soft inside (1):3', 'i1pB', 1, 'cuffs with soft inside (1)')]
+after cuffs with soft inside (1):2 i1pB->UmT3 ok=True: comps 152 occ 205 linked 30 cuffs [('left arm:1+cuffs with soft inside:1', 'UmT3', 8, 'cuffs with soft inside'), ('cuffs with soft inside:2', 'UmT3', 8, 'cuffs with soft inside'), ('cuffs with soft inside:3', 'UmT3', 8, 'cuffs with soft inside')]
+open after: 0
+bridge: OK in 8.4s

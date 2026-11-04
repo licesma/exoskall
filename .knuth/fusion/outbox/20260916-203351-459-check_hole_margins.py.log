@@ -1,0 +1,253 @@
+FAIL
+every screw hole on every link: both ends on plane, and 2.0 mm of flat ring round each
+
+link_12 (L route, land fillet r 3.000, far-face round r 5.500):
+ok   link_12: every hole opening the route knows about is on the body - route-only [], body-only []
+ok   link_12: two openings per hole, 7 holes - measured 14 openings, the route says 14
+    rotor pad  90 deg rotor-side  ring   2.350 mm (route says   2.350, bound: the index tab at r 14.95)
+ok   link_12: rotor pad  90 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_12: rotor pad  90 deg rotor-side has its 2.0 mm flat ring - measured 2.350 mm
+ok   link_12: rotor pad  90 deg rotor-side measures what the route solved for - body 2.350 vs route 2.350
+    stator pad   0 deg near        ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_12: stator pad   0 deg near opens onto plane - nothing curved touches the hole
+ok   link_12: stator pad   0 deg near has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_12: stator pad   0 deg near measures what the route solved for - body 6.145 vs route 6.150
+    stator pad   0 deg far         ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_12: stator pad   0 deg far opens onto plane - nothing curved touches the hole
+ok   link_12: stator pad   0 deg far has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_12: stator pad   0 deg far measures what the route solved for - body 6.145 vs route 6.150
+    stator pad 270 deg near        ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_12: stator pad 270 deg near opens onto plane - nothing curved touches the hole
+ok   link_12: stator pad 270 deg near has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_12: stator pad 270 deg near measures what the route solved for - body 6.145 vs route 6.150
+    stator pad 270 deg far         ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_12: stator pad 270 deg far opens onto plane - nothing curved touches the hole
+ok   link_12: stator pad 270 deg far has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_12: stator pad 270 deg far measures what the route solved for - body 6.145 vs route 6.150
+    stator pad 180 deg near        ring   6.206 mm (route says   6.202, bound: the slab outline)
+ok   link_12: stator pad 180 deg near opens onto plane - nothing curved touches the hole
+ok   link_12: stator pad 180 deg near has its 2.0 mm flat ring - measured 6.206 mm
+ok   link_12: stator pad 180 deg near measures what the route solved for - body 6.206 vs route 6.202
+    stator pad 180 deg far         ring   6.206 mm (route says   6.202, bound: the slab outline)
+ok   link_12: stator pad 180 deg far opens onto plane - nothing curved touches the hole
+ok   link_12: stator pad 180 deg far has its 2.0 mm flat ring - measured 6.206 mm
+ok   link_12: stator pad 180 deg far measures what the route solved for - body 6.206 vs route 6.202
+    rotor pad   0 deg rotor-side  ring   7.398 mm (route says   7.400, bound: the stop block at r 20.0..26.0, 0 +/- 5 deg)
+ok   link_12: rotor pad   0 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_12: rotor pad   0 deg rotor-side has its 2.0 mm flat ring - measured 7.398 mm
+ok   link_12: rotor pad   0 deg rotor-side measures what the route solved for - body 7.398 vs route 7.400
+    rotor pad 180 deg outer       ring   8.900 mm (route says   8.900, bound: the ribbon leaving the plane at s = 21.500)
+ok   link_12: rotor pad 180 deg outer opens onto plane - nothing curved touches the hole
+ok   link_12: rotor pad 180 deg outer has its 2.0 mm flat ring - measured 8.900 mm
+ok   link_12: rotor pad 180 deg outer measures what the route solved for - body 8.900 vs route 8.900
+    rotor pad 180 deg rotor-side  ring  12.356 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_12: rotor pad 180 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_12: rotor pad 180 deg rotor-side has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_12: rotor pad 180 deg rotor-side measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad 270 deg rotor-side  ring  12.356 mm (route says  12.356, bound: the hole at 180 deg)
+ok   link_12: rotor pad 270 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_12: rotor pad 270 deg rotor-side has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_12: rotor pad 270 deg rotor-side measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad 270 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 180 deg)
+ok   link_12: rotor pad 270 deg outer opens onto plane - nothing curved touches the hole
+ok   link_12: rotor pad 270 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_12: rotor pad 270 deg outer measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad  90 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 0 deg)
+ok   link_12: rotor pad  90 deg outer opens onto plane - nothing curved touches the hole
+ok   link_12: rotor pad  90 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_12: rotor pad  90 deg outer measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad   0 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_12: rotor pad   0 deg outer opens onto plane - nothing curved touches the hole
+ok   link_12: rotor pad   0 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_12: rotor pad   0 deg outer measures what the route solved for - body 12.356 vs route 12.356
+
+link_23 (bar route, land fillet r 8.500, far-face round r 7.900):
+ok   link_23: every hole opening the route knows about is on the body - route-only [], body-only []
+ok   link_23: two openings per hole, 7 holes - measured 14 openings, the route says 14
+    rotor pad  90 deg rotor-side  ring   2.350 mm (route says   2.350, bound: the index tab at r 14.95)
+ok   link_23: rotor pad  90 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_23: rotor pad  90 deg rotor-side has its 2.0 mm flat ring - measured 2.350 mm
+ok   link_23: rotor pad  90 deg rotor-side measures what the route solved for - body 2.350 vs route 2.350
+    stator pad 270 deg far         ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_23: stator pad 270 deg far opens onto plane - nothing curved touches the hole
+ok   link_23: stator pad 270 deg far has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_23: stator pad 270 deg far measures what the route solved for - body 6.145 vs route 6.150
+    stator pad 270 deg near        ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_23: stator pad 270 deg near opens onto plane - nothing curved touches the hole
+ok   link_23: stator pad 270 deg near has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_23: stator pad 270 deg near measures what the route solved for - body 6.145 vs route 6.150
+    stator pad 180 deg near        ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_23: stator pad 180 deg near opens onto plane - nothing curved touches the hole
+ok   link_23: stator pad 180 deg near has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_23: stator pad 180 deg near measures what the route solved for - body 6.145 vs route 6.150
+    stator pad 180 deg far         ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_23: stator pad 180 deg far opens onto plane - nothing curved touches the hole
+ok   link_23: stator pad 180 deg far has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_23: stator pad 180 deg far measures what the route solved for - body 6.145 vs route 6.150
+    stator pad   0 deg near        ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_23: stator pad   0 deg near opens onto plane - nothing curved touches the hole
+ok   link_23: stator pad   0 deg near has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_23: stator pad   0 deg near measures what the route solved for - body 6.145 vs route 6.150
+    stator pad   0 deg far         ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_23: stator pad   0 deg far opens onto plane - nothing curved touches the hole
+ok   link_23: stator pad   0 deg far has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_23: stator pad   0 deg far measures what the route solved for - body 6.145 vs route 6.150
+    rotor pad 270 deg rotor-side  ring   7.398 mm (route says   7.400, bound: the stop block at r 20.0..27.0, 270 +/- 10 deg)
+ok   link_23: rotor pad 270 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_23: rotor pad 270 deg rotor-side has its 2.0 mm flat ring - measured 7.398 mm
+ok   link_23: rotor pad 270 deg rotor-side measures what the route solved for - body 7.398 vs route 7.400
+    rotor pad   0 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_23: rotor pad   0 deg outer opens onto plane - nothing curved touches the hole
+ok   link_23: rotor pad   0 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_23: rotor pad   0 deg outer measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad 180 deg rotor-side  ring  12.356 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_23: rotor pad 180 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_23: rotor pad 180 deg rotor-side has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_23: rotor pad 180 deg rotor-side measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad 270 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 180 deg)
+ok   link_23: rotor pad 270 deg outer opens onto plane - nothing curved touches the hole
+ok   link_23: rotor pad 270 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_23: rotor pad 270 deg outer measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad   0 deg rotor-side  ring  12.356 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_23: rotor pad   0 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_23: rotor pad   0 deg rotor-side has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_23: rotor pad   0 deg rotor-side measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad 180 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_23: rotor pad 180 deg outer opens onto plane - nothing curved touches the hole
+ok   link_23: rotor pad 180 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_23: rotor pad 180 deg outer measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad  90 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 0 deg)
+ok   link_23: rotor pad  90 deg outer opens onto plane - nothing curved touches the hole
+ok   link_23: rotor pad  90 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_23: rotor pad  90 deg outer measures what the route solved for - body 12.356 vs route 12.356
+
+link_34 (L route, land fillet r 3.000, far-face round r 5.500):
+ok   link_34: every hole opening the route knows about is on the body - route-only [], body-only []
+ok   link_34: two openings per hole, 7 holes - measured 14 openings, the route says 14
+    rotor pad  90 deg rotor-side  ring   2.350 mm (route says   2.350, bound: the index tab at r 14.95)
+ok   link_34: rotor pad  90 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_34: rotor pad  90 deg rotor-side has its 2.0 mm flat ring - measured 2.350 mm
+ok   link_34: rotor pad  90 deg rotor-side measures what the route solved for - body 2.350 vs route 2.350
+    stator pad 270 deg near        ring   6.147 mm (route says   6.150, bound: the slab outline)
+ok   link_34: stator pad 270 deg near opens onto plane - nothing curved touches the hole
+ok   link_34: stator pad 270 deg near has its 2.0 mm flat ring - measured 6.147 mm
+ok   link_34: stator pad 270 deg near measures what the route solved for - body 6.147 vs route 6.150
+    stator pad 270 deg far         ring   6.147 mm (route says   6.150, bound: the slab outline)
+ok   link_34: stator pad 270 deg far opens onto plane - nothing curved touches the hole
+ok   link_34: stator pad 270 deg far has its 2.0 mm flat ring - measured 6.147 mm
+ok   link_34: stator pad 270 deg far measures what the route solved for - body 6.147 vs route 6.150
+    stator pad 180 deg near        ring   6.149 mm (route says   6.150, bound: the slab outline)
+ok   link_34: stator pad 180 deg near opens onto plane - nothing curved touches the hole
+ok   link_34: stator pad 180 deg near has its 2.0 mm flat ring - measured 6.149 mm
+ok   link_34: stator pad 180 deg near measures what the route solved for - body 6.149 vs route 6.150
+    stator pad 180 deg far         ring   6.149 mm (route says   6.150, bound: the slab outline)
+ok   link_34: stator pad 180 deg far opens onto plane - nothing curved touches the hole
+ok   link_34: stator pad 180 deg far has its 2.0 mm flat ring - measured 6.149 mm
+ok   link_34: stator pad 180 deg far measures what the route solved for - body 6.149 vs route 6.150
+    rotor pad   0 deg rotor-side  ring   7.398 mm (route says   7.400, bound: the stop block at r 20.0..26.0, 0 +/- 10 deg)
+ok   link_34: rotor pad   0 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_34: rotor pad   0 deg rotor-side has its 2.0 mm flat ring - measured 7.398 mm
+ok   link_34: rotor pad   0 deg rotor-side measures what the route solved for - body 7.398 vs route 7.400
+    stator pad   0 deg far         ring   7.650 mm (route says   7.650, bound: the actuator cutout)
+ok   link_34: stator pad   0 deg far opens onto plane - nothing curved touches the hole
+ok   link_34: stator pad   0 deg far has its 2.0 mm flat ring - measured 7.650 mm
+ok   link_34: stator pad   0 deg far measures what the route solved for - body 7.650 vs route 7.650
+    stator pad   0 deg near        ring   7.650 mm (route says   7.650, bound: the actuator cutout)
+ok   link_34: stator pad   0 deg near opens onto plane - nothing curved touches the hole
+ok   link_34: stator pad   0 deg near has its 2.0 mm flat ring - measured 7.650 mm
+ok   link_34: stator pad   0 deg near measures what the route solved for - body 7.650 vs route 7.650
+    rotor pad 180 deg outer       ring   8.900 mm (route says   8.900, bound: the ribbon leaving the plane at s = 21.500)
+ok   link_34: rotor pad 180 deg outer opens onto plane - nothing curved touches the hole
+ok   link_34: rotor pad 180 deg outer has its 2.0 mm flat ring - measured 8.900 mm
+ok   link_34: rotor pad 180 deg outer measures what the route solved for - body 8.900 vs route 8.900
+    rotor pad 180 deg rotor-side  ring  12.356 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_34: rotor pad 180 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_34: rotor pad 180 deg rotor-side has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_34: rotor pad 180 deg rotor-side measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad 270 deg rotor-side  ring  12.356 mm (route says  12.356, bound: the hole at 180 deg)
+ok   link_34: rotor pad 270 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_34: rotor pad 270 deg rotor-side has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_34: rotor pad 270 deg rotor-side measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad 270 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 180 deg)
+ok   link_34: rotor pad 270 deg outer opens onto plane - nothing curved touches the hole
+ok   link_34: rotor pad 270 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_34: rotor pad 270 deg outer measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad  90 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 0 deg)
+ok   link_34: rotor pad  90 deg outer opens onto plane - nothing curved touches the hole
+ok   link_34: rotor pad  90 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_34: rotor pad  90 deg outer measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad   0 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_34: rotor pad   0 deg outer opens onto plane - nothing curved touches the hole
+ok   link_34: rotor pad   0 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_34: rotor pad   0 deg outer measures what the route solved for - body 12.356 vs route 12.356
+
+link_45 (ramp route, land fillet r 0.150, far-face round r 5.000):
+ok   link_45: every hole opening the route knows about is on the body - route-only [], body-only []
+ok   link_45: two openings per hole, 7 holes - measured 14 openings, the route says 14
+    stator pad 270 deg near        ring  -0.000 mm (route says   2.000, bound: the run and its r 0.2 land fillet)
+FAIL link_45: stator pad 270 deg near opens onto plane - nothing curved touches the hole - Cylinder area 339.01 mm2 r=5.000
+FAIL link_45: stator pad 270 deg near has its 2.0 mm flat ring - measured -0.000 mm
+FAIL link_45: stator pad 270 deg near measures what the route solved for - body -0.000 vs route 2.000
+    rotor pad 270 deg outer       ring  -0.000 mm (route says   8.513, bound: the ribbon leaving the plane at s = 21.113)
+FAIL link_45: rotor pad 270 deg outer opens onto plane - nothing curved touches the hole - Cylinder area 1116.47 mm2 r=20.000
+FAIL link_45: rotor pad 270 deg outer has its 2.0 mm flat ring - measured -0.000 mm
+FAIL link_45: rotor pad 270 deg outer measures what the route solved for - body -0.000 vs route 8.513
+    rotor pad  90 deg rotor-side  ring   2.350 mm (route says   2.350, bound: the index tab at r 14.95)
+ok   link_45: rotor pad  90 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_45: rotor pad  90 deg rotor-side has its 2.0 mm flat ring - measured 2.350 mm
+ok   link_45: rotor pad  90 deg rotor-side measures what the route solved for - body 2.350 vs route 2.350
+    stator pad 270 deg far         ring   5.150 mm (route says   5.150, bound: the run and its r 5.0 corner round)
+FAIL link_45: stator pad 270 deg far opens onto plane - nothing curved touches the hole - Cylinder area 339.01 mm2 r=5.000
+ok   link_45: stator pad 270 deg far has its 2.0 mm flat ring - measured 5.150 mm
+ok   link_45: stator pad 270 deg far measures what the route solved for - body 5.150 vs route 5.150
+    stator pad   0 deg near        ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_45: stator pad   0 deg near opens onto plane - nothing curved touches the hole
+ok   link_45: stator pad   0 deg near has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_45: stator pad   0 deg near measures what the route solved for - body 6.145 vs route 6.150
+    stator pad   0 deg far         ring   6.145 mm (route says   6.150, bound: the slab outline)
+ok   link_45: stator pad   0 deg far opens onto plane - nothing curved touches the hole
+ok   link_45: stator pad   0 deg far has its 2.0 mm flat ring - measured 6.145 mm
+ok   link_45: stator pad   0 deg far measures what the route solved for - body 6.145 vs route 6.150
+    stator pad 180 deg far         ring   6.149 mm (route says   6.150, bound: the slab outline)
+ok   link_45: stator pad 180 deg far opens onto plane - nothing curved touches the hole
+ok   link_45: stator pad 180 deg far has its 2.0 mm flat ring - measured 6.149 mm
+ok   link_45: stator pad 180 deg far measures what the route solved for - body 6.149 vs route 6.150
+    stator pad 180 deg near        ring   6.149 mm (route says   6.150, bound: the slab outline)
+ok   link_45: stator pad 180 deg near opens onto plane - nothing curved touches the hole
+ok   link_45: stator pad 180 deg near has its 2.0 mm flat ring - measured 6.149 mm
+ok   link_45: stator pad 180 deg near measures what the route solved for - body 6.149 vs route 6.150
+    rotor pad   0 deg rotor-side  ring   7.398 mm (route says   7.400, bound: the stop block at r 20.0..27.0, 0 +/- 10 deg)
+ok   link_45: rotor pad   0 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_45: rotor pad   0 deg rotor-side has its 2.0 mm flat ring - measured 7.398 mm
+ok   link_45: rotor pad   0 deg rotor-side measures what the route solved for - body 7.398 vs route 7.400
+    rotor pad 180 deg outer       ring   8.444 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_45: rotor pad 180 deg outer opens onto plane - nothing curved touches the hole
+ok   link_45: rotor pad 180 deg outer has its 2.0 mm flat ring - measured 8.444 mm
+FAIL link_45: rotor pad 180 deg outer measures what the route solved for - body 8.444 vs route 12.356
+    rotor pad   0 deg outer       ring   8.445 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_45: rotor pad   0 deg outer opens onto plane - nothing curved touches the hole
+ok   link_45: rotor pad   0 deg outer has its 2.0 mm flat ring - measured 8.445 mm
+FAIL link_45: rotor pad   0 deg outer measures what the route solved for - body 8.445 vs route 12.356
+    rotor pad 180 deg rotor-side  ring  12.356 mm (route says  12.356, bound: the hole at 90 deg)
+ok   link_45: rotor pad 180 deg rotor-side opens onto plane - nothing curved touches the hole
+ok   link_45: rotor pad 180 deg rotor-side has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_45: rotor pad 180 deg rotor-side measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad  90 deg outer       ring  12.356 mm (route says  12.356, bound: the hole at 0 deg)
+ok   link_45: rotor pad  90 deg outer opens onto plane - nothing curved touches the hole
+ok   link_45: rotor pad  90 deg outer has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_45: rotor pad  90 deg outer measures what the route solved for - body 12.356 vs route 12.356
+    rotor pad 270 deg rotor-side  ring  12.356 mm (route says  12.356, bound: the hole at 180 deg)
+FAIL link_45: rotor pad 270 deg rotor-side opens onto plane - nothing curved touches the hole - Cylinder area 1116.47 mm2 r=20.000
+ok   link_45: rotor pad 270 deg rotor-side has its 2.0 mm flat ring - measured 12.356 mm
+ok   link_45: rotor pad 270 deg rotor-side measures what the route solved for - body 12.356 vs route 12.356
+
+56 hole openings checked over 4 links
+HOLE-RING CHECK FAILED: ['link_45: stator pad 270 deg near opens onto plane - nothing curved touches the hole', 'link_45: stator pad 270 deg near has its 2.0 mm flat ring', 'link_45: stator pad 270 deg near measures what the route solved for', 'link_45: rotor pad 270 deg outer opens onto plane - nothing curved touches the hole', 'link_45: rotor pad 270 deg outer has its 2.0 mm flat ring', 'link_45: rotor pad 270 deg outer measures what the route solved for']
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260916-203351-459-check_hole_margins.py", line 113, in <module>
+    raise RuntimeError('%d screw-hole check(s) failed' % len(fails))
+RuntimeError: 10 screw-hole check(s) failed
+bridge: FAIL in 1.0s

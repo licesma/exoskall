@@ -1,0 +1,8 @@
+OK
+bridge: no active Fusion design - design is None
+item 33 spring v3 kind=f3d
+doc: spring ver=3 modified=False (open 3.5s)
+export execute=True (3.5s)
+exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/33_spring_v3.f3d (55182 bytes)
+closed=['spring']; remaining open docs=0; 4.1s
+bridge: OK in 4.1s

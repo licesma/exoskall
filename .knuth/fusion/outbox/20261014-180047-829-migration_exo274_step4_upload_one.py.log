@@ -1,0 +1,6 @@
+OK
+item 21 upload started: M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW.f3d -> G1 exeskeleton/root
+item 21 uploaded as 'M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW' (8s)
+counts: {'skipped_modified': 2, 'uploaded': 10, 'upload_failed': 2, 'blocked_assembly': 7, 'pending': 14}
+active hub/project: Team hub - Rodrigo Andrade / G1 exeskeleton (10s)
+bridge: OK in 9.7s

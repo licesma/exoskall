@@ -1,0 +1,7 @@
+OK
+item 31 lock v3 kind=f3d
+doc: lock ver=3 modified=False (open 6.1s)
+export execute=True (6.3s)
+exported /Users/esteban/repos/exo/gento_luna/exo/exports/migration_exo274/exports/31_lock_v3.f3d (88853 bytes)
+closed=['lock']; remaining open docs=10; 8.3s
+bridge: OK in 8.3s

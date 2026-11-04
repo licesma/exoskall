@@ -1,0 +1,7 @@
+OK
+bridge: no active Fusion design - design is None
+item 33 upload started: spring.f3d -> G1 exeskeleton/cuff
+item 33 uploaded as 'spring' (8s)
+counts: {'blocked_assembly': 8, 'uploaded': 23, 'upload_failed': 2, 'pending': 2}
+active hub/project: Team hub - Rodrigo Andrade / G1 exeskeleton (10s)
+bridge: OK in 10.0s

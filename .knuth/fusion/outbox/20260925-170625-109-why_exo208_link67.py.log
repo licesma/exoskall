@@ -1,0 +1,12 @@
+OK
+link_12  J1: no EXO-181 chord - the pad already clears module B; block 336.005 +/- 7.500 deg is untouched
+link_23  J2: no EXO-181 chord - the pad already clears module B; block 7.004 +/- 62.501 deg is untouched
+link_34  J3: no EXO-181 chord - the pad already clears module B; block 348.002 +/- 22.500 deg is untouched
+link_45  J4: no EXO-181 chord - the pad already clears module B; block 18.002 +/- 82.500 deg is untouched
+link_56  J5: no EXO-181 chord - the pad already clears module B; block 348.002 +/- 59.500 deg is untouched
+link_67  J6: EXO-181 chord 6.730 mm deep, normal 90.000 deg (the pad is kept on the side n.p >= -20.270); block 348.002 +/- 80.000 deg, r 20.0..27.0
+    EXO-204 sampling (2 radii x 3 angles)  6 pts, worst -6.7137 mm at 268.002 deg r 27.000 -> REFUSE
+    EXO-208 sampling (the whole outline)   295 pts, worst -6.7300 mm at 270.121 deg r 27.000 -> REFUSE
+    the lower CONTACT edge at 268.0022 deg: r 21.05 -0.767 mm, r 27.00 -6.714 mm  -> INSIDE the chord - the edge itself would be cut away and the limit would move
+    the upper CONTACT edge at 68.0023 deg: r 21.05 +39.787 mm, r 27.00 +45.304 mm  -> clear of the chord
+bridge: OK in 5.0s

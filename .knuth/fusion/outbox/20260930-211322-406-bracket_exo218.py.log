@@ -1,0 +1,56 @@
+OK
+EXO-208: JOINT_STOP_DEG = 15.0000 deg, block 160.50225..175.50225 about the measured centre 168.00225
+EXO-218: slides J1 +0.0000 mm, J2 +0.0000 mm, J3 +0.0000 mm, J4 +0.0000 mm, J5 +0.0000 mm, J6 -29.9062 mm, J7 +0.0000 mm
+
+J1  right_shoulder_pitch_joint (g_link_12), axis_sign -1, stator stator
+    URDF  -176.99812 .. +153.00265 deg, range 330.00077; link stop 14.99923 deg wide, centre 336.00451
+    BUILT ONE solid block 336.00451 +/- 7.49961 deg, contact faces 328.50490 / 343.50413 (EXO-218)
+    CAP   not capped, the URDF range fits
+    PY    165002 poses, first contact -176.998122 / +153.002650 deg, error 5.1e-14 / 0.0e+00
+    lower -176.99812 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_12/g_link_12<->stator/Body1 1.626 mm3 [+12 excluded]   PASS
+    upper +153.00265 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_12/g_link_12<->stator/Body1 1.626 mm3 [+12 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+J2  right_shoulder_roll_joint (g_link_23), axis_sign +1, stator stator
+    URDF  -129.00145 .. +90.99716 deg, range 219.99860; link stop 125.00140 deg wide, centre 7.00440
+    BUILT ONE solid block 7.00440 +/- 62.50070 deg, contact faces 304.50370 / 69.50509 (EXO-218)
+    CAP   not capped, the URDF range fits
+    PY    110000 poses, first contact -129.001448 / +90.997157 deg, error 0.0e+00 / 2.5e-14
+    lower -129.00145 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_23/g_link_23<->stator/Body1 1.996 mm3 [+12 excluded]   PASS
+    upper +90.99716 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_23/g_link_23<->stator/Body1 1.996 mm3 [+12 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+J3  right_shoulder_yaw_joint (g_link_34), axis_sign -1, stator stator
+    URDF  -150.00035 .. +150.00035 deg, range 300.00070; link stop 44.99930 deg wide, centre 348.00225
+    BUILT ONE solid block 348.00225 +/- 22.49965 deg, contact faces 325.50260 / 10.50190 (EXO-218)
+    CAP   not capped, the URDF range fits
+    PY    150002 poses, first contact -150.000351 / +150.000351 deg, error 7.6e-14 / 7.6e-14
+    lower -150.00035 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_34/g_link_34<->stator/Body1 1.626 mm3 [+12 excluded]   PASS
+    upper +150.00035 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_34/g_link_34<->stator/Body1 1.626 mm3 [+12 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+J4  right_elbow_joint (g_link_45), axis_sign -1, stator stator
+    URDF  -60.00014 .. +120.00028 deg, range 180.00042; link stop 164.99958 deg wide, centre 18.00232
+    BUILT ONE solid block 18.00232 +/- 82.49979 deg, contact faces 295.50253 / 100.50211 (EXO-218)
+    CAP   not capped, the URDF range fits
+    PY    90002 poses, first contact -60.000140 / +120.000281 deg, error 3.8e-14 / 7.6e-14
+    lower -60.00014 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_45/g_link_45<->stator/Body1 1.996 mm3 [+12 excluded]   PASS
+    upper +120.00028 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_45/g_link_45<->stator/Body1 1.996 mm3 [+12 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+J5  right_wrist_roll_joint (g_link_56), axis_sign +1, stator stator
+    URDF  -113.00000 .. +113.00000 deg, range 226.00000; link stop 119.00000 deg wide, centre 348.00225
+    BUILT ONE solid block 348.00225 +/- 59.50000 deg, contact faces 288.50225 / 47.50225 (EXO-218)
+    CAP   not capped, the URDF range fits
+    PY    113000 poses, first contact -113.000000 / +113.000000 deg, error 0.0e+00 / 2.5e-14
+    lower -113.00000 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_56/g_link_56<->stator/Body1 1.996 mm3 [+12 excluded]   PASS
+    upper +113.00000 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_56/g_link_56<->stator/Body1 1.996 mm3 [+12 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+J6  right_wrist_pitch_joint (g_link_67), axis_sign +1, stator stator
+    URDF  -92.50000 .. +92.50000 deg, range 185.00000; link stop 160.00000 deg wide, centre 348.00225
+    BUILT ONE solid block 348.00225 +/- 80.00000 deg, contact faces 268.00225 / 68.00225 (EXO-218)
+    CAP   not capped, the URDF range fits
+    PY    92500 poses, first contact -92.500000 / +92.500000 deg, error 1.3e-14 / 1.3e-14
+    lower -92.50000 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_67/g_link_67<->stator/Body1 1.996 mm3 [+12 excluded]   PASS
+    upper +92.50000 deg: 0.25 INSIDE -> 0 hit(s) [+12 excluded]; 0.25 OUTSIDE -> 1 hit(s) g_link_67/g_link_67<->stator/Body1 1.996 mm3 [+12 excluded]   PASS
+    zero  0 link-vs-stator hit(s) [+7 excluded]   PASS
+
+J7: the link stop of a joint lives on the ROTOR PAD of the link that LEAVES it, and J7 is the end of the chain - LINKS run link_12 .. link_67 - so no generated body carries J7's stop and there is nothing in this document to bracket. The rule sizes it all the same (b 160.00000 deg, ONE block centred 348.00225, axis_sign +1); whatever mounts on J7's rotor - the handle - has to carry that block.
+EXO-218 Fusion bracket: ALL PASS   (J1 ok, J2 ok, J3 ok, J4 ok, J5 ok, J6 ok)
+bridge: OK in 1206.7s

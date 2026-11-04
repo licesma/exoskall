@@ -1,0 +1,11 @@
+OK
+root occurrences (name, lightBulb, visible):
+   left arm                 bulb=False visible=False
+   right arm                bulb=False visible=False
+   chest mount              bulb=False visible=False
+   Camera support           bulb=False visible=False
+   sensor module 2          bulb=True visible=True
+   generated_R_arm          bulb=True visible=True
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm.png
+screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm.png
+bridge: OK in 2.1s

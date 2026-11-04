@@ -1,0 +1,217 @@
+# Exo joint ("sensor module 2")
+
+The single repeated building block of the exoskeleton. One per arm joint, 7 per arm.
+Joints are connected by links — see `exo-link.md`.
+
+**Geometry (measurable):** `gento_luna/Gento Luna_URDF 20260428/urdf/sensor module 2.step`
+— STEP AP214 assembly exported from Fusion 2026-09-13. Editable source is the Fusion
+design `sensor module 2` (cloud), not the STEP.
+
+**Photos:** `gento_luna/exo/screenshots/` (add as available).
+
+## How it works — terminology (use these names everywhere)
+
+Four functional parts:
+
+| Name | Printed? | Role |
+|---|---|---|
+| **Actuator** | not printed — bought `XL330`, but MODELLED in the design | Dynamixel XL330 servo. Sits inside the stator, horn facing up. It **is** a body: component `XL330 v2`, solid `Body1` (plus 5 small bodies for the connectors and the horn shaft, all inside its box). Every placed module therefore carries the real actuator and `check_interference` sees it — never build a proxy for it (EXO-201). Measured in the module frame: x −10…10, y −9.5…24.5, z −36.5 (its back) … −10.5 — i.e. it sticks 12 mm below the stator underside −24.5. |
+| **Stator** | yes — 1 body | Outer cylinder. Fixed to the servo body; seats the bearing's outer race. Has a **stop block** on its rim, rising to rotor-face height. Underside mounts to the *previous* link via **3× M3 heat-set inserts** (triangle) and an embossed **"0"** — a part-number label (joints are labeled 0,1,2,…). The actuator's back and its two connectors protrude below the stator face — the previous link must clear them. |
+| **Rotor** | yes — 2 bodies | Inner cylinder + face disk. Bolted to the servo horn; rides on the bearing's inner race. Mounts to the *next* link. Has an **index notch** on its rim (see below). |
+| **Bearing** | no — `5972K159` | One ball bearing between rotor and stator. Carries all side/axial load so the servo horn only sees torque. |
+
+**The rotor is a bridge.** A link is never screwed to the servo horn directly:
+horn → rotor → link. Rotor face hole pattern (8 + center):
+
+- **inner 4** → M1.6 screws into the horn (`4x pan_head_philip_mc_screw_m1-6`)
+- **outer 4** → M3 screws from the next link into nuts captured in the rotor
+  (`4x m3 hex nut`)
+
+**Index notch.** The rotor's 4 M3 holes are 4-fold symmetric, so a link could bolt on in
+any of 4 orientations 90° apart. The notch marks the one correct orientation. This
+matters because skeleton pose is read from the servo's *absolute* encoder: bolting the
+link 90° off after a re-assembly silently invalidates the calibration. Every link must
+carry the mating feature; never drop the notch in a redesign. EXO-236 and EXO-238 both
+measured that the notch is the **only** feature anywhere on the rotor pair that is not
+4-fold symmetric.
+
+**Stator underside** (previous link side): `3x m3_6mm_insert`, plus the exposed actuator back.
+
+**Joint limits are mechanical.** The stator's stop block (the **joint stop**) collides
+with a matching block on the link bolted to the rotor (the **link stop**). The angular gap
+between them *is* the joint's range; changing a limit means moving/resizing a block, not a
+servo setting. Both are derived, not chosen — `armgen.limited_joint` (EXO-204/EXO-208):
+
+    joint stop arc  a = JOINT_STOP_DEG        one hyperparameter, 15.0°
+    link stop arc   b = 360° − a − range      whatever is left, and b ≥ a
+    link stop angle              the one that puts first contact at exactly `lower`
+
+The joint stop is the **minimum** and the link stop takes the rest, because the joint stop
+is the same at every joint of every arm while the link stop is generated per joint. `b ≥ a`
+is therefore also the statement that this module can limit a range of at most 360 − 2a =
+**330°**; a wider joint is refused by name. Note that `a + b = 360° − range` whatever `a`
+is, so `JOINT_STOP_DEG` changes only how the circle is *split* between the two blocks — the
+link stop's **angle**, the contact poses and the travel do not depend on it.
+
+**EXO-208: the block is 15° in the arm, 20° in the design.** G1's shoulder pitch has a
+330.00077° range, so it needs `a ≤ 14.9996°`; the module as drawn is 19.9993° and would
+refuse that joint. The narrowing is made in a **copy**, never in `sensor module 2` itself:
+`BuildArm.ensure_stop_module` places one more occurrence of the linked module, `breakLink()`s
+it into this document, renames it **`sensor module 2 stop15`** and combine-cuts two ring
+sectors (r 20…30, z −4…+1) off the ends of the block, leaving `JOINT_STOP_DEG` centred on
+the block's own measured centre 168.00225°. Measured on the result: **160.50223…175.50227°,
+arc 15.00005°**, radii and height untouched, stator body 25730.0 → 25685.1 mm³. The
+function holds the whole recipe and re-measures what it made, so the part is re-makeable
+from nothing by running it. Luna's 346° joints would need 7° — deferred.
+
+**EXO-225: `sensor module 2 v3` — the horn screws hold the lower rotor part alone.**
+In the design as drawn, the four small horn screws pass through BOTH rotor parts at once
+and clamp them to the horn, so they can only be driven after the stack is built. v3 splits
+that: the horn screws (now **M2 × 4**, head seated on the lower part's own web top face
+z −9.0) hold the **lower** part alone and are driven first; the four **M3** bolts the link
+already puts through the rotor pad at r 11 carry on down through the upper part into the
+lower one, into **hex nuts captured under it** (pocket **5.8** across flats since EXO-240,
+FLATS radial, z −13.200 … **−10.600** — 2.6 deep for a STANDARD ISO 4032 nut, ceiling 1.60,
+retained below by the XL330's top face 0.300 away — the nut's inner flat r 8.250 clears the
+horn disk r 8.000 by 0.250, and the pocket's own inner flat r 8.100 clears it by 0.100).
+The upper part has **no Ø2.2 hole at all**: one plain **Ø5.0 column per screw head, running
+clear THROUGH it** from the z −9.000 mating face to the rotor face 0 — a blind pocket
+z −9.100 … −7.000 until EXO-240, when the print showed no driver can reach that far down a
+closed hole — the hex pockets filled and its Ø3.2 taken down to z −9. The two parts are located by the **four
+M3 shanks** — Ø3.0 in a Ø3.2 hole on a r 11 bolt circle, 0.1 mm radial — **and by eight
+Ø3.0 register pegs on the upper part** (EXO-238, see below). Rotor face z = 0, the 4× Ø3.2 at
+r 11, the index notch, the bearing seat and the stator are untouched; bodies 6473.293 →
+**6657.964** and 2950.793 → **2507.386** mm³ (EXO-240 numbers). Made, like the 15° stop
+(which it folds in), in a **copy**: `BuildArm.ensure_v3_module` holds the whole recipe and
+re-measures the result against 39 point-containment probes. The arm places v3 at every joint.
+
+**EXO-231: the standard nut and the bolt, both drawn.** The module as delivered carries a
+1.8 mm **thin** nut (DIN 439); Esteban uses standard **ISO 4032** (5.5 across flats, 2.4
+thick), which is why the pocket ceiling moved −11.200 → **−10.600**. The four thin nuts are
+deleted and four standard ones are drawn instead, at z **−13.000 … −10.600** — the bolt
+pulls them up onto the ceiling, 0.200 inside the pocket mouth. The M3 bolt is drawn too,
+four of them, Ø3.0 shank with a Ø5.5 × 3.0 socket head seated on the link's rotor pad outer
+face z = `armgen.PAD_T` = 8: **M3 × 20**, tip z **−12.000**, **1.400 mm** of thread in the
+nut and **1.520 mm** of air under the tip before the XL330's top face (M3 × 22 would be
+0.5 mm inside it). Both sets are one component of four bodies, placed at identity inside the
+module, so the module frame is their own. The 1.30 mm wall between the Ø3.2 hole and the
+r 8.1 bore now survives only z −10.600 … −10.500 (0.100 mm); above the bore top −10.500 the
+hole runs through the solid web, not a wall.
+
+**EXO-240: two fixes off Esteban's print — the head pockets go through, the nut pocket
+tightens.** (1) *The M2 screws did not go all the way in.* A blind Ø5.0 pocket z −9.100 …
+−7.000 puts the head 7 mm down a closed hole: nothing reaches it, so the screw never seats.
+Esteban's call was to open it as deep as needed, through to the rotor face if that is what it
+takes, and it is: `V3_HEAD_Z` −9.1…−7.0 → **−9.1…+0.1**, both ends past a face, Ø5.0
+unchanged. Measured on the solid: void on the screw axis at **every** height from the mating
+face to the rotor face, at all four angles, and the bore is **5.0000 wide at z −8.5, −6.0,
+−4.0, −2.0 and −0.5** — one plain cylinder, not a step, because the fill that closes the old
+Ø2.2/Ø5.0 pair still runs first. It costs **−549.779 mm³** (the cut goes 706.858 where it
+used to take 157.080), upper part 7207.743 → **6657.964**. Nothing else is in that column:
+the upper part is solid from the axis out to r **3.5010** and from r **8.5010** out at every
+height, so the walls are **3.8786** mm to the Ø3.2 M3 hole and **3.0408** mm to the nearest
+register peg, both read off two measured edges. The M2 head tops out at z **−7.6474** with
+**1.32…1.49 mm** of radial room in the column — 7.65 mm of open Ø5.0 above it. The rotor face
+carries four Ø5.0 mouths at r 6 again, as it did in v2; the link's rotor pad is solid there
+(`armgen` drills it only at r 11), so the column is the driver's path while the two rotor
+parts are stacked *alone* — which is the assembly order anyway: horn screws first, link last.
+(2) *The nuts
+fell out.* `V3_NUT_AF` 6.0 → **5.8** across flats: an ISO 4032 M3 nut is 5.5 at max, so 5.8
+leaves **0.150 mm per side** (was 0.250). Measured off the solid at y 1.600: inner flat
+x **8.1000**, outer flat x **13.9000**, **across flats 5.8000**. Phase, depth and the
+flats-radial orientation are unchanged — ceiling **−10.6000**, **2.6000** deep off the part's
+own bottom face, ceiling band **1.6000** — and the pocket's inner flat now stands **0.100**
+off the XL330 horn disk r 8.000 where at 6.0 it sat exactly on it; it is **tangent** to the
+r 8.100 horn bore, leaving 0.1597 mm of wall at y 1.600 tapering to 0 on the centre line.
+The 1.30 mm wall band still survives exactly **0.1000 mm** (z −10.6000 … −10.5000), the
+EXO-238 floor over the sockets is still **0.3000 mm**, and the pocket corner now pokes
+**0.3023** mm into the socket footprint instead of 0.4152. Pockets **−219.342 mm³** (was
+−238.839, which overlapped the bore), lower part 2487.889 → **2507.386**. `V3_PROBES` 36 →
+**39**, and **four** of the old ones changed sign, which is the point: the probes that
+asserted a filled column and its blind ceiling now assert an open one, three more stand on the
+solid left around it, and one new probe stands on the pocket corner a 6.0 pocket cut away.
+
+**EXO-236 → EXO-238: the register pegs changed sides, and there are eight of them.** v3 as
+first drawn put two Ø3.0 pegs on the LOWER part (r 12.2, 67.5°/112.5°) into two Ø3.3 sockets
+in the upper one. EXO-236 deleted them — the lower part prints on its own z −9 mating face,
+so those pins stood on the bed and printed badly. EXO-238 brings them back **the other way
+round and eight strong**: the **upper** part prints rotor-face-down, so a pin standing down
+off *its* z −9 face points up into the air and needs no support. Measured on the solid:
+eight Ø3.0 pegs at **r 12.2, 22.5° + k·45°** (22.5° off both the M3 holes at 0/90/180/270 and
+the horn screws at 45/135/225/315), **z −9.000 … −10.200 — 1.200 tall**, into eight Ø3.3
+sockets **z −9.000 … −10.300**: **0.150 radial** and **0.100 axial** clearance. Volumes:
+upper 7139.884 → **7207.743** (+67.858 = 8 × Ø3.0 × 1.2), lower 2576.840 → **2487.889** mm³
+(−88.951 = 8 × Ø3.3 × 1.3). **The walls, each read off two measured edges:** peg to the Ø3.2
+M3 hole **1.5766**, socket to the same hole **1.4266**; the rim is r **15.0000** on both parts
+over this band, so the face annulus outside a peg root is **1.3000** and the lower part's wall
+outside a socket is **1.1500** — the thinnest number in the joint, and the one to watch if the
+pegs ever move outward. The hex nut pocket's corner pokes **0.4152** mm into the socket
+footprint in plan (**0.3023** since EXO-240 shrank the pocket), leaving a **0.3000 mm floor**
+between the socket bottom −10.300 and the pocket ceiling −10.600 (printed as a bridge over
+the socket, the part being face-down) — measured again after EXO-240, unchanged.
+
+Consequence, and it is measured, not argued: **the two rotor parts go together in any of
+four orientations 90° apart and all four are the same part.** A swept point-containment grid
+(dr 0.5, dz 0.25, dθ 2°, r ≤ 17.9 / 17.4 over each part's full z span, the upper one now down
+to the peg tips −10.2 — 64800 + 25200 quadruples) found the containment at θ, θ+90, θ+180,
+θ+270 identical **everywhere** on the lower part and everywhere on the upper part except the
+**index notch** (210 points, r 15.130…17.630, z −1.325…−0.325). EXO-240 re-ran the sweep coarser
+(dr 0.5, dz 0.5, dθ 5° — 12960 + 5040 quadruples) over the parts with the through columns and
+the 5.8 pocket: again **0** asymmetric quadruples anywhere but the notch. The M3 holes (0/90/180/270),
+the horn screws (45/135/225/315), the hex pockets (phase = angle + 30°) and the eight pegs
+(22.5° + k·45° — 8-fold, which contains 4-fold) are each their own 4-fold pattern. So the
+notch is the *only* feature in the whole rotor that fixes an angle, and what it fixes is the **link** on the
+rotor face. One thing that follows is worth writing down: the lower part's own horn-screw
+pattern is 4-fold too (measured), so on the **rotor side** the rotor↔horn joint is 4-fold as
+well, and whether the XL330's horn itself carries anything that keys it was NOT measured
+here. If it does not, the notch fixes the link on the rotor but not the rotor on the absolute
+encoder — which was already the case before v3 (the horn screws were always at
+45/135/225/315) and which EXO-236 did not change. Open point, not a regression.
+
+Renders: `gento_luna/exo/screenshots/exo-joint-iso.png` (rotor face up, bearing ring
+visible), `exo-joint-bottom.png` (stator underside, 3 inserts, actuator back),
+`exo-joint-bottom-iso.png`.
+
+## STEP product tree (raw names, 2026-09-13)
+
+Flat under root `sensor module 2`: `XL330`, `5972K159_Ball Bearing`, `Component1`,
+`Component2`, `Component3`, `4x pan_head_philip_mc_screw_m1-6`, `3x m3_6mm_insert`,
+`4x m3 hex nut`. Mapped 2026-09-13 (mm, module frame):
+
+| Product | Part | Geometry |
+|---|---|---|
+| `Component1` | **Stator** | r 27 outer, z −24.5 … −4; bearing seat r 21.05; 3× Ø4 insert holes at r 19.25, angles **0/180/270** (none on +Y = connector side); actuator pocket x ±10, y −9.5 … 24.5; stop block r 21.05–27, angles **158.00258°–178.00192°** (arc 19.99935, centre 168.00225 — measured on the solid, EXO-208), z −4 … −0.4; the arm places the 15° copy instead |
+| `Component2` | **Rotor** face disk | r 18 (z −4 … 0) over r 15 (z −9 … −4); 4× Ø3.2 at r 11 (0/90/180/270) with hex nut pockets; 4× Ø2.2 at r 6 (45/135/…) for the horn screws; **index notch** at +Y: 4.0 wide (x), r 14.75 … 17.9, 1.5 deep |
+| `Component3` | **Rotor** inner cylinder | r 17.5 / r 15, z −13.2 … −9, bore r 8.1 |
+| `XL330` | Actuator | x ±10, y −9.5 … 24.5 (connectors on +Y), z −36.5 … −10.5; sticks 12 mm out of the stator underside |
+| `5972K159` | Bearing | r 15 … 21, z −11 … −4 |
+
+The exo STEP (`exo_skeleton_2026-08-08.step`) uses an older revision of this module: the
+rotor there (`Component155` …) has 8× Ø3.2 at r 11 (45° pitch) and no notch; stator,
+bearing and XL330 are identical and sit at the same angles.
+
+## Frame convention
+
+**Origin = center of the rotor's top face**, on the rotation axis. Module local **Z**
+= the rotation axis, pointing out of the rotor face. Module **+Y** = the actuator's
+connector side (the stator side without an insert); module +X = the insert at 0°.
+`fusion_scripts/PlaceModules/PlaceModules.py` places this origin on each URDF joint origin
+with Z aligned to the joint axis and a free rotation about Z; `fusion_scripts/BuildArm/`
+adds a per-joint axis sign and a world "connector side" hint that fixes the rotation.
+
+In the exo STEP (exo frame = left J1 rotor face at the origin) `Module k` = joint k+1.
+The right arm is a Fusion **mirror** of the left, so its module Z signs relative to the
+URDF axes are: J1 −, J2 + (measured from the geometry, not from the STEP transforms).
+
+## Target: Gento Luna URDF
+
+`gento_luna/Gento Luna_URDF 20260428/urdf/Gento Luna_URDF.urdf` — joints
+`Arm_{R,L}{1..7}_Joint` (+ `Head_J2_Joint`, unused). Meshes in `../meshes/*.STL`.
+Reference lengths and the change list live in `gento_luna/exo/NOTES.md`.
+
+## Known/open
+
+- The 15° block lives only in the working document as `sensor module 2 stop15`; the
+  cloud design and the STEP still carry the 20° one. Making it a saved design of its
+  own is Esteban's call (EXO-208).
+- Bearing is what gives the joint stiffness; any redesign keeps it.

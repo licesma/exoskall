@@ -1,0 +1,6 @@
+OK
+arm: generated_R_arm_general
+HIT generated_R_arm_general/g_link_56 / g_link_56  vol 36919.6  bbox x[112.18,180.79] y[-302.77,-221.89] z[-223.54,-169.54]
+HIT generated_R_arm_general/g_link_67 / g_link_67  vol 33853.8  bbox x[126.78,226.78] y[-275.87,-221.87] z[-229.05,-169.54]
+done
+bridge: OK in 1.3s

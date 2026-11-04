@@ -1,0 +1,22 @@
+FAIL
+sensor module 2 v3 was here but is WRONG (the rotor pair does not read back:
+) - discarded and re-made
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260927-091450-549-make_exo225_module.py", line 12, in <module>
+    comp, how = BuildArm.ensure_v3_module(design, log)
+                ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 1113, in ensure_v3_module
+    how_rotor = rotor_v3(comp, rep)
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 827, in rotor_v3
+    _cyl_feature(up, 'v3 fill horn screw holes', dz_up, horn, V3_FILL_R,
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                 V3_FILL_Z[0], V3_FILL_Z[1], JOIN)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 796, in _cyl_feature
+    raise RuntimeError('%s: "%s" left %d bodies in %s, expected 1'
+                       % (comp.name, name, comp.bRepBodies.count, comp.name))
+RuntimeError: Component268: "v3 fill horn screw holes" left 5 bodies in Component268, expected 1
+bridge: FAIL in 8.2s

@@ -1,0 +1,47 @@
+OK
+Fusion version: 2705.1.25
+currentUser: {'displayName': 'Esteban Martinez', 'email': 'licesma@gmail.com', 'userName': 'licesma@gmail.com', 'userId': '3BDZQG3MAL2W'}
+active hub/project before: Team hub - Rodrigo Andrade / G1 exeskeleton
+HUB Team hub - Rodrigo Andrade | TeamHubType | a.YnVzaW5lc3M6Z21haWw1Mzk3NTEz
+    project: {'name': 'Assets', 'id': 'a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzI0QyMDI1MDgwNTk2MTgzNDEwNg'}
+    project: {'name': 'Default Project', 'id': 'a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjUwODA1OTYxODMzNzgx'}
+    project: {'name': 'G1 exeskeleton', 'id': 'a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjYwMjAyMTA0NTg3NDkzMQ'}
+    project: {'name': 'Standard Components', 'id': 'a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzI0QyMDI1MTExNDEwMTM2MDU4MzE'}
+HUB Estebans | TeamHubType | a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0
+    project: {'name': 'Assets', 'id': 'a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0I0QyMDI2MDEzMTEwNDQ4OTE4NTE'}
+    project: {'name': 'Default Project', 'id': 'a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYwMTMxMTA0NDg5MTcwMQ'}
+    project: {'name': 'gvl', 'id': 'a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYwMzA4MTA2MjE2Mzc3Ng'}
+    project: {'name': 'Learn Fusion in 30 days', 'id': 'a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYwMTMxMTA0NDg5NTEyNg'}
+active hub/project after: Team hub - Rodrigo Andrade / G1 exeskeleton
+API DataFile.copy: True
+API DataFile.move: True
+API DataFolder.uploadFile: True
+API DataFolder.uploadAssembly: True
+API ExportManager.createFusionArchiveExportOptions: True
+API DataFile.copy_doc: 
+Copies this DataFile to the specified folder.
+targetFolder : The folder to copy this DataFile to.
+Returns the copied DataFile if the copy was successful.
+
+API DataFile.move_doc: 
+Moves this DataFile to the specified folder.
+targetFolder : The folder to move this DataFile to.
+Returns true if the move was successful.
+
+API DataFolder.uploadFile_doc: 
+Uploads a single file to this directory.
+Uploading a file is not supported within any of the Command related events.
+When a command is running, a transaction is open, and uploading files cannot
+be transacted and, as a result, cannot be contained within a command transaction.
+filename : The full filename of the file to upload.
+The upload process is asynchronous which means that this method
+will re
+API DataFolder.uploadAssembly_doc: 
+Uploads a set of files that represent an assembly. There should only
+be a single top-level assembly file but there can be any number of other
+files that represent sub-assemblies.
+Uploading an assembly is not supported within any of the Command related events.
+When a command is running, a transaction is open, and uploading files cannot
+be transacted and, as a result, cannot be contained within a c
+DONE -> /Users/esteban/repos/exo/gento_luna/exo/exports/fusion_hubs_exo273.json (3s)
+bridge: OK in 3.6s

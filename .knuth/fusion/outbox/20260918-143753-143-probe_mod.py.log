@@ -1,0 +1,19 @@
+OK
+GJ1_right_shoulder_pitch_joint -> sensor module 2 on=True vis=True
+    5972K159_Ball Bearing    occ_on=True bodies_on=[True, True, True, True]
+    Component1               occ_on=True bodies_on=[True]
+    Component2               occ_on=True bodies_on=[True]
+    Component3               occ_on=True bodies_on=[True]
+    XL330 v2                 occ_on=True bodies_on=[True, True, True, True]
+    screw 1                  occ_on=True bodies_on=[True]
+    screw 1                  occ_on=True bodies_on=[True]
+    screw 1                  occ_on=True bodies_on=[True]
+    screw 1                  occ_on=True bodies_on=[True]
+    m3_6mm_insert            occ_on=True bodies_on=[True]
+    m3_6mm_insert            occ_on=True bodies_on=[True]
+    m3_6mm_insert            occ_on=True bodies_on=[True]
+    m3 hex nut               occ_on=True bodies_on=[True]
+    m3 hex nut               occ_on=True bodies_on=[True]
+    m3 hex nut               occ_on=True bodies_on=[True]
+    m3 hex nut               occ_on=True bodies_on=[True]
+bridge: OK in 0.0s

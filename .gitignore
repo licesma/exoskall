@@ -1,0 +1,19 @@
+# OS / tooling junk
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+.claude/settings.local.json
+
+# Archived Fusion f3z backups (410 MB)
+/archive/
+
+# Vendor drop: keep only our own notes, screenshots and small text exports under gento_luna/exo/
+/gento_luna/*
+!/gento_luna/exo/
+# CAD binaries and videos in exports are too large for GitHub; editable sources live in Fusion cloud
+/gento_luna/exo/exports/**/*.step
+/gento_luna/exo/exports/**/*.stl
+/gento_luna/exo/exports/**/*.f3d
+/gento_luna/exo/exports/**/*.f3z
+/gento_luna/exo/exports/**/*.mp4

@@ -1,0 +1,13 @@
+OK
+J7 origin (arm mm) [199.781, -248.872, -196.547]  axis [0.0001, 0.0001, 1.0]
+J7 bodies: 42
+HIT with Body1 (comp Component1): vol 65.01 mm3, deepest radius 23.483 at along -4.000
+    its vertices (radius, along): [(23.483, -4.0), (24.5, -24.5), (24.503, -24.478), (24.531, -24.5), (27.0, -24.5), (27.0, -24.5), (27.0, -23.517), (27.0, -14.852), (27.0, -4.0), (27.0, -4.0)]
+HIT with Body1 (comp m3_6mm_insert): vol 0.11 mm3, deepest radius 17.710 at along -24.510
+    its vertices (radius, along): [(17.71, -24.51), (17.71, -24.5), (17.814, -24.51), (17.814, -24.5)]
+HIT with Body1 (comp m3_6mm_insert): vol 0.11 mm3, deepest radius 17.501 at along -24.510
+    its vertices (radius, along): [(17.501, -24.51), (17.501, -24.5), (18.627, -24.51), (18.627, -24.5)]
+HIT with Body1 (comp m3_6mm_insert): vol 0.11 mm3, deepest radius 19.982 at along -24.500
+    its vertices (radius, along): [(19.982, -24.51), (19.982, -24.5), (21.139, -24.51), (21.139, -24.5)]
+done
+bridge: OK in 1.3s

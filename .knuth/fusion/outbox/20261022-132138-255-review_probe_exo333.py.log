@@ -1,0 +1,54 @@
+FAIL
+open documents: [('5972K159_Ball Bearing.f3d ', False), ('XL330', False), ('sensor module', False), ('arm', False), ('5972K159_Ball Bearing.f3d ', False), ('sensor module 2', False), ('exo generated', False)]
+active document 'exo generated' isModified=False isSaved=True
+data file v6 saved_ever=True up_to_date=True (project "G1 exeskeleton", folder "exo upper body")
+design type 0
+module-like components: ['sensor module 2', 'sensor module 2 rotor']
+root occurrences:
+  sensor module 2                          ref=True bulb=True t=(0.000,0.000,0.000)
+  sensor module 2 rotor                    ref=False bulb=False t=(0.000,0.000,0.000)
+  generated_R_arm_general                  ref=False bulb=True t=(0.000,0.000,0.000)
+  generated_R_arm_luna                     ref=False bulb=True t=(0.000,0.000,0.000)
+MODULE_ROTOR_NAME = 'sensor module 2 rotor'
+  rotor upper  comp 'inner_top' body 'Body1' V 5786.431 mm3 x[-18.000,18.000] y[-18.000,18.000] z[-8.200,0.000]
+  rotor lower  comp 'inner_bottom' body 'Body1' V 3865.869 mm3 x[-17.500,17.500] y[-17.500,17.500] z[-13.200,-7.000]
+  rotor stator comp 'stator' body 'Body1' V 25685.093 mm3 x[-27.000,27.000] y[-27.000,27.000] z[-24.500,-0.400]
+  module children (in context):
+    5972K159_Ball Bearing                Body1    V    998.984 x[-21.000,21.000] y[-21.000,21.000] z[-11.000,-4.000]
+    5972K159_Ball Bearing                Body2    V    741.901 x[-16.181,16.181] y[-16.181,16.181] z[-11.000,-4.000]
+    5972K159_Ball Bearing                Body3    V     38.792 x[-2.100,2.100] y[15.900,20.100] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body4    V     38.792 x[4.788,8.988] y[14.530,18.730] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body5    V     38.792 x[10.628,14.828] y[10.628,14.828] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body6    V     38.792 x[14.530,18.730] y[4.788,8.988] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body7    V     38.792 x[15.900,20.100] y[-2.100,2.100] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body8    V     38.792 x[14.530,18.730] y[-8.988,-4.788] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body9    V     38.792 x[10.628,14.828] y[-14.828,-10.628] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body10   V     38.792 x[4.788,8.988] y[-18.730,-14.530] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body11   V    315.170 x[-18.864,18.864] y[-18.864,18.864] z[-5.400,-4.124]
+    5972K159_Ball Bearing                Body12   V    315.170 x[-18.864,18.864] y[-18.864,18.864] z[-10.876,-9.600]
+    5972K159_Ball Bearing                Body13   V     38.792 x[-2.100,2.100] y[-20.100,-15.900] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body14   V     31.211 x[-19.290,19.290] y[-19.290,19.290] z[-4.702,-4.030]
+    5972K159_Ball Bearing                Body15   V     38.792 x[-8.988,-4.788] y[-18.730,-14.530] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body16   V     31.211 x[-19.290,19.290] y[-19.290,19.290] z[-10.970,-10.298]
+    5972K159_Ball Bearing                Body17   V     38.792 x[-14.828,-10.628] y[-14.828,-10.628] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body18   V     38.792 x[-18.730,-14.530] y[-8.988,-4.788] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body19   V     38.792 x[-20.100,-15.900] y[-2.100,2.100] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body20   V     38.792 x[-18.730,-14.530] y[4.788,8.988] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body21   V     38.792 x[-14.828,-10.628] y[10.628,14.828] z[-9.600,-5.400]
+    5972K159_Ball Bearing                Body22   V     38.792 x[-8.988,-4.788] y[14.530,18.730] z[-9.600,-5.400]
+    stator                               Body1    V  25685.093 x[-27.000,27.000] y[-27.000,27.000] z[-24.500,-0.400]
+    inner_top                            Body1    V   5786.431 x[-18.000,18.000] y[-18.000,18.000] z[-8.200,0.000]
+    inner_bottom                         Body1    V   3865.869 x[-17.500,17.500] y[-17.500,17.500] z[-13.200,-7.000]
+    XL330 v2                             Body1    V  15107.077 x[-10.000,10.000] y[-9.500,24.500] z[-36.500,-10.500]
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20261022-132138-255-review_probe_exo333.py", line 53, in <module>
+    say('    %-36s %-8s V %10.3f %s' % (c.component.name[:36], b.name, b.volume * 1000, bb_mm(b)))
+                                                                       ^^^^^^^^
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/c139e2731e42a0340acc3d34de2cbdb01237a27c/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/fusion.py", line 16654, in _get_volume
+    return _fusion.BRepBody__get_volume(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+RuntimeError: 2 : InternalValidationError : ASMInterface::getEntityVolume((ENTITY*)body, res, achieved_precision)
+bridge: FAIL in 1.6s

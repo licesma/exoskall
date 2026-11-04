@@ -1,0 +1,28 @@
+FAIL
+JOINT_STOP_DEG = 15.0000, centre 168.00225 deg (measured), target 160.50225 .. 175.50225
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 244, in extrude
+    feat = feats.add(inp)
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/5b508d94493ed3344e38945ffca1b03b713ee401/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/fusion.py", line 34093, in add
+    return _fusion.ExtrudeFeatures_add(self, input)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+RuntimeError: 3 : No target body found to cut or intersect!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260925-165317-377-make_exo208_module.py", line 19, in <module>
+    comp, how = BuildArm.ensure_stop_module(design, log)
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 493, in ensure_stop_module
+    sk.extrude(len(wedges), Z_HI - Z_LO,
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+               adsk.fusion.FeatureOperations.CutFeatureOperation, body)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/fusion_scripts/BuildArm/BuildArm.py", line 246, in extrude
+    raise RuntimeError('%s: extrude (%s, %.2f mm) failed: %s' % (self.name, op, length_mm, e))
+RuntimeError: sensor module 2 stop15 joint stop 15 deg: extrude (1, 5.00 mm) failed: 3 : No target body found to cut or intersect!
+bridge: FAIL in 10.5s

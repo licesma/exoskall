@@ -1,0 +1,10 @@
+FAIL
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260917-135842-185-measure_link23_built.py", line 43, in <module>
+    FR, SPINS = armgen.spun_frames(FR, [('link_23', 'J2', 'J3', PAD_R, armgen.BAR_W)])
+                                                                ^^^^^
+NameError: name 'PAD_R' is not defined
+bridge: FAIL in 0.1s

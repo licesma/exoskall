@@ -1,0 +1,1983 @@
+"""BuildArm: place exo joints at URDF joint frames and generate the links.
+
+Round 1: G1 URDF, right shoulder. Places `sensor module 2` at J1
+(right_shoulder_pitch_joint) and J2 (right_shoulder_roll_joint) and generates
+link 12 (rotor pad on J1, stator pad on J2, L-bracket body) - all under ONE new
+component so the result can be toggled / moved as a unit next to the existing
+arm. Existing components are never touched.
+
+How to run: open the design that contains the existing arm (the one the exo STEP
+was exported from), Utilities > Scripts and Add-Ins > BuildArm > Run. The URDF is
+taken from URDF_PATH (default: <repo>/g1/g1_29dof.urdf next to this script); a file
+dialog only appears if that file is missing. Any previous `generated_R_arm*`
+component is deleted first. The message-box text (or the traceback) is also
+written to <repo>/gento_luna/exo/exports/buildarm_report.txt.
+
+Occurrence-transform note (measured in this design, which is DIRECT modelling):
+the matrix passed to `occurrences.addNewComponent(m)` places the occurrence
+straight away and nothing later resets it - adding bodies does not. What does not
+work is assigning `transform2` on the occurrence object that collection returns:
+it is native to its parent component, and Fusion only accepts transform overrides
+on a proxy obtained with `createForAssemblyContext(parent_root_occurrence)`.
+Reading `transform2` there returns identity too, which makes a placed occurrence
+look unplaced. So placement goes through `set_occ_matrix(occ, m, arm_occ)` and the
+report reads back both the proxy transform and the world bounding box of the
+module geometry. Link bodies are sketch + extrude features (EXO-58): outlines from
+armgen drawn on construction planes placed in the arm frame, with the link
+component left at identity.
+
+Everything configurable is in the CONFIG block below. The pure-Python parts
+(FK, frames, link numbers) live in armgen.py next to this file.
+"""
+
+import os
+import sys
+import math
+import traceback
+
+import adsk.core
+import adsk.fusion
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import importlib
+import armgen  # noqa: E402
+importlib.reload(armgen)  # Fusion caches modules between runs
+
+# ============================== CONFIG ==============================
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, '..', '..'))
+
+# URDF file. If it does not exist a file dialog asks for it.
+URDF_PATH = os.path.join(REPO_DIR, 'g1', 'g1_29dof.urdf')
+
+# Report text (same as the message box, plus a traceback on failure) is written here.
+REPORT_PATH = os.path.join(REPO_DIR, 'gento_luna', 'exo', 'exports', 'buildarm_report.txt')
+
+# Name of the saved Fusion document (or component already in the design) of
+# the exo joint. Matched on prefix because linked components get " vNN".
+MODULE_DOC_NAME = 'sensor module 2'
+
+# Everything is created under this one new component in the root. Any existing
+# root-level component whose name starts with this is deleted at the start of a run.
+ARM_COMPONENT_NAME = 'generated_R_arm'
+
+# The existing arm design has its origin on the LEFT J1 rotor-face centre
+# (exo STEP frame). Put that URDF joint on the document origin so the generated
+# arm overlays the existing one. Set to None for raw URDF (pelvis) coordinates.
+ORIGIN_AT_JOINT = 'left_shoulder_pitch_joint'
+
+# Joints to place. axis_sign: module Z (out of the rotor face) = sign * URDF axis.
+# y_hint: world direction (URDF frame) the module's +Y (actuator connector side)
+# should lean toward. These reproduce the existing right arm as measured in the exo STEP.
+#
+# EXO-130: y_hint is now the SEED of the rotation about Z, not the answer. The rotation is a
+# free parameter of the design and it decides where the three stator inserts, the actuator
+# cutout and the rotor index notch sit under the link that lands on them, so it is SOLVED
+# (armgen.solve_module_spins) once the frames are built: the measured pose is kept wherever
+# it already clears, and moved only where it does not. The build report prints the angle
+# chosen at every joint and the window it came from.
+JOINTS = [
+    {'label': 'J1', 'name': 'right_shoulder_pitch_joint', 'axis_sign': -1, 'y_hint': (0, 0, 1)},
+    {'label': 'J2', 'name': 'right_shoulder_roll_joint', 'axis_sign': +1, 'y_hint': (0, 1, 0)},
+    {'label': 'J3', 'name': 'right_shoulder_yaw_joint', 'axis_sign': -1, 'y_hint': (-1, 0, 0)},
+    # EXO-103: confirmed against the exo `Module 3 R` pose before link_34 was built - this
+    # (axis_sign, y_hint) reproduces its orientation to 1.9e-4 rad, the same rounding J1..J3
+    # measure, and the J3->J4 pair it makes agrees with the exo's own two modules to 0.003 mm.
+    {'label': 'J4', 'name': 'right_elbow_joint', 'axis_sign': -1, 'y_hint': (-1, 0, 0)},
+    # EXO-114: confirmed against the exo `Module 4 R` pose before link_45 was built - this
+    # (axis_sign, y_hint) reproduces its orientation to 2.07e-4 rad (the same rounding J1..J4
+    # measure) and the J4->J5 pair it makes agrees with the exo's own two modules to
+    # 0.005 mm. Past J3 the whole arm sits 8.8 mm off the hand-built one by construction
+    # (EXO-113), so it is the PAIR that is compared, not the world pose.
+    {'label': 'J5', 'name': 'right_wrist_roll_joint', 'axis_sign': +1, 'y_hint': (0, 1, 0)},
+]
+
+# Links to generate. a = rotor-pad joint, b = stator-pad joint.
+#   width:  the ribbon's width in mm - ESTEBAN'S INPUT PER LINK, never derived (EXO-96).
+#           52 for the shoulder (the most loaded and shortest link, the full rotor-pad
+#           diameter of the hand-built Link 1 R) and 25 for the bar (Link 2 R).
+#   expect: the route `armgen.route` is expected to compute ('bar' / 'L'). The router works
+#           it out from the two joint frames alone (EXO-81/EXO-96); this is an assertion,
+#           not a switch, so a pair that silently changes route stops the build.
+#   pad_r: rotor pad radius; stop_angle/stop_half/stop_h: link stop block (deg, deg, mm).
+#          HAND-SET, and they limit nothing - EXO-204 derives the block from the joint's
+#          URDF limits instead (`armgen.limited_joint`), which `BuildArmGen.LIMITED_JOINTS`
+#          turns on joint by joint. J1's generated block comes out at the same +/-5 deg this
+#          list carries, from the URDF alone. These stay until every joint is reviewed.
+LINKS = [
+    {'a': 'J1', 'b': 'J2', 'name': 'link_12', 'expect': 'L', 'width': 52.0,
+     'pad_r': 26.0, 'stop_angle': 0.0, 'stop_half': 5.0, 'stop_h': 3.6},
+    {'a': 'J2', 'b': 'J3', 'name': 'link_23', 'expect': 'bar', 'width': 25.0,
+     'pad_r': 27.0, 'stop_angle': 270.0, 'stop_half': 10.0, 'stop_h': 3.5},
+    # EXO-103, the up-column pair. Width, pad radius and the stop block's size are `Link
+    # 3 R`'s, measured (EXO-104): a 52 mm ribbon on a r 26 rotor pad - its two walls tangent
+    # to the rim, as Link 1 R's are - and a stop block r 20..26 x 3.6 mm, +/-10 deg wide.
+    # Its ANGLE is not Link 3 R's 180 deg (the slab side). The exo's right arm is MIRRORED,
+    # so its modules carry the stator stop block at about 348 deg; this generator places the
+    # unmirrored `sensor module 2` at every joint, where that block sits at 158..178 deg
+    # (EXO-77) - exactly where Link 3 R's own block is. 0 deg puts the link's block
+    # diametrically opposite it, as link_12 already does. Joint limits are deferred (EXO-41).
+    {'a': 'J3', 'b': 'J4', 'name': 'link_34', 'expect': 'L', 'width': 52.0,
+     'pad_r': 26.0, 'stop_angle': 0.0, 'stop_half': 10.0, 'stop_h': 3.6},
+    # EXO-114, the ramp. Width, pad radius and the stop block's size are `Link 4 R`'s,
+    # measured: a 44 mm ribbon on a r 27 rotor pad - which is also the widest band that stays
+    # inside BOTH rims of this pair (27 + 27 - 10), the thing that lets the plan taper take
+    # the whole 10 mm lateral - and a stop block r 20..27 x 3.6 mm, +/-10 deg wide. Its ANGLE
+    # is not Link 4 R's 180 deg (opposite the run): this generator places the UNMIRRORED
+    # `sensor module 2`, whose own stator block sits at 158..178 deg (EXO-77/EXO-111), so the
+    # link's block goes to 0 deg - diametrically opposite it, as link_12 and link_34 do.
+    {'a': 'J4', 'b': 'J5', 'name': 'link_45', 'expect': 'ramp', 'width': 44.0,
+     'pad_r': 27.0, 'stop_angle': 0.0, 'stop_half': 10.0, 'stop_h': 3.6},
+]
+
+# ====================================================================
+
+M_TO_CM = 100.0    # URDF meters -> Fusion API centimeters
+MM_TO_CM = 0.1
+
+
+def P(x, y, z):
+    """Point3D from millimeters."""
+    return adsk.core.Point3D.create(x * MM_TO_CM, y * MM_TO_CM, z * MM_TO_CM)
+
+
+def V(x, y, z):
+    return adsk.core.Vector3D.create(x, y, z)
+
+
+def matrix_from_frame(R, t_cm):
+    m = adsk.core.Matrix3D.create()
+    m.setWithArray([
+        R[0][0], R[0][1], R[0][2], t_cm[0],
+        R[1][0], R[1][1], R[1][2], t_cm[1],
+        R[2][0], R[2][1], R[2][2], t_cm[2],
+        0.0, 0.0, 0.0, 1.0])
+    return m
+
+
+# ---------------- link bodies: sketches on construction planes + extrudes (EXO-58) ----------------
+# A link is built from real Fusion features inside its own component: a construction plane
+# from a world Plane (`ConstructionPlaneInput.setByPlane`, valid in direct designs), a
+# sketch on it holding an armgen outline (lines + three-point arcs, every point converted
+# with `modelToSketchSpace`), and an extrude with a SYMMETRIC full-length extent about the
+# plane (so nothing depends on which way the plane normal points). Joins and cuts are
+# extrudes with `participantBodies`, so pads and body end as ONE body. Measured API facts
+# (tools/bridge_scripts/probe_sketch_extrude.py, this design): setSymmetricExtent(d, True)
+# gives d in total; SketchArc.start/endSketchPoint follow the arc's own orientation, so
+# curves are chained by coordinates and never through an arc's end point.
+
+class Frame:
+    """Rigid frame in the arm frame (= world: the arm and link components sit at identity).
+    R columns = frame axes in world, t in mm."""
+
+    def __init__(self, R, t_mm):
+        self.R, self.t = R, list(t_mm)
+
+    def child(self, R_rel, t_rel_mm):
+        return Frame(armgen.matmul(self.R, R_rel), self.xyz(t_rel_mm))
+
+    def xyz(self, p):
+        return [self.t[i] + sum(self.R[i][k] * p[k] for k in range(3)) for i in range(3)]
+
+    def point(self, p):
+        return P(*self.xyz(p))
+
+    def vector(self, v):
+        return V(*armgen.matvec(self.R, v))
+
+
+class PlaneSketch:
+    """A sketch on the plane through `origin` (world Point3D, cm) spanned by the world unit
+    vectors e1, e2; 2D outline coordinates (a, b) in mm map to origin + a*e1 + b*e2."""
+
+    def __init__(self, comp, name, origin, e1, e2):
+        self.comp, self.name, self.origin, self.e1, self.e2 = comp, name, origin, e1, e2
+        pin = comp.constructionPlanes.createInput()
+        if not pin.setByPlane(adsk.core.Plane.create(origin, e1.crossProduct(e2))):
+            raise RuntimeError('%s: ConstructionPlaneInput.setByPlane refused' % name)
+        self.cplane = comp.constructionPlanes.add(pin)
+        self.cplane.name = name + ' plane'
+        self.sketch = comp.sketches.add(self.cplane)
+        self.sketch.name = name
+
+    def pt(self, a, b):
+        w = adsk.core.Point3D.create(
+            self.origin.x + (a * self.e1.x + b * self.e2.x) * MM_TO_CM,
+            self.origin.y + (a * self.e1.y + b * self.e2.y) * MM_TO_CM,
+            self.origin.z + (a * self.e1.z + b * self.e2.z) * MM_TO_CM)
+        return self.sketch.modelToSketchSpace(w)
+
+    def loop(self, segs):
+        """Closed armgen outline: ('line', p0, p1) / ('arc', p0, p_mid, p1, centre, r)."""
+        if not armgen.profile_closed(segs):
+            raise RuntimeError('%s: outline is not a closed loop' % self.name)
+        lines = self.sketch.sketchCurves.sketchLines
+        arcs = self.sketch.sketchCurves.sketchArcs
+        for sg in segs:
+            if sg[0] == 'line':
+                lines.addByTwoPoints(self.pt(*sg[1]), self.pt(*sg[2]))
+            elif sg[0] == 'arc':
+                arcs.addByThreePoints(self.pt(*sg[1]), self.pt(*sg[2]), self.pt(*sg[3]))
+            else:
+                raise ValueError('%s: unknown segment %r' % (self.name, sg[0]))
+
+    def circle(self, c, r):
+        self.sketch.sketchCurves.sketchCircles.addByCenterRadius(self.pt(*c), r * MM_TO_CM)
+
+    def extrude(self, expect_profiles, length_mm, op, body=None):
+        """Symmetric extrude of all profiles (their count must be `expect_profiles`) by
+        `length_mm` in total; `body` = participant for join / cut. Hides the sketch and
+        plane afterwards. Returns the ExtrudeFeature; raises with the step name on failure."""
+        n = self.sketch.profiles.count
+        if n != expect_profiles:
+            raise RuntimeError('%s: sketch has %d profile(s), expected %d' % (self.name, n, expect_profiles))
+        profs = adsk.core.ObjectCollection.create()
+        for i in range(n):
+            profs.add(self.sketch.profiles.item(i))
+        feats = self.comp.features.extrudeFeatures
+        inp = feats.createInput(profs, op)
+        inp.setSymmetricExtent(adsk.core.ValueInput.createByReal(length_mm * MM_TO_CM), True)
+        if body is not None:
+            inp.participantBodies = list(body) if isinstance(body, (list, tuple)) else [body]
+        try:
+            feat = feats.add(inp)
+        except Exception as e:
+            raise RuntimeError('%s: extrude (%s, %.2f mm) failed: %s' % (self.name, op, length_mm, e))
+        if feat is None:
+            raise RuntimeError('%s: extrude returned nothing' % self.name)
+        feat.name = self.name
+        self.sketch.isVisible = False
+        self.cplane.isLightBulbOn = False
+        return feat
+
+
+SPIN_LINKS = [(L['name'], L['a'], L['b'], L['pad_r'], L['width']) for L in LINKS]
+
+
+def arm_frames(joints, by_child, shift=(0.0, 0.0, 0.0)):
+    """The module frames this build places, and nothing else's idea of them.
+
+    `y_hint` in JOINTS is the SEED - the rotation about the module axis measured in the exo
+    STEP. The rotation itself is SOLVED (EXO-130): it decides where the three stator inserts,
+    the actuator cutout and the rotor index notch sit under the link that lands on them, and
+    a joint is the stator end of one link and the rotor end of the next, so the whole chain
+    is solved at once and then re-proved closed on the solved frames.
+
+    Returns (frames, spins, chain). Every bridge script that has to measure what was built
+    calls THIS, so no measurement can be made against an arm that was never drawn.
+    """
+    frames = {}
+    for j in JOINTS:
+        R, t = armgen.module_frame(j['name'], joints, by_child, j['axis_sign'], j['y_hint'])
+        frames[j['label']] = (R, [t[i] - shift[i] for i in range(3)])
+    frames, spins = armgen.spun_frames(frames, SPIN_LINKS)
+    return frames, spins, armgen.spin_chain_check(frames, SPIN_LINKS, spins)
+
+
+JOIN_OVERLAP = 1.0   # mm a stop block / index tab extends up INTO the pad so the join overlaps in volume
+
+
+def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
+    """Build the link's single solid in component `comp`. FA = rotor-pad frame A in the arm
+    frame (Frame); (R_ab, t_ab) = stator frame B in A (mm); `routed` = the LinkSpec from
+    armgen.route. Returns (BRepBody, info dict)."""
+    g = armgen
+    NEW = adsk.fusion.FeatureOperations.NewBodyFeatureOperation
+    JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
+    CUT = adsk.fusion.FeatureOperations.CutFeatureOperation
+    ISECT = adsk.fusion.FeatureOperations.IntersectFeatureOperation
+    pad_r = spec['pad_r']
+    pattern, info = routed['pattern'], routed['geometry']
+    eps = 0.5
+    # FB = the stator frame as the URDF gives it: the insert holes and the actuator cutout
+    # are cut there, where they mate (the cutout has zero clearance to the XL330). FS = the
+    # frame the slab BODY is drawn in - B snapped so its connector side runs along the pad
+    # axis and its own axis lies in the pad plane, so tongue and link walls are the same
+    # planes (EXO-61). The snap is 1.9e-4 rad for the G1 bar and a real 16 deg for the
+    # shoulder L, which is why the cuts stay in FB.
+    FB = FA.child(R_ab, t_ab)
+    FS = FA.child(info['R_b'], t_ab)
+    u, w = info['u'], info['w']
+    ex, ey, ez = FA.vector([1, 0, 0]), FA.vector([0, 1, 0]), FA.vector([0, 0, 1])
+    bx, by = FB.vector([1, 0, 0]), FB.vector([0, 1, 0])
+    sx, sy = FS.vector([1, 0, 0]), FS.vector([0, 1, 0])
+    z_slab_mid = g.STATOR_UNDERSIDE_Z - g.PAD_T / 2
+
+    # --- the route's side profile comes first (armgen.route_profile: one renderer for any
+    #     route, EXO-96). When the route carries a PLAN BAND - the S (EXO-64; placement
+    #     EXO-69) or the ramp's taper (EXO-114) - the profile is extruded WIDE about the
+    #     rotor pad's own centre plane and then INTERSECTED with that band, which is what
+    #     puts the shape on its two walls. Everything else (pad disk, slab, cuts) joins into
+    #     that body afterwards. Without a band the profile is simply extruded to the ribbon's
+    #     width about its own centre plane, as in EXO-58; `profile_w` is the w that plane
+    #     sits on, which the route decides.
+    pb = info['plan_band']
+    off = info['profile_w']
+    sk = PlaneSketch(comp, '%s side profile' % pattern,
+                     FA.point([w[0] * off, w[1] * off, 0.0]), FA.vector(u), ez)
+    sk.loop(info['profile'])
+    body = sk.extrude(1, pb['wide_w'] if pb else info['width'], NEW).bodies.item(0)
+    if pb:
+        sk = PlaneSketch(comp, '%s %s plan' % (pattern, info['offset_taken']),
+                         FA.point([0, 0, pb['z_mid']]), FA.vector(u), FA.vector(w))
+        sk.loop(pb['band'])
+        sk.extrude(1, pb['z_span'], ISECT, body)
+
+    # --- rotor pad disk: joins into the profile body ---
+    sk = PlaneSketch(comp, 'rotor pad', FA.point([0, 0, g.PAD_T / 2]), ex, ey)
+    sk.circle((0, 0), pad_r)
+    sk.extrude(1, g.PAD_T, JOIN, body)
+
+    # --- stator slab: the disk with its flange tongue and the tongue's blends, drawn in FS ---
+    sk = PlaneSketch(comp, 'stator pad + flange', FS.point([0, 0, z_slab_mid]), sx, sy)
+    sk.loop(info['flange'])
+    sk.extrude(1, g.PAD_T, JOIN, body)
+
+    # --- the one rounded edge a JOIN cannot make: the corner round at the stator slab's FAR
+    #     face, cut in the side-profile plane. The bar's r 7.9 tongue-end round and the
+    #     shoulder's r 5.5 elbow round are the same feature of the same join, so there is one
+    #     cut (armgen.route_corner_cut); the route says how wide it is and which w it is
+    #     centred on - the tongue's, which is w_off when an S brought the band there and 0
+    #     when the offset went into the slab.
+    cc = info['corner_cut_w_centre']
+    sk = PlaneSketch(comp, 'slab corner round',
+                     FA.point([w[0] * cc, w[1] * cc, 0.0]), FA.vector(u), ez)
+    sk.loop(info['corner_cut'])
+    sk.extrude(1, info['corner_cut_w'], CUT, body)
+
+    # --- stop block (ring sector below the pad face) and index tab, joined with overlap ---
+    stop_h, half, ang = spec['stop_h'], spec['stop_half'], spec['stop_angle']
+    sk = PlaneSketch(comp, 'stop block', FA.point([0, 0, (JOIN_OVERLAP - stop_h) / 2]), ex, ey)
+    sk.loop(g.stop_block_outline(ang, half, g.STOP_R_IN, pad_r))
+    sk.extrude(1, stop_h + JOIN_OVERLAP, JOIN, body)
+    sk = PlaneSketch(comp, 'index tab', FA.point([0, 0, (JOIN_OVERLAP - g.TAB_H) / 2]), ex, ey)
+    sk.loop(g.rect_outline(-g.TAB_W / 2, g.TAB_R_IN, g.TAB_W / 2, g.TAB_R_OUT))
+    sk.extrude(1, g.TAB_H + JOIN_OVERLAP, JOIN, body)
+
+    # --- rotor-side cuts: 4x M3 through the pad ---
+    sk = PlaneSketch(comp, 'rotor holes', FA.point([0, 0, g.PAD_T / 2]), ex, ey)
+    for a in g.ROTOR_HOLE_ANGLES:
+        sk.circle((g.ROTOR_HOLE_RADIUS * math.cos(math.radians(a)),
+                   g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a))), g.HOLE_R)
+    sk.extrude(len(g.ROTOR_HOLE_ANGLES), g.PAD_T + 2 * eps, CUT, body)
+
+    # --- stator-side cuts: 3 insert holes + actuator cutout through the slab ---
+    sk = PlaneSketch(comp, 'stator holes + cutout', FB.point([0, 0, z_slab_mid]), bx, by)
+    for a in g.INSERT_ANGLES:
+        sk.circle((g.INSERT_RADIUS * math.cos(math.radians(a)),
+                   g.INSERT_RADIUS * math.sin(math.radians(a))), g.HOLE_R)
+    sk.loop(g.rect_outline(g.CUTOUT_X[0], g.CUTOUT_Y[0], g.CUTOUT_X[1], g.CUTOUT_Y[1]))
+    sk.extrude(len(g.INSERT_ANGLES) + 1, g.PAD_T + 2 * eps, CUT, body)
+
+    if comp.bRepBodies.count != 1:
+        raise RuntimeError('%s: %d bodies after the build, expected one solid'
+                           % (comp.name, comp.bRepBodies.count))
+    return comp.bRepBodies.item(0), info
+
+
+# ---------------- Fusion document helpers ----------------
+
+def find_module_component(design):
+    for comp in design.allComponents:
+        if comp.name == MODULE_DOC_NAME or comp.name.startswith(MODULE_DOC_NAME + ' v'):
+            return comp
+    return None
+
+
+# EXO-208. The module's joint stop is `armgen.JOINT_STOP_DEG` wide, not the 20 deg the
+# design was drawn with, and the change is made in a COPY of the module that lives in this
+# document. `sensor module 2` itself - the cloud design, the STEP in the repo and the
+# linked component every other arm in the document uses - is never touched.
+MODULE_STOP_NAME = 'sensor module 2 stop%g' % armgen.JOINT_STOP_DEG
+
+# How far past the measured block each wedge reaches, deg, and the radii it spans, mm. Both
+# are deliberately outside the block on every side: a cut that stopped ON one of the block's
+# own faces would leave a sliver there, and this way the ONLY face the cut creates is the
+# new end of the block.
+MODULE_STOP_CUT_OVER = 3.0
+MODULE_STOP_CUT_R = (20.0, 30.0)
+# How close the measured block has to land on what was asked, deg. 0.01 is
+# four times the 0.0026 deg of scatter the module's own two edges measure.
+MODULE_STOP_TOL_DEG = 0.01
+
+
+
+def module_stop_component(design):
+    """The EXO-208 narrowed-stop module, if this document already holds it."""
+    for comp in design.allComponents:
+        if comp.name == MODULE_STOP_NAME:
+            return comp
+    return None
+
+
+def module_stator_occ(parent, in_context=False):
+    """The child of a module occurrence/component that carries the stator, i.e. the joint
+    stop: a single body, radius > 26 mm, reaching above z = -1 in the module frame. Found on
+    the SOLID and never by name - EXO-208's module is a `breakLink` copy and Fusion is free
+    to rename its children."""
+    occs = parent.childOccurrences if in_context else parent.occurrences
+    for i in range(occs.count):
+        c = occs.item(i)
+        comp = c.component
+        if comp.bRepBodies.count != 1:
+            continue
+        bb = (c.bRepBodies.item(0) if in_context else comp.bRepBodies.item(0)).boundingBox
+        z_top = bb.maxPoint.z * 10.0 + (0.0 if in_context
+                                        else c.transform.translation.z * 10.0)
+        if max(abs(bb.minPoint.x), abs(bb.maxPoint.x)) * 10.0 > 26.0 and z_top > -1.0:
+            return c
+    return None
+
+
+def measure_joint_stop(body, r_mm=24.0, z_mm=-2.2, coarse=0.25):
+    """The stop block ON THE SOLID, in the module frame: [(lo, hi), ...] deg, one entry per
+    contiguous run of solid on the r `r_mm` / z `z_mm` circle. `body` must already be in
+    module coordinates (a proxy under a module occurrence placed at identity).
+
+    Point containment, bisected to 1e-16 deg - the same probe that read the original block
+    at 158.00258 .. 178.00192 (`tools/bridge_scripts/probe_exo208_block.py`)."""
+    inside = (adsk.fusion.PointContainment.PointInsidePointContainment,
+              adsk.fusion.PointContainment.PointOnPointContainment)
+
+    def solid(a):
+        return body.pointContainment(adsk.core.Point3D.create(
+            r_mm * math.cos(math.radians(a)) / 10.0,
+            r_mm * math.sin(math.radians(a)) / 10.0, z_mm / 10.0)) in inside
+
+    def bisect(a_in, a_out):
+        for _ in range(60):
+            mid = (a_in + a_out) / 2.0
+            a_in, a_out = (mid, a_out) if solid(mid) else (a_in, mid)
+        return (a_in + a_out) / 2.0
+
+    n = int(round(360.0 / coarse))
+    hit = [k * coarse for k in range(n) if solid(k * coarse)]
+    runs = []
+    for a in hit:
+        if runs and a - runs[-1][-1] <= coarse * 1.001:
+            runs[-1].append(a)
+        else:
+            runs.append([a])
+    return [(bisect(r[0], r[0] - coarse), bisect(r[-1], r[-1] + coarse)) for r in runs]
+
+
+def _stop_block_of(module_occ):
+    """The stator's stop block of a module OCCURRENCE, measured on the solid in the module
+    frame: [(lo, hi), ...] deg, one entry per contiguous run."""
+    st = module_stator_occ(module_occ, in_context=True)
+    if st is None:
+        raise RuntimeError('no stator under %s' % module_occ.component.name)
+    return measure_joint_stop(st.bRepBodies.item(0))
+
+
+def _stop_verdict(runs):
+    """None if `runs` is exactly the block EXO-208 asks for, else why it is not."""
+    lo_keep = math.degrees(armgen.JOINT_STOP_MID) - armgen.JOINT_STOP_DEG / 2.0
+    hi_keep = math.degrees(armgen.JOINT_STOP_MID) + armgen.JOINT_STOP_DEG / 2.0
+    if len(runs) != 1:
+        return '%d blocks on the rim, expected 1' % len(runs)
+    lo, hi = runs[0]
+    if max(abs(lo - lo_keep), abs(hi - hi_keep)) > MODULE_STOP_TOL_DEG:
+        return 'block %.5f..%.5f deg, asked %.5f..%.5f' % (lo, hi, lo_keep, hi_keep)
+    return None
+
+
+def _module_local_copy(design, new_name):
+    """Steps 1-3 of the recipe: one more occurrence of the LINKED `sensor module 2` at the
+    root at identity, `breakLink()`ed into THIS document, renamed `new_name`. Returns
+    (component, occurrence, source name).
+
+    The source is found through an OCCURRENCE, because `isReferencedComponent` is the only
+    thing that can tell a reference from a local copy of it - the name cannot, since
+    breakLink keeps the name it had.
+    """
+    root = design.rootComponent
+    src = None
+    for i in range(root.occurrences.count):
+        o = root.occurrences.item(i)
+        if o.isReferencedComponent and (o.component.name == MODULE_DOC_NAME
+                                        or o.component.name.startswith(MODULE_DOC_NAME + ' v')):
+            src = o.component
+            break
+    if src is None:
+        raise RuntimeError('no occurrence of the LINKED "%s" in this design, so there is '
+                           'nothing to copy' % MODULE_DOC_NAME)
+    occ = root.occurrences.addExistingComponent(src, adsk.core.Matrix3D.create())
+    if not occ.breakLink():
+        raise RuntimeError('breakLink() refused on a copy of "%s": without it the cut would '
+                           'land in the original design' % src.name)
+    # the copy has to be LOCAL, or every cut below would land in the cloud design. Checked
+    # on the occurrence, not on the component's name.
+    if occ.isReferencedComponent:
+        raise RuntimeError('breakLink() returned True but the occurrence is still a '
+                           'reference to "%s"' % src.name)
+    comp = occ.component
+    comp.name = new_name
+    return comp, occ, src.name
+
+
+def _narrow_stop_block(comp, occ):
+    """Steps 4-5 of the EXO-208 recipe, on the LOCAL copy `comp` (occurrence `occ`, at the
+    root, at identity): cut TWO ring-sector wedges out of the stop block, one off each end,
+    leaving `armgen.JOINT_STOP_DEG` centred on the block's MEASURED centre
+    `armgen.JOINT_STOP_MID` (168.00225 deg), then re-measure it off the solid.
+
+    Sketch, wedge bodies and Combine all live in the STATOR's own component, so nothing
+    crosses a component boundary; that component sits at a pure z offset inside the module,
+    measured and asserted here, and the sketch is drawn at module z + that offset. The
+    wedges run r 20 .. 30, past BOTH of the block's radii, so the cut cannot leave a step at
+    r 21.05 or at r 27; and z -4.0 (the stator's own top face, coincident, so nothing comes
+    off the rim) up to z +1.0 (free air: above z = -0.4 the module has nothing outside r 18).
+
+    Radii, height and centre are therefore the module's own, unchanged; the ONE number that
+    changes is the arc. `tools/bridge_scripts/measure_exo208_module.py` is the same
+    measurement run from outside, on the placed modules. Returns the `how` string.
+    """
+    lo_keep = math.degrees(armgen.JOINT_STOP_MID) - armgen.JOINT_STOP_DEG / 2.0
+    hi_keep = math.degrees(armgen.JOINT_STOP_MID) + armgen.JOINT_STOP_DEG / 2.0
+    stator_occ = module_stator_occ(comp)
+    if stator_occ is None:
+        raise RuntimeError('%s: no r > 26 mm single-body child to carry the stop block'
+                           % comp.name)
+    t = stator_occ.transform
+    ax = t.asArray()
+    if (max(abs(ax[0] - 1), abs(ax[5] - 1), abs(ax[10] - 1)) > 1e-9
+            or abs(ax[3]) > 1e-9 or abs(ax[7]) > 1e-9):
+        raise RuntimeError('%s: the stator sits in its module at %s, not at a pure z offset '
+                           '- the cut would be drawn in the wrong frame' % (comp.name, ax))
+    # MEASURED, not assumed: a point at module z maps to `z + dz` in the stator component's
+    # own space, which is the space its sketches and features are drawn in
+    # (`tools/bridge_scripts/probe_exo208_frame.py`).
+    dz = -t.translation.z * 10.0
+    st = stator_occ.component
+    body = st.bRepBodies.item(0)
+    vol0 = body.volume * 1000.0
+    was = _stop_block_of(occ)
+
+    lo_meas = armgen.JOINT_STOP_MEASURED_LO_DEG
+    hi_meas = armgen.JOINT_STOP_MEASURED_HI_DEG
+    if len(was) == 1:
+        lo_meas, hi_meas = was[0]                 # what is really there, not what was noted
+    if not (lo_meas - MODULE_STOP_TOL_DEG <= lo_keep
+            and hi_keep <= hi_meas + MODULE_STOP_TOL_DEG):
+        raise RuntimeError('JOINT_STOP_DEG = %.4f does not fit inside the block that is '
+                           'there (%.5f..%.5f deg): this cut can only remove material'
+                           % (armgen.JOINT_STOP_DEG, lo_meas, hi_meas))
+    wedges = [(lo_meas - MODULE_STOP_CUT_OVER, lo_keep),
+              (hi_keep, hi_meas + MODULE_STOP_CUT_OVER)]
+    Z_LO, Z_HI = armgen.JOINT_STOP_Z[0], 1.0      # -4.0 (coincident) .. +1.0 (free air)
+    sk = PlaneSketch(st, '%s joint stop %g deg' % (comp.name, armgen.JOINT_STOP_DEG),
+                     adsk.core.Point3D.create(0.0, 0.0,
+                                              ((Z_LO + Z_HI) / 2.0 + dz) * MM_TO_CM),
+                     V(1, 0, 0), V(0, 1, 0))
+    for a0, a1 in wedges:
+        sk.loop(armgen.stop_block_outline((a0 + a1) / 2.0, (a1 - a0) / 2.0,
+                                          MODULE_STOP_CUT_R[0], MODULE_STOP_CUT_R[1]))
+    feat = sk.extrude(len(wedges), Z_HI - Z_LO,
+                      adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+    tools = adsk.core.ObjectCollection.create()
+    for i in range(feat.bodies.count):
+        tools.add(feat.bodies.item(i))
+    if tools.count != len(wedges):
+        raise RuntimeError('%s: the wedge extrude made %d bodies, expected %d'
+                           % (comp.name, tools.count, len(wedges)))
+    cin = st.features.combineFeatures.createInput(body, tools)
+    cin.operation = adsk.fusion.FeatureOperations.CutFeatureOperation
+    cin.isKeepToolBodies = False
+    st.features.combineFeatures.add(cin)
+    if st.bRepBodies.count != 1:
+        raise RuntimeError('%s: %d bodies left in the stator component after the cut, '
+                           'expected 1' % (comp.name, st.bRepBodies.count))
+    vol1 = st.bRepBodies.item(0).volume * 1000.0
+
+    runs = _stop_block_of(occ)
+    bad = _stop_verdict(runs)
+    if bad is not None:
+        raise RuntimeError('%s: the cut did not leave the block it was asked for - %s'
+                           % (comp.name, bad))
+    return ('two wedge bodies combine-cut out of %s/%s; wedges %.5f..%.5f and %.5f..%.5f '
+            'deg, r %.1f..%.1f, z %.1f..%.1f. Block MEASURED %.5f..%.5f deg before, '
+            '%.5f..%.5f after (arc %.5f, centre %.5f, asked %.1f on %.5f); stator body '
+            '%.3f -> %.3f mm3 (-%.3f)'
+            % (st.name, body.name, wedges[0][0], wedges[0][1], wedges[1][0], wedges[1][1],
+               MODULE_STOP_CUT_R[0], MODULE_STOP_CUT_R[1], Z_LO, Z_HI,
+               was[0][0] if len(was) == 1 else float('nan'),
+               was[0][1] if len(was) == 1 else float('nan'),
+               runs[0][0], runs[0][1], runs[0][1] - runs[0][0],
+               (runs[0][0] + runs[0][1]) / 2.0, armgen.JOINT_STOP_DEG,
+               math.degrees(armgen.JOINT_STOP_MID), vol0, vol1, vol0 - vol1))
+
+
+def ensure_stop_module(design, rep=None):
+    """The module with its stator stop block narrowed to `armgen.JOINT_STOP_DEG`, made if it
+    is not here yet, and MEASURED either way. Returns (component, how).
+
+    HOW IT IS MADE - the whole recipe, so it can be re-made from nothing: steps 1-3 are
+    `_module_local_copy` (place one more occurrence of the LINKED `sensor module 2`,
+    `breakLink()` it into THIS document, rename the local copy `MODULE_STOP_NAME`), steps
+    4-5 are `_narrow_stop_block` (cut two ring-sector wedges off the ends of the stop block
+    and re-measure what is left, refusing anything but one run of `JOINT_STOP_DEG` on the
+    measured centre). EXO-225's `ensure_v3_module` shares both halves.
+    """
+    root = design.rootComponent
+    # Scratch from an earlier attempt: a rejected stop module, or a LOCAL copy of the module
+    # left behind by a breakLink that then failed. Both are strays at the origin, and the
+    # second one would be picked as the source below and cut instead of a fresh copy. The
+    # linked `sensor module 2` is never a candidate here - it is a reference.
+    for i in reversed(range(root.occurrences.count)):
+        o = root.occurrences.item(i)
+        n = o.component.name
+        if (n.startswith(MODULE_STOP_NAME + ' (rejected)')
+                or (n.startswith(MODULE_DOC_NAME) and not o.isReferencedComponent
+                    and not n.startswith(MODULE_V3_NAME))):
+            o.deleteMe()
+
+    comp = module_stop_component(design)
+    if comp is not None:
+        occ = None
+        for i in range(root.occurrences.count):
+            if root.occurrences.item(i).component.name == comp.name:
+                occ = root.occurrences.item(i)
+        runs = None if occ is None else _stop_block_of(occ)
+        bad = 'it has no occurrence to measure' if runs is None else _stop_verdict(runs)
+        if bad is None:
+            return comp, ('already in the document, measured %.5f..%.5f deg (arc %.5f)'
+                          % (runs[0][0], runs[0][1], runs[0][1] - runs[0][0]))
+        if rep is not None:
+            rep('%s was here but is WRONG (%s) - discarded and re-made'
+                % (MODULE_STOP_NAME, bad))
+        comp.name = MODULE_STOP_NAME + ' (rejected)'
+        if occ is not None:
+            occ.deleteMe()
+
+    comp, occ, src_name = _module_local_copy(design, MODULE_STOP_NAME)
+    how_cut = _narrow_stop_block(comp, occ)
+    occ.isLightBulbOn = False        # the source copy parks at the origin, out of sight
+    how = ('made now: a copy of "%s" (addExistingComponent + breakLink), renamed, %s'
+           % (src_name, how_cut))
+    if rep is not None:
+        rep('%s: %s' % (comp.name, how))
+    return comp, how
+
+
+# ---------------- EXO-225: the v3 module ----------------
+# In `sensor module 2` the four small horn screws pass through BOTH rotor parts at once and
+# clamp them together onto the XL330 horn, so they can only be driven after the stack is
+# built and they do double duty. v3 splits the job in two:
+#
+#   * the horn screws hold the LOWER rotor part alone - driven first, on their own, with
+#     their heads seated on that part's own web top face (module z -9, the face the upper
+#     part lands on). They become M2x4 where they were M2x8;
+#   * the four M3 bolts the link already puts through the rotor pad carry on down through
+#     the upper part and into the lower one, into hex nuts captured under it. They grow
+#     from ~16 to ~22 mm;
+#   * the upper part keeps no O2.2 hole at all: it gets a blind O5 pocket per screw head,
+#     and its rotor face is SOLID at r 6 where four O5 counterbores used to open;
+#   * the two parts register on TWO O3 pegs, at r 12.2 and 67.5 / 112.5 deg - 45 deg apart,
+#     straddling the index notch at +Y. Two pegs fix concentricity and angle at once, and
+#     the pair is not 4-fold symmetric, so the only orientation that assembles is the one
+#     the index notch means.
+#
+# Every number below is MEASURED off `sensor module 2` (EXO-226) and re-measured on the
+# result by `measure_rotor_v3`. Nothing the links or the stator touch moves: rotor face
+# z = 0, 4x O3.2 at r 11, the index notch, the bearing seat and the stator are untouched.
+MODULE_V3_NAME = 'sensor module 2 v3'
+V3_NUT_COMP_NAME = 'M3 nut ISO 4032 x4'      # EXO-231, drawn: the four standard nuts
+V3_BOLT_COMP_NAME = 'M3x20 bolt x4'          # EXO-231, drawn: the four M3 bolts
+
+V3_TOL = 0.02                  # mm, how close a measured face has to land on its number
+
+# The two rotor parts, identified on the SOLID: breakLink renames every child (EXO-208), so
+# a name lookup would not survive the copy. These are their measured z spans.
+V3_UPPER_Z = (-9.0, 0.0)       # upper rotor part - the face disk, r 18 over r 15
+V3_LOWER_Z = (-13.2, -9.0)     # lower rotor part - the one that sits on the horn
+V3_ROTOR_R_MAX = 20.0          # both are well inside this; the stator and bearing are not
+# The two are told apart by ONE measured face each, chosen because it is the same
+# before and after the rework: the upper part is the only single body inside r 20 whose
+# top is the rotor face z = 0, the lower part the only one whose bottom is z = -13.2.
+# Their other ends MOVE - the lower part grows register pegs up to z = -8.0 - so neither
+# the top of the lower part nor the bottom of the upper one can be part of the test.
+
+V3_M3_R = 11.0                 # the link's own bolt circle - an external interface, never moved
+V3_M3_ANG = (0.0, 90.0, 180.0, 270.0)
+V3_M3_HOLE_R = 1.6             # O3.2 clearance
+V3_M3_CUT_Z_UP = (-9.0, -4.9)  # upper part: extend the existing z -5..0 hole to the joint face
+V3_M3_CUT_Z_LO = (-13.3, -8.9) # lower part: straight through, both ends past the faces
+
+V3_NUT_AF = 6.0                # hex pocket across flats - the size already drawn in the upper part
+V3_NUT_Z = (-13.3, -10.6)      # in the LOWER part's underside, open downward (mouth past the face)
+                               # EXO-231: ceiling -11.2 -> -10.6. The pocket is 2.6 deep off the
+                               # part's own bottom face z -13.2, which is what a STANDARD ISO
+                               # 4032 M3 nut (2.4 thick, not the 1.8 thin nut the module was
+                               # drawn with) needs with 0.2 left under it.
+V3_NUT_PHASE = 30.0            # +30 deg on the bolt angle puts a FLAT radially inward, so the
+                               # pocket reaches r 8.000 and not r 7.536: at r 7.536 the nut's
+                               # own corner would foul the XL330 horn disk (r 8.000, measured)
+
+V3_HORN_R = 6.001              # horn screw circle, measured
+V3_HORN_ANG = (45.0, 135.0, 225.0, 315.0)
+V3_HEAD_R = 2.5                # O5.0 - the counterbore the module is already drawn with, which
+                               # is the ISO 7045 M2 pan head (O4.0) plus 0.5 radial
+V3_HEAD_Z = (-9.1, -7.0)       # head pocket in the UPPER part, open downward (mouth past the face)
+V3_FILL_R = 2.6                # the fill that closes the old O2.2 + O5: 0.1 WIDER than the
+                               # O5 counterbore, so it overlaps solid material instead of
+                               # meeting the counterbore wall on a coincident face
+V3_FILL_Z = (-9.0, 0.0)        # and it runs all the way up to the rotor face
+V3_NUT_FILL_R = 3.5            # covers the 6.0 AF hex pocket (circumradius 3.4641)
+V3_NUT_FILL_Z = (-9.0, -5.0)
+
+V3_PEG_AT = 12.2               # register pegs: bolt circle 11 + 1.2, clear of both hole sets
+V3_PEG_ANG = (67.5, 112.5)
+V3_PEG_R = 1.5                 # O3.0 peg, on the lower part
+V3_PEG_Z = (-9.2, -8.0)        # root sunk 0.2 into the solid so the join has no coincident face
+V3_SOCKET_R = 1.65             # O3.3 socket in the upper part - 0.15 radial clearance
+V3_SOCKET_Z = (-9.1, -7.7)     # 0.3 axial clearance on a 1.0 mm peg
+
+V3_SCREW_DROP = 4.0            # the horn screw now seats at z -9.0, not z -5.0
+V3_TRIM_BOX = 40.0             # the trim box: big enough to swallow the screw either way
+
+# ---- EXO-231: the standard M3 nut and the M3 bolt, drawn as bodies in the module ----
+# The module as drawn carries a 1.8 mm THIN nut (DIN 439). Esteban uses standard ISO 4032
+# nuts, 2.4 mm, so the four thin nuts are deleted and four standard ones are drawn instead,
+# in ONE new component at identity inside the module - which makes the module frame their
+# own frame and every number below directly measurable. The M3 bolt was never modelled at
+# all; it is drawn the same way, so the length can be read off the solid and checked against
+# the XL330 below it.
+V3_NUT_STD_AF = 5.5            # ISO 4032 M3: across flats 5.5 (max), so the inner FLAT of a
+                               # nut at r 11 sits at r 8.250 - 0.250 off the horn disk r 8.000
+V3_NUT_STD_T = 2.4             # ISO 4032 M3: thickness m = 2.4 (max)
+V3_NUT_STD_Z = (-13.0, -10.6)  # the bolt pulls the nut UP onto the pocket ceiling -10.6, so it
+                               # sits at the TOP of the 2.6 pocket and 0.2 inside its mouth
+V3_BOLT_R = 1.5                # M3 shank, Ø3.0 - the thread's major diameter, and the nut's
+                               # own bore, so nut and bolt meet on coincident faces
+V3_BOLT_HEAD_R = 2.75          # ISO 4762 socket head cap screw M3: head Ø5.5
+V3_BOLT_HEAD_H = 3.0           # ... 3.0 high. The pad's flat ring (armgen.HOLE_FLAT_RING 2.0
+                               # past a Ø3.2 hole edge = Ø7.2 of flat) already seats it.
+V3_BOLT_L = 20.0               # M3x20: under-head length, head seated on the link's rotor pad
+                               # outer face z = armgen.PAD_T. Tip lands at PAD_T - 20 = -12.0:
+                               # 1.4 mm into the nut and 1.5 mm off the XL330 top face -13.5.
+                               # M3x22 would be 0.5 mm INSIDE the XL330; 20 is the stock length
+                               # the numbers pick out of Esteban's M3 pack.
+
+
+def _polar(r, ang_deg):
+    return (r * math.cos(math.radians(ang_deg)), r * math.sin(math.radians(ang_deg)))
+
+
+def hex_outline(cx, cy, across_flats, phase_deg):
+    """Closed hexagon centred (cx, cy), `across_flats` wide, first VERTEX at `phase_deg`."""
+    rc = across_flats / math.sqrt(3.0)
+    pts = [(cx + rc * math.cos(math.radians(phase_deg + 60.0 * k)),
+            cy + rc * math.sin(math.radians(phase_deg + 60.0 * k))) for k in range(6)]
+    segs = []
+    for k in range(6):
+        armgen._line(segs, pts[k], pts[(k + 1) % 6])
+    return segs
+
+
+def module_rotor_occs(parent, in_context=False):
+    """(upper, lower) rotor occurrences of a module, found on the SOLID and never by name -
+    the two single-body children whose bodies span `V3_UPPER_Z` / `V3_LOWER_Z` in the module
+    frame and stay inside r `V3_ROTOR_R_MAX` (which the stator and the bearing do not)."""
+    occs = parent.childOccurrences if in_context else parent.occurrences
+    found = {}
+    for i in range(occs.count):
+        c = occs.item(i)
+        if c.component.bRepBodies.count != 1:
+            continue
+        b = c.bRepBodies.item(0) if in_context else c.component.bRepBodies.item(0)
+        dz = 0.0 if in_context else c.transform.translation.z * 10.0
+        bb = b.boundingBox
+        z0, z1 = bb.minPoint.z * 10.0 + dz, bb.maxPoint.z * 10.0 + dz
+        r = max(abs(bb.minPoint.x), abs(bb.maxPoint.x),
+                abs(bb.minPoint.y), abs(bb.maxPoint.y)) * 10.0
+        if r > V3_ROTOR_R_MAX:
+            continue
+        if abs(z1 - V3_UPPER_Z[1]) < V3_TOL:
+            found['upper'] = c
+        elif abs(z0 - V3_LOWER_Z[0]) < V3_TOL:
+            found['lower'] = c
+    return found.get('upper'), found.get('lower')
+
+
+def _z_offset_of(occ, what):
+    """The pure z offset (mm) to add to a module z to land in `occ`'s component's OWN space,
+    which is the space its sketches and features are drawn in. Raises on anything but a pure
+    z offset, because then the sketch below would be drawn in the wrong frame."""
+    a = occ.transform.asArray()
+    if (max(abs(a[0] - 1), abs(a[5] - 1), abs(a[10] - 1)) > 1e-9
+            or abs(a[3]) > 1e-9 or abs(a[7]) > 1e-9):
+        raise RuntimeError('%s sits at %s, not at a pure z offset' % (what, a))
+    return -occ.transform.translation.z * 10.0
+
+
+def _combine_feature(comp, name, dz, z_lo, z_hi, draw, n_profiles, op):
+    """Draw `n_profiles` closed shapes on the plane midway between module z `z_lo` and
+    `z_hi`, extrude them as NEW bodies over that span, and Combine them into the
+    component's single body with `op`.
+
+    Join goes through Combine for the same reason the EXO-208 stop cut does: MEASURED in
+    this design, an extrude whose own operation is Join leaves its tool as a SEPARATE body
+    (`participantBodies` only binds a cut or an intersect), so the four fill cylinders came
+    out as four loose bodies. Extrude-as-new-body + Combine is exact either way, and the
+    body count and the volume moved are checked here, so a feature that reached nothing is
+    caught at once and not three features later.
+    """
+    sk = PlaneSketch(comp, name,
+                     adsk.core.Point3D.create(0.0, 0.0, ((z_lo + z_hi) / 2.0 + dz) * MM_TO_CM),
+                     V(1, 0, 0), V(0, 1, 0))
+    draw(sk)
+    return _combine_tools(comp, sk, n_profiles, abs(z_hi - z_lo), op, name)
+
+
+def _combine_tools(comp, sk, n_profiles, length_mm, op, name):
+    """Extrude `sk` as NEW bodies over `length_mm` and Combine them into the component's
+    single body with `op`. Returns the volume moved, in mm3.
+
+    Join goes through Combine for the same reason the EXO-208 stop cut does: MEASURED in
+    this design, an extrude whose own operation is Join leaves its tool as a SEPARATE body
+    (`participantBodies` only binds a cut or an intersect), so the fill cylinders came out
+    as loose bodies. Extrude-as-new-body + Combine is exact either way, and the body count
+    and the volume moved are checked here, so a feature that reached nothing is caught at
+    once and not three features later.
+    """
+    body = comp.bRepBodies.item(0)
+    v0 = body.volume * 1000.0
+    feat = sk.extrude(n_profiles, length_mm,
+                      adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+    tools = adsk.core.ObjectCollection.create()
+    for i in range(feat.bodies.count):
+        tools.add(feat.bodies.item(i))
+    if tools.count != n_profiles:
+        raise RuntimeError('%s: "%s" made %d tool bodies, expected %d'
+                           % (comp.name, name, tools.count, n_profiles))
+    cin = comp.features.combineFeatures.createInput(body, tools)
+    cin.operation = op
+    cin.isKeepToolBodies = False
+    comp.features.combineFeatures.add(cin)
+    if comp.bRepBodies.count != 1:
+        raise RuntimeError('%s: "%s" left %d bodies, expected 1'
+                           % (comp.name, name, comp.bRepBodies.count))
+    v1 = comp.bRepBodies.item(0).volume * 1000.0
+    if abs(v1 - v0) < 1e-6:
+        raise RuntimeError('%s: "%s" changed nothing (%.6f mm3) - it never reached the solid'
+                           % (comp.name, name, v0))
+    return v1 - v0
+
+
+def _new_bodies(comp, name, z_lo, z_hi, draw, n_profiles):
+    """Draw `n_profiles` closed shapes on the plane midway between module z `z_lo` and
+    `z_hi` and extrude them as NEW bodies over that span. `comp`'s own frame must BE the
+    module frame (the EXO-231 fastener components are made at identity inside the module,
+    which is the whole reason they are their own components).
+
+    Every body that comes out is checked against the z span it was asked for. That is not
+    decoration: MEASURED in this design (EXO-228), `setSymmetricExtent(d, True)` came out
+    2d long on the screw component while it is exactly d on the rotor parts, so nothing
+    drawn this way is trusted until its own bounding box agrees.
+    """
+    sk = PlaneSketch(comp, name,
+                     adsk.core.Point3D.create(0.0, 0.0, ((z_lo + z_hi) / 2.0) * MM_TO_CM),
+                     V(1, 0, 0), V(0, 1, 0))
+    draw(sk)
+    feat = sk.extrude(n_profiles, abs(z_hi - z_lo),
+                      adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+    out = [feat.bodies.item(i) for i in range(feat.bodies.count)]
+    if len(out) != n_profiles:
+        raise RuntimeError('%s: "%s" made %d bodies, expected %d'
+                           % (comp.name, name, len(out), n_profiles))
+    for b in out:
+        bb = b.boundingBox
+        z0, z1 = bb.minPoint.z * 10.0, bb.maxPoint.z * 10.0
+        if (abs(z0 - min(z_lo, z_hi)) > V3_TOL or abs(z1 - max(z_lo, z_hi)) > V3_TOL):
+            raise RuntimeError('%s: "%s" made a body spanning z %.3f..%.3f, asked %.3f..%.3f'
+                               % (comp.name, name, z0, z1, min(z_lo, z_hi), max(z_lo, z_hi)))
+    return out
+
+
+def _cut_each(comp, name, z_lo, z_hi, draw, targets):
+    """Draw one closed shape per body in `targets` on the plane midway between module z
+    `z_lo` and `z_hi`, extrude them as NEW bodies over that span, and Combine-CUT each tool
+    into the target it sits on (paired on where they are, never on body order).
+
+    Extrude-as-new-body + Combine is the route this file always takes (EXO-228). It is not
+    a preference here: MEASURED, an extrude whose own `participantBodies` names the four
+    fresh hex bodies of a just-made component is refused with "No target body found to cut
+    or intersect", while the same cut through Combine is exact.
+    """
+    n = len(targets)
+    sk = PlaneSketch(comp, name,
+                     adsk.core.Point3D.create(0.0, 0.0, ((z_lo + z_hi) / 2.0) * MM_TO_CM),
+                     V(1, 0, 0), V(0, 1, 0))
+    draw(sk)
+    feat = sk.extrude(n, abs(z_hi - z_lo),
+                      adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+    if feat.bodies.count != n:
+        raise RuntimeError('%s: "%s" made %d tool bodies, expected %d'
+                           % (comp.name, name, feat.bodies.count, n))
+
+    def xy(b):
+        bb = b.boundingBox
+        return ((bb.minPoint.x + bb.maxPoint.x) * 5.0, (bb.minPoint.y + bb.maxPoint.y) * 5.0)
+
+    tools = [feat.bodies.item(i) for i in range(n)]
+    for tgt in targets:
+        tx, ty = xy(tgt)
+        tool = min(tools, key=lambda b: (xy(b)[0] - tx) ** 2 + (xy(b)[1] - ty) ** 2)
+        tools.remove(tool)
+        coll = adsk.core.ObjectCollection.create()
+        coll.add(tool)
+        cin = comp.features.combineFeatures.createInput(tgt, coll)
+        cin.operation = adsk.fusion.FeatureOperations.CutFeatureOperation
+        cin.isKeepToolBodies = False
+        comp.features.combineFeatures.add(cin)
+    if comp.bRepBodies.count != n:
+        raise RuntimeError('%s: "%s" left %d bodies, expected %d'
+                           % (comp.name, name, comp.bRepBodies.count, n))
+
+
+def _circles(centres, r_mm):
+    def draw(sk):
+        for c in centres:
+            sk.circle(c, r_mm)
+    return draw
+
+
+def rotor_v3(comp, rep=None):
+    """Turn the two rotor parts of the LOCAL module copy `comp` into the v3 pair. Returns a
+    line saying what was cut and joined, part by part, with the volume each feature moved."""
+    JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
+    CUT = adsk.fusion.FeatureOperations.CutFeatureOperation
+    up_occ, lo_occ = module_rotor_occs(comp)
+    if up_occ is None or lo_occ is None:
+        raise RuntimeError('%s: could not find both rotor parts on the solid (upper %s, '
+                           'lower %s)' % (comp.name, up_occ is not None, lo_occ is not None))
+    dz_up = _z_offset_of(up_occ, '%s: the upper rotor part' % comp.name)
+    dz_lo = _z_offset_of(lo_occ, '%s: the lower rotor part' % comp.name)
+    up, lo = up_occ.component, lo_occ.component
+    v_up0 = up.bRepBodies.item(0).volume * 1000.0
+    v_lo0 = lo.bRepBodies.item(0).volume * 1000.0
+
+    horn = [_polar(V3_HORN_R, a) for a in V3_HORN_ANG]
+    m3 = [_polar(V3_M3_R, a) for a in V3_M3_ANG]
+    pegs = [_polar(V3_PEG_AT, a) for a in V3_PEG_ANG]
+    moved = []
+
+    # ---- upper part: close what the horn screws used to pass through, then re-open only a
+    #      blind pocket for their heads; close the hex nut pockets; take the M3 holes down
+    #      to the joint face; cut the two register sockets. ----
+    moved.append(('upper fill horn screw holes', _combine_feature(
+        up, 'v3 fill horn screw holes', dz_up, V3_FILL_Z[0], V3_FILL_Z[1],
+        _circles(horn, V3_FILL_R), len(horn), JOIN)))
+    moved.append(('upper horn screw head pockets', _combine_feature(
+        up, 'v3 horn screw head pockets', dz_up, V3_HEAD_Z[0], V3_HEAD_Z[1],
+        _circles(horn, V3_HEAD_R), len(horn), CUT)))
+    moved.append(('upper fill hex nut pockets', _combine_feature(
+        up, 'v3 fill nut pockets', dz_up, V3_NUT_FILL_Z[0], V3_NUT_FILL_Z[1],
+        _circles(m3, V3_NUT_FILL_R), len(m3), JOIN)))
+    moved.append(('upper M3 through', _combine_feature(
+        up, 'v3 M3 through upper', dz_up, V3_M3_CUT_Z_UP[0], V3_M3_CUT_Z_UP[1],
+        _circles(m3, V3_M3_HOLE_R), len(m3), CUT)))
+    moved.append(('upper register sockets', _combine_feature(
+        up, 'v3 register sockets', dz_up, V3_SOCKET_Z[0], V3_SOCKET_Z[1],
+        _circles(pegs, V3_SOCKET_R), len(pegs), CUT)))
+
+    # ---- lower part: the M3 bolts now pass through it, the nuts are captured under it,
+    #      and it carries the two register pegs. ----
+    moved.append(('lower M3 through', _combine_feature(
+        lo, 'v3 M3 through lower', dz_lo, V3_M3_CUT_Z_LO[0], V3_M3_CUT_Z_LO[1],
+        _circles(m3, V3_M3_HOLE_R), len(m3), CUT)))
+
+    def hexes(sk):
+        for a in V3_M3_ANG:
+            cx, cy = _polar(V3_M3_R, a)
+            sk.loop(hex_outline(cx, cy, V3_NUT_AF, a + V3_NUT_PHASE))
+    moved.append(('lower hex nut pockets', _combine_feature(
+        lo, 'v3 nut pockets', dz_lo, V3_NUT_Z[0], V3_NUT_Z[1], hexes, len(V3_M3_ANG), CUT)))
+    moved.append(('lower register pegs', _combine_feature(
+        lo, 'v3 register pegs', dz_lo, V3_PEG_Z[0], V3_PEG_Z[1],
+        _circles(pegs, V3_PEG_R), len(pegs), JOIN)))
+
+    v_up1 = up.bRepBodies.item(0).volume * 1000.0
+    v_lo1 = lo.bRepBodies.item(0).volume * 1000.0
+    if rep is not None:
+        for what, dv in moved:
+            rep('  %-32s %+10.3f mm3' % (what, dv))
+    return ('upper part %.3f -> %.3f mm3 (%+.3f): O%.1f and O%.1f at r %.3f filled to the '
+            'rotor face, O%.1f head pockets z %.1f..%.1f, hex pockets filled, O%.1f at r '
+            '%.1f taken down to z %.1f, 2x O%.1f register sockets z %.1f..%.1f at r %.1f '
+            '(%.1f / %.1f deg); lower part %.3f -> %.3f mm3 (%+.3f): O%.1f at r %.1f '
+            'through, 4x hex %.1f across flats FLATS-RADIAL z %.1f..%.1f, 2x O%.1f pegs up '
+            'to z %.1f'
+            % (v_up0, v_up1, v_up1 - v_up0, 2 * 1.1, 2 * V3_HEAD_R, V3_HORN_R,
+               2 * V3_HEAD_R, V3_HEAD_Z[0], V3_HEAD_Z[1], 2 * V3_M3_HOLE_R, V3_M3_R,
+               V3_M3_CUT_Z_UP[0], 2 * V3_SOCKET_R, V3_SOCKET_Z[0], V3_SOCKET_Z[1],
+               V3_PEG_AT, V3_PEG_ANG[0], V3_PEG_ANG[1], v_lo0, v_lo1, v_lo1 - v_lo0,
+               2 * V3_M3_HOLE_R, V3_M3_R, V3_NUT_AF, V3_NUT_Z[0], V3_NUT_Z[1],
+               2 * V3_PEG_R, V3_PEG_Z[1]))
+
+
+def _body_extent(occ):
+    """(r_min, r_max, z_min, z_max) of an occurrence's single body, measured on its own
+    VERTICES in the module frame. Fusion's bounding box of a rotated body is the box of its
+    box, which is bigger than the body - the nuts are rotated, so the box is no use here."""
+    b = occ.bRepBodies.item(0)
+    rs, zs = [], []
+    for i in range(b.vertices.count):
+        p = b.vertices.item(i).geometry
+        rs.append(math.hypot(p.x, p.y) * 10.0)
+        zs.append(p.z * 10.0)
+    return min(rs), max(rs), min(zs), max(zs)
+
+
+def module_fastener_occs(module_occ):
+    """(screws, nuts): the four horn screws and the four M3 nuts of a module occurrence,
+    found on the SOLID - the screws are the single-body children that span the rotor stack
+    and the horn, the nuts the ones 1.8 mm thick at the M3 bolt circle."""
+    screws, nuts = [], []
+    for i in range(module_occ.childOccurrences.count):
+        c = module_occ.childOccurrences.item(i)
+        if c.component.bRepBodies.count != 1:
+            continue
+        try:
+            r0, r1, z0, z1 = _body_extent(c)
+        except Exception:
+            continue
+        # the horn screw: the only single body that stays inside r 8 and is more than 4 mm
+        # long in z. 4 and not 8, because v3's own screw is the M2x4 - this same finder has
+        # to recognise the module before AND after `fasteners_v3` has shortened it.
+        if r1 < 8.0 and z1 - z0 > 4.0 and z1 < 0.0:
+            screws.append(c)
+        elif abs((z1 - z0) - 1.8) < 0.05 and 6.0 < r0 < 9.5 and r1 < 15.0:
+            nuts.append(c)
+    return screws, nuts
+
+
+def module_v3_fasteners(module_occ):
+    """EXO-231: (nuts occurrence, bolts occurrence) of a module, found on the SOLID - the
+    two children made of FOUR bodies each, one set 2.4 mm thick at the nut pocket, the other
+    the M3 bolts. Either is None on a module that predates EXO-231.
+
+    The spans are read in the COMPONENT's own space and the occurrence is required to sit at
+    identity inside the module, so this works on a module placed anywhere: it never asks for
+    a world box of a rotated body.
+    """
+    nut_occ = bolt_occ = None
+    z_nut = (min(V3_NUT_STD_Z), max(V3_NUT_STD_Z))
+    z_bolt = (armgen.PAD_T - V3_BOLT_L, armgen.PAD_T + V3_BOLT_HEAD_H)
+    for i in range(module_occ.childOccurrences.count):
+        c = module_occ.childOccurrences.item(i)
+        comp = c.component
+        if comp.bRepBodies.count != 4:
+            continue
+        a = c.transform.asArray()
+        if max(abs(a[j] - v) for j, v in ((0, 1), (5, 1), (10, 1), (3, 0), (7, 0), (11, 0))) > 1e-9:
+            continue
+        spans = []
+        for j in range(4):
+            bb = comp.bRepBodies.item(j).boundingBox
+            spans.append((bb.minPoint.z * 10.0, bb.maxPoint.z * 10.0))
+        if all(abs(z0 - z_nut[0]) < V3_TOL and abs(z1 - z_nut[1]) < V3_TOL
+               for z0, z1 in spans):
+            nut_occ = c
+        elif all(abs(z0 - z_bolt[0]) < V3_TOL and abs(z1 - z_bolt[1]) < V3_TOL
+                 for z0, z1 in spans):
+            bolt_occ = c
+    return nut_occ, bolt_occ
+
+
+def _std_fasteners_v3(comp, rep=None):
+    """EXO-231: the four STANDARD ISO 4032 M3 nuts in the pockets, and the four M3 bolts
+    that pull them up onto the pocket ceiling, each set drawn as four bodies in ONE new
+    component placed at identity inside the module - so the component's own frame IS the
+    module frame and every number here is the number the module is measured in.
+
+    The module as drawn carries 1.8 mm THIN nuts; those four occurrences are deleted first.
+    Returns (nut_occ, bolt_occ, how)."""
+    m3 = [_polar(V3_M3_R, a) for a in V3_M3_ANG]
+    z_seat = armgen.PAD_T                       # the link's rotor pad outer face
+    z_tip = z_seat - V3_BOLT_L
+    z_top = z_seat + V3_BOLT_HEAD_H
+
+    nut_occ = comp.occurrences.addNewComponent(adsk.core.Matrix3D.create())
+    nut_occ.component.name = V3_NUT_COMP_NAME
+    nc = nut_occ.component
+
+    def hexes(sk):
+        for a in V3_M3_ANG:
+            cx, cy = _polar(V3_M3_R, a)
+            sk.loop(hex_outline(cx, cy, V3_NUT_STD_AF, a + V3_NUT_PHASE))
+    nuts = _new_bodies(nc, 'v3 M3 nuts ISO 4032', V3_NUT_STD_Z[0], V3_NUT_STD_Z[1], hexes, 4)
+    _cut_each(nc, 'v3 M3 nut bores', V3_NUT_STD_Z[0] - 1.0, V3_NUT_STD_Z[1] + 1.0,
+              _circles(m3, V3_BOLT_R), nuts)
+    v_nut_want = (math.sqrt(3.0) / 2.0 * V3_NUT_STD_AF ** 2
+                  - math.pi * V3_BOLT_R ** 2) * V3_NUT_STD_T
+    for i in range(4):
+        b = nc.bRepBodies.item(i)
+        b.name = 'M3 nut %d' % i
+        v = b.volume * 1000.0
+        if abs(v - v_nut_want) > 0.01:
+            raise RuntimeError('%s: nut %d is %.4f mm3, a %.1f AF x %.1f nut bored Ø%.1f is '
+                               '%.4f' % (nc.name, i, v, V3_NUT_STD_AF, V3_NUT_STD_T,
+                                         2 * V3_BOLT_R, v_nut_want))
+
+    bolt_occ = comp.occurrences.addNewComponent(adsk.core.Matrix3D.create())
+    bolt_occ.component.name = V3_BOLT_COMP_NAME
+    bc = bolt_occ.component
+    for a in V3_M3_ANG:
+        c = _polar(V3_M3_R, a)
+        # the shank runs the WHOLE way to the head top, so the head (a wider cylinder over
+        # the same top 3 mm) overlaps it in volume and the Join has something to bite on -
+        # a join of two bodies that only touch on a face is not worth relying on
+        sh = _new_bodies(bc, 'v3 M3x%g shank %g deg' % (V3_BOLT_L, a), z_tip, z_top,
+                         _circles([c], V3_BOLT_R), 1)[0]
+        hd = _new_bodies(bc, 'v3 M3x%g head %g deg' % (V3_BOLT_L, a), z_seat, z_top,
+                         _circles([c], V3_BOLT_HEAD_R), 1)[0]
+        tools = adsk.core.ObjectCollection.create()
+        tools.add(hd)
+        cin = bc.features.combineFeatures.createInput(sh, tools)
+        cin.operation = adsk.fusion.FeatureOperations.JoinFeatureOperation
+        cin.isKeepToolBodies = False
+        bc.features.combineFeatures.add(cin)
+    if bc.bRepBodies.count != 4:
+        raise RuntimeError('%s: %d bolt bodies, expected 4' % (bc.name, bc.bRepBodies.count))
+    v_bolt_want = (math.pi * V3_BOLT_R ** 2 * V3_BOLT_L
+                   + math.pi * V3_BOLT_HEAD_R ** 2 * V3_BOLT_HEAD_H)
+    for i in range(4):
+        b = bc.bRepBodies.item(i)
+        b.name = 'M3x%g bolt %d' % (V3_BOLT_L, i)
+        v = b.volume * 1000.0
+        if abs(v - v_bolt_want) > 0.01:
+            raise RuntimeError('%s: bolt %d is %.4f mm3, an M3x%g with a Ø%.1f x %.1f head '
+                               'is %.4f' % (bc.name, i, v, V3_BOLT_L, 2 * V3_BOLT_HEAD_R,
+                                            V3_BOLT_HEAD_H, v_bolt_want))
+    flat_r = V3_M3_R - V3_NUT_STD_AF / 2.0
+    engage = V3_NUT_STD_Z[1] - z_tip
+    if rep is not None:
+        rep('    %d standard nuts %.4f mm3 each, %d bolts %.4f mm3 each'
+            % (4, nc.bRepBodies.item(0).volume * 1000.0, 4,
+               bc.bRepBodies.item(0).volume * 1000.0))
+    return nut_occ, bolt_occ, (
+        'the module\'s four 1.8 mm THIN nuts deleted and four STANDARD ISO 4032 M3 nuts '
+        'drawn instead (%.1f across flats, %.1f thick, bored Ø%.1f, flats radial, z '
+        '%.3f..%.3f - pulled up onto the pocket ceiling %.3f with %.3f left under them '
+        'inside the mouth %.1f; inner flat r %.3f, %.3f clear of the XL330 horn disk r '
+        '8.000); four M3x%g bolts drawn (Ø%.1f shank, Ø%.1f x %.1f head seated on the '
+        'link\'s rotor pad outer face z %.1f): tip z %.3f, %.3f mm of thread in the nut'
+        % (V3_NUT_STD_AF, V3_NUT_STD_T, 2 * V3_BOLT_R, V3_NUT_STD_Z[0], V3_NUT_STD_Z[1],
+           V3_NUT_Z[1], V3_NUT_STD_Z[0] - V3_LOWER_Z[0], V3_LOWER_Z[0], flat_r,
+           flat_r - 8.0, V3_BOLT_L, 2 * V3_BOLT_R, 2 * V3_BOLT_HEAD_R, V3_BOLT_HEAD_H,
+           z_seat, z_tip, engage))
+
+
+def _shift_occ(occ, dz_mm, spin_deg=0.0):
+    """Move `occ` by `dz_mm` along module z, after turning it `spin_deg` about the z axis
+    through its own body centre. `A.transformBy(B)` is A := B * A, so the spin is applied
+    in the module frame, on top of wherever the occurrence already is."""
+    m = occ.transform.copy()
+    if spin_deg:
+        bb = occ.bRepBodies.item(0).boundingBox
+        rot = adsk.core.Matrix3D.create()
+        rot.setToRotation(math.radians(spin_deg), V(0, 0, 1),
+                          adsk.core.Point3D.create((bb.minPoint.x + bb.maxPoint.x) / 2.0,
+                                                   (bb.minPoint.y + bb.maxPoint.y) / 2.0, 0.0))
+        m.transformBy(rot)
+    a = list(m.asArray())
+    a[11] += dz_mm * MM_TO_CM
+    m.setWithArray(a)
+    return set_occ_matrix(occ, m)
+
+
+def fasteners_v3(comp, occ, rep=None):
+    """Put the four horn screws and the four M3 nuts where v3 wants them, and shorten the
+    screw to the length that leaves: head seated on the lower part's web top face z -9.0,
+    the SAME thread in the horn as before, so M2x8 becomes M2x4. The four screws are four
+    occurrences of ONE component, so the tip is trimmed once, in that component's own frame,
+    on the axis MEASURED out of the occurrence's rotation and not assumed."""
+    screws, nuts = module_fastener_occs(occ)
+    if len(screws) != 4 or len(nuts) != 4:
+        raise RuntimeError('%s: found %d horn screws and %d M3 nuts on the solid, expected '
+                           '4 and 4' % (comp.name, len(screws), len(nuts)))
+    tip_before = min(_body_extent(s)[2] for s in screws)
+
+    # The screw component's OWN axis that points along module +z is the third ROW of the
+    # occurrence's rotation (R^T applied to (0, 0, 1)). All four must share it, and it has
+    # to be one of the component's axes or the trim plane below would be skew.
+    e = list(screws[0].transform.asArray()[8:11])
+    k = max(range(3), key=lambda i: abs(e[i]))
+    if abs(abs(e[k]) - 1.0) > 1e-6 or max(abs(e[i]) for i in range(3) if i != k) > 1e-6:
+        raise RuntimeError('%s: the horn screw is placed at a rotation whose module-z axis '
+                           'in its own frame is %s, not one of its axes' % (comp.name, e))
+    for s in screws[1:]:
+        if max(abs(x - y) for x, y in zip(s.transform.asArray()[8:11], e)) > 1e-6:
+            raise RuntimeError('%s: the four horn screws do not share one axis' % comp.name)
+    if rep is not None:
+        for i, s in enumerate(screws):
+            r0, r1, z0, z1 = _body_extent(s)
+            rep('    screw %d before: z %8.3f..%8.3f  t=%s' % (i, z0, z1,
+                ['%.4f' % (v * 10.0) for v in s.transform.asArray()[3::4][:3]]))
+        rep('    screw axis in its own frame e=%s' % ([round(v, 6) for v in e],))
+    for s in screws:
+        how = _shift_occ(s, -V3_SCREW_DROP)
+    if rep is not None:
+        for i, s in enumerate(screws):
+            r0, r1, z0, z1 = _body_extent(s)
+            rep('    screw %d after move (%s): z %8.3f..%8.3f' % (i, how, z0, z1))
+
+    # Trim the tip back to exactly where it was, in the screw COMPONENT's frame: the whole
+    # screw just moved V3_SCREW_DROP down, so the cut is that far past its own far end.
+    sgn = 1.0 if e[k] > 0 else -1.0
+    scomp = screws[0].component
+    bb = scomp.bRepBodies.item(0).boundingBox
+    far = (bb.minPoint.asArray()[k] if sgn > 0 else bb.maxPoint.asArray()[k]) * 10.0
+    cut_at = far + sgn * V3_SCREW_DROP                       # mm, screw component frame
+    # The trim box is drawn in a plane that CONTAINS the screw axis, with the cut face as
+    # one of its sketched edges. Only the extrude's own length is then across the screw,
+    # where 40 mm of slop costs nothing - MEASURED on this component, `setSymmetricExtent
+    # (d, True)` came out 2d long, while on the rotor parts it is d, so no cut face here is
+    # allowed to depend on that length.
+    axes = [V(1, 0, 0), V(0, 1, 0), V(0, 0, 1)]
+    e1, e2 = axes[k], axes[(k + 1) % 3]
+    a_lo, a_hi = ((cut_at - V3_TRIM_BOX, cut_at) if sgn > 0
+                  else (cut_at, cut_at + V3_TRIM_BOX))
+    sk = PlaneSketch(scomp, 'v3 horn screw trim',
+                     adsk.core.Point3D.create(0.0, 0.0, 0.0), e1, e2)
+    sk.loop(armgen.rect_outline(a_lo, -V3_TRIM_BOX / 4.0, a_hi, V3_TRIM_BOX / 4.0))
+    cut_v = _combine_tools(scomp, sk, 1, V3_TRIM_BOX / 2.0,
+                           adsk.fusion.FeatureOperations.CutFeatureOperation,
+                           'v3 horn screw trim')
+    if rep is not None:
+        rep('    horn screw trimmed in %s at its own %s = %.4f mm, %.4f mm3 off'
+            % (scomp.name, 'xyz'[k], cut_at, -cut_v))
+
+    # EXO-231: the module's own M3 nut is a 1.8 mm THIN nut (DIN 439) and Esteban uses
+    # standard ISO 4032. The four thin ones go, and `_std_fasteners_v3` draws four standard
+    # nuts and the four M3 bolts in their place.
+    for n in nuts:
+        n.deleteMe()
+    nut_occ, bolt_occ, how_std = _std_fasteners_v3(comp, rep)
+
+    s0 = min(_body_extent(s)[2] for s in screws)
+    s1 = max(_body_extent(s)[3] for s in screws)
+    if rep is not None:
+        rep('    screw trim removed %.4f mm3; screws now z %.3f..%.3f' % (-cut_v, s0, s1))
+    if abs(s0 - tip_before) > V3_TOL:
+        raise RuntimeError('%s: the horn screw tip moved from %.3f to %.3f - the thread in '
+                           'the horn is not what it was' % (comp.name, tip_before, s0))
+    got_nut, got_bolt = module_v3_fasteners(occ)
+    if got_nut is None or got_bolt is None:
+        raise RuntimeError('%s: the standard nuts / M3 bolts do not read back off the solid '
+                           '(nuts %s, bolts %s)' % (comp.name, got_nut is not None,
+                                                    got_bolt is not None))
+    return ('horn screws z %.3f..%.3f (%.3f mm3 trimmed off the shank), head seated on '
+            'z %.1f, tip unchanged at %.3f, under-head length %.3f -> M2x4 (was %.3f); %s'
+            % (s0, s1, -cut_v, V3_UPPER_Z[0], s0, V3_UPPER_Z[0] - s0,
+               V3_UPPER_Z[0] - s0 + V3_SCREW_DROP, how_std))
+
+
+# What `measure_rotor_v3` asks the two rotor solids, in the module frame: (what, part,
+# r, angle deg, z, solid?). Every one of them is a v3 decision, read back off the solid.
+V3_PROBES = [
+    ('upper: old O2.2 filled',        'upper',  6.001,  45.0,  -6.0, True),
+    ('upper: old O5 filled',          'upper',  6.001,  45.0,  -2.0, True),
+    ('upper: rotor face solid at r 6', 'upper', 6.001,  45.0,  -0.2, True),
+    ('upper: head pocket open',       'upper',  6.001,  45.0,  -8.0, False),
+    ('upper: head pocket ceiling',    'upper',  6.001,  45.0,  -6.8, True),
+    ('upper: M3 through at the joint face', 'upper', 11.0, 0.0, -8.5, False),
+    ('upper: M3 through at mid depth', 'upper', 11.0,  90.0,  -6.0, False),
+    ('upper: hex nut pocket filled',  'upper', 13.5,    0.0,  -7.0, True),
+    ('upper: register socket open',   'upper', 12.2,   67.5,  -8.5, False),
+    ('upper: socket ceiling',         'upper', 12.2,  112.5,  -7.4, True),
+    ('upper: index notch still cut',  'upper', 16.0,   90.0,  -0.5, False),
+    ('lower: M3 through the web',     'lower', 11.0,    0.0,  -9.5, False),
+    ('lower: M3 through above the pocket', 'lower', 11.0, 90.0, -10.0, False),
+    ('lower: nut pocket open',        'lower', 13.5,    0.0, -12.0, False),
+    ('lower: nut pocket open at the top', 'lower', 13.5, 0.0, -10.7, False),
+    ('lower: nut pocket ceiling',     'lower', 13.5,    0.0, -10.5, True),
+    ('lower: wall band, hole to bore', 'lower', 8.8,    0.0, -10.55, True),
+    ('lower: solid between pockets',  'lower', 11.0,   45.0, -12.0, True),
+    ('lower: register peg',           'lower', 12.2,   67.5,  -8.5, True),
+    ('lower: nothing above the peg',  'lower', 12.2,  112.5,  -7.5, False),
+    ('lower: horn bore still clear',  'lower',  7.0,    0.0, -12.0, False),
+    ('lower: horn screw hole open',   'lower',  6.001,  45.0,  -9.5, False),
+    ('lower: web solid on the axis',  'lower',  2.0,    0.0,  -9.5, True),
+]
+
+
+def measure_rotor_v3(module_occ):
+    """Read the v3 rotor pair back off the SOLID, by point containment in the module frame.
+    Returns (ok, lines). `module_occ` must be a module occurrence placed at identity."""
+    up, lo = module_rotor_occs(module_occ, in_context=True)
+    if up is None or lo is None:
+        return False, ['the module has no pair of rotor parts spanning %s / %s'
+                       % (V3_UPPER_Z, V3_LOWER_Z)]
+    inside = (adsk.fusion.PointContainment.PointInsidePointContainment,
+              adsk.fusion.PointContainment.PointOnPointContainment)
+    bodies = {'upper': up.bRepBodies.item(0), 'lower': lo.bRepBodies.item(0)}
+    lines, ok = [], True
+    for what, part, r, ang, z, want in V3_PROBES:
+        x, y = _polar(r, ang)
+        got = bodies[part].pointContainment(
+            adsk.core.Point3D.create(x * MM_TO_CM, y * MM_TO_CM, z * MM_TO_CM)) in inside
+        ok = ok and (got == want)
+        lines.append('  %-38s r %6.3f %6.1f deg z %7.3f  want %-5s got %-5s %s'
+                     % (what, r, ang, z, 'solid' if want else 'void',
+                        'solid' if got else 'void', 'OK' if got == want else 'WRONG'))
+    return ok, lines
+
+
+def ensure_v3_module(design, rep=None):
+    """The EXO-225 module - the EXO-208 15 deg joint stop AND the v3 rotor pair - made if
+    this document does not hold it yet, and MEASURED either way. Returns (component, how).
+
+    THE WHOLE RECIPE, so the part is re-makeable from nothing by running this:
+
+      1. place one more occurrence of the LINKED `sensor module 2` at the root, at identity;
+      2. `Occurrence.breakLink()` it, so Fusion copies the external component and everything
+         under it into THIS document as local components and nothing done next can reach the
+         cloud design. Checked on `isReferencedComponent`, never on the name;
+      3. rename that local copy to `MODULE_V3_NAME`;
+      4. narrow the stator's stop block to `armgen.JOINT_STOP_DEG` - the EXO-208 recipe,
+         unchanged, shared with `ensure_stop_module` (`_narrow_stop_block`);
+      5. rework the two rotor parts (`rotor_v3`) and move the fasteners (`fasteners_v3`);
+      6. re-measure: the stop block by point containment on the stator, the rotor pair by
+         `V3_PROBES`, and refuse anything that does not read back.
+
+    `sensor module 2` itself - the cloud design, the STEP in the repo and the linked
+    component every other arm in this document uses - is never touched.
+    """
+    root = design.rootComponent
+    # Scratch from an earlier attempt: a rejected v3, or a LOCAL copy of the module left
+    # behind by a breakLink that then failed. The LINKED `sensor module 2` is never a
+    # candidate (it is a reference), and `sensor module 2 stop15` is left alone.
+    for i in reversed(range(root.occurrences.count)):
+        o = root.occurrences.item(i)
+        n = o.component.name
+        if (n.startswith(MODULE_V3_NAME + ' (rejected)')
+                or (n == MODULE_DOC_NAME and not o.isReferencedComponent)):
+            o.deleteMe()
+
+    def v3_component():
+        for c in design.allComponents:
+            if c.name == MODULE_V3_NAME:
+                return c
+        return None
+
+    comp = v3_component()
+    if comp is not None:
+        occ = None
+        for i in range(root.occurrences.count):
+            if root.occurrences.item(i).component.name == comp.name:
+                occ = root.occurrences.item(i)
+        bad = None
+        if occ is None:
+            bad = 'it has no occurrence at the root to measure'
+        else:
+            bad = _stop_verdict(_stop_block_of(occ))
+            if bad is None:
+                good, lines = measure_rotor_v3(occ)
+                if not good:
+                    bad = 'the rotor pair does not read back:\n' + '\n'.join(
+                        l for l in lines if l.endswith('WRONG'))
+            if bad is None:
+                # EXO-231: a module whose rotor pair is right but whose fasteners are
+                # missing is half-built - a run that raised part way through leaves exactly
+                # that - and must be re-made, not accepted.
+                got_nut, got_bolt = module_v3_fasteners(occ)
+                if got_nut is None or got_bolt is None:
+                    bad = ('the standard M3 nuts / the M3 bolts are not in it (nuts %s, '
+                           'bolts %s)' % (got_nut is not None, got_bolt is not None))
+        if bad is None:
+            runs = _stop_block_of(occ)
+            good, lines = measure_rotor_v3(occ)
+            how = ('already in the document, stop block measured %.5f..%.5f deg (arc %.5f) '
+                   'and all %d rotor probes read back'
+                   % (runs[0][0], runs[0][1], runs[0][1] - runs[0][0], len(V3_PROBES)))
+            if rep is not None:
+                for l in lines:
+                    rep(l)
+            return comp, how
+        if rep is not None:
+            rep('%s was here but is WRONG (%s) - discarded and re-made' % (MODULE_V3_NAME, bad))
+        comp.name = MODULE_V3_NAME + ' (rejected)'
+        if occ is not None:
+            occ.deleteMe()
+
+    comp, occ, how = build_v3_copy(design, MODULE_V3_NAME, rep)
+    good, lines = measure_rotor_v3(occ)
+    if rep is not None:
+        for l in lines:
+            rep(l)
+    if not good:
+        raise RuntimeError('%s: the rotor rework did not read back - %s'
+                           % (comp.name, '; '.join(l.strip() for l in lines
+                                                   if l.endswith('WRONG'))))
+    occ.isLightBulbOn = False          # the source copy parks at the origin, out of sight
+    how = how + ' All %d rotor probes read back.' % len(V3_PROBES)
+    if rep is not None:
+        rep('%s: %s' % (comp.name, how))
+    return comp, how
+
+
+def build_v3_copy(design, name, rep=None):
+    """Steps 1-5 of the recipe on a FRESH local copy called `name`: copy + breakLink,
+    narrow the stop block, rework the rotor pair, move and shorten the fasteners. Returns
+    (component, root occurrence, how). `ensure_v3_module` adds the measurement and the
+    caching; a throwaway copy for a section view asks for this directly."""
+    comp, occ, src_name = _module_local_copy(design, name)
+    how_stop = _narrow_stop_block(comp, occ)
+    how_rotor = rotor_v3(comp, rep)
+    how_screws = fasteners_v3(comp, occ, rep)
+    return comp, occ, ('made now: a copy of "%s" (addExistingComponent + breakLink), '
+                       'renamed. JOINT STOP - %s. ROTOR - %s. FASTENERS - %s.'
+                       % (src_name, how_stop, how_rotor, how_screws))
+
+
+def find_data_file(app, name):
+    project = app.data.activeProject
+    if project is None:
+        return None
+    stack = [project.rootFolder]
+    while stack:
+        folder = stack.pop()
+        for i in range(folder.dataFiles.count):
+            f = folder.dataFiles.item(i)
+            if f.name == name:
+                return f
+        for i in range(folder.dataFolders.count):
+            stack.append(folder.dataFolders.item(i))
+    return None
+
+
+def unique_name(design, base):
+    names = set(c.name for c in design.allComponents)
+    if base not in names:
+        return base
+    k = 2
+    while '%s (%d)' % (base, k) in names:
+        k += 1
+    return '%s (%d)' % (base, k)
+
+
+def write_report(text):
+    """Best effort; never raises."""
+    try:
+        d = os.path.dirname(REPORT_PATH)
+        if not os.path.isdir(d):
+            os.makedirs(d)
+        with open(REPORT_PATH, 'w') as f:
+            f.write(text)
+        return True
+    except Exception:
+        return False
+
+
+def collect_bodies(occ, prefix=None, bodies=None, names=None):
+    """All BRep bodies under an occurrence, any depth (links AND the module bodies that
+    sit one level deeper under each J* wrapper). Returns (ObjectCollection, {token: path})."""
+    if bodies is None:
+        bodies = adsk.core.ObjectCollection.create()
+        names = {}
+    prefix = occ.component.name if prefix is None else prefix
+    for i in range(occ.bRepBodies.count):
+        b = occ.bRepBodies.item(i)
+        bodies.add(b)
+        names[b.entityToken] = prefix + '/' + b.name
+    for i in range(occ.childOccurrences.count):
+        sub = occ.childOccurrences.item(i)
+        collect_bodies(sub, prefix + '>' + sub.component.name, bodies, names)
+    return bodies, names
+
+
+def body_label(b):
+    """analyzeInterference hands back NATIVE bodies (assemblyContext None, entityToken not
+    the one of the proxy we fed in - measured, tools/bridge_scripts/probe_interference_ids.py),
+    so the only stable identity is parent component + body name."""
+    return '%s/%s' % (b.parentComponent.name, b.name)
+
+
+class InterferenceRefused(RuntimeError):
+    """EXO-218: `design.analyzeInterference` answered None - it did not say "no hits", it
+    did not answer. It does that on some body sets and not others: on the Gento Luna arm it
+    answers up to 132 bodies and returns None from 174 on, while the G1 arm of the same 300
+    bodies answers in full. Returning [] for that is a check that silently passes, which is
+    worse than one that fails, so it is raised by name and the caller decides."""
+
+
+def analyze_interference(design, bodies):
+    """design.analyzeInterference over `bodies` (coincident faces ignored).
+    Returns [(label_a, label_b, volume_mm3, ((xlo,ylo,zlo),(xhi,yhi,zhi)) world mm or None)].
+    Raises InterferenceRefused when Fusion returns no result at all (EXO-218)."""
+    if bodies.count < 2:
+        return []
+    inp = design.createInterferenceInput(bodies)
+    inp.areCoincidentFacesIncluded = False
+    res = design.analyzeInterference(inp)
+    out = []
+    if res is None:
+        raise InterferenceRefused('design.analyzeInterference returned no result for %d '
+                                  'bodies' % bodies.count)
+    for i in range(res.count):
+        r = res.item(i)
+        a, b = body_label(r.entityOne), body_label(r.entityTwo)
+        vol, bb = -1.0, None
+        ib = r.interferenceBody
+        if ib is not None:
+            vol = ib.volume * 1000.0
+            box = ib.boundingBox
+            bb = ((box.minPoint.x * 10, box.minPoint.y * 10, box.minPoint.z * 10),
+                  (box.maxPoint.x * 10, box.maxPoint.y * 10, box.maxPoint.z * 10))
+        out.append((a, b, vol, bb))
+    return out
+
+
+def hit_key(a, b, vol, bb):
+    """Identity of one interference across runs: labels, volume and world bbox (0.01 mm)."""
+    box = None if bb is None else tuple(round(v, 2) for v in bb[0] + bb[1])
+    return (tuple(sorted((a, b))), round(vol, 2), box)
+
+
+ACTUATOR_BODY_TOKEN = 'XL330'      # EXO-201: the real actuator inside every placed module
+                                   # (`XL330 v2/Body1`); a hit label carrying this token is
+                                   # a hit involving an actuator
+
+
+def check_interference(design, arm_occ):
+    """Post-build check over links + module bodies. Module-internal overlaps (press-fit
+    inserts, screws inside one `sensor module 2`) are found by analysing each J* wrapper
+    on its own first; a hit of the full run that also appears in a single-wrapper run is
+    module-internal, everything else is judged by armgen.classify_interference.
+    Returns (n_bodies, [(kind, a, b, vol, bb)]).
+
+    EXO-201: the actuator needs no proxy. `sensor module 2` CARRIES the XL330 (`XL330 v2/
+    Body1`, measured at x -10..10, y -9.5..24.5 from its back z -36.5 on up - EXO-187's proxy
+    rectangle to 0.000 mm), so it is already one of the wrapper's own bodies and lands in the
+    single-wrapper run here: XL330-vs-its-own-stator is module-internal, XL330-vs-a-link is a
+    FAIL. That is exactly the grouping EXO-187's proxy was built to get, minus the duplicate
+    body that z-fought with the real one in the viewport."""
+    internal = set()
+    subs = [arm_occ.childOccurrences.item(i) for i in range(arm_occ.childOccurrences.count)]
+    mods = [s for s in subs if not s.component.name.startswith('link_')
+            and not s.component.name.startswith('g_link_')]
+    links = [s for s in subs if s.component.name.startswith('link_')
+             or s.component.name.startswith('g_link_')]
+    refused = []
+    for sub in mods:
+        sub_bodies, names = collect_bodies(sub)
+        try:
+            for a, b, vol, bb in analyze_interference(design, sub_bodies):
+                internal.add(hit_key(a, b, vol, bb))
+        except InterferenceRefused as e:
+            refused.append('%s alone: %s' % (sub.component.name, e))
+    bodies, _ = collect_bodies(arm_occ)
+    try:
+        raw = analyze_interference(design, bodies)
+        how = 'one run over all %d bodies' % bodies.count
+    except InterferenceRefused as e:
+        # EXO-218: Fusion would not answer for the whole arm - it returns None, not an empty
+        # result, and on some sets it will not answer at all. The set is covered instead by
+        # one run per MODULE with EVERY LINK in it, so every link-link and every
+        # link-module body pair is inside a run. Module-to-module is not asked of Fusion
+        # here: it is already measured exactly, in pure Python, by
+        # `sweepgen.module_pairs` on the solid of revolution EXO-166 measured, and every
+        # builder prints that table. A run that is itself refused is NAMED, never counted
+        # as clear.
+        seen, raw = set(), []
+        done = 0
+        for m in mods:
+            coll = adsk.core.ObjectCollection.create()
+            for src in links + [m]:
+                bs, _n = collect_bodies(src)
+                for k in range(bs.count):
+                    coll.add(bs.item(k))
+            try:
+                hits_here = analyze_interference(design, coll)
+            except InterferenceRefused as e2:
+                refused.append('every link + %s (%d bodies): %s'
+                               % (m.component.name, coll.count, e2))
+                continue
+            done += 1
+            for hit in hits_here:
+                key = hit_key(*hit)
+                if key not in seen:
+                    seen.add(key)
+                    raw.append(hit)
+        how = ('%d of %d runs, each every link + ONE module (%s); module-to-module is '
+               'measured in Python, not here' % (done, len(mods), e))
+    if refused:
+        how += ' -- NOT MEASURED, %d run(s) REFUSED: %s' % (len(refused), '; '.join(refused))
+    out = []
+    for a, b, vol, bb in raw:
+        kind = armgen.classify_interference(a, b, bb, hit_key(a, b, vol, bb) in internal)
+        out.append((kind, a, b, vol, bb))
+    return bodies.count, out, how
+
+
+def delete_previous_arms(root):
+    """Delete root-level occurrences named ARM_COMPONENT_NAME*. Returns list of names."""
+    gone = []
+    victims = []
+    for i in range(root.occurrences.count):
+        occ = root.occurrences.item(i)
+        # EXO-144: EXACTLY this component, or one of Fusion's " (2)" copies of it. A plain
+        # startswith would also eat `generated_R_arm_general`, the arm the general method
+        # builds beside this one for the overlay.
+        n = occ.component.name
+        if n == ARM_COMPONENT_NAME or n.startswith(ARM_COMPONENT_NAME + ' ('):
+            victims.append(occ)
+    for occ in victims:
+        name = occ.component.name
+        if occ.deleteMe():
+            gone.append(name)
+        else:
+            raise RuntimeError('could not delete previous component "%s"' % name)
+    return gone
+
+
+def occ_root_proxy(occ, parent_occ=None):
+    """The same occurrence seen from the root component.
+
+    An occurrence created through `some_component.occurrences` is *native* to that
+    component (its assemblyContext is None) and Fusion refuses transform overrides
+    on it: "transform overrides can only be set on Occurrence proxy from root
+    component". `parent_occ` is the root-context occurrence of the owning
+    component; None means `occ` already hangs off the root.
+    """
+    if parent_occ is None or occ.assemblyContext is not None:
+        return occ
+    return occ.createForAssemblyContext(parent_occ)
+
+
+def occ_matrix(occ, parent_occ=None):
+    """Occurrence transform relative to its parent, read where it is readable.
+
+    `transform2` on a native (non-root-context) occurrence reads back as identity
+    even when the occurrence is placed - measured in this design, see
+    .knuth/docs/fusion-bridge.md - so the read goes through the root proxy and
+    uses `transform`, which is correct in every context.
+    """
+    return occ_root_proxy(occ, parent_occ).transform
+
+
+def set_occ_matrix(occ, m, parent_occ=None):
+    """Place `occ` at `m` (relative to its parent). Returns how it was set.
+
+    `transform2` only takes an assignment on a root-context proxy; on a direct
+    design the deprecated `transform` setter works on the native occurrence and
+    does move the geometry (verified by world bounding box).
+    """
+    target = occ_root_proxy(occ, parent_occ)
+    try:
+        target.transform2 = m
+        return 'transform2 on %s' % ('proxy' if target is not occ else 'occurrence')
+    except RuntimeError:
+        occ.transform = m
+        return 'transform (fallback)'
+
+
+def matrix_diff(a, b):
+    return max(abs(x - y) for x, y in zip(a.asArray(), b.asArray()))
+
+
+def describe_matrix(m):
+    a = m.asArray()
+    return 'pos(mm)=(%.2f, %.2f, %.2f) Z=(%.3f, %.3f, %.3f)' % (
+        a[3] * 10, a[7] * 10, a[11] * 10, a[2], a[6], a[10])
+
+
+
+class Cancelled(Exception):
+    """The user closed the URDF file dialog. Not an error."""
+
+
+def build_arm(app, ui, design, log=None, interactive=False):
+    """Build the generated arm in `design`; return the report text. Raises on failure.
+
+    This is the whole of the old run() body, so it can be called from anywhere: the
+    Scripts and Add-Ins entry point below, or a script fed to the AgentBridge add-in:
+
+        import importlib, sys
+        sys.path.insert(0, '<repo>/fusion_scripts/BuildArm')
+        import BuildArm
+        importlib.reload(BuildArm)          # Fusion caches modules between runs
+        log(BuildArm.build_arm(app, ui, design, log))
+
+    `log`, if given, receives each report line as it is produced (so a run that raises
+    half way still shows what it got to). `interactive` is False by default: nothing
+    opens a dialog or a message box, because a modal dialog raised from inside the
+    bridge would block Fusion's UI thread forever. The manual run() below passes True.
+    """
+    report = []
+
+    def rep(line):
+        report.append(line)
+        if log is not None:
+            log(line)
+
+    if not design:
+        raise RuntimeError('Open a Fusion design first.')
+
+    # ---- URDF ----
+    urdf = URDF_PATH
+    if not (urdf and os.path.isfile(urdf)):
+        if not interactive:
+            raise RuntimeError('URDF not found: %s' % urdf)
+        dlg = ui.createFileDialog()
+        dlg.title = 'URDF not found at %s - select URDF file' % urdf
+        dlg.filter = 'URDF files (*.urdf);;All files (*.*)'
+        dlg.isMultiSelectEnabled = False
+        if dlg.showOpen() != adsk.core.DialogResults.DialogOK:
+            raise Cancelled('cancelled at the URDF file dialog')
+        urdf = dlg.filename
+    if not os.path.isfile(urdf):
+        raise RuntimeError('URDF not found:\n' + urdf)
+    joints, by_child = armgen.parse_urdf(urdf)
+
+    wanted = [j['name'] for j in JOINTS] + ([ORIGIN_AT_JOINT] if ORIGIN_AT_JOINT else [])
+    missing = [n for n in wanted if n not in joints]
+    if missing:
+        raise RuntimeError('Joints not found in URDF: ' + ', '.join(missing))
+    labels = [j['label'] for j in JOINTS]
+    bad = [(L['a'], L['b']) for L in LINKS if L['a'] not in labels or L['b'] not in labels]
+    if bad:
+        raise RuntimeError('LINKS refer to unknown joint labels: %s' % (bad,))
+
+    # ---- frames (URDF world, meters), then shifted so ORIGIN_AT_JOINT is at the
+    #      document origin. The arm component itself stays at identity so that
+    #      "relative to parent" and "relative to root" coincide for the wrappers. ----
+    shift = [0.0, 0.0, 0.0]
+    if ORIGIN_AT_JOINT:
+        shift, _ = armgen.joint_world_pose(ORIGIN_AT_JOINT, joints, by_child)
+    frames, spins, chain = arm_frames(joints, by_child, shift)
+
+    # ---- link geometry computed before touching the document (fails loudly) ----
+    link_specs = []
+    for L in LINKS:
+        RA, tA = frames[L['a']]
+        RB, tB = frames[L['b']]
+        R_ab, t_ab = armgen.relative_frame(RA, tA, RB, tB)
+        # raises, naming every departure's objection, on a pair no route fits
+        spec = armgen.route_relative(R_ab, t_ab, L['pad_r'], width=L['width'])
+        if spec['pattern'] != L['expect']:
+            raise RuntimeError('%s: the router computed the %r route, LINKS expects %r'
+                               % (L['name'], spec['pattern'], L['expect']))
+        link_specs.append((L, R_ab, t_ab, spec))
+
+    # ---- pure-Python clearance between every pair of consecutive links that share a joint
+    #      (the Fusion interference check after the build is the real test; this gives a
+    #      number, and since EXO-103 the hulls cover the whole body so it is a lower bound
+    #      whichever route either link takes - it is no longer only run on L -> bar) ----
+    clearances = []
+    for (L1, R1, t1, s1), (L2, R2, t2, s2) in zip(link_specs, link_specs[1:]):
+        if L1['b'] == L2['a']:
+            g1, g2 = s1['geometry'], s2['geometry']
+            c = armgen.link_clearance(R1, t1, g1, R2, t2, g2)
+            clearances.append((L1['name'], L2['name'], c))
+            if c < armgen.MIN_CLEARANCE:
+                raise RuntimeError('%s / %s computed clearance %.2f mm < %.1f mm minimum'
+                                   % (L1['name'], L2['name'], c, armgen.MIN_CLEARANCE))
+
+    root = design.rootComponent
+    parametric = design.designType == adsk.fusion.DesignTypes.ParametricDesignType
+
+    # ---- remove previous runs, then locate the module source ----
+    gone = delete_previous_arms(root)
+    module_comp = find_module_component(design)
+    data_file = None
+    if module_comp is None:
+        data_file = find_data_file(app, MODULE_DOC_NAME)
+        if data_file is None:
+            raise RuntimeError(
+                'Could not find "{}" in this design or the active project. '
+                'Save the module document in the same project.'.format(MODULE_DOC_NAME))
+
+    for line in ['URDF: ' + urdf,
+                 'S placement: ' + armgen.S_PLACEMENT,
+                 'Design type: ' + ('parametric' if parametric else 'direct'),
+                 'Deleted previous: ' + (', '.join(gone) if gone else 'none'),
+                 'Origin at: ' + (ORIGIN_AT_JOINT or 'URDF pelvis frame'), '']:
+        rep(line)
+    rep('Module rotation about its own axis, SOLVED (EXO-130):')
+    for j in JOINTS:
+        f = spins[j['label']]
+        rep('  %-3s %+8.3f deg from the measured y_hint - %s%s'
+            % (j['label'], f['spin'], f['why'],
+               '' if f['margin'] is None
+               else '; smallest stator flat ring %.3f mm (need %.2f)'
+                    % (f['margin'], armgen.HOLE_FLAT_RING)))
+        if f['windows']:
+            rep('      feasible %s'
+                % ', '.join('%.3f..%.3f deg' % w for w in f['windows']))
+    _res = armgen.spin_windows_resolved(spins)
+    if _res is not None:
+        rep('  sweep %.2f deg, narrowest window found %.2f deg at %s - %s'
+            % (_res['step'], _res['narrowest'], _res['at'],
+               'resolved' if _res['ok'] else 'TOO CLOSE TO THE STEP'))
+    for c in chain:
+        rep('  %s closes: land fillet r %.3f, corner round r %.3f, smallest stator ring '
+            '%.3f mm' % (c['link'], c['fillet_r'], c['corner_r'], c['stator_margin']))
+    rep('')
+
+    # ---- arm component at identity ----
+    identity = adsk.core.Matrix3D.create()
+    arm_occ = root.occurrences.addNewComponent(identity)
+    arm_occ.component.name = unique_name(design, ARM_COMPONENT_NAME)
+    arm_comp = arm_occ.component
+    rep('Component: ' + arm_comp.name)
+
+    # ---- 1. links first: body pre-transformed into the arm frame, component at identity ----
+    g = armgen
+    for L, R_ab, t_ab, routed in link_specs:
+        a, b, lname = L['a'], L['b'], L['name']
+        RA, tA = frames[a]
+        link_occ = arm_comp.occurrences.addNewComponent(identity)
+        link_occ.component.name = unique_name(design, lname)
+        FA = Frame(RA, [v * 1000.0 for v in tA])            # frame A in the arm (= world) frame
+        body, info = build_link_body(link_occ.component, FA, R_ab, t_ab, L, routed)
+        body.name = lname
+        pattern = routed['pattern']
+        # one description for any route: armgen.route_report walks the route's own segments
+        # and joins, so the build has no per-pattern branch left anywhere (EXO-96).
+        detail = g.route_report(routed)
+        rep('%s (%s): %s rotor pad -> %s stator pad; B origin in %s frame (mm) = '
+            '(%.1f, %.1f, %.1f); %s; %d features, %d body, %d faces, volume %.0f mm3'
+            % (lname, pattern, a, b, a, t_ab[0], t_ab[1], t_ab[2], detail,
+               link_occ.component.features.count, link_occ.component.bRepBodies.count,
+               body.faces.count, body.volume * 1000.0))
+    for n1, n2, c in clearances:
+        rep('%s / %s computed clearance (sampled, 0.5 mm): %.2f mm (minimum %.1f)'
+            % (n1, n2, c, armgen.MIN_CLEARANCE))
+
+    # ---- 2. module source: insert once at root if needed, reuse everywhere ----
+    root_insert = None
+    if module_comp is None:
+        root_insert = root.occurrences.addByInsert(data_file, identity, True)
+        module_comp = root_insert.component
+
+    # ---- 3. joint wrappers. The matrix given to addNewComponent already places
+    #      them; set_occ_matrix then re-asserts it through the root-context proxy
+    #      (a native occurrence refuses `transform2`), and how it went is reported. ----
+    wrappers = []
+    for j in JOINTS:
+        R, t = frames[j['label']]
+        m = matrix_from_frame(R, [v * M_TO_CM for v in t])
+        wrapper = arm_comp.occurrences.addNewComponent(m)
+        wrapper.component.name = unique_name(design, '%s_%s' % (j['label'], j['name']))
+        how = set_occ_matrix(wrapper, m, arm_occ)
+        # The matrix given to addExistingComponent is interpreted in the ROOT frame,
+        # not relative to the owning component: identity parks every module on the
+        # document origin (measured - that is the "all modules at the same pose" bug).
+        # The arm component is at identity, so the wrapper matrix is also its world
+        # matrix; the read-back below fails loudly if that ever stops holding.
+        inner = wrapper.component.occurrences.addExistingComponent(module_comp, m)
+        inner.isLightBulbOn = True
+        wrappers.append((j, m, wrapper, how))
+    if root_insert is not None:
+        if not root_insert.deleteMe():
+            rep('WARNING: stray module copy at the root origin could not be deleted')
+
+    # ---- 4. capture positions (parametric designs) ----
+    captured = False
+    if parametric and design.snapshots.hasPendingSnapshot:
+        design.snapshots.add()
+        captured = True
+    rep('Snapshot captured: %s' % captured)
+    rep('')
+
+    # ---- 5. read back what the document actually holds: the transform through
+    #      the root proxy AND the world position of the module geometry itself ----
+    problems = 0
+    for j, m, wrapper, how in wrappers:
+        proxy = occ_root_proxy(wrapper, arm_occ)
+        got = proxy.transform
+        err = matrix_diff(got, m)
+        ok = err < 1e-4
+        problems += 0 if ok else 1
+        rep('%s %s: intended %s [set via %s]' % (j['label'], j['name'], describe_matrix(m), how))
+        rep('    read back %s -> %s (max diff %.2e cm)'
+            % (describe_matrix(got), 'OK' if ok else 'MISMATCH', err))
+        # the module itself: its transform is relative to the wrapper, so the world
+        # pose is wrapper * inner. Anything but the joint frame means the module is
+        # not where the wrapper says it is (the round-1 symptom).
+        n_inner = proxy.childOccurrences.count
+        if n_inner != 1:
+            rep('    module under wrapper: PROBLEM (%d child occurrences)' % n_inner)
+            problems += 1
+        else:
+            world = proxy.childOccurrences.item(0).transform.copy()
+            world.transformBy(got)
+            werr = matrix_diff(world, m)
+            wok = werr < 1e-4
+            problems += 0 if wok else 1
+            rep('    module world pose %s -> %s (max diff %.2e cm)'
+                % (describe_matrix(world), 'OK' if wok else 'MISPLACED', werr))
+    arm_err = matrix_diff(occ_matrix(arm_occ), identity)
+    rep('arm component transform: %s (diff %.2e)' % ('identity' if arm_err < 1e-6 else 'NOT identity', arm_err))
+    if arm_err >= 1e-6:
+        problems += 1
+
+    # ---- 6. interference check over everything under the arm: links AND the module
+    #      bodies one level deeper under each J* wrapper (KNUTH-2). Module-internal
+    #      overlaps (press-fit inserts, screws inside `sensor module 2`) and slivers
+    #      thinner than armgen.INTERFERENCE_DEPTH_TOL are listed but not failures. ----
+    rep('')
+    n_bodies, hits, how = check_interference(design, arm_occ)
+    fails, slivers, internal = [], [], []
+    for kind, a, b, vol, bb in hits:
+        {'FAIL': fails, 'sliver': slivers, 'module-internal': internal}[kind].append((a, b, vol, bb))
+    rep('Interference check: %d bodies (links + modules), %d interference(s): %d FAIL, '
+        '%d sliver(s) <= %.2f mm deep ignored, %d module-internal ignored - %s'
+        % (n_bodies, len(hits), len(fails), len(slivers), armgen.INTERFERENCE_DEPTH_TOL,
+           len(internal), how))
+    for a, b, vol, bb in fails:
+        rep('    FAIL interference %s <-> %s volume=%.1f mm3 bbox(world mm)=%s' % (a, b, vol, fmt_bbox(bb)))
+    for a, b, vol, bb in slivers:
+        rep('    sliver %s <-> %s volume=%.2f mm3 depth=%.3f mm at %s'
+            % (a, b, vol, min(bb[1][i] - bb[0][i] for i in range(3)), fmt_bbox(bb)))
+    if internal:
+        counts = {}
+        for a, b, vol, bb in internal:
+            k = '%s <-> %s %.1f mm3' % (a, b, vol)
+            counts[k] = counts.get(k, 0) + 1
+        rep('    module-internal (pre-existing in %s): %s' % (
+            MODULE_DOC_NAME, ', '.join('%dx %s' % (n, k) for k, n in sorted(counts.items()))))
+    rep('Interference result: %s' % ('OK (0 over links + modules)' if not fails
+                                     else 'FAIL (%d)' % len(fails)))
+    problems += len(fails)
+
+    head = 'BuildArm done.' if problems == 0 else 'BuildArm finished with %d PROBLEM(S) - see below.' % problems
+    text = head + '\n\n' + '\n'.join(report)
+    if fails and not interactive:
+        write_report(text)
+        raise RuntimeError('BuildArm: %d interference FAIL(s) between generated bodies and '
+                           'links/modules - see %s' % (len(fails), REPORT_PATH))
+    return text
+
+
+def fmt_bbox(bb):
+    if bb is None:
+        return 'n/a'
+    return 'x[%.2f,%.2f] y[%.2f,%.2f] z[%.2f,%.2f]' % (bb[0][0], bb[1][0], bb[0][1], bb[1][1], bb[0][2], bb[1][2])
+
+
+def run(context):
+    """Scripts and Add-Ins entry point: build, write the report file, show it."""
+    ui = None
+    streamed = []
+    try:
+        app = adsk.core.Application.get()
+        ui = app.userInterface
+        design = adsk.fusion.Design.cast(app.activeProduct)
+        text = build_arm(app, ui, design, streamed.append, interactive=True)
+        wrote = write_report(text)
+        ui.messageBox(text + ('\n\nReport: ' + REPORT_PATH if wrote
+                              else '\n\n(report file could not be written)'))
+    except Cancelled:
+        return
+    except Exception:
+        text = ('BuildArm failed:\n' + traceback.format_exc()
+                + '\n\nPartial report:\n' + '\n'.join(streamed))
+        write_report(text)
+        if ui:
+            ui.messageBox(text)

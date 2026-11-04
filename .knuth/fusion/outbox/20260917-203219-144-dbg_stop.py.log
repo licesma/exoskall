@@ -1,0 +1,16 @@
+FAIL
+disk v=18322 bb=(0.00,-267.77,-29.82)-(8.01,-213.77,24.18)
+blk  v=264 bb=(-3.59,-250.89,-29.80)-(1.01,-241.47,-21.36)
+interference count=1
+  vol=57.421
+Traceback (most recent call last):
+  File "/Users/esteban/repos/exo/fusion_scripts/AgentBridge/AgentBridge.py", line 180, in _run_one
+    exec(compile(source, running_path, 'exec'), script_globals)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/esteban/repos/exo/.knuth/fusion/running/20260917-203219-144-dbg_stop.py", line 37, in <module>
+    r=app.measureManager.measureMinimumDistance(b1,b2)
+  File "/Users/esteban/Library/Application Support/Autodesk/webdeploy/production/5b508d94493ed3344e38945ffca1b03b713ee401/Autodesk Fusion.app/Contents/Api/Python/packages/adsk/core.py", line 16616, in measureMinimumDistance
+    return _core.MeasureManager_measureMinimumDistance(self, geometryOne, geometryTwo)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: 3 : invalid argument geometryOne
+bridge: FAIL in 20.3s

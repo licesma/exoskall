@@ -1,0 +1,337 @@
+{
+ "start": {
+  "time": "2026-10-14 20:18:51",
+  "active_hub": "Team hub - Rodrigo Andrade",
+  "active_hub_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEz",
+  "active_project": "G1 exeskeleton",
+  "active_project_id": "a.YnVzaW5lc3M6Z21haWw1Mzk3NTEzIzIwMjYwMjAyMTA0NTg3NDkzMQ",
+  "active_doc": "cases",
+  "open_docs": [
+   "writst mount",
+   "wrist_sketch3_with_straps",
+   "wrist_sketch3_with_straps",
+   "cases"
+  ]
+ },
+ "project_id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+ "root_folders": [
+  [
+   "cuff",
+   "urn:adsk.wipprod:fs.folder:co.BtB2DO-hTDep7RhsJadR0A"
+  ]
+ ],
+ "api": {
+  "DataFolder.move": false,
+  "DataFile.move": true,
+  "DataFolders.add": true,
+  "DataFolder.deleteMe": true,
+  "DataFile.deleteMe": true
+ },
+ "root_file_count_start": 58,
+ "folders": {
+  "arm": "urn:adsk.wipprod:fs.folder:co.y6k_vSkZS4WHjhNmUFcN4g",
+  "arm/upper body": "urn:adsk.wipprod:fs.folder:co.ew4Pt1-rTX6uPnkuZDglfw",
+  "arm/upper body/joint": "urn:adsk.wipprod:fs.folder:co.Wl27JAqpRIepqKwKl2gyRw",
+  "arm/upper body/joint/rotor": "urn:adsk.wipprod:fs.folder:co.s8YHZv2gS9imvJElwS6mBg",
+  "arm/upper body/joint/stators": "urn:adsk.wipprod:fs.folder:co.lHP0FnUuTgSNGr3x4REHCQ",
+  "arm/upper body/link": "urn:adsk.wipprod:fs.folder:co.blFQKwatQcKRA2BzweNCmg",
+  "arm/exo upper body": "urn:adsk.wipprod:fs.folder:co.TKQ1u3EBR72dyOX3w70hag",
+  "arm/exo upper body/joint": "urn:adsk.wipprod:fs.folder:co.wCtI8tCkRbyf5o5UhO63Dg",
+  "arm/exo upper body/link": "urn:adsk.wipprod:fs.folder:co.vExtlW2GT0K91XUD4uvnpA",
+  "arm/old": "urn:adsk.wipprod:fs.folder:co.hEFWNiQ6SreB72cZWN1nYw",
+  "body mount": "urn:adsk.wipprod:fs.folder:co.IRg0v8FZQ9SXFqWgDcuPdw",
+  "hand": "urn:adsk.wipprod:fs.folder:co.HmB1WSbCSuSj5NM_COqzcw",
+  "hand/cuff": "urn:adsk.wipprod:fs.folder:co._01spxPzSWGAVQjeRXHg_g",
+  "hand/robot": "urn:adsk.wipprod:fs.folder:co.rEqNq_kjRjaGNAgHHBLlMw",
+  "hand/robot/wuji": "urn:adsk.wipprod:fs.folder:co.cMSQJwEFRb-7XTTPf8ptjQ",
+  "hand/robot/inspire": "urn:adsk.wipprod:fs.folder:co.uBrYFHXuTJSfx3r_ozhIKA",
+  "parts": "urn:adsk.wipprod:fs.folder:co.lLOEhjdnSFKRUhg0Pm3AHg",
+  "other": "urn:adsk.wipprod:fs.folder:co.urDRvLtkQc23ouusj8ULng"
+ },
+ "moves": {
+  "urn:adsk.wipprod:dm.lineage:D_GhGnMjR-WfYRPHGv216Q": {
+   "name": "apriltag support",
+   "to": "body mount",
+   "verified": true,
+   "parentFolder": "body mount"
+  },
+  "urn:adsk.wipprod:dm.lineage:CzEATRrQSnuX-w_dwKCH6A": {
+   "name": "sensor module 2",
+   "to": "arm/upper body/joint/rotor",
+   "verified": true,
+   "parentFolder": "rotor"
+  },
+  "urn:adsk.wipprod:dm.lineage:AxWRyNAWRiCTr2mIST4vug": {
+   "name": "cases",
+   "to": "arm/upper body/joint/stators",
+   "verified": true,
+   "parentFolder": "stators"
+  },
+  "urn:adsk.wipprod:dm.lineage:I6f3yGrzR8S8xg8G0BP0aw": {
+   "name": "exo generated",
+   "to": "arm/exo upper body",
+   "verified": true,
+   "parentFolder": "exo upper body"
+  },
+  "urn:adsk.wipprod:dm.lineage:cXGOAcs-Q6unIh91MhgbSQ": {
+   "name": "arm",
+   "to": "arm/old",
+   "verified": true,
+   "parentFolder": "old"
+  },
+  "urn:adsk.wipprod:dm.lineage:3E7UqMBkQdKxu7gpyS2oRA": {
+   "name": "arm 2",
+   "to": "arm/old",
+   "verified": true,
+   "parentFolder": "old"
+  },
+  "urn:adsk.wipprod:dm.lineage:fZK9GF8GRG2BcpTRYFhfXg": {
+   "name": "arm test",
+   "to": "arm/old",
+   "verified": true,
+   "parentFolder": "old"
+  },
+  "urn:adsk.wipprod:dm.lineage:pGmHk0RESMyeqHdQEMWmdw": {
+   "name": "sensor module",
+   "to": "arm/old",
+   "verified": true,
+   "parentFolder": "old"
+  },
+  "urn:adsk.wipprod:dm.lineage:ocXTpTytQRyIxEl55toCfw": {
+   "name": "sensor module",
+   "to": "arm/old",
+   "verified": true,
+   "parentFolder": "old"
+  },
+  "urn:adsk.wipprod:dm.lineage:lvB_fi9qT02ITHaBJZkTrw": {
+   "name": "arm complete_chest mount",
+   "to": "body mount",
+   "verified": true,
+   "parentFolder": "body mount"
+  },
+  "urn:adsk.wipprod:dm.lineage:z15GBJnDRyeQElHZvbYgwg": {
+   "name": "arm complete_Camera support",
+   "to": "body mount",
+   "verified": true,
+   "parentFolder": "body mount"
+  },
+  "urn:adsk.wipprod:dm.lineage:BEl0Gdz8Q3eXnkrcQPsOjg": {
+   "name": "lock",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:CXeVHuieQBuRgnBiPF3BTA": {
+   "name": "spring",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:7uvY2xdBQ-mQgsQdumc7Gg": {
+   "name": "cuff",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:s9vuznrARd2JLUIwekJnWw": {
+   "name": "side0",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:APSo0xohShOVnpZHGqA25w": {
+   "name": "hook",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:UmT3rfbjTOqW97ZqcdqOgA": {
+   "name": "cuffs with soft inside",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:oZDS8t08Td-0X_e3QO597g": {
+   "name": "cuffs with soft inside v7.mp4",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:cjQSNAElQAi3LUGFbg_buA": {
+   "name": "writst mount",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:5JzcB1gaR-aeR6saJuGrTw": {
+   "name": "writst_mount_c",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:eKtchCMKQ1as7fljsFaAEw": {
+   "name": "writst mount_e",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:s_bSGtj1SL-TvkFV7MHp3Q": {
+   "name": "wrist_sketch3_with_straps",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:jIKLpTb3SCeDiKx5Latkcw": {
+   "name": "wrist_sketch3_with_straps (copy v1)",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:zH4sE1P7TmGf6LuFgu1BvQ": {
+   "name": "wristband_2.0",
+   "to": "hand/cuff",
+   "verified": true,
+   "parentFolder": "cuff"
+  },
+  "urn:adsk.wipprod:dm.lineage:uC9G0GSuQiW0G83awoUfuA": {
+   "name": "wuji enclosure",
+   "to": "hand/robot/wuji",
+   "verified": true,
+   "parentFolder": "wuji"
+  },
+  "urn:adsk.wipprod:dm.lineage:JVOJcOwrRFGzhUhl2svQJw": {
+   "name": "inspire_link",
+   "to": "hand/robot/inspire",
+   "verified": true,
+   "parentFolder": "inspire"
+  },
+  "urn:adsk.wipprod:dm.lineage:u2fXVhGnTnWSL4pORlPOTw": {
+   "name": "M4 x 0.7mm Thread HEX NUT",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:Bmc3JQj_TxiHKtTGBQDIBQ": {
+   "name": "M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:yDlnR5NwS16jA0o2fXON7A": {
+   "name": "M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:iUyCL7IcQZKm8tltjMWw6w": {
+   "name": "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:uXMptCMJRIKWpir8qDtnqg": {
+   "name": "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:F582bMLWThGuzPyAvgqsYw": {
+   "name": "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:KhadPO81QGO68ELzD43byg": {
+   "name": "M3x1.8mm Hex Nut",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:wEVGyPXgSwmY8pdfy1G8bw": {
+   "name": "pan_head_philip_mc_screw_m1-6",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:khSiwew-RLGCubfLBKzzKw": {
+   "name": "5972K159_Ball Bearing",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:zU49JHZLRTmJLNjYSZeSRA": {
+   "name": "XL330",
+   "to": "parts",
+   "verified": true,
+   "parentFolder": "parts"
+  },
+  "urn:adsk.wipprod:dm.lineage:6dGLUribStKssjuggzFhSQ": {
+   "name": "tool_organizer_exo258",
+   "to": "other",
+   "verified": true,
+   "parentFolder": "other"
+  },
+  "urn:adsk.wipprod:dm.lineage:DsxpO1c0TlSIelaD0UMsqA": {
+   "name": "Direct-Adapter-Mount",
+   "to": "other",
+   "verified": true,
+   "parentFolder": "other"
+  },
+  "urn:adsk.wipprod:dm.lineage:OvVKEQ-DR2S3bbBg9Sngeg": {
+   "name": "right",
+   "to": "other",
+   "verified": true,
+   "parentFolder": "other"
+  },
+  "urn:adsk.wipprod:dm.lineage:1rE3iPU-RTCVq03LqWbxTg": {
+   "name": "WH_simplified_right_frameonly",
+   "to": "other",
+   "verified": true,
+   "parentFolder": "other"
+  }
+ },
+ "deletes": {
+  "sensor module pGmHk0": {
+   "action": "kept, moved to arm/old",
+   "parentReferences": [
+    [
+     "arm",
+     "cXGOAc",
+     "old"
+    ]
+   ]
+  },
+  "sensor module ocXTpT": {
+   "action": "kept, moved to arm/old",
+   "parentReferences": [
+    [
+     "arm 2",
+     "3E7UqM",
+     "old"
+    ]
+   ]
+  },
+  "arm complete (1-body test upload, delete me)": {
+   "id": "urn:adsk.wipprod:dm.lineage:p-BdRVWoTmaJDy3jun2ljQ",
+   "action": "deleted (4th attempt; first 3 raised InternalValidationError : res)",
+   "ok": true,
+   "errors": [
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res",
+    "2 : InternalValidationError : res"
+   ],
+   "retry2": true
+  },
+  "sensor module test": {
+   "id": "urn:adsk.wipprod:dm.lineage:szvVTe4oRa2BM_7L4hlHYg",
+   "action": "deleted",
+   "ok": true,
+   "errors": []
+  },
+  "folder cuff": {
+   "id": "urn:adsk.wipprod:fs.folder:co.BtB2DO-hTDep7RhsJadR0A",
+   "action": "deleted",
+   "ok": true
+  }
+ }
+}

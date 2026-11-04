@@ -1,0 +1,18 @@
+OK
+open documents: 6
+  [0] name='M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW.f3d ' dataFile='M4 x 0.7mm Thread 25mm LONG SOCKET HEAD CAP SCREW'
+  [1] name='M4 x 0.7mm Thread HEX NUT.f3d ' dataFile='M4 x 0.7mm Thread HEX NUT'
+  [2] name='M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW.f3d ' dataFile='M4 x 0.7mm Thread 14mm LONG SOCKET HEAD CAP SCREW'
+  [3] name='cuffs with soft inside' dataFile='cuffs with soft inside'
+  [4] name='arm complete' dataFile='arm complete'
+  [5] name='exo generated' dataFile='exo generated'
+active document: 'exo generated'
+re-using the 'exo generated' already open (1 match)
+activated 'exo generated'
+SAVED: "exo generated" in project "G1 exeskeleton", folder "G1 exeskeleton" - already up to date, nothing to write
+inserted 'sensor module 2' as 'sensor module 2' (linked: True)
+SAVED: "exo generated" in project "G1 exeskeleton", folder "G1 exeskeleton" - already up to date, nothing to write
+RESULT document 'exo generated': saved_ever=True up_to_date=True (project "G1 exeskeleton", folder "G1 exeskeleton")
+root occurrences: ['sensor module 2']
+open documents now: 8
+bridge: OK in 23.6s

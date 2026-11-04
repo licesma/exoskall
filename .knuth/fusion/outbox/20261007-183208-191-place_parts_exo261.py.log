@@ -1,0 +1,14 @@
+OK
+organizer 'tool_organizer_exo258', box body 'Body1'
+deleting earlier 'bearing_5972K159_exo261'
+copied 22 bodies of '5972K159_Ball Bearing'
+copied 6 bodies of 'XL330 v2'
+bearing_5972K159_exo261: dropped 0.600 mm to contact
+bearing_5972K159_exo261: 22 bodies, bbox mm X -95.250..-53.250 Y 45.000..87.000 Z 2.000..9.000 (42.000 x 42.000 x 7.000)
+XL330_exo261: 6 bodies, bbox mm X -87.250..-61.250 Y -83.000..-49.000 Z 2.600..22.600 (26.000 x 34.000 x 20.000)
+CLEARANCE bearing_5972K159_exo261 (mm): -X 2.750, +X 2.750, -Y 11.000, +Y 11.000; min distance to box body (labels/floor) 0.000
+CLEARANCE XL330_exo261 (mm): -X 10.750, +X 10.750, -Y 15.000, +Y 15.000; min distance to box body (labels/floor) 0.000
+interference with box: none
+SAVED: "tool_organizer_exo258" in project "G1 exeskeleton", folder "G1 exeskeleton"
+RESULT 'tool_organizer_exo258' saved_ever=True up_to_date=True (project "G1 exeskeleton", folder "G1 exeskeleton") version 3
+bridge: OK in 16.7s

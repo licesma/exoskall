@@ -1,0 +1,6 @@
+OK
+item 8 upload started: sensor module test.f3d -> G1 exeskeleton/root
+item 8 upload FAILED: uploadState=UploadFailed after 8s; dataFile=ERR: 'NoneType' object has no attribute 'name'
+counts: {'skipped_modified': 1, 'upload_failed': 2, 'uploaded': 1, 'pending': 31}
+active hub/project: Team hub - Rodrigo Andrade / G1 exeskeleton (10s)
+bridge: OK in 10.4s

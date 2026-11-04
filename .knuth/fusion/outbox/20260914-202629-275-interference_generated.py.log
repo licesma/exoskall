@@ -1,0 +1,5 @@
+OK
+bodies checked: 2
+INTERFERENCES: 1
+  link_12  <->  link_23   volume=176.5 mm3
+bridge: OK in 0.1s

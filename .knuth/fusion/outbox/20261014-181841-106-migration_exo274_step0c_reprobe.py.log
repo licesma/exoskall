@@ -1,0 +1,44 @@
+OK
+bridge: no active Fusion design - design is None
+{
+ "time": "2026-10-14 18:18:42",
+ "active_hub": "Team hub - Rodrigo Andrade",
+ "active_project": "G1 exeskeleton",
+ "active_doc": "ERR: 'NoneType' object has no attribute 'name'",
+ "estebans_projects": [
+  "Assets",
+  "Default Project",
+  "gvl",
+  "Learn Fusion in 30 days",
+  "G1 exeskeleton"
+ ],
+ "target": {
+  "id": "a.YnVzaW5lc3M6Z21haWw2MDk1MjQ0IzIwMjYxMDE1MTE1NTM4MzE1MQ",
+  "root_files": [
+   "apriltag support",
+   "arm complete_Camera support",
+   "arm complete_chest mount",
+   "cuffs with soft inside v7.mp4",
+   "Direct-Adapter-Mount",
+   "elbow_luna",
+   "inspire_link",
+   "M3x1.8mm Hex Nut",
+   "M4 x 0.7mm Thread 10mm LONG SOCKET HEAD CAP SCREW",
+   "M4 x 0.7mm Thread 12mm LONG SOCKET HEAD CAP SCREW",
+   "M4 x 0.7mm Thread 35mm LONG SOCKET HEAD CAP SCREW",
+   "pan_head_philip_mc_screw_m1-6",
+   "right",
+   "tool_organizer_exo258",
+   "WH_simplified_right_frameonly",
+   "wristband_2.0",
+   "writst_mount_c",
+   "writst mount",
+   "wuji enclosure"
+  ],
+  "root_folders": [
+   "cuff"
+  ]
+ },
+ "open_docs": []
+}
+bridge: OK in 31.6s

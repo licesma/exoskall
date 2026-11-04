@@ -1,0 +1,22 @@
+OK
+visible: right arm, generated_R_arm, generated_R_arm_general
+module rotations: J1 +0.000, J2 +248.500, J3 +238.500, J4 +174.500, J5 +238.500
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_12_a.png
+link_12_a -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_12_a.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_12_b.png
+link_12_b -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_12_b.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_23_a.png
+link_23_a -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_23_a.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_23_b.png
+link_23_b -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_23_b.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_34_a.png
+link_34_a -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_34_a.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_34_b.png
+link_34_b -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_34_b.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_45_a.png
+link_45_a -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_45_a.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_45_b.png
+link_45_b -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_link_45_b.png
+bridge: saved screenshot -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_arm_iso.png
+arm_iso -> /Users/esteban/repos/exo/gento_luna/exo/screenshots/generated_R_arm_exo144_arm_iso.png
+bridge: OK in 50.7s
