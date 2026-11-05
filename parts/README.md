@@ -66,6 +66,7 @@ High-refinement 3MF exports from `exo generated`; read back with `tools/verify_3
 |---|---|---|---|---|
 | `link_23.3mf` | `g_link_23` of `generated_R_arm_general` (J2 rotor -> J3 stator), ARM coordinates, with the assembly mark and key pegs (EXO-364) | 62.504 x 60.246 x 105.699 | 45832.391 | 45842.577 |
 | `joints4.bambu.3mf` | Bambu Studio plate: 4x stator (underside down), 4x top (rotor face down), 4x bottom (O35 plate down) as `rotor.bambu.3mf`, + link_23 standing on its J3 flange end face (62.5 tall, J2 pad on supports); settings = `rotor.bambu.3mf`; layout 229.5 x 216.75, margins >= 13.25, gaps >= 10.5; `tools/bambu_plate_exo343.py --plate joints4` | - | - | - |
+| `joints2.bambu.3mf` | Bambu Studio plate (EXO-369): link_12, link_23, 2x stator, 2x top, 2x bottom, current parts (EXO-364 pegs), orientations and meshes as `all.bambu.3mf` (link_12 on the J2 pad outer face, link_23 on the J3 flange end face, stators underside down, tops rotor face down, bottoms plate down); supports on, settings = `rotor.bambu.3mf`; layout 216 x 187.5, margins >= 20, gaps >= 12; `tools/bambu_plate_exo343.py --plate joints2` | - | - | - |
 
 - **Link 23** (arm coords): J2 rotor face centre (0.008, -240.770, -2.819), normal +X;
   J3 stator-pad face centre (0.004, -247.015, -81.518), normal -Z. Rotor pad 4 x O3.2 r 11,

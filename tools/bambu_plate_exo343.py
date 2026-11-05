@@ -4,6 +4,7 @@
     python3 -I tools/bambu_plate_exo343.py                      # link.bambu.3mf: 2x stator + link_12
     python3 -I tools/bambu_plate_exo343.py --plate joints4      # joints4.bambu.3mf (EXO-345)
     python3 -I tools/bambu_plate_exo343.py --plate all          # all.bambu.3mf (EXO-348): joints4 + link_12
+    python3 -I tools/bambu_plate_exo343.py --plate joints2      # joints2.bambu.3mf (EXO-369): link_12, link_23, 2x stator/top/bottom
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia   # stator_dia.bambu.3mf (EXO-355): O42.2..42.6 stators
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia_low  # stator_dia_low.bambu.3mf (EXO-358): O41.8..42.4
     python3 -I tools/bambu_plate_exo343.py --plate rotor        # rotor.bambu.3mf (EXO-338 layout, rebuilt EXO-364)
@@ -39,6 +40,8 @@ Orientation is BAKED INTO THE MESH; build items are pure translations. Per layou
   all (EXO-348): the 14 objects of joints4 + link_12, print orientations unchanged (no XY
              rotation needed). Positions from a bottom-left greedy packer over bbox footprints
              (gap 11, margin 9, exclude zone 18x28 blocked), then shifted +0.88 / +2.75 to centre.
+  joints2 (EXO-369): link_12, link_23, stator x2, top x2, bottom x2, orientations as `all`;
+             rows link_23 + link_12 / 2 stators + 2 tops / 2 bottoms, gaps 12, centred, margins >= 10.
   stator_dia (EXO-350, EXO-355): stator_d42.2 .. 42.6 as exported (underside on the bed, bore and
              the "42.x" label on the top face up), rows of 3 + 2 at 64.5 pitch (gap 10.5).
 """
@@ -94,6 +97,19 @@ ALL_LAYOUT = [
     ('bottom_3', 'bottom', None, (186.38, 215.25)),
     ('bottom_4', 'bottom', None, (92.38, 226.76)),
 ]
+# joints2 (EXO-369): orientations as ALL_LAYOUT; footprints link_23 105.7 x 60.26, link_12 63.54 x 74.5,
+# stator 54, top 36, bottom 35. Rows (gap 12): link_23 + link_12 (y 34.25..108.75), 2 stators + 2 tops
+# (y 120.75..174.75, x 20..236), 2 bottoms (y 186.75..221.75); centred on 128/128.
+J2_LAYOUT = [
+    ('link_23', 'link_23', ('bed', (1, 0, 0)), (90.23, 71.5)),
+    ('link_12', 'link_12', ('bed', (-1, 0, 0)), (186.85, 71.5)),
+    ('stator_1', 'stator', None, (47.0, 147.75)),
+    ('stator_2', 'stator', None, (113.0, 147.75)),
+    ('top_1', 'top', 'flipX', (170.0, 147.75)),
+    ('top_2', 'top', 'flipX', (218.0, 147.75)),
+    ('bottom_1', 'bottom', None, (104.5, 204.25)),
+    ('bottom_2', 'bottom', None, (151.5, 204.25)),
+]
 # stator_dia (EXO-355): five stators 54 x 54, rows of 3 + 2 at 64.5 pitch (gap 10.5), centred on 128/128.
 SDIA_LAYOUT = [
     ('stator_d42.2', 'stator_d42.2', None, (63.5, 160.25)),
@@ -132,6 +148,7 @@ PLATES = {
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
     'all': (os.path.join(PARTS, 'all.bambu.3mf'), 'all', ALL_LAYOUT),
+    'joints2': (os.path.join(PARTS, 'joints2.bambu.3mf'), 'joints2', J2_LAYOUT),
     'stator_dia': (os.path.join(PARTS, 'stator_dia.bambu.3mf'), 'stator_dia', SDIA_LAYOUT),
     'rotor_head': (os.path.join(PARTS, 'rotor_head.bambu.3mf'), 'rotor_head', HEAD_LAYOUT),
     'stator_dia_low': (os.path.join(PARTS, 'stator_dia_low.bambu.3mf'), 'stator_dia_low', SDIA_LOW_LAYOUT),
@@ -144,6 +161,7 @@ SOURCE_V.update({'stator_d41.8': 25815.537, 'stator_d41.9': 25769.600, 'stator_d
                  'stator_d42.1': 25677.170})   # EXO-358
 SOURCE_V.update({'bottom_h0.5': 3831.022, 'bottom_h1.0': 3799.806})   # EXO-352
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
+PLATE_MARGIN = {'joints2': 10.0}   # stricter per-plate margins (EXO-369)
 HDR = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
        'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
        'xmlns:BambuStudio="http://schemas.bambulab.com/package/2021" '
@@ -206,30 +224,39 @@ def f(x):
     return ('%.6f' % x).rstrip('0').rstrip('.') if abs(x) > 5e-7 else '0'
 
 
+def oriented(srcname, rot, name=None):
+    """Source mesh in print orientation, bbox-centred; returns V, T, centre, half height."""
+    V, T = read_mesh(os.path.join(PARTS, srcname + '.3mf'))
+    if rot == 'flipX':
+        V = [(x, -y, -z) for x, y, z in V]
+    elif rot:
+        R, n = bed_face_rotation(V, T, rot[1])
+        if name:
+            print('%s bed-face normal (source coords): %.6f %.6f %.6f' % ((name,) + tuple(n)))
+            print('R rows: ' + ' | '.join(' '.join('%.6f' % x for x in r) for r in R))
+        V = [tuple(sum(R[r][k] * v[k] for k in range(3)) for r in range(3)) for v in V]
+    lo = [min(v[k] for v in V) for k in range(3)]
+    hi = [max(v[k] for v in V) for k in range(3)]
+    c = [(lo[k] + hi[k]) / 2 for k in range(3)]
+    V = [(x - c[0], y - c[1], z - c[2]) for x, y, z in V]
+    return V, T, c, (hi[2] - lo[2]) / 2
+
+
+def mesh_text(V, T):
+    return (''.join('     <vertex x="%s" y="%s" z="%s"/>\n' % (f(x), f(y), f(z)) for x, y, z in V) + '    </vertices>\n    <triangles>\n'
+            + ''.join('     <triangle v1="%d" v2="%d" v3="%d"/>\n' % t for t in T))
+
+
 def build(plate='link'):
     OUT, title, LAYOUT = PLATES[plate]
     src = zipfile.ZipFile(SETTINGS_SRC)
     objects, items, rels, ms_objs, ms_inst, assemble, files = [], [], [], [], [], [], {}
     for i, (name, srcname, rot, (px, py)) in enumerate(LAYOUT):
-        V, T = read_mesh(os.path.join(PARTS, srcname + '.3mf'))
-        if rot == 'flipX':
-            V = [(x, -y, -z) for x, y, z in V]
-        elif rot:
-            R, n = bed_face_rotation(V, T, rot[1])
-            print('%s bed-face normal (source coords): %.6f %.6f %.6f' % ((name,) + tuple(n)))
-            print('R rows: ' + ' | '.join(' '.join('%.6f' % x for x in r) for r in R))
-            V = [tuple(sum(R[r][k] * v[k] for k in range(3)) for r in range(3)) for v in V]
-        lo = [min(v[k] for v in V) for k in range(3)]
-        hi = [max(v[k] for v in V) for k in range(3)]
-        c = [(lo[k] + hi[k]) / 2 for k in range(3)]
-        V = [(x - c[0], y - c[1], z - c[2]) for x, y, z in V]
-        tz = (hi[2] - lo[2]) / 2
+        V, T, c, tz = oriented(srcname, rot, name)
         mid, oid, sub = 2 * i + 1, 2 * i + 2, 'object_%d.model' % (i + 1)
         body = [HDR, ' <metadata name="BambuStudio:3mfVersion">1</metadata>\n <resources>\n',
                 '  <object id="%d" name="%s" p:UUID="%s" type="model">\n   <mesh>\n    <vertices>\n' % (mid, name, uuid.uuid4())]
-        body += ['     <vertex x="%s" y="%s" z="%s"/>\n' % (f(x), f(y), f(z)) for x, y, z in V]
-        body.append('    </vertices>\n    <triangles>\n')
-        body += ['     <triangle v1="%d" v2="%d" v3="%d"/>\n' % t for t in T]
+        body.append(mesh_text(V, T))
         body.append('    </triangles>\n   </mesh>\n  </object>\n </resources>\n <build/>\n</model>\n')
         files['3D/Objects/' + sub] = ''.join(body)
         objects.append('  <object id="%d" name="%s" p:UUID="%s" type="model">\n   <components>\n'
@@ -290,6 +317,10 @@ def check(path):
     ms_src = {o.get('id'): o.find("part/metadata[@key='source_file']").get('value')[:-4] for o in ms.findall('object')}
     plate = [mi.find("metadata[@key='object_id']").get('value') for mi in ms.findall('plate/model_instance')]
     rows, boxes, md5 = [], [], set()
+    key = [k for k, v in PLATES.items() if os.path.abspath(v[0]) == os.path.abspath(path)]
+    margin = PLATE_MARGIN.get(key[0], MARGIN) if key else MARGIN
+    layout = {e[0]: e for e in PLATES[key[0]][2]} if key else {}
+    mesh_md5 = []
     for it in root.findall('m:build/m:item', NS):
         oid = it.get('objectid')
         t = [float(x) for x in it.get('transform').split()]
@@ -306,6 +337,15 @@ def check(path):
         assert int(mid) == 2 * k - 1 and int(oid) == 2 * k, (sub, mid, oid)
         assert ms_names[oid] == w.get('name') == so[0].get('name') and ms_parts[oid] == mid and oid in plate
         ids += [oid, mid]
+        if w.get('name') in layout:   # mesh block vs the same block regenerated from parts/<source>.3mf
+            e = layout[w.get('name')]
+            Vs, Ts = oriented(e[1], e[2])[:2]
+            a = raw.index(b'<vertices>\n') + len(b'<vertices>\n')
+            got = hashlib.md5(raw[a:raw.index(b'    </triangles>')]).hexdigest()
+            want = hashlib.md5(mesh_text(Vs, Ts).encode()).hexdigest()
+            srcmd5 = hashlib.md5(open(os.path.join(PARTS, e[1] + '.3mf'), 'rb').read()).hexdigest()
+            mesh_md5.append((w.get('name'), e[1], srcmd5, got, want))
+            assert got == want, (w.get('name'), got, want)
         m = so[0].find('m:mesh', NS)
         V = [(float(v.get('x')) + t[9], float(v.get('y')) + t[10], float(v.get('z')) + t[11]) for v in m.findall('m:vertices/m:vertex', NS)]
         T = [(int(q.get('v1')), int(q.get('v2')), int(q.get('v3'))) for q in m.findall('m:triangles/m:triangle', NS)]
@@ -333,9 +373,11 @@ def check(path):
         print('| %s/%s | %s | %s | %.3f | %.3f | %.3f | %.2f..%.2f | %.2f..%.2f | %.3f | %.1f | %d |'
               % (oid, mid, sub.split('/')[-1], name, vol, srcv, lo[2], lo[0], hi[0], lo[1], hi[1], hi[2] - lo[2], bed, oe))
         assert abs(vol - srcv) < 0.002 and abs(lo[2]) < 1e-5 and oe == 0
-        assert min(lo[0], lo[1], 256 - hi[0], 256 - hi[1]) >= MARGIN and hi[2] <= 250
+        assert min(lo[0], lo[1], 256 - hi[0], 256 - hi[1]) >= margin and hi[2] <= 250
         assert not (lo[0] < 18 and lo[1] < 28)
     print('distinct sub-model md5:', len(md5))
+    for name, src, sm, got, want in mesh_md5:
+        print('mesh md5 %s: plate %s = from %s.3mf (file md5 %s) %s: %s' % (name, got, src, sm, want, got == want))
     gaps = []
     for i in range(len(boxes)):
         for j in range(i + 1, len(boxes)):
@@ -347,6 +389,7 @@ def check(path):
     assert min(g[2] for g in gaps) >= 10
     LO = [min(b[1][k] for b in boxes) for k in range(2)]
     HI = [max(b[2][k] for b in boxes) for k in range(2)]
+    print('margin required >= %.1f' % margin)
     print('layout bbox x %.2f..%.2f, y %.2f..%.2f (%.2f x %.2f); margins left %.2f right %.2f front %.2f back %.2f'
           % (LO[0], HI[0], LO[1], HI[1], HI[0] - LO[0], HI[1] - LO[1], LO[0], 256 - HI[0], LO[1], 256 - HI[1]))
     g = min(gaps, key=lambda q: q[2])
