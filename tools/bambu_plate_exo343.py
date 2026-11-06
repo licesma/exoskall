@@ -6,6 +6,7 @@
     python3 -I tools/bambu_plate_exo343.py --plate all          # all.bambu.3mf (EXO-348): joints4 + link_12
     python3 -I tools/bambu_plate_exo343.py --plate joints2a     # joints2a.bambu.3mf (EXO-383): c1.0 + c1.5 links, 2x stator, 2x bottom
     python3 -I tools/bambu_plate_exo343.py --plate joints2b     # joints2b.bambu.3mf (EXO-383): the c2.0 links
+    python3 -I tools/bambu_plate_exo343.py --plate links6       # links6.bambu.3mf (EXO-392): the six c1.0/1.5/2.0 links only
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia   # stator_dia.bambu.3mf (EXO-355): O42.2..42.6 stators
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia_low  # stator_dia_low.bambu.3mf (EXO-358): O41.8..42.4
     python3 -I tools/bambu_plate_exo343.py --plate rotor        # rotor.bambu.3mf (EXO-338 layout, rebuilt EXO-364)
@@ -111,6 +112,17 @@ J2B_LAYOUT = [
     ('link_23_c2.0', 'link_23_c2.0', ('bed', (1, 0, 0)), (90.23, 128.0)),
     ('link_12_c2.0', 'link_12_c2.0', ('bed', (-1, 0, 0)), (186.85, 128.0)),
 ]
+# links6 (EXO-392): the six counterbore links only, orientations as J2_LAYOUT (link_12 63.53 x 79.70,
+# link_23 105.70 x 60.26 on the bed). Rows: 3x link_12 / 2x link_23 / 1x link_23 (centred, clear of
+# the P1S exclude zone), gaps 12, layout 224.22 tall, centred on 128/128.
+L6_LAYOUT = [
+    ('link_12_c1.0', 'link_12_c1.0', ('bed', (-1, 0, 0)), (52.47, 200.26)),
+    ('link_12_c1.5', 'link_12_c1.5', ('bed', (-1, 0, 0)), (128.0, 200.26)),
+    ('link_12_c2.0', 'link_12_c2.0', ('bed', (-1, 0, 0)), (203.53, 200.26)),
+    ('link_23_c1.0', 'link_23_c1.0', ('bed', (1, 0, 0)), (69.15, 118.28)),
+    ('link_23_c1.5', 'link_23_c1.5', ('bed', (1, 0, 0)), (186.85, 118.28)),
+    ('link_23_c2.0', 'link_23_c2.0', ('bed', (1, 0, 0)), (128.0, 46.02)),
+]
 # stator_dia (EXO-355): five stators 54 x 54, rows of 3 + 2 at 64.5 pitch (gap 10.5), centred on 128/128.
 SDIA_LAYOUT = [
     ('stator_d42.2', 'stator_d42.2', None, (63.5, 160.25)),
@@ -150,6 +162,7 @@ PLATES = {
     'all': (os.path.join(PARTS, 'all.bambu.3mf'), 'all', ALL_LAYOUT),
     'joints2a': (os.path.join(PARTS, 'joints2a.bambu.3mf'), 'joints2a', J2_LAYOUT),
     'joints2b': (os.path.join(PARTS, 'joints2b.bambu.3mf'), 'joints2b', J2B_LAYOUT),
+    'links6': (os.path.join(PARTS, 'links6.bambu.3mf'), 'links6', L6_LAYOUT),
     'stator_dia': (os.path.join(PARTS, 'stator_dia.bambu.3mf'), 'stator_dia', SDIA_LAYOUT),
     'rotor_head': (os.path.join(PARTS, 'rotor_head.bambu.3mf'), 'rotor_head', HEAD_LAYOUT),
     'stator_dia_low': (os.path.join(PARTS, 'stator_dia_low.bambu.3mf'), 'stator_dia_low', SDIA_LOW_LAYOUT),
@@ -167,7 +180,7 @@ SOURCE_V.update({'bottom': 3377.371})
 SOURCE_V.update({'link_12_c1.0': 44797.717, 'link_23_c1.0': 50224.587, 'link_12_c1.5': 44753.497,
                  'link_23_c1.5': 50180.383, 'link_12_c2.0': 44708.888, 'link_23_c2.0': 50135.790})
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
-PLATE_MARGIN = {'joints2a': 10.0, 'joints2b': 10.0}   # stricter per-plate margins (EXO-369)
+PLATE_MARGIN = {'joints2a': 10.0, 'joints2b': 10.0, 'links6': 10.0}   # stricter per-plate margins (EXO-369)
 HDR = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
        'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
        'xmlns:BambuStudio="http://schemas.bambulab.com/package/2021" '

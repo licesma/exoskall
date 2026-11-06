@@ -23,6 +23,7 @@ archived.
 | `link_23_c2.0.3mf` | `g_link_23`, counterbore 2.0 | 62.504 x 60.246 x 105.699 | 50135.790 | 50145.158 | 9 |
 | `joints2a.bambu.3mf` | Bambu plate: c1.0 + c1.5 links, 2x stator, 2x bottom; layout 228.24 x 234.40, margins >= 10.80, gaps >= 10.50 | - | - | - | - |
 | `joints2b.bambu.3mf` | Bambu plate: the two c2.0 links (six links + 2 stators + 2 bottoms do not fit one plate at gaps >= 10) | - | - | - | - |
+| `links6.bambu.3mf` | Bambu plate (EXO-392): the six c1.0/c1.5/c2.0 links only, orientations as joints2a; layout 223.40 x 224.22, margins >= 15.89, gaps >= 12.00 | - | - | - | - |
 
 The stack, module frame of the joint (rotor face z 0):
 
