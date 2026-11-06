@@ -194,6 +194,11 @@ class Frame:
     def vector(self, v):
         return V(*armgen.matvec(self.R, v))
 
+    def local(self, p_cm):
+        """A Fusion point (cm, world) in this frame, mm (EXO-375)."""
+        d = [p_cm.x * 10.0 - self.t[0], p_cm.y * 10.0 - self.t[1], p_cm.z * 10.0 - self.t[2]]
+        return armgen.matvec(armgen.transpose(self.R), d)
+
 
 class PlaneSketch:
     """A sketch on the plane through `origin` (world Point3D, cm) spanned by the world unit
@@ -283,7 +288,7 @@ def arm_frames(joints, by_child, shift=(0.0, 0.0, 0.0)):
     return frames, spins, armgen.spin_chain_check(frames, SPIN_LINKS, spins)
 
 
-JOIN_OVERLAP = 1.0   # mm a stop block / key peg extends up INTO the pad so the join overlaps in volume
+JOIN_OVERLAP = 1.0   # mm a stop block / the fused top extends up INTO the pad so the join overlaps in volume
 
 
 def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
@@ -333,9 +338,9 @@ def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
         sk.extrude(1, pb['z_span'], ISECT, body)
 
     # --- rotor pad disk: joins into the profile body ---
-    sk = PlaneSketch(comp, 'rotor pad', FA.point([0, 0, g.PAD_T / 2]), ex, ey)
+    sk = PlaneSketch(comp, 'rotor pad', FA.point([0, 0, g.ROTOR_PAD_T / 2]), ex, ey)
     sk.circle((0, 0), pad_r)
-    sk.extrude(1, g.PAD_T, JOIN, body)
+    sk.extrude(1, g.ROTOR_PAD_T, JOIN, body)      # EXO-375: rotor pad parameter
 
     # --- stator slab: the disk with its flange tongue and the tongue's blends, drawn in FS ---
     sk = PlaneSketch(comp, 'stator pad + flange', FS.point([0, 0, z_slab_mid]), sx, sy)
@@ -354,22 +359,27 @@ def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
     sk.loop(info['corner_cut'])
     sk.extrude(1, info['corner_cut_w'], CUT, body)
 
-    # --- stop block (ring sector below the pad face) and key pegs (EXO-364), joined with overlap ---
+    # --- stop block (ring sector below the pad face) and the fused rotor top (EXO-370) ---
     stop_h, half, ang = spec['stop_h'], spec['stop_half'], spec['stop_angle']
     sk = PlaneSketch(comp, 'stop block', FA.point([0, 0, (JOIN_OVERLAP - stop_h) / 2]), ex, ey)
     sk.loop(g.stop_block_outline(ang, half, g.STOP_R_IN, pad_r))
     sk.extrude(1, stop_h + JOIN_OVERLAP, JOIN, body)
-    sk = PlaneSketch(comp, 'key pegs', FA.point([0, 0, (JOIN_OVERLAP - g.KEY_PEG_H) / 2]), ex, ey)
-    for c in g.key_centres():
-        sk.circle(c, g.KEY_PEG_R)
-    sk.extrude(len(g.KEY_ANGLES), g.KEY_PEG_H + JOIN_OVERLAP, JOIN, body)
+    def band(label, z_lo, z_hi, centres, r, op):
+        k = PlaneSketch(comp, label, FA.point([0, 0, (z_lo + z_hi) / 2]), ex, ey)
+        for c in centres:
+            k.circle(c, r)
+        k.extrude(len(centres), z_hi - z_lo, op, body)
+    band('top disk', g.TOP_SHOULDER_Z, JOIN_OVERLAP, [(0, 0)], g.TOP_DISK_R, JOIN)
+    band('top journal', g.TOP_JOINT_Z, g.TOP_SHOULDER_Z + 0.5, [(0, 0)], g.TOP_JOURNAL_R, JOIN)
+    band('top register pegs', g.TOP_Z_MIN, g.TOP_JOINT_Z + 0.2, g.top_peg_centres(),
+         g.TOP_PEG_R, JOIN)
 
-    # --- rotor-side cuts: 4x M3 through the pad ---
-    sk = PlaneSketch(comp, 'rotor holes', FA.point([0, 0, g.PAD_T / 2]), ex, ey)
-    for a in g.ROTOR_HOLE_ANGLES:
-        sk.circle((g.ROTOR_HOLE_RADIUS * math.cos(math.radians(a)),
-                   g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a))), g.HOLE_R)
-    sk.extrude(len(g.ROTOR_HOLE_ANGLES), g.PAD_T + 2 * eps, CUT, body)
+    # --- rotor-side cuts: 4x M3 and the O16 centre hole through pad + top ---
+    z0, z1 = g.TOP_JOINT_Z - eps, g.ROTOR_PAD_T + eps
+    band('rotor holes', z0, z1, [(g.ROTOR_HOLE_RADIUS * math.cos(math.radians(a)),
+                                  g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a)))
+                                 for a in g.ROTOR_HOLE_ANGLES], g.HOLE_R, CUT)
+    band('centre hole', z0, z1, [(0, 0)], g.TOP_CENTRE_R, CUT)
 
     # --- stator-side cuts: 3 insert holes + actuator cutout through the slab ---
     sk = PlaneSketch(comp, 'stator holes + cutout', FB.point([0, 0, z_slab_mid]), bx, by)
@@ -712,7 +722,7 @@ MODULE_V3_NAME = 'sensor module 2 rotor'
 MODULE_ROTOR_NAME = MODULE_V3_NAME
 MODULE_LEGACY_NAMES = ('sensor module 2 v3',)
 V3_NUT_COMP_NAME = 'M3 nut ISO 4032 x4'      # EXO-231, drawn: the four standard nuts
-V3_BOLT_COMP_NAME = 'M3x20 bolt x4'          # EXO-231, drawn: the four M3 bolts
+V3_BOLT_COMP_NAME = 'M3x20 bolt x4'          # EXO-231, drawn: the four M3 bolts (EXO-375: M3x20 from the 7 mm pad)
 
 V3_TOL = 0.02                  # mm, how close a measured face has to land on its number
 
@@ -823,11 +833,12 @@ V3_BOLT_R = 1.5                # M3 shank, Ø3.0 - the thread's major diameter, 
 V3_BOLT_HEAD_R = 2.75          # ISO 4762 socket head cap screw M3: head Ø5.5
 V3_BOLT_HEAD_H = 3.0           # ... 3.0 high. The pad's flat ring (armgen.HOLE_FLAT_RING 2.0
                                # past a Ø3.2 hole edge = Ø7.2 of flat) already seats it.
-V3_BOLT_L = 20.0               # M3x20: under-head length, head seated on the link's rotor pad
-                               # outer face z = armgen.PAD_T. Tip lands at PAD_T - 20 = -12.0:
-                               # 1.4 mm into the nut and 1.5 mm off the XL330 top face -13.5.
-                               # M3x22 would be 0.5 mm INSIDE the XL330; 20 is the stock length
-                               # the numbers pick out of Esteban's M3 pack.
+V3_BOLT_L = armgen.ROTOR_BOLT_L_DEFAULT  # EXO-375: M3x20, head seated on the FUSED link's
+                               # rotor pad outer face z = armgen.ROTOR_PAD_T_DEFAULT 7. Tip
+                               # lands at 7 - 20 = -13.0 = the nut's bottom face (2.4 of thread
+                               # in the nut) and 0.5 off the XL330 top face -13.5. (EXO-231..369:
+                               # M3x20 from the 8 mm pad, tip -12.0.) The module always draws the
+                               # DEFAULT pad's bolts, whatever pad a variant build draws.
 
 # EXO-242: the three PRINTED parts of the module are renamed in every v3 copy - the
 # original `sensor module 2` keeps Fusion's `Component1..3`. The mapping and the two
@@ -899,6 +910,8 @@ def v3_rename_verdict(module_occ):
     before the rename is not the module the recipe describes."""
     wrong = []
     for which, occ in zip(V3_PART_ORDER, v3_parts(module_occ)):
+        if occ is None and which == V3_PART_ORDER[1]:
+            continue           # EXO-370: the upper part (inner_top) is fused into the links
         if occ is None:
             wrong.append('the %s part is not on the solid' % which)
         elif occ.component.name != which:
@@ -1215,7 +1228,7 @@ def module_v3_fasteners(module_occ):
     """
     nut_occ = bolt_occ = None
     z_nut = (min(V3_NUT_STD_Z), max(V3_NUT_STD_Z))
-    z_bolt = (armgen.PAD_T - V3_BOLT_L, armgen.PAD_T + V3_BOLT_HEAD_H)
+    z_bolt = (armgen.ROTOR_PAD_T_DEFAULT - V3_BOLT_L, armgen.ROTOR_PAD_T_DEFAULT + V3_BOLT_HEAD_H)
     for i in range(module_occ.childOccurrences.count):
         c = module_occ.childOccurrences.item(i)
         comp = c.component
@@ -1246,7 +1259,7 @@ def _std_fasteners_v3(comp, rep=None):
     The module as drawn carries 1.8 mm THIN nuts; those four occurrences are deleted first.
     Returns (nut_occ, bolt_occ, how)."""
     m3 = [_polar(V3_M3_R, a) for a in V3_M3_ANG]
-    z_seat = armgen.PAD_T                       # the link's rotor pad outer face
+    z_seat = armgen.ROTOR_PAD_T_DEFAULT         # the fused link's rotor pad outer face (EXO-375)
     z_tip = z_seat - V3_BOLT_L
     z_top = z_seat + V3_BOLT_HEAD_H
 
@@ -1341,8 +1354,8 @@ def _shift_occ(occ, dz_mm, spin_deg=0.0):
 
 def fasteners_v3(comp, occ, rep=None):
     """Put the four horn screws and the four M3 nuts where the rotor wants them, and shorten
-    the screw to the length that leaves: head seated on the lower part's web top = the joint
-    face z -7.0 (EXO-333), the SAME tip as drawn, so M2x8 becomes the stock M2x6. The four screws are four
+    the screw to the length that leaves: head seated on the lower part's central boss top
+    z -7.0 (EXO-333 joint face; EXO-370 boss), the SAME tip as drawn, so M2x8 becomes the stock M2x6. The four screws are four
     occurrences of ONE component, so the tip is trimmed once, in that component's own frame,
     on the axis MEASURED out of the occurrence's rotation and not assumed."""
     screws, nuts = module_fastener_occs(occ)
@@ -1420,9 +1433,9 @@ def fasteners_v3(comp, occ, rep=None):
         raise RuntimeError('%s: the standard nuts / M3 bolts do not read back off the solid '
                            '(nuts %s, bolts %s)' % (comp.name, got_nut is not None,
                                                     got_bolt is not None))
-    seat = ROTOR_JOINT_Z
+    seat = ROTOR_HEAD_SEAT_Z
     return ('horn screws z %.3f..%.3f (%.3f mm3 trimmed off the shank), head seated on '
-            'the joint face z %.1f, tip unchanged at %.3f, under-head length %.3f -> M2x%d '
+            'the central boss top z %.1f (EXO-370), tip unchanged at %.3f, under-head length %.3f -> M2x%d '
             '(was %.3f), %.3f into the horn (top z %.1f); %s'
             % (s0, s1, -cut_v, seat, s0, seat - s0, int(round(seat - s0)),
                seat - s0 + V3_SCREW_DROP, ROTOR_BORE_CEIL - s0, ROTOR_BORE_CEIL, how_std))
@@ -1486,50 +1499,28 @@ V3_STAGE_PROBES = [
 ]
 
 
-# EXO-333: what `measure_rotor_v3` asks the FINAL module rotor (joint face -7.0, shoulder
-# -5.001, journal O30.1, 5.6 AF pockets). `ensure_v3_module` accepts a module only if every
-# one reads back; `V3_STAGE_PROBES` above check the intermediate v3 pair inside
-# `build_v3_copy`, before `module_rotor_final` runs.
+# EXO-333 / EXO-370: what `measure_rotor_v3` asks the FINAL module rotor. Since EXO-370 the
+# module holds the BOTTOM only (the upper part is fused into every link and deleted from the
+# copy - `measure_rotor_v3` also requires that no upper part is left): joint face -8.0,
+# central boss r 7.8 to -7.0, sockets floor -9.3, journal O30.1 -11.001..-8.0, 5.6 AF pockets.
+# `ensure_v3_module` accepts a module only if every one reads back; `V3_STAGE_PROBES` above
+# check the intermediate v3 pair inside `build_v3_copy`, before `module_rotor_final` runs.
 V3_PROBES = [
-    ('upper: head column open above the joint face', 'upper', 6.001, 45.0, -6.9, False),
-    ('upper: head column open at mid depth', 'upper', 6.001, 135.0, -4.0, False),
-    ('upper: head column breaks the rotor face', 'upper', 6.001, 225.0, -0.1, False),
-    ('upper: solid inside the column', 'upper', 3.3, 45.0, -4.0, True),
-    ('upper: solid outside the column', 'upper', 8.7, 45.0, -4.0, True),
-    ('upper: solid between two columns', 'upper', 6.001, 0.0, -4.0, True),
-    ('upper: M3 through above the joint face', 'upper', 11.0, 0.0, -6.5, False),
-    ('upper: M3 through at mid depth', 'upper', 11.0, 90.0, -3.0, False),
-    ('upper: old hex nut pocket filled', 'upper', 13.5, 0.0, -6.0, True),
-    ('upper: nothing below the joint face', 'upper', 14.0, 0.0, -7.1, False),
-    ('upper: peg root, in the solid', 'upper', 12.2, 22.5, -6.9, True),
-    ('upper: peg at mid height', 'upper', 12.2, 67.5, -7.6, True),
-    ('upper: peg tip', 'upper', 12.2, 247.5, -8.15, True),
-    ('upper: nothing below the tip', 'upper', 12.2, 247.5, -8.25, False),
-    ('upper: air between two pegs', 'upper', 12.2, 45.0, -7.6, False),
-    ('upper: journal solid inside r 15.05', 'upper', 15.03, 157.5, -6.0, True),
-    ('upper: air outside r 15.05', 'upper', 15.07, 157.5, -6.0, False),
-    ('upper: race shoulder solid above -5.001', 'upper', 16.5, 0.0, -4.98, True),
-    ('upper: air below the shoulder', 'upper', 16.5, 0.0, -5.02, False),
-    # EXO-364: the notch is filled and the three key sockets are cut (45/135/225, 315 solid)
-    ('upper: old index notch filled', 'upper', 16.0, 90.0, -0.5, True),
-    ('upper: old notch filled at its floor', 'upper', 17.5, 91.0, -1.45, True),
-    ('upper: old notch edge filled', 'upper', 15.0, 82.5, -0.05, True),
-    ('upper: rim still r 18 at +Y', 'upper', 18.02, 90.0, -0.5, False),
-    ('upper: nothing above the rotor face at +Y', 'upper', 16.0, 90.0, 0.05, False),
-    ('upper: key socket open at the face, 45', 'upper', 15.0, 45.0, -0.1, False),
-    ('upper: key socket open at the bottom, 135', 'upper', 15.0, 135.0, -1.25, False),
-    ('upper: key socket edge open, 225', 'upper', 16.6, 225.0, -0.6, False),
-    ('upper: key socket floor solid', 'upper', 15.0, 225.0, -1.35, True),
-    ('upper: key socket wall solid outside', 'upper', 16.7, 45.0, -0.6, True),
-    ('upper: key socket wall solid inside', 'upper', 13.3, 135.0, -0.6, True),
-    ('upper: no socket at 315', 'upper', 15.0, 315.0, -0.6, True),
-    ('lower: nothing above the joint face', 'lower', 4.0, 0.0, -6.9, False),
-    ('lower: web solid under the joint face', 'lower', 4.5, 0.0, -7.1, True),
+    ('lower: boss top solid under -7.0', 'lower', 4.0, 0.0, -7.05, True),
+    ('lower: nothing above the boss top', 'lower', 4.0, 0.0, -6.95, False),
+    ('lower: boss solid at r 7.75', 'lower', 7.75, 0.0, -7.5, True),
+    ('lower: air outside the r 7.8 boss', 'lower', 7.85, 0.0, -7.5, False),
+    ('lower: boss wall beside a horn hole', 'lower', 7.5, 45.0, -7.5, True),
+    ('lower: joint face solid just under -8.0', 'lower', 10.0, 67.5, -8.05, True),
+    ('lower: nothing above the joint face', 'lower', 10.0, 67.5, -7.95, False),
+    ('lower: nothing above the journal top', 'lower', 15.03, 202.5, -7.95, False),
     ('lower: web solid on the axis', 'lower', 2.0, 0.0, -9.5, True),
     ('lower: horn bore still clear', 'lower', 7.0, 0.0, -12.0, False),
-    ('lower: horn screw hole open at the top', 'lower', 6.001, 45.0, -7.1, False),
+    ('lower: horn screw hole open at the boss top', 'lower', 6.001, 45.0, -7.05, False),
     ('lower: horn screw hole open at the bottom', 'lower', 6.001, 135.0, -10.4, False),
+    ('lower: solid between two horn holes', 'lower', 6.001, 0.0, -7.5, True),
     ('lower: M3 through the web', 'lower', 11.0, 0.0, -9.0, False),
+    ('lower: M3 open at the joint face', 'lower', 11.0, 180.0, -8.05, False),
     ('lower: M3 through above the pocket', 'lower', 11.0, 90.0, -10.0, False),
     ('lower: nut pocket open', 'lower', 13.5, 0.0, -12.0, False),
     ('lower: nut pocket open at the top', 'lower', 13.5, 0.0, -10.7, False),
@@ -1537,13 +1528,13 @@ V3_PROBES = [
     ('lower: wall band, hole to bore', 'lower', 8.8, 0.0, -10.55, True),
     ('lower: solid between pockets', 'lower', 11.0, 45.0, -12.0, True),
     ('lower: nut pocket corner pulled in (5.6 AF)', 'lower', 11.5313, 17.4607, -12.0, True),
-    ('lower: socket open under the face', 'lower', 12.2, 22.5, -7.1, False),
-    ('lower: socket open at the bottom', 'lower', 12.2, 112.5, -8.25, False),
-    ('lower: socket floor solid', 'lower', 12.2, 112.5, -8.4, True),
+    ('lower: socket open under the face', 'lower', 12.2, 22.5, -8.1, False),
+    ('lower: socket open at the bottom', 'lower', 12.2, 112.5, -9.25, False),
+    ('lower: socket floor solid', 'lower', 12.2, 112.5, -9.4, True),
     ('lower: old v3 socket filled', 'lower', 12.2, 67.5, -10.0, True),
-    ('lower: solid between two sockets', 'lower', 12.2, 45.0, -7.6, True),
-    ('lower: journal solid inside r 15.05', 'lower', 15.03, 202.5, -8.0, True),
-    ('lower: air outside r 15.05', 'lower', 15.07, 202.5, -8.0, False),
+    ('lower: solid between two sockets', 'lower', 12.2, 45.0, -8.6, True),
+    ('lower: journal solid inside r 15.05', 'lower', 15.03, 202.5, -9.0, True),
+    ('lower: air outside r 15.05', 'lower', 15.07, 202.5, -9.0, False),
     ('lower: flange top solid below -11.001', 'lower', 16.5, 0.0, -11.02, True),
     ('lower: air above the flange', 'lower', 16.5, 0.0, -10.98, False),
 ]
@@ -1555,19 +1546,32 @@ def measure_rotor_v3_stage(module_occ):
 
 
 def measure_rotor_v3(module_occ, probes=None):
-    """Read the module rotor pair back off the SOLID, by point containment in the module
-    frame: `V3_PROBES` (the final rotor) unless `probes` is given. Returns (ok, lines).
-    `module_occ` must be a module occurrence placed at identity."""
-    if probes is None:
+    """Read the module rotor back off the SOLID, by point containment in the module frame:
+    `V3_PROBES` (the final rotor) unless `probes` is given. Returns (ok, lines).
+    `module_occ` must be a module occurrence placed at identity.
+
+    EXO-370: with the default (final) probes the module must hold the lower part ONLY - the
+    upper part is fused into every link - and that is the first line read back."""
+    final = probes is None
+    if final:
         probes = V3_PROBES
     up, lo = module_rotor_occs(module_occ, in_context=True)
-    if up is None or lo is None:
+    lines, ok = [], True
+    if final:
+        ok = up is None
+        lines.append('  %-38s want none  got %-5s %s'
+                     % ('no upper part (fused into the links)', 'none' if up is None else
+                        up.component.name, 'OK' if ok else 'WRONG'))
+        if lo is None:
+            return False, lines + ['the module has no lower rotor part spanning %s' % (V3_LOWER_Z,)]
+    elif up is None or lo is None:
         return False, ['the module has no pair of rotor parts spanning %s / %s'
                        % (V3_UPPER_Z, V3_LOWER_Z)]
     inside = (adsk.fusion.PointContainment.PointInsidePointContainment,
               adsk.fusion.PointContainment.PointOnPointContainment)
-    bodies = {'upper': up.bRepBodies.item(0), 'lower': lo.bRepBodies.item(0)}
-    lines, ok = [], True
+    bodies = {'lower': lo.bRepBodies.item(0)}
+    if up is not None:
+        bodies['upper'] = up.bRepBodies.item(0)
     for what, part, r, ang, z, want in probes:
         x, y = _polar(r, ang)
         got = bodies[part].pointContainment(
@@ -1745,68 +1749,59 @@ def build_v3_copy(design, name, rep=None):
                        % (src_name, how_pos, how_names, how_stop, how_rotor, how_final, how_screws))
 
 
-# ---------------- EXO-333: the module rotor, final ----------------
-# Fixed by Esteban on 2026-10-22 after the EXO-304/315/320/323/326/327 print tests. `rotor_v3`
-# makes the v3 pair (O5 head columns through the upper part, M3 holes at r 11, eight O3.0
-# pegs into O3.3 sockets at r 12.2, 5.6 AF nut pockets, horn bore r 8.1, 0.3 to the servo
-# top, index notch) and `module_rotor_final` then moves it to the final rotor. There are no
-# variants: these numbers ARE the rotor.
+# ---------------- EXO-333 / EXO-370: the module rotor, final ----------------
+# Fixed by Esteban on 2026-10-22 after the EXO-304/315/320/323/326/327 print tests, and again
+# on 2026-11-05 (EXO-370/371/373). `rotor_v3` makes the v3 pair (O5 head columns through the
+# upper part, M3 holes at r 11, eight O3.0 pegs into O3.3 sockets at r 12.2, 5.6 AF nut
+# pockets, horn bore r 8.1, 0.3 to the servo top) and `module_rotor_final` then moves it to the
+# final rotor. There are no variants: these numbers ARE the rotor.
 #
-#   * JOINT FACE z -7.0 (was -9.0). The lower part's web runs from the horn top / bore
-#     ceiling -10.5 up to it: WEB 3.5, so a stock M2 x 6 horn screw seated on the joint face
-#     puts 2.5 mm of thread into the horn (EXO-304: through the 1.5 mm v3 web it put 4.5 in
-#     and damaged the servo). Pegs and sockets move up with the face.
-#   * RACE SHOULDER of the upper part (its disk underside) at z -5.001 (was -4.000): the
-#     gap to the lower part's flange shoulder -11.001 is 6.0 for the 7.000 bearing race, so
-#     the printed parts clamp the race (EXO-315..326; 7.001 left it loose).
-#   * JOURNAL O30.1 (r 15.05) on both parts, lower -11.001..-7.0, upper -7.0..-5.001
-#     (EXO-327; O30.000 was a slip fit in the printed bore).
-# In CAD the clamp and the O30.1 journal overlap the drawn bearing's inner race (1.0 axial,
-# 0.05 radial): module-internal by construction, as printed.
-ROTOR_JOINT_Z = -7.0           # the flat face between the two rotor parts
+# EXO-370: THE ROTOR TOP IS PART OF EVERY LINK. The upper rotor part (`inner_top`) is no longer
+# a printed part: each generated link's rotor pad carries it (`armgen.ROTOR_PAD_T`, `TOP_*`,
+# `BuildArmGen.build_link`). `module_rotor_final` therefore DELETES the upper part from the
+# module copy (the fused link stands in that space in the arm) and makes the final BOTTOM:
+#   * JOINT FACE z -8.0 (was -7.0): journal O30.1 (r 15.05) over -11.001..-8.0 = 3.0 of the
+#     race, the fused link carries the other 3.0 (-8.0..-5.001). Flange shoulder -11.001 and
+#     the link's shoulder -5.001: race gap 6.0 on the 7.000 race (1.0 clamp).
+#   * eight O3.3 sockets at r 12.2 (22.5 + k*45), floor -9.3 (1.3 deep), for the link's pegs.
+#   * a central BOSS r 7.8 from -8.0 up to -7.0, which rises INSIDE the link's O16 centre
+#     hole (0.2 radial; EXO-373 dropped the link's r 8.7 recess, which left a 0.7 wall). The
+#     four M2 horn-screw heads seat on its top -7.0 (web 3.5 from the bore ceiling -10.5,
+#     M2x6 tip -12.989 as EXO-333), O2.2 clearance through it.
+#   * unchanged: horn bore r 8.1 to -10.5, 5.6 AF nut pockets -13.2..-10.6, M3 at r 11.
+# In CAD the bottom's journal overlaps the drawn bearing's inner race (0.05 radial): module-
+# internal by construction. The link's clamp on the race is the "race clamp" category of
+# `check_interference` (EXO-373).
+ROTOR_JOINT_Z = armgen.TOP_JOINT_Z   # -8.0, the flat face between the bottom and the fused link
+ROTOR_BOSS_R = 7.8             # central boss under the link's O16 centre hole (EXO-373)
+ROTOR_HEAD_SEAT_Z = -7.0       # boss top = the M2 horn-screw head seat
 ROTOR_BORE_CEIL = -10.5        # horn bore ceiling = XL330 horn top, unchanged (asserted)
-ROTOR_V3_SHOULDER_Z = -4.0     # the upper part's race shoulder as v3 leaves it (measured)
 ROTOR_FLANGE_Z = -11.001       # the lower part's race shoulder, unchanged
-ROTOR_GAP = 6.0                # race gap: shoulder -> flange
-ROTOR_SHOULDER_Z = ROTOR_FLANGE_Z + ROTOR_GAP     # -5.001
+ROTOR_GAP = 6.0                # race gap: flange -> the fused link's shoulder
+ROTOR_SHOULDER_Z = ROTOR_FLANGE_Z + ROTOR_GAP     # -5.001 = armgen.TOP_SHOULDER_Z
 ROTOR_JOURNAL_R = 15.05        # O30.1
 ROTOR_RING_IN = 14.9           # the journal ring is joined r 14.9..15.05: nothing inside
                                # r 14.9 is touched (sockets end r 13.85, pockets r 13.894)
-ROTOR_BOSS_FILL_Z0 = -10.45    # lower boss fill bottom, 0.05 over the bore ceiling: swallows
+ROTOR_BOSS_FILL_Z0 = -10.45    # lower fill bottom, 0.05 over the bore ceiling: swallows
                                # the v3 sockets (to -10.3) and never meets the bore
 ROTOR_HOLE_Z0 = -10.6          # horn holes re-cut from inside the bore
 ROTOR_M3_Z0 = -13.3            # M3 holes re-cut from below the part
-ROTOR_SOCKET_DEPTH = 1.3       # sockets 1.3 deep off the joint face (as v3)
-ROTOR_PEG = (1.2, 0.2)         # pegs 1.2 proud of the face, root 0.2 into the solid (as v3)
-ROTOR_UPPER_CUT = (-10.5, 20.0)  # upper part: everything from z -10.5 up to the face, r < 20
-# EXO-364: the ROTOR KEY replaces the index notch. The notch (measured on the module copy:
-# x -2.018..1.982, y 14.746 out through the r 18 rim, z -1.5..0, centred on +Y) is FILLED with
-# a ring sector r NOTCH_FILL_R..18.0 (the rim radius, so the rim stays one cylinder) about
-# +Y +/- NOTCH_FILL_HALF over z -1.6..0 (0.1 under the notch floor), and the top gets three
-# O3.3 x 1.3 sockets (`armgen.KEY_SOCKET_R` / `KEY_SOCKET_D`) at r 15.0, 45/135/225 deg;
-# 315 stays solid. The link's three O3.0 x 1.2 pegs go in with 0.15 radial / 0.1 axial
-# clearance:  URDF q = 0  <->  the empty key position at module 315 deg  <->  link as drawn.
-# Walls (centre distances minus radii): socket to the r 18 rim 1.35, to an O3.2 M3 hole at
-# r 11 7.364, to an O5 head column at r 6 (same angle) 4.850; floor -1.3 sits 3.701 above
-# the race shoulder -5.001.
-ROTOR_RIM_R = 18.0
-NOTCH_FILL_R = 14.5
-NOTCH_FILL_HALF = 10.0         # deg: at r 14.5 that is x +/- 2.518, over the notch's 2.018
-NOTCH_FILL_Z = (-1.6, 0.0)
+ROTOR_SOCKET_DEPTH = 1.3       # sockets 1.3 deep off the joint face: floor -9.3
+ROTOR_RIM_R = armgen.TOP_DISK_R
 
 
 def module_rotor_final(comp, rep=None):
-    """EXO-333: move the v3 rotor pair of the LOCAL copy `comp` to the final rotor (header
-    above). Every feature is asserted to leave one body and to move volume; the journal and
-    shoulder joins are checked against their exact analytic volumes. Returns a line."""
+    """EXO-333 / EXO-370: make the final BOTTOM out of the v3 lower part of the LOCAL copy
+    `comp` and delete the upper part (the fused link carries it; header above). Every feature
+    is asserted to leave one body and to move volume; the journal and boss joins are checked
+    against their exact analytic volumes. Returns a line."""
     JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
     CUT = adsk.fusion.FeatureOperations.CutFeatureOperation
     up_occ, lo_occ = module_rotor_occs(comp)
     if up_occ is None or lo_occ is None:
         raise RuntimeError('%s: rotor parts not found on the solid' % comp.name)
-    dz_up = _z_offset_of(up_occ, 'upper')
     dz_lo = _z_offset_of(lo_occ, 'lower')
-    up, lo = up_occ.component, lo_occ.component
+    lo = lo_occ.component
     lob = lo.bRepBodies.item(0)
     inside = (adsk.fusion.PointContainment.PointInsidePointContainment,
               adsk.fusion.PointContainment.PointOnPointContainment)
@@ -1836,13 +1831,16 @@ def module_rotor_final(comp, rep=None):
     horn = [_polar(V3_HORN_R, a) for a in V3_HORN_ANG]
     m3 = [_polar(V3_M3_R, a) for a in V3_M3_ANG]
     pegs = [_polar(V3_PEG_AT, a) for a in V3_PEG_ANG]
-    J = ROTOR_JOINT_Z
+    J, H = ROTOR_JOINT_Z, ROTOR_HEAD_SEAT_Z
     moved = [
-        ('lower boss up to the joint face', _combine_feature(
-            lo, 'rotor boss to joint face', dz_lo, ROTOR_BOSS_FILL_Z0, J,
+        ('lower fill up to the joint face', _combine_feature(
+            lo, 'rotor fill to joint face', dz_lo, ROTOR_BOSS_FILL_Z0, J,
             _circles([(0.0, 0.0)], boss_r), 1, JOIN)),
+        ('lower central boss r %.1f to %.1f' % (ROTOR_BOSS_R, H), _combine_feature(
+            lo, 'rotor central boss', dz_lo, J - 0.1, H,
+            _circles([(0.0, 0.0)], ROTOR_BOSS_R), 1, JOIN)),
         ('lower horn screw holes', _combine_feature(
-            lo, 'rotor horn holes', dz_lo, ROTOR_HOLE_Z0, J + 0.1,
+            lo, 'rotor horn holes', dz_lo, ROTOR_HOLE_Z0, H + 0.1,
             _circles(horn, horn_r), len(horn), CUT)),
         ('lower M3 through', _combine_feature(
             lo, 'rotor M3 lower', dz_lo, ROTOR_M3_Z0, J + 0.1,
@@ -1852,43 +1850,34 @@ def module_rotor_final(comp, rep=None):
             _circles(pegs, V3_SOCKET_R), len(pegs), CUT)),
         ('lower journal O%.1f' % (2 * ROTOR_JOURNAL_R), _ring_join(
             lo, dz_lo, ROTOR_RING_IN, ROTOR_JOURNAL_R, ROTOR_FLANGE_Z, J, 'rotor journal lower')),
-        ('upper shoulder down to %.3f' % ROTOR_SHOULDER_Z, _lower_shoulder(
-            up, dz_up, ROTOR_V3_SHOULDER_Z, ROTOR_V3_SHOULDER_Z - ROTOR_SHOULDER_Z, rep)[0]),
-        ('upper cut below the joint face', _combine_feature(
-            up, 'rotor cut upper', dz_up, ROTOR_UPPER_CUT[0], J,
-            _circles([(0.0, 0.0)], ROTOR_UPPER_CUT[1]), 1, CUT)),
-        ('upper register pegs', _combine_feature(
-            up, 'rotor pegs', dz_up, J - ROTOR_PEG[0], J + ROTOR_PEG[1],
-            _circles(pegs, V3_PEG_R), len(pegs), JOIN)),
-        ('upper journal O%.1f' % (2 * ROTOR_JOURNAL_R), _ring_join(
-            up, dz_up, ROTOR_RING_IN, ROTOR_JOURNAL_R, J, ROTOR_SHOULDER_Z, 'rotor journal upper')),
-        # EXO-364: index notch filled, three key sockets cut (header above)
-        ('upper index notch filled', _combine_feature(
-            up, 'rotor notch fill', dz_up, NOTCH_FILL_Z[0], NOTCH_FILL_Z[1],
-            lambda sk: sk.loop(armgen.stop_block_outline(90.0, NOTCH_FILL_HALF, NOTCH_FILL_R,
-                                                         ROTOR_RIM_R)), 1, JOIN)),
-        ('upper key sockets', _combine_feature(
-            up, 'rotor key sockets', dz_up, -armgen.KEY_SOCKET_D, 0.1,
-            _circles(armgen.key_centres(), armgen.KEY_SOCKET_R), len(armgen.KEY_ANGLES), CUT)),
     ]
     ring = math.pi * (ROTOR_JOURNAL_R ** 2 - boss_r ** 2)
-    expect = {moved[4][0]: ring * (J - ROTOR_FLANGE_Z), moved[8][0]: ring * (ROTOR_SHOULDER_Z - J),
-              moved[5][0]: math.pi * (18.0 ** 2 - boss_r ** 2) * (ROTOR_V3_SHOULDER_Z - ROTOR_SHOULDER_Z)}
-    # the socket cut: three cylinders O3.3 x 1.3 in solid (the 0.1 mouth is in air)
-    expect[moved[10][0]] = -len(armgen.KEY_ANGLES) * math.pi * armgen.KEY_SOCKET_R ** 2 * armgen.KEY_SOCKET_D
+    expect = {moved[5][0]: ring * (J - ROTOR_FLANGE_Z),
+              moved[1][0]: math.pi * ROTOR_BOSS_R ** 2 * (H - J),
+              moved[4][0]: -len(pegs) * math.pi * V3_SOCKET_R ** 2 * ROTOR_SOCKET_DEPTH}
     for what, want in expect.items():
         got = dict(moved)[what]
         if abs(got - want) > 0.01:
             raise RuntimeError('%s: "%s" moved %.3f mm3, expected %.3f' % (comp.name, what, got, want))
+    # EXO-370: the upper part leaves the module - every link carries it
+    v_up = up_occ.component.bRepBodies.item(0).volume * 1000.0
+    up_name = up_occ.component.name
+    if not up_occ.deleteMe():
+        raise RuntimeError('%s: could not delete the upper rotor part' % comp.name)
+    if module_rotor_occs(comp)[0] is not None:
+        raise RuntimeError('%s: an upper rotor part is still in the module' % comp.name)
     if rep is not None:
         rep('  measured before the final stage: boss r %.4f, horn hole r %.4f, bore ceiling z %.4f'
             % (boss_r, horn_r, bore_ceil))
         for what, dv in moved:
             rep('  %-34s %+10.3f mm3' % (what, dv))
-    return ('joint face z %.1f (web %.1f), upper shoulder z %.3f (race gap %.1f to %.3f), journal '
-            'O%.1f both parts; upper %.3f, lower %.3f mm3'
-            % (J, J - bore_ceil, ROTOR_SHOULDER_Z, ROTOR_GAP, ROTOR_FLANGE_Z, 2 * ROTOR_JOURNAL_R,
-               up.bRepBodies.item(0).volume * 1000.0, lo.bRepBodies.item(0).volume * 1000.0))
+        rep('  upper part "%s" (%.3f mm3) DELETED from the module: the fused link carries it'
+            % (up_name, v_up))
+    return ('joint face z %.1f, central boss r %.1f to %.1f (head seat, web %.1f), journal O%.1f '
+            '%.3f..%.1f, sockets floor %.1f; upper part removed (fused into every link, EXO-370); '
+            'lower %.3f mm3'
+            % (J, ROTOR_BOSS_R, H, H - bore_ceil, 2 * ROTOR_JOURNAL_R, ROTOR_FLANGE_Z, J,
+               J - ROTOR_SOCKET_DEPTH, lo.bRepBodies.item(0).volume * 1000.0))
 
 
 def _cyl_face_radius(body, near_r, z_mid):
@@ -2297,6 +2286,47 @@ ACTUATOR_BODY_TOKEN = 'XL330'      # EXO-201: the real actuator inside every pla
                                    # a hit involving an actuator
 
 
+# EXO-373: the RACE CLAMP. Since EXO-370 the rotor top is fused into every link, so the drawn
+# 1.0 mm squeeze of the printed rotor on the bearing's race (EXO-333/337: shoulder -5.001 on
+# a race to -4.0, plus the 0.05 radial of the O30.1 journal on the r 15.0 inner race) is a
+# LINK-vs-bearing overlap instead of a module-internal one. It is accepted under exactly one
+# condition: the link and the bearing (`BEARING_BODY_TOKEN`) of the link's OWN rotor joint,
+# found by a run of that link plus that joint's bearing bodies alone, and bounded - all of a
+# link's race-clamp hits together at most RACE_CLAMP_MAX_MM3 (expect ~245 per joint);
+# over that, every one of them is a FAIL. Every other pair stays strict.
+BEARING_BODY_TOKEN = '5972K159'    # McMaster 5972K159 ball bearing inside `sensor module 2`
+RACE_CLAMP_MAX_MM3 = 300.0
+
+
+def link_rotor_label(link_name):
+    """The joint label whose ROTOR a link is bolted to: `g_link_12` -> J1, `g_link_R45` -> R4."""
+    tail = link_name.split('link_', 1)[1]
+    return ('R' + tail[1]) if tail.startswith('R') else ('J' + tail[0])
+
+
+def race_clamp_keys(design, links, mods):
+    """{hit_key: link name} of every link-vs-OWN-bearing overlap (EXO-373)."""
+    out = {}
+    for L in links:
+        lab = link_rotor_label(L.component.name)
+        wr = [m for m in mods if m.component.name.startswith('G%s_' % lab)
+              or m.component.name.startswith('%s_' % lab)]
+        if not wr:
+            continue
+        coll = adsk.core.ObjectCollection.create()
+        lb, _n = collect_bodies(L)
+        for k in range(lb.count):
+            coll.add(lb.item(k))
+        wb, names = collect_bodies(wr[0])
+        for k in range(wb.count):
+            if BEARING_BODY_TOKEN in names[wb.item(k).entityToken]:
+                coll.add(wb.item(k))
+        for a, b, vol, bb in analyze_interference(design, coll):
+            if (BEARING_BODY_TOKEN in a) != (BEARING_BODY_TOKEN in b):
+                out[hit_key(a, b, vol, bb)] = L.component.name
+    return out
+
+
 def check_interference(design, arm_occ):
     """Post-build check over links + module bodies. Module-internal overlaps (press-fit
     inserts, screws inside one `sensor module 2`) are found by analysing each J* wrapper
@@ -2361,10 +2391,27 @@ def check_interference(design, arm_occ):
                'measured in Python, not here' % (done, len(mods), e))
     if refused:
         how += ' -- NOT MEASURED, %d run(s) REFUSED: %s' % (len(refused), '; '.join(refused))
+    try:
+        clamp = race_clamp_keys(design, links, mods)
+    except InterferenceRefused as e:
+        clamp = {}
+        how += ' -- race-clamp runs REFUSED (%s): no race clamp accepted' % e
+    per_link = {}
+    for a, b, vol, bb in raw:
+        k = hit_key(a, b, vol, bb)
+        if k in clamp:
+            per_link[clamp[k]] = per_link.get(clamp[k], 0.0) + vol
     out = []
     for a, b, vol, bb in raw:
-        kind = armgen.classify_interference(a, b, bb, hit_key(a, b, vol, bb) in internal)
+        k = hit_key(a, b, vol, bb)
+        if k in clamp and per_link[clamp[k]] <= RACE_CLAMP_MAX_MM3:
+            kind = 'race clamp'
+        else:
+            kind = armgen.classify_interference(a, b, bb, k in internal)
         out.append((kind, a, b, vol, bb))
+    if per_link:
+        how += '; race clamp per link (own rotor bearing, max %.0f mm3): %s' % (
+            RACE_CLAMP_MAX_MM3, ', '.join('%s %.3f' % kv for kv in sorted(per_link.items())))
     return bodies.count, out, how
 
 

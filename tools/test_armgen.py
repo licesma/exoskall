@@ -1367,16 +1367,10 @@ for _lab, _geo, _rt in _L124:
     close('%s: the pad outer face stays flat past every hole edge + the ring' % _lab,
           1.0 if _reach >= armgen.rotor_flat_needed(_geo['u']) - 1e-9
           or _reach >= _rt['rotor_join']['pad_r'] else 0.0, 1.0, 0)
-# EXO-364: the index tab (which held every link to 2.35 mm) is gone; the key pegs sit 7.507
-# off every M3 hole edge, so they never bound a ring - and no hole is bound by a tab any more
-_KP = armgen.KEY_R ** 2 + armgen.ROTOR_HOLE_RADIUS ** 2 - 2 * armgen.KEY_R * armgen.ROTOR_HOLE_RADIUS * math.cos(math.radians(45.0))
-close('EXO-364: no ring is bound by a tab; where the key pegs bound one it is 7.514',
-      [len([h for _l, _g, _r in _L124 for h in armgen.hole_flat_rings(_r) if 'tab' in h['bound']]),
-       min(h['ring'] for _l, _g, _r in _L124 for h in armgen.hole_flat_rings(_r)
-           if h['seating'] and h['bound'].startswith('the key pegs'))],
-      [0, math.sqrt(_KP) - armgen.KEY_PEG_R - armgen.HOLE_R], 1e-9)
-close('EXO-364: peg edge to M3 hole edge = sqrt(15^2 + 11^2 - 2*15*11*cos 45) - 1.5 - 1.6',
-      math.sqrt(_KP) - armgen.KEY_PEG_R - armgen.HOLE_R, 7.5139, 1e-4)
+# EXO-370: no tab and no key pegs any more (the link IS the rotor top): no ring is bound by either
+close('EXO-370: no ring is bound by a tab or a key peg',
+      len([h for _l, _g, _r in _L124 for h in armgen.hole_flat_rings(_r)
+           if 'tab' in h['bound'] or 'key peg' in h['bound']]), 0, 0)
 # link_45, the pair that made the rule: both defects, solved
 _ring45 = dict(((h['pad'], h['angle'], h['face']), h) for h in armgen.hole_flat_rings(r45))
 _stag45 = (armgen.PAD_T / 2.0) * math.tan(math.radians(g45['rise_theta_deg']) / 2.0)
@@ -1750,12 +1744,11 @@ close('EXO-158: link_56 clears the actuator cutout',
 # leans back under the rotor pad and no blend carries its wall into the (EXO-186-grown) disk.
 close('EXO-176: at the URDF spacing link_67 is still refused',
       _WS['J7']['refused'] is not None, True, 0)
-close('EXO-176: the square landing is refused on every one of its legs',
-      all('square landing, %s' % _o in _WS['J7']['refused']
-          for _o in sweepgen.LEVEL_ORDERS), True, 0)
-close('EXO-176/186: and the angled landing is refused there by the PLATE, not by the climb',
-      ('landing plate itself' in _WS['J7']['refused']
-       or 'flange' in _WS['J7']['refused']), True, 0)
+# EXO-370: the fused rotor top (r 18) lives under the pad now, and on the unslid frames the
+# EXO-181 chord link_67 would need (10.001) cuts 1.001 into it - so the pair is refused before
+# any landing is tried. (Until EXO-364 it was refused on every landing leg.)
+close('EXO-370: and it is refused because the chord would cut the fused rotor top',
+      'fused rotor top' in _WS['J7']['refused'], True, 0)
 for _lab, _nm in (('J6', 'right_wrist_pitch_joint'), ('J7', 'right_wrist_yaw_joint')):
     _R, _t = _WF[_lab]
     _tw, _aw = armgen.joint_world_pose(_nm, joints, by_child)
@@ -2199,8 +2192,8 @@ for _r in (armgen.STOP_R_IN, 27.0):
         close('EXO-181: the stop block at r %.0f, %+.0f, is kept whole' % (_r, _k),
               _r * math.cos(_a2) * _TR[0] + _r * math.sin(_a2) * _TR[1] - _TR[2] >= 0.0,
               True, 0)
-close('EXO-364: every key peg outline point is on the kept side of the chord',
-      min(_x * _TR[0] + _y * _TR[1] - _TR[2] for _x, _y in armgen.key_peg_points()) >= 0.0, True, 0)
+close('EXO-370: every point of the fused top r 18 rim is on the kept side of the chord',
+      min(_x * _TR[0] + _y * _TR[1] - _TR[2] for _x, _y in armgen.top_rim_points()) >= 0.0, True, 0)
 # and the chord is solved from the pair, not chosen
 close('EXO-181: the chord is a function of the pair and the pad radius alone',
       list(sweepgen.solve_pad_trim(*_PADS['link_67'])[0]), list(_TR), 0)
@@ -2339,8 +2332,8 @@ close('EXO-187: the two links that arrive from below the plate report a cable ex
       [False, True, False, True, False, False], 0)
 # the sample set covers every solid the builder makes except the plate
 _parts = set(p for p, _q in sweepgen.link_samples(_AR['link_23']))
-close('EXO-187: the samples cover ribbon, collar, rotor pad, stop block and key pegs',
-      sorted(_parts) == ['fillet collar', 'key pegs', 'ribbon', 'rotor pad', 'stop block'],
+close('EXO-187: the samples cover ribbon, collar, rotor pad, stop block and fused rotor top',
+      sorted(_parts) == ['fillet collar', 'fused rotor top', 'ribbon', 'rotor pad', 'stop block'],
       True, 0)
 
 # ---------------- EXO-204 / EXO-208: the limited joint ----------------
@@ -2379,20 +2372,18 @@ close('EXO-208: 15 deg is J1\'s own ceiling, to inside the measurement tolerance
       armgen.JOINT_STOP_DEG
       - (360.0 - math.degrees(_J1U['upper'] - _J1U['lower'])) / 2.0,
       0.0, math.degrees(armgen.LINK_STOP_B_TOL))
-# the zero pose (EXO-364). The link's three key pegs go into the rotor top's three sockets
-# at r 15, 45/135/225 deg; 315 is empty. 3 of 4 positions of a 90 deg pattern fit ONE way
-# (the four M3 holes are 90 deg symmetric), which is what makes 'as drawn' = q = 0.
-close('EXO-364: key at r 15, 45/135/225, 315 empty',
-      [armgen.KEY_R] + list(armgen.KEY_ANGLES) + [armgen.KEY_EMPTY_ANGLE], [15.0, 45.0, 135.0, 225.0, 315.0], 0)
-close('EXO-364: the pattern fits one way only (no other 90 deg turn maps it onto itself)',
-      [sorted((a + t) % 360.0 for a in armgen.KEY_ANGLES) == sorted(armgen.KEY_ANGLES)
-       for t in (90.0, 180.0, 270.0)], [False] * 3, 0)
-close('EXO-364: peg O3.0 x 1.2 into socket O3.3 x 1.3: 0.15 radial, 0.1 axial',
-      [armgen.KEY_SOCKET_R - armgen.KEY_PEG_R, armgen.KEY_SOCKET_D - armgen.KEY_PEG_H,
-       2 * armgen.KEY_PEG_R, armgen.KEY_PEG_H], [0.15, 0.1, 3.0, 1.2], 1e-9)
-close('EXO-364: the pegs stay inside r 18 and 3.5 inside the stop block arc r 20',
-      [armgen.KEY_R + armgen.KEY_PEG_R, armgen.STOP_R_IN - armgen.KEY_R - armgen.KEY_PEG_R],
-      [16.5, 3.5], 1e-9)
+# EXO-370/375: the fused link. No key: the 8 register pegs (22.5 + k*45) and the 4 M3 holes
+# let the link go on in four positions; the zero pose is set at assembly.
+close('EXO-370: register pegs r 12.2, 8 at 22.5 + k*45, O3.0 x 1.2 below the joint face -8.0',
+      [armgen.TOP_PEG_AT, len(armgen.TOP_PEG_ANGLES), armgen.TOP_PEG_ANGLES[0], 2 * armgen.TOP_PEG_R,
+       armgen.TOP_JOINT_Z, armgen.TOP_Z_MIN], [12.2, 8, 22.5, 3.0, -8.0, -9.2], 1e-9)
+close('EXO-370: journal 3.0 (-8.0..-5.001), O30.1; disk r 18; O16 centre hole, 1.4 to an M3 hole',
+      [armgen.TOP_SHOULDER_Z - armgen.TOP_JOINT_Z, 2 * armgen.TOP_JOURNAL_R, armgen.TOP_DISK_R,
+       armgen.ROTOR_HOLE_RADIUS - armgen.HOLE_R - armgen.TOP_CENTRE_R], [2.999, 30.1, 18.0, 1.4], 1e-9)
+close('EXO-375: pad 7 default with M3x20 (tip -13.0), pad 6 with M3x18 (tip -12.0)',
+      [armgen.ROTOR_PAD_T_DEFAULT, armgen.ROTOR_PAD_T, armgen.ROTOR_BOLT_L_DEFAULT,
+       7.0 - armgen.ROTOR_PAD_BOLTS[7.0], 6.0 - armgen.ROTOR_PAD_BOLTS[6.0]],
+      [7.0, 7.0, 20.0, -13.0, -12.0], 1e-9)
 
 _L1 = armgen.limited_joint(_J1U, -1, 26.0)          # J1 as the arm actually builds it
 _L1P = armgen.limited_joint(_J1U, +1, 26.0)         # the same joint with the axis flipped

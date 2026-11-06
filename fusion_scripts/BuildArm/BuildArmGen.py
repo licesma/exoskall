@@ -9,8 +9,9 @@ One body primitive and one landing primitive, for every link:
   * the landing is a wrapping plate on every stator: the disk, a tongue centred on the
     plate's own axis and wide enough to carry the ribbon, the three insert holes and the
     actuator cutout.
-  * the rotor join is the pad disk, its four M3 holes, the stop block and the key pegs,
-    as before.
+  * the rotor join is the pad disk (ROTOR_PAD_T, 7 by default), its four M3 holes, the stop block and,
+    under the pad, the fused rotor top (EXO-370: disk, journal, eight register pegs, O16
+    centre hole; no recess, EXO-373).
 
 Everything is created under a NEW root component `generated_R_arm_general`, so the
 existing `generated_R_arm` and the hand-made arm stay where they are and all three can be
@@ -615,8 +616,33 @@ def worst_ring(comp, arm):
              adsk.core.Vector3D.create(*arm.dir([1, 0, 0])),
              adsk.core.Vector3D.create(*arm.dir([0, 1, 0])),
              adsk.core.Vector3D.create(*arm.dir([0, 0, 1])))
-    rings = hole_ring_probe.measure(comp.bRepBodies.item(0), frame, armgen.HOLE_R)
+    rings = seating_rings(hole_ring_probe.measure(comp.bRepBodies.item(0), frame, armgen.HOLE_R))
     return (min(h['ring'] for h in rings) if rings else -1.0), len(rings)
+
+
+def seating_rings(rings):
+    """EXO-370: drop the rotor M3 holes' openings in the fused top's JOINT FACE (pad-frame
+    plane z = TOP_JOINT_Z -8.0, hole axis at r ROTOR_HOLE_RADIUS). That face bears on the
+    bottom - nothing seats a head or a nut there - and the O16 centre hole bounds it 1.4
+    past the hole edge by design. Every other opening is a seating face and stays."""
+    out = []
+    for h in rings:
+        rotor_hole = (h['plane'][0] == 'z'
+                      and abs(math.hypot(h['at'][0], h['at'][1]) - armgen.ROTOR_HOLE_RADIUS) < 0.1)
+        if rotor_hole and abs(h['plane'][1] - armgen.TOP_JOINT_Z) < 0.01:
+            continue
+        # EXO-373/375: on the pad's outer face the M3 hole's nearest edge is the O16 centre
+        # hole, 1.4 past the hole edge BY DESIGN (Esteban's call). The M3 head (O5.5) only
+        # needs 1.15 of it and keeps 0.25 off the centre hole, so that opening is held to the
+        # head, not to HOLE_FLAT_RING: it passes when the head is fully seated.
+        if (rotor_hole and abs(h['bound'] - (armgen.ROTOR_HOLE_RADIUS - armgen.TOP_CENTRE_R)) < 0.01
+                and abs(h['plane'][1] - armgen.ROTOR_PAD_T) < 0.01):
+            if h['bound'] < BuildArm.V3_BOLT_HEAD_R - 1e-6:
+                raise RuntimeError('the M3 head (r %.2f) overhangs the centre hole (bound %.3f)'
+                                   % (BuildArm.V3_BOLT_HEAD_R, h['bound']))
+            continue
+        out.append(h)
+    return out
 
 
 def _merge(comp, body, tool_feature, op, step, name):
@@ -644,7 +670,8 @@ def _merge(comp, body, tool_feature, op, step, name):
 
 
 def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
-    """The whole link: ribbon + rotor pad + landing plate + stop block + key pegs, then the cuts."""
+    """The whole link: ribbon + rotor pad + fused rotor top + landing plate + stop block, then
+    the cuts (EXO-370: the rotor pad IS the rotor top)."""
     g = armgen
     NEW = adsk.fusion.FeatureOperations.NewBodyFeatureOperation
     JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
@@ -663,7 +690,9 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
 
     body = build_ribbon(comp, arm, route, name)
 
-    sk = BuildArm.PlaneSketch(comp, name + ' rotor pad', FA.point([0, 0, g.PAD_T / 2]), ex, ey)
+    # EXO-375: the rotor pad is ROTOR_PAD_T thick (7 default, 6 test), z 0..ROTOR_PAD_T; the
+    # ribbon stays PAD_T (8) and is cut down to the pad face inside the r 18 head flat below
+    sk = BuildArm.PlaneSketch(comp, name + ' rotor pad', FA.point([0, 0, g.ROTOR_PAD_T / 2]), ex, ey)
     # EXO-181: the plain disk unless module B is in the way, in which case one solved chord
     # comes off it. `pad_outline` is None for every link whose pad already clears, so those
     # links draw exactly the circle they always drew.
@@ -671,7 +700,7 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
         sk.loop(route['pad_outline'])
     else:
         sk.circle((0, 0), pad_r)
-    body = _merge(comp, body, sk.extrude(1, g.PAD_T, NEW), JOIN, 'rotor pad disk', name)
+    body = _merge(comp, body, sk.extrude(1, g.ROTOR_PAD_T, NEW), JOIN, 'rotor pad disk', name)
 
     stop_h = route.get('stop_h', armgen.STOP_H)
     half, ang = route['stop_half'], route['stop_angle']
@@ -683,17 +712,30 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
     body = _merge(comp, body, sk.extrude(1, stop_h + BuildArm.JOIN_OVERLAP, NEW), JOIN,
                   'stop block', name)
 
-    # EXO-364: the rotor key. Three O3.0 pegs, KEY_PEG_H proud of the rotor-side face z 0
-    # (rooted JOIN_OVERLAP into the pad), at KEY_R / KEY_ANGLES 45, 135, 225 in the module
-    # frame A, into the three O3.3 x 1.3 sockets of the rotor top; 315 is empty, so
-    #     URDF q = 0  <->  the empty key position at module 315 deg  <->  the link as drawn.
-    # (Replaces the EXO-204 index tab at +Y, `TAB_*`.)
-    sk = BuildArm.PlaneSketch(comp, name + ' key pegs',
-                              FA.point([0, 0, (BuildArm.JOIN_OVERLAP - g.KEY_PEG_H) / 2]), ex, ey)
-    for c in g.key_centres():
-        sk.circle(c, g.KEY_PEG_R)
-    body = _merge(comp, body, sk.extrude(len(g.KEY_ANGLES), g.KEY_PEG_H + BuildArm.JOIN_OVERLAP, NEW),
-                  JOIN, 'key pegs', name)
+    # EXO-370: the FUSED ROTOR TOP under the pad, in the module frame A (`armgen.TOP_*`): disk
+    # r 18 down to the race shoulder -5.001, journal O30.1 down to the joint face -8.0, eight
+    # O3.0 register pegs at r 12.2 down to -9.2. Each tool overlaps the solid above it (no
+    # coincident join face). The EXO-364 key pegs and the EXO-204 tab are gone: nothing keys
+    # the link's angle on the rotor beyond the four M3 holes, so URDF q = 0 <-> the link as
+    # drawn is set at assembly.
+    def _band(label, z_lo, z_hi, draw, n):
+        sk_ = BuildArm.PlaneSketch(comp, name + ' ' + label, FA.point([0, 0, (z_lo + z_hi) / 2]),
+                                   ex, ey)
+        draw(sk_)
+        return sk_.extrude(n, z_hi - z_lo, NEW)
+    body = _merge(comp, body, _band('top disk', g.TOP_SHOULDER_Z, BuildArm.JOIN_OVERLAP,
+                                    lambda k: k.circle((0, 0), g.TOP_DISK_R), 1),
+                  JOIN, 'fused top disk', name)
+    body = _merge(comp, body, _band('top journal', g.TOP_JOINT_Z, g.TOP_SHOULDER_Z + 0.5,
+                                    lambda k: k.circle((0, 0), g.TOP_JOURNAL_R), 1),
+                  JOIN, 'fused top journal', name)
+
+    def _pegs(k):
+        for c in g.top_peg_centres():
+            k.circle(c, g.TOP_PEG_R)
+    body = _merge(comp, body, _band('top register pegs', g.TOP_Z_MIN, g.TOP_JOINT_Z + 0.2,
+                                    _pegs, len(g.TOP_PEG_ANGLES)),
+                  JOIN, 'fused top register pegs', name)
 
     sk = BuildArm.PlaneSketch(comp, name + ' landing plate',
                               FS.point([0, 0, z_slab_mid]), sx, sy)
@@ -705,12 +747,28 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
         body, _rad, applied = fillet_elbows(comp, body, arm, route, name, rep,
                                             r_out_cap=r_out_cap)
 
-    sk = BuildArm.PlaneSketch(comp, name + ' rotor holes', FA.point([0, 0, g.PAD_T / 2]), ex, ey)
-    for a in g.ROTOR_HOLE_ANGLES:
-        sk.circle((g.ROTOR_HOLE_RADIUS * math.cos(math.radians(a)),
-                   g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a))), g.HOLE_R)
-    body = _merge(comp, body, sk.extrude(len(g.ROTOR_HOLE_ANGLES), g.PAD_T + 2 * eps, NEW),
-                  CUT, 'rotor holes', name)
+    # EXO-370: the four M3 holes and the O16 centre hole run through pad AND top (z -8.0 ..
+    # ROTOR_PAD_T, eps past both faces). No recess (EXO-373): the bottom's r 7.8 boss rises
+    # to -7.0 inside the centre hole.
+    z_lo_t, z_hi_t = g.TOP_JOINT_Z - eps, max(g.PAD_T, g.ROTOR_PAD_T) + eps
+    # EXO-375: the HEAD FLAT. With a pad thinner than the ribbon (PAD_T 8), the ribbon that
+    # crosses the pad stands proud of the pad face; inside the fused top's r 18 it is cut down
+    # to z ROTOR_PAD_T, so the four M3 heads seat on one plane (ring to the r 18 step 5.4).
+    if g.ROTOR_PAD_T < g.PAD_T - 1e-9:
+        body = _merge(comp, body, _band('head flat', g.ROTOR_PAD_T, g.PAD_T + eps,
+                                        lambda k: k.circle((0, 0), g.TOP_DISK_R), 1),
+                      CUT, 'head flat', name)
+
+    def _holes(k):
+        for a in g.ROTOR_HOLE_ANGLES:
+            k.circle((g.ROTOR_HOLE_RADIUS * math.cos(math.radians(a)),
+                      g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a))), g.HOLE_R)
+    body = _merge(comp, body, _band('rotor holes', z_lo_t, z_hi_t, _holes,
+                                    len(g.ROTOR_HOLE_ANGLES)), CUT, 'rotor holes', name)
+    body = _merge(comp, body, _band('centre hole', z_lo_t, z_hi_t,
+                                    lambda k: k.circle((0, 0), g.TOP_CENTRE_R), 1),
+                  CUT, 'centre hole', name)
+    body = _rotor_label(comp, body, FA, ex, ey, name)
 
     sk = BuildArm.PlaneSketch(comp, name + ' stator holes',
                               FB.point([0, 0, z_slab_mid]), bx, by)
@@ -742,6 +800,57 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
                            g.ALIGN_MARK_R_OUT, g.ALIGN_MARK_W / 2))
     body = _merge(comp, body, sk.extrude(1, mz1 - mz0, NEW), CUT, 'assembly mark', name)
     return body
+
+
+def _rotor_label(comp, body, FA, ex, ey, name):
+    """EXO-375: "p<pad>" (e.g. "p7") debossed ROTOR_LABEL_D into the rotor pad's outer face
+    z ROTOR_PAD_T, centred at ROTOR_LABEL_AT (r 15, 45 deg: between two M3 heads, inside the
+    r 18 head flat), readable from outside. Glyphs extruded as new bodies from 0.1 above the
+    face down to the label floor, then combine-cut; refused if a glyph leaves r 9..17.5."""
+    g = armgen
+    text = 'p%d' % int(round(g.ROTOR_PAD_T))
+    r, a = g.ROTOR_LABEL_AT
+    cx, cy = r * math.cos(math.radians(a)), r * math.sin(math.radians(a))
+    z_lo, z_hi = g.ROTOR_PAD_T - g.ROTOR_LABEL_D, g.ROTOR_PAD_T + 0.1
+    sk = BuildArm.PlaneSketch(comp, name + ' pad label', FA.point([0, 0, z_lo]), ex, ey)
+    n = sk.sketch.xDirection.crossProduct(sk.sketch.yDirection)
+    ez = ex.crossProduct(ey)
+    if n.dotProduct(ez) < 0.99:
+        raise RuntimeError('%s: label sketch normal is not the pad normal (%.3f)' % (name, n.dotProduct(ez)))
+    h = g.ROTOR_LABEL_H
+    ti = sk.sketch.sketchTexts.createInput2(text, h * BuildArm.MM_TO_CM)
+    ti.setAsMultiLine(sk.pt(cx - 2.5 * h / 2, cy - h), sk.pt(cx + 2.5 * h / 2, cy + h),
+                      adsk.core.HorizontalAlignments.CenterHorizontalAlignment,
+                      adsk.core.VerticalAlignments.MiddleVerticalAlignment, 0)
+    st = sk.sketch.sketchTexts.add(ti)
+    keep = set(comp.bRepBodies.item(i).entityToken for i in range(comp.bRepBodies.count))
+    feats = comp.features.extrudeFeatures
+    ein = feats.createInput(st, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+    ein.setDistanceExtent(False, adsk.core.ValueInput.createByReal((z_hi - z_lo) * BuildArm.MM_TO_CM))
+    feats.add(ein)
+    tools = adsk.core.ObjectCollection.create()
+    for i in range(comp.bRepBodies.count):
+        b = comp.bRepBodies.item(i)
+        if b.entityToken in keep:
+            continue
+        for k in range(b.vertices.count):
+            q = FA.local(b.vertices.item(k).geometry)
+            if not (9.0 <= math.hypot(q[0], q[1]) <= 17.5
+                                      and z_lo - 1e-3 <= q[2] <= z_hi + 1e-3):
+                raise RuntimeError('%s: label glyph vertex at r %.3f z %.3f'
+                                   % (name, math.hypot(q[0], q[1]), q[2]))
+        tools.add(b)
+    if tools.count == 0:
+        raise RuntimeError('%s: the label made no glyph bodies' % name)
+    cin = comp.features.combineFeatures.createInput(body, tools)
+    cin.operation = adsk.fusion.FeatureOperations.CutFeatureOperation
+    cin.isKeepToolBodies = False
+    comp.features.combineFeatures.add(cin)
+    if comp.bRepBodies.count != 1:
+        raise RuntimeError('%s: %d bodies after the label' % (name, comp.bRepBodies.count))
+    sk.sketch.isVisible = False
+    sk.cplane.isLightBulbOn = False
+    return comp.bRepBodies.item(0)
 
 
 def actuator_bodies(wrapper_occ):
@@ -1192,7 +1301,7 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
                  adsk.core.Vector3D.create(*arm.dir([1, 0, 0])),
                  adsk.core.Vector3D.create(*arm.dir([0, 1, 0])),
                  adsk.core.Vector3D.create(*arm.dir([0, 0, 1])))
-        rings = hole_ring_probe.measure(body, frame, armgen.HOLE_R)
+        rings = seating_rings(hole_ring_probe.measure(body, frame, armgen.HOLE_R))
         rot = [h for h in rings if h['plane'][0] == 'z']
         sta = [h for h in rings if h['plane'][0] == 's']
         rad = sweepgen.elbow_radii(route)
@@ -1210,16 +1319,19 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
         start = route.get('y_round', route['y_end']) - rad['r_out']
         rep('  %s' % gname)
         rep('    guard 1 (EXO-77/84): lowest material inside r %.1f of the pad axis z %.3f mm '
-            '(the link stop block / key pegs, %.1f mm deep; no blend is below the pad plane '
-            'by construction)' % (armgen.STATOR_PAD_R, zmin, -zmin if zmin else 0.0))
+            '(EXO-370: the fused rotor top\'s register pegs reach z %.1f, inside module A; '
+            'the link stop block %.1f mm deep; no blend is below the pad plane '
+            'by construction)' % (armgen.STATOR_PAD_R, zmin, armgen.TOP_Z_MIN, armgen.STOP_H))
         rep('    guard 2 (EXO-79): the outer round starts %.3f mm from the plate axis, '
             'need >= %.1f + %.1f = %.1f -> %s'
             % (start, armgen.STATOR_PAD_R, sweepgen.RIM_MARGIN,
                armgen.STATOR_PAD_R + sweepgen.RIM_MARGIN,
                'OK' if start >= armgen.STATOR_PAD_R + sweepgen.RIM_MARGIN - 1e-9 else 'FAIL'))
         rep('    guard 3 (EXO-124/128): %d openings measured on the filleted body; smallest '
-            'rotor-pad ring %.3f mm, smallest landing-plate ring %.3f mm, need %.2f -> %s'
-            % (len(rings), min(h['ring'] for h in rot), min(h['ring'] for h in sta),
+            'rotor-pad ring %.3f mm (nan: every M3 opening is bounded by the O16 centre hole, '
+            'held to the M3 head, EXO-375), smallest landing-plate ring %.3f mm, need %.2f -> %s'
+            % (len(rings), min([h['ring'] for h in rot] or [float('nan')]),
+               min(h['ring'] for h in sta),
                armgen.HOLE_FLAT_RING,
                'OK' if min(h['ring'] for h in rings) >= armgen.HOLE_FLAT_RING - 1e-6
                else 'FAIL'))
@@ -1234,9 +1346,12 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
     fails = [h for h in hits if h[0] == 'FAIL']
     slivers = [h for h in hits if h[0] == 'sliver']
     internal = [h for h in hits if h[0] == 'module-internal']
+    clamps = [h for h in hits if h[0] == 'race clamp']
     rep('Interference: %d bodies (incl. %d real XL330 bodies), %d hit(s): %d FAIL, '
-        '%d sliver(s), %d module-internal - HOW: %s'
-        % (n_bodies, n_act, len(hits), len(fails), len(slivers), len(internal), how))
+        '%d sliver(s), %d module-internal, %d race clamp (EXO-373) - HOW: %s'
+        % (n_bodies, n_act, len(hits), len(fails), len(slivers), len(internal), len(clamps), how))
+    for kind, a, b, vol, bb in clamps:
+        rep('    race clamp %s <-> %s volume=%.3f mm3 bbox=%s' % (a, b, vol, BuildArm.fmt_bbox(bb)))
     px_hits = [h for h in hits if BuildArm.ACTUATOR_BODY_TOKEN in (h[1] + h[2])]
     rep('    hits involving an XL330: %d%s'
         % (len(px_hits), '' if not px_hits else ' - ' + '; '.join(

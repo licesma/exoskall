@@ -192,37 +192,53 @@ STOP_R_IN, STOP_R_OUT = 20.0, 26.0   # link stop block: ring sector
 STOP_HALF_ANGLE = 5.0       # deg; block is +/-5 deg wide, centred on module +X
 STOP_ANGLE = 0.0            # deg, centre of the block, measured from module +X
 STOP_H = 3.6                # protrudes 3.6 below the pad face (stator top is at -4.0)
-# EXO-364: ROTOR KEY. The index notch / tab pair is gone. The link's rotor pad carries three
-# O3.0 x 1.2 PEGS on its rotor-side face, into three O3.3 x 1.3 SOCKETS in the rotor top
-# (`BuildArm.module_rotor_final`), at r 15.0 and module angles 45 / 135 / 225; 315 is left
-# empty, so the 3-of-4 pattern fits one way only (like the stator's three inserts).
-# 0.15 radial and 0.1 axial clearance. The pegs sit between the M3 holes (r 11, 0/90/180/270)
-# and the link stop block (r >= STOP_R_IN 20): 7.514 to an M3 hole edge, 6.364 to an O5.5
-# M3 head, 3.5 radially to the stop block's inner arc.
-KEY_R = 15.0                       # peg / socket circle, module frame
-KEY_ANGLES = (45.0, 135.0, 225.0)  # deg; 315 is the empty position
-KEY_EMPTY_ANGLE = 315.0
-KEY_PEG_R, KEY_PEG_H = 1.5, 1.2    # link: O3.0, 1.2 proud of the pad's rotor-side face
-KEY_SOCKET_R, KEY_SOCKET_D = 1.65, 1.3   # rotor top: O3.3, 1.3 deep off the rotor face z 0
+# EXO-370: THE FUSED LINK. The separate rotor top is gone: every link's rotor pad IS the rotor
+# top (Esteban, 2026-11-05). In the module frame of the link's rotor joint (rotor face z 0):
+#   * the rotor pad is ROTOR_PAD_T thick, a PARAMETER (EXO-375: 7 by default with M3x20, tip
+#     -13.0 = the nut's bottom; 6 is the print-test variant with M3x18, tip -12.0). The stator
+#     pad and the ribbon stay PAD_T 8, so inside the fused top's r 18 the ribbon is cut down to
+#     the pad face (`TOP_DISK_R`: the HEAD FLAT) and the four M3 heads seat on z ROTOR_PAD_T;
+#     outside r 18 the ribbon keeps its 8. (EXO-374: a 12 mm pad fouled module J2 on link_12.)
+#   * below it, the top as `BuildArm.module_rotor_final` made it: disk r 18 over z -5.001..0 (its
+#     underside is the race shoulder), journal O30.1 over z -8.0..-5.001 (3.0, the other 3.0 is
+#     the bottom's), eight O3.0 register pegs at r 12.2 (22.5 + k*45 deg) from the joint face
+#     z -8.0 down 1.2 to -9.2;
+#   * 4x O3.2 M3 at r 11 through pad + top (`ROTOR_PAD_BOLTS`);
+#   * a O16 CENTRE HOLE through pad + top (driver access to the four M2 horn-screw heads, which
+#     replaces the four O5 head columns); the bottom's r 7.8 boss rises to z -7.0 INSIDE it
+#     (0.2 radial), so there is no recess and the wall to the M3 holes is the hole's 1.4
+#     (EXO-373: an r 8.7 recess left 0.7);
+#   * no EXO-364 key pegs / sockets, no index tab or notch: the link goes on the rotor in any of
+#     the four M3 positions 90 deg apart (8 pegs, 4 holes), so the zero pose is set at assembly.
+# The stop block (r >= STOP_R_IN 20) and ALIGN_MARK_* are unchanged.
+ROTOR_PAD_T_DEFAULT = 7.0        # EXO-375: the module default (the module's drawn bolts use it)
+ROTOR_PAD_T = ROTOR_PAD_T_DEFAULT  # what `build_link` draws; a variant build sets it (6.0)
+ROTOR_PAD_BOLTS = {7.0: 20.0, 6.0: 18.0}   # pad -> M3 length: tip -13.0 at 7, -12.0 at 6
+TOP_DISK_R = 18.0                # fused top disk, z TOP_SHOULDER_Z..0
+TOP_SHOULDER_Z = -5.001          # race shoulder (disk underside); bottom flange -11.001: gap 6.0
+TOP_JOURNAL_R = 15.05            # O30.1 journal, z TOP_JOINT_Z..TOP_SHOULDER_Z (3.0)
+TOP_JOINT_Z = -8.0               # joint face against the bottom
+TOP_PEG_AT = 12.2                # register pegs: circle, angles, O3.0 x 1.2
+TOP_PEG_ANGLES = tuple(22.5 + 45.0 * k for k in range(8))
+TOP_PEG_R, TOP_PEG_H = 1.5, 1.2
+TOP_CENTRE_R = 8.0               # O16 centre hole through pad + top
+ROTOR_BOLT_L_DEFAULT = ROTOR_PAD_BOLTS[ROTOR_PAD_T_DEFAULT]   # M3x20 on the default pad
+ROTOR_LABEL_H, ROTOR_LABEL_D = 3.0, 0.4   # "p7" / "p6" debossed on the pad's outer face
+ROTOR_LABEL_AT = (13.8, 45.0)             # (r, deg) of the label centre, module frame
+TOP_Z_MIN = TOP_JOINT_Z - TOP_PEG_H   # -9.2: lowest point of the fused link
 
 
-def key_centres():
-    """(x, y) of the three key pegs / sockets in the module frame."""
-    return [(KEY_R * math.cos(math.radians(a)), KEY_R * math.sin(math.radians(a)))
-            for a in KEY_ANGLES]
+def top_peg_centres():
+    """(x, y) of the eight register pegs of the fused top, module frame."""
+    return [(TOP_PEG_AT * math.cos(math.radians(a)), TOP_PEG_AT * math.sin(math.radians(a)))
+            for a in TOP_PEG_ANGLES]
 
 
-def key_peg_points(step=0.25):
-    """Points on the outlines of the three pegs (module frame, pad plane)."""
-    n = max(8, int(2.0 * math.pi * KEY_PEG_R / step) + 1)
-    return [(cx + KEY_PEG_R * math.cos(2.0 * math.pi * k / n),
-             cy + KEY_PEG_R * math.sin(2.0 * math.pi * k / n))
-            for cx, cy in key_centres() for k in range(n)]
-
-
-def key_peg_dist(p):
-    """Distance from a point (module frame) to the nearest key peg, negative inside."""
-    return min(math.hypot(p[0] - cx, p[1] - cy) for cx, cy in key_centres()) - KEY_PEG_R
+def top_rim_points(step=0.25):
+    """Points on the fused top's r TOP_DISK_R rim (module frame, plan)."""
+    n = max(8, int(2.0 * math.pi * TOP_DISK_R / step) + 1)
+    return [(TOP_DISK_R * math.cos(2.0 * math.pi * k / n),
+             TOP_DISK_R * math.sin(2.0 * math.pi * k / n)) for k in range(n)]
 
 STATOR_PAD_R = 27.0
 STATOR_UNDERSIDE_Z = -24.5  # module z of the stator's underside
@@ -243,7 +259,7 @@ MODULE_R = 27.0             # stator outer radius (for the clearance check)
 # lines continue each other and are seen at the rim before the screws go in. At 90 deg the
 # actuator opening reaches y 24.5, so the line starts INSIDE the opening (R_IN 23.5 removes
 # nothing there) and runs out through the stator rim r 27 to R_OUT 27.6 (0.6 of it stays
-# visible on the pad outside the stator). Rotor side: none, the three key pegs (EXO-364) key it.
+# visible on the pad outside the stator). Rotor side: none (EXO-370: the link IS the rotor top).
 ALIGN_MARK_ANGLE = 90.0     # deg, module frame
 ALIGN_MARK_W = 0.6          # mm, tangential width
 ALIGN_MARK_D = 0.4          # mm, depth into each face
@@ -1032,13 +1048,13 @@ def stop_block_outline(ang, half, r_in=STOP_R_IN, r_out=ROTOR_PAD_R):
 # ZERO POSE. URDF q = 0 is the pose every module frame in this file is built at
 # (`joint_world_pose` walks the chain with no joint angles applied), so the link AS DRAWN in
 # the module frame is the link at q = 0. That drawing is realisable on the real rotor in
-# exactly one orientation: the rotor's four M3 holes are 90 deg symmetric and the ROTOR
-# KEY breaks the tie (EXO-364; before it, the index notch at +Y did): three pegs on the
-# link's rotor pad into three sockets in the rotor top at KEY_ANGLES 45 / 135 / 225, with
-# 315 empty. So the convention this rule is written to, and the one the whole generator
-# assumes, is
+# one of FOUR orientations: the rotor's four M3 holes are 90 deg symmetric and, since EXO-370,
+# nothing breaks the tie (the EXO-364 key pegs / sockets and, before them, the index notch at
+# +Y are gone: the link's rotor pad IS the rotor top, with eight register pegs into the
+# bottom). The convention this rule is written to, and the one the whole generator assumes, is
 #
-#     URDF q = 0  <->  the empty key position at module 315 deg  <->  the link as drawn.
+#     URDF q = 0  <->  the link as drawn  (set at assembly: the link goes on in the M3
+#                      position that puts it at q = 0; nothing on the rotor enforces it).
 #
 # AXIS SIGN. The module frame's Z is `axis_sign` * the URDF axis (`module_frame`), so a URDF
 # rotation of q is a rotation of axis_sign * q about module +Z. J1 is axis_sign = -1: its
@@ -2710,9 +2726,10 @@ def route_corner_cut(route, runs=None):
 
 HULL_SLICES = 24            # strips per disk / slab; see route_hulls
 HULL_STEP = 0.5             # mm between sampled points of the slab outline
-STOP_BLOCK_Z = -STOP_H      # deepest the link stop block and the key pegs reach below the
-                            # rotor pad's rotor-side plane (BuildArm builds both from LINKS;
-                            # every exo link's block is at most this deep)
+STOP_BLOCK_Z = -STOP_H      # deepest the link stop block reaches below the
+                            # rotor pad's rotor-side plane (BuildArm builds it from LINKS;
+                            # every exo link's block is at most this deep). EXO-370: the fused
+                            # rotor top below the pad (r <= 18, to z -9.2) is inside module A.
 
 
 def _disk_hulls(pad_r, z_lo, z_hi, n=HULL_SLICES):
@@ -3365,8 +3382,7 @@ def hole_flat_rings(route, ring=None, stop=None):
                                math.hypot(other['module'][0] - mx, other['module'][1] - my)
                                - HOLE_R))
             if face == 'rotor-side':
-                # the link's own stop block and key pegs (EXO-364) stand proud of this face
-                bounds.append(('the key pegs at r %.1f' % KEY_R, key_peg_dist((mx, my))))
+                # the link's own stop block stands proud of this face (EXO-370: no key pegs)
                 # EXO-218: the stop is one solid sector again, so that is what a screw
                 # head is measured to.
                 bounds.append(('the stop block at r %.1f..%.1f, %.2f +/- %.2f deg'

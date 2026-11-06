@@ -52,3 +52,8 @@
 - `stator_d42.7.3mf`: stator seat test, O42.7 (r 21.35, file z -3.5..3.5), label "42.7"; mesh V 25397.344 (EXO-350), dropped from the set by EXO-355
 - `stator_d42.9.3mf`: stator seat test, O42.9 (r 21.45, file z -3.5..3.5), label "42.9"; mesh V 25302.813 (EXO-350), dropped from the set by EXO-355
 - `stator_dia_exo350.bambu.3mf`: the EXO-350 plate (stator_d42.3/.5/.7/.9, 2x2), replaced by the five-stator `parts/stator_dia.bambu.3mf` (EXO-355)
+- `top_exo364.3mf`: the separate rotor top (`inner_top`) with the EXO-364 key sockets, mesh V 5772.270; retired by EXO-370/375 (the top is fused into every link's rotor pad)
+- `bottom_exo364.3mf`: the EXO-333/364 bottom (joint face -7.0, sockets floor -8.3, no boss), mesh V 3865.634; mates `top_exo364` only; replaced by the EXO-370 bottom (joint -8.0, boss r 7.8)
+- `link_12_exo364.3mf`: link_12 with the 8 mm rotor pad and the three EXO-364 key pegs, mesh V 40406.203; replaced by `parts/link_12_p7.3mf` / `_p6` (EXO-375)
+- `link_23_exo364.3mf`: link_23 with the 8 mm rotor pad and the three EXO-364 key pegs, mesh V 45832.391; replaced by `parts/link_23_p7.3mf` / `_p6` (EXO-375)
+- `rotor_exo364.bambu.3mf`: the rotor plate (top rotor face down + bottom), EXO-364; archived with the top (a plate of one bottom is meaningless). Still the settings source of `tools/bambu_plate_exo343.py`

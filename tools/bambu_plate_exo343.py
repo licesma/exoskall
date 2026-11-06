@@ -50,7 +50,8 @@ import xml.etree.ElementTree as ET
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PARTS = os.path.join(ROOT, 'parts')
-SETTINGS_SRC = os.path.join(PARTS, 'rotor.bambu.3mf')
+# EXO-375: rotor.bambu.3mf (top + bottom) is archived with the top; its settings stay the source
+SETTINGS_SRC = os.path.join(PARTS, 'archive', '2026-10-tests', 'rotor_exo364.bambu.3mf')
 NS = {'m': 'http://schemas.microsoft.com/3dmanufacturing/core/2015/02'}
 PNS = '{http://schemas.microsoft.com/3dmanufacturing/production/2015/06}path'
 # name, source, rotate?, plate centre (x, y). Stators 54x54 in a column at x 91 (y pitch
@@ -59,21 +60,17 @@ PNS = '{http://schemas.microsoft.com/3dmanufacturing/production/2015/06}path'
 LINK_LAYOUT = [
     ('stator_1', 'stator', None, (91.0, 160.25)),
     ('stator_2', 'stator', None, (91.0, 95.75)),
-    ('link_12', 'link_12', ('bed', (-1, 0, 0)), (160.25, 128.0)),
+    ('link_12', 'link_12_p7', ('bed', (-1, 0, 0)), (160.25, 128.0)),
 ]
 # joints4 (EXO-345): rows of 60.2 / 54 / 36 / 35 with 10.5 gaps, centred on the bed (y 19.6..236.4).
 # Row 1: link_23 (105.7 x 60.2 after rotation), stator, top; row 2: 3 stators, top;
 # row 3: 2 tops, 2 bottoms; row 4: 2 bottoms. Row 1 starts at x 19.65 (P1S exclude zone 18x28).
 J4_LAYOUT = [
-    ('link_23', 'link_23', ('bed', (1, 0, 0)), (72.5, 49.75)),
+    ('link_23', 'link_23_p7', ('bed', (1, 0, 0)), (72.5, 49.75)),
     ('stator_1', 'stator', None, (162.85, 49.75)),
-    ('top_1', 'top', 'flipX', (218.35, 49.75)),
     ('stator_2', 'stator', None, (40.25, 117.375)),
     ('stator_3', 'stator', None, (104.75, 117.375)),
     ('stator_4', 'stator', None, (169.25, 117.375)),
-    ('top_2', 'top', 'flipX', (224.75, 117.375)),
-    ('top_3', 'top', 'flipX', (59.25, 172.875)),
-    ('top_4', 'top', 'flipX', (105.75, 172.875)),
     ('bottom_1', 'bottom', None, (151.75, 172.875)),
     ('bottom_2', 'bottom', None, (197.25, 172.875)),
     ('bottom_3', 'bottom', None, (105.25, 218.875)),
@@ -82,33 +79,32 @@ J4_LAYOUT = [
 # all (EXO-348): one plate, 14 objects; footprints link_23 105.7 x 60.2, link_12 63.5 x 74.5,
 # stator 54, top 36, bottom 35; nominal gaps >= 11, layout x 9.88..246.12, y 11.75..244.26.
 ALL_LAYOUT = [
-    ('link_23', 'link_23', ('bed', (1, 0, 0)), (71.73, 41.88)),
-    ('link_12', 'link_12', ('bed', (-1, 0, 0)), (167.35, 49.01)),
+    ('link_23', 'link_23_p7', ('bed', (1, 0, 0)), (71.73, 41.88)),
+    ('link_12', 'link_12_p7', ('bed', (-1, 0, 0)), (167.35, 49.01)),
     ('stator_1', 'stator', None, (36.88, 110.0)),
-    ('stator_2', 'stator', None, (101.88, 124.26)),
-    ('stator_3', 'stator', None, (166.88, 124.26)),
+    ('stator_2', 'stator', None, (101.88, 126.86)),   # EXO-375: +2.6, the fused link_12 is 79.7 deep
+    ('stator_3', 'stator', None, (166.88, 126.86)),
     ('stator_4', 'stator', None, (36.88, 175.0)),
-    ('top_1', 'top', 'flipX', (228.12, 29.75)),
-    ('top_2', 'top', 'flipX', (228.12, 76.75)),
-    ('top_3', 'top', 'flipX', (92.88, 180.26)),
-    ('top_4', 'top', 'flipX', (139.88, 180.26)),
     ('bottom_1', 'bottom', None, (222.38, 123.25)),
     ('bottom_2', 'bottom', None, (222.38, 169.25)),
     ('bottom_3', 'bottom', None, (186.38, 215.25)),
     ('bottom_4', 'bottom', None, (92.38, 226.76)),
 ]
-# joints2 (EXO-369): orientations as ALL_LAYOUT; footprints link_23 105.7 x 60.26, link_12 63.54 x 74.5,
-# stator 54, top 36, bottom 35. Rows (gap 12): link_23 + link_12 (y 34.25..108.75), 2 stators + 2 tops
-# (y 120.75..174.75, x 20..236), 2 bottoms (y 186.75..221.75); centred on 128/128.
+# joints2 (EXO-369, rebuilt EXO-375): the fused links at pad 7 AND pad 6 (print test), 2 stators,
+# 2 bottoms; orientations as ALL_LAYOUT (link_12 on the J2 pad outer face, link_23 on the J3
+# flange end face). Footprints link_23 105.7 x 60.26, link_12 63.54 x 79.7 (fused top), stator 54,
+# bottom 35. Rows (gap 10.5): bottom + link_23_p7 + link_12_p7 (y 10.8..90.5), the same at p6
+# (y 101..180.7), 2 stators (y 191.2..245.2); across, gaps 12; bottoms first, clear of the P1S
+# exclude zone (x < 18, y < 28).
 J2_LAYOUT = [
-    ('link_23', 'link_23', ('bed', (1, 0, 0)), (90.23, 71.5)),
-    ('link_12', 'link_12', ('bed', (-1, 0, 0)), (186.85, 71.5)),
-    ('stator_1', 'stator', None, (47.0, 147.75)),
-    ('stator_2', 'stator', None, (113.0, 147.75)),
-    ('top_1', 'top', 'flipX', (170.0, 147.75)),
-    ('top_2', 'top', 'flipX', (218.0, 147.75)),
-    ('bottom_1', 'bottom', None, (104.5, 204.25)),
-    ('bottom_2', 'bottom', None, (151.5, 204.25)),
+    ('bottom_1', 'bottom', None, (31.38, 50.65)),
+    ('link_23_p7', 'link_23_p7', ('bed', (1, 0, 0)), (113.73, 50.65)),
+    ('link_12_p7', 'link_12_p7', ('bed', (-1, 0, 0)), (210.35, 50.65)),
+    ('bottom_2', 'bottom', None, (31.38, 140.85)),
+    ('link_23_p6', 'link_23_p6', ('bed', (1, 0, 0)), (113.73, 140.85)),
+    ('link_12_p6', 'link_12_p6', ('bed', (-1, 0, 0)), (210.35, 140.85)),
+    ('stator_1', 'stator', None, (95.0, 218.2)),
+    ('stator_2', 'stator', None, (161.0, 218.2)),
 ]
 # stator_dia (EXO-355): five stators 54 x 54, rows of 3 + 2 at 64.5 pitch (gap 10.5), centred on 128/128.
 SDIA_LAYOUT = [
@@ -144,7 +140,6 @@ ROTOR_LAYOUT = [
     ('bottom', 'bottom', None, (151.0, 128.0)),
 ]
 PLATES = {
-    'rotor': (os.path.join(PARTS, 'rotor.bambu.3mf'), 'rotor', ROTOR_LAYOUT),
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
     'all': (os.path.join(PARTS, 'all.bambu.3mf'), 'all', ALL_LAYOUT),
@@ -160,6 +155,9 @@ SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom'
 SOURCE_V.update({'stator_d41.8': 25815.537, 'stator_d41.9': 25769.600, 'stator_d42.0': 25723.026,
                  'stator_d42.1': 25677.170})   # EXO-358
 SOURCE_V.update({'bottom_h0.5': 3831.022, 'bottom_h1.0': 3799.806})   # EXO-352
+# EXO-370/375: fused links (pad 7 default, pad 6 test) and the new bottom (boss r 7.8)
+SOURCE_V.update({'link_12_p7': 42859.827, 'link_23_p7': 47968.263, 'link_12_p6': 41522.010,
+                 'link_23_p6': 46311.994, 'bottom': 3377.371})
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0}   # stricter per-plate margins (EXO-369)
 HDR = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '

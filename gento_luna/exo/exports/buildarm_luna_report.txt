@@ -1,4 +1,4 @@
-BuildArmGen (luna) finished with 1 interference FAIL(s).
+BuildArmGen done (luna).
 
 
 Axis signs and slides: PRECOMPUTED and VERIFIED here, not enumerated (EXO-218). The solve is `sweepgen.solve_axis_signs` - pure Python, deterministic, no Fusion - and on this arm it is 2^5 combinations x four slide candidates each, hours of router calls. It was run by that function outside Fusion; this build checks the answer. All 32 combinations were tried (k = 5). 25 of them route all six links; this one has the shortest total centre line, 625.710 mm - the rule of `solve_axis_signs`, unchanged. Total slide 180.502 mm. R6 and R7 do not change the answer (k = 5 / 13 / 21 / 29 tie on every number), so the rule's last tie-break, the lowest combination, takes k = 5.
@@ -52,22 +52,22 @@ Module rotation about its own axis, FIXED BY THE LINK (EXO-150): +Y - the encode
   R1     +0.000 deg - nobody's stator end: the measured pose is kept (EXO-150)
   R2     +0.000 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both lean - z_A
       encoder +Y is 2.10e-04 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.0000 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 7.475 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar -1.000 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar -1.000 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   R3   +180.000 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is above module B's axis (z 4.00 vs -29.50), so the tongue and the encoder both lean + z_A
       encoder +Y is 2.10e-04 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.0000 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 7.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.001 mm (need 3.0); opening reach 24.500 mm; landing y 33.501, drop +0.000 mm; nearest non-plate BODY 5.001 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.001 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.001 mm (need 3.0); opening reach 24.500 mm; landing y 33.501, drop +0.000 mm; nearest non-plate BODY 5.001 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.001 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   R4   +360.000 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 37.00), so the tongue and the encoder both lean - z_A
       encoder +Y is 2.10e-04 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 28.8430 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 7.475 mm, smallest stator ring 7.650 mm (need 2.00); opening web 4.501 mm (need 3.0); opening reach 24.500 mm; landing y 33.001, drop +0.000 mm; nearest non-plate BODY 4.501 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 1.501 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 7.650 mm (need 2.00); opening web 4.501 mm (need 3.0); opening reach 24.500 mm; landing y 33.001, drop +0.000 mm; nearest non-plate BODY 4.501 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 1.501 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   R5   +180.000 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is above module B's axis (z 4.00 vs -0.00), so the tongue and the encoder both lean + z_A
       encoder +Y is 2.10e-04 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.0000 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 7.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 3.000 mm (need 3.0); opening reach 24.500 mm; landing y 31.500, drop +27.500 mm; nearest non-plate BODY 3.000 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 0.000 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 3.000 mm (need 3.0); opening reach 24.500 mm; landing y 31.500, drop +27.500 mm; nearest non-plate BODY 3.000 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 0.000 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   R6     +0.000 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both lean - z_A
       encoder +Y is 0.00e+00 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.0000 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 7.475 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.500 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.500 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   R7     +0.000 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both lean - z_A
       encoder +Y is 0.00e+00 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.0000 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 7.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.500 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.500 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
 
 Which LANDING primitive the pair gets (EXO-176) and where the level change is taken inside it (EXO-158). The landing plate is a flat disk, so its plane carries two free directions; `square` is EXO-144's, with the tongue pinned to the rotor pad axis, and `angled` aims the tongue FROM THE DISK CENTRE AT THE POINT WHERE THE RIBBON ENTERS THE PLANE, so the pair may spend its lateral offset inside the plate plane, where it costs no straight run. Both are sized in full, square then angled first, and the first feasible one is taken - so a pair the square landing can take keeps exactly the route it had.
   link_R12 square landing, tongue +0.000 deg off the pad axis, 52.00 mm wide, reaching 38.00 mm from the plate axis
@@ -184,44 +184,22 @@ LIMITED JOINTS (EXO-204, generalised by EXO-208). The module's joint stop is JOI
       RIBBON the stop block spans 235.502..100.502 deg; the ribbon root crosses its annulus over 321.483..218.604 deg (692 samples) - nearest approach 0.000 deg: OVERLAPS - REPORT ONLY (EXO-204/EXO-216): the block's angle is the joint's limits and the ribbon's is the pair; the only free variable is the module spin, which is solved for other reasons (EXO-150) and is not touched here - and the block is UNDER the pad while the ribbon root is ON it, so an overlap in plan is material under the ribbon's foot, not a clash
 
 Deleted previous: generated_R_arm_luna
-  upper: head column open above the joint face r  6.001   45.0 deg z  -6.900  want void  got void  OK
-  upper: head column open at mid depth   r  6.001  135.0 deg z  -4.000  want void  got void  OK
-  upper: head column breaks the rotor face r  6.001  225.0 deg z  -0.100  want void  got void  OK
-  upper: solid inside the column         r  3.300   45.0 deg z  -4.000  want solid got solid OK
-  upper: solid outside the column        r  8.700   45.0 deg z  -4.000  want solid got solid OK
-  upper: solid between two columns       r  6.001    0.0 deg z  -4.000  want solid got solid OK
-  upper: M3 through above the joint face r 11.000    0.0 deg z  -6.500  want void  got void  OK
-  upper: M3 through at mid depth         r 11.000   90.0 deg z  -3.000  want void  got void  OK
-  upper: old hex nut pocket filled       r 13.500    0.0 deg z  -6.000  want solid got solid OK
-  upper: nothing below the joint face    r 14.000    0.0 deg z  -7.100  want void  got void  OK
-  upper: peg root, in the solid          r 12.200   22.5 deg z  -6.900  want solid got solid OK
-  upper: peg at mid height               r 12.200   67.5 deg z  -7.600  want solid got solid OK
-  upper: peg tip                         r 12.200  247.5 deg z  -8.150  want solid got solid OK
-  upper: nothing below the tip           r 12.200  247.5 deg z  -8.250  want void  got void  OK
-  upper: air between two pegs            r 12.200   45.0 deg z  -7.600  want void  got void  OK
-  upper: journal solid inside r 15.05    r 15.030  157.5 deg z  -6.000  want solid got solid OK
-  upper: air outside r 15.05             r 15.070  157.5 deg z  -6.000  want void  got void  OK
-  upper: race shoulder solid above -5.001 r 16.500    0.0 deg z  -4.980  want solid got solid OK
-  upper: air below the shoulder          r 16.500    0.0 deg z  -5.020  want void  got void  OK
-  upper: old index notch filled          r 16.000   90.0 deg z  -0.500  want solid got solid OK
-  upper: old notch filled at its floor   r 17.500   91.0 deg z  -1.450  want solid got solid OK
-  upper: old notch edge filled           r 15.000   82.5 deg z  -0.050  want solid got solid OK
-  upper: rim still r 18 at +Y            r 18.020   90.0 deg z  -0.500  want void  got void  OK
-  upper: nothing above the rotor face at +Y r 16.000   90.0 deg z   0.050  want void  got void  OK
-  upper: key socket open at the face, 45 r 15.000   45.0 deg z  -0.100  want void  got void  OK
-  upper: key socket open at the bottom, 135 r 15.000  135.0 deg z  -1.250  want void  got void  OK
-  upper: key socket edge open, 225       r 16.600  225.0 deg z  -0.600  want void  got void  OK
-  upper: key socket floor solid          r 15.000  225.0 deg z  -1.350  want solid got solid OK
-  upper: key socket wall solid outside   r 16.700   45.0 deg z  -0.600  want solid got solid OK
-  upper: key socket wall solid inside    r 13.300  135.0 deg z  -0.600  want solid got solid OK
-  upper: no socket at 315                r 15.000  315.0 deg z  -0.600  want solid got solid OK
-  lower: nothing above the joint face    r  4.000    0.0 deg z  -6.900  want void  got void  OK
-  lower: web solid under the joint face  r  4.500    0.0 deg z  -7.100  want solid got solid OK
+  no upper part (fused into the links)   want none  got none  OK
+  lower: boss top solid under -7.0       r  4.000    0.0 deg z  -7.050  want solid got solid OK
+  lower: nothing above the boss top      r  4.000    0.0 deg z  -6.950  want void  got void  OK
+  lower: boss solid at r 7.75            r  7.750    0.0 deg z  -7.500  want solid got solid OK
+  lower: air outside the r 7.8 boss      r  7.850    0.0 deg z  -7.500  want void  got void  OK
+  lower: boss wall beside a horn hole    r  7.500   45.0 deg z  -7.500  want solid got solid OK
+  lower: joint face solid just under -8.0 r 10.000   67.5 deg z  -8.050  want solid got solid OK
+  lower: nothing above the joint face    r 10.000   67.5 deg z  -7.950  want void  got void  OK
+  lower: nothing above the journal top   r 15.030  202.5 deg z  -7.950  want void  got void  OK
   lower: web solid on the axis           r  2.000    0.0 deg z  -9.500  want solid got solid OK
   lower: horn bore still clear           r  7.000    0.0 deg z -12.000  want void  got void  OK
-  lower: horn screw hole open at the top r  6.001   45.0 deg z  -7.100  want void  got void  OK
+  lower: horn screw hole open at the boss top r  6.001   45.0 deg z  -7.050  want void  got void  OK
   lower: horn screw hole open at the bottom r  6.001  135.0 deg z -10.400  want void  got void  OK
+  lower: solid between two horn holes    r  6.001    0.0 deg z  -7.500  want solid got solid OK
   lower: M3 through the web              r 11.000    0.0 deg z  -9.000  want void  got void  OK
+  lower: M3 open at the joint face       r 11.000  180.0 deg z  -8.050  want void  got void  OK
   lower: M3 through above the pocket     r 11.000   90.0 deg z -10.000  want void  got void  OK
   lower: nut pocket open                 r 13.500    0.0 deg z -12.000  want void  got void  OK
   lower: nut pocket open at the top      r 13.500    0.0 deg z -10.700  want void  got void  OK
@@ -229,21 +207,21 @@ Deleted previous: generated_R_arm_luna
   lower: wall band, hole to bore         r  8.800    0.0 deg z -10.550  want solid got solid OK
   lower: solid between pockets           r 11.000   45.0 deg z -12.000  want solid got solid OK
   lower: nut pocket corner pulled in (5.6 AF) r 11.531   17.5 deg z -12.000  want solid got solid OK
-  lower: socket open under the face      r 12.200   22.5 deg z  -7.100  want void  got void  OK
-  lower: socket open at the bottom       r 12.200  112.5 deg z  -8.250  want void  got void  OK
-  lower: socket floor solid              r 12.200  112.5 deg z  -8.400  want solid got solid OK
+  lower: socket open under the face      r 12.200   22.5 deg z  -8.100  want void  got void  OK
+  lower: socket open at the bottom       r 12.200  112.5 deg z  -9.250  want void  got void  OK
+  lower: socket floor solid              r 12.200  112.5 deg z  -9.400  want solid got solid OK
   lower: old v3 socket filled            r 12.200   67.5 deg z -10.000  want solid got solid OK
-  lower: solid between two sockets       r 12.200   45.0 deg z  -7.600  want solid got solid OK
-  lower: journal solid inside r 15.05    r 15.030  202.5 deg z  -8.000  want solid got solid OK
-  lower: air outside r 15.05             r 15.070  202.5 deg z  -8.000  want void  got void  OK
+  lower: solid between two sockets       r 12.200   45.0 deg z  -8.600  want solid got solid OK
+  lower: journal solid inside r 15.05    r 15.030  202.5 deg z  -9.000  want solid got solid OK
+  lower: air outside r 15.05             r 15.070  202.5 deg z  -9.000  want void  got void  OK
   lower: flange top solid below -11.001  r 16.500    0.0 deg z -11.020  want solid got solid OK
   lower: air above the flange            r 16.500    0.0 deg z -10.980  want void  got void  OK
-Module placed at every joint: sensor module 2 rotor (already in the document, parts named stator / inner_top / inner_bottom, stop block measured 160.50223..175.50227 deg (arc 15.00005) and all 54 rotor probes read back)
+Module placed at every joint: sensor module 2 rotor (already in the document, parts named stator / inner_top / inner_bottom, stop block measured 160.50223..175.50227 deg (arc 15.00005) and all 31 rotor probes read back)
 
 Component: generated_R_arm_luna
 
     g_link_R12: NOT BUILT - g_link_R12: r 2.500 fillets the outside set on the probe but no radius down to 1.196 takes on the apply
-link_R23 -> g_link_R23: 3 features, 38 faces, volume 67557 mm3
+link_R23 -> g_link_R23: 3 features, 97 faces, volume 69692 mm3
     ribbon 25 x 8.0 mm, 1 path segments
     no plan turn (lateral offset -0.000 mm)
     no side S: the landing is level with the pad plane
@@ -256,15 +234,15 @@ link_R23 -> g_link_R23: 3 features, 38 faces, volume 67557 mm3
     landing y 33.50 (tongue to 37.50), cutout web 5.001 mm along the tongue (the true planar gap is 5.001 mm), buried 4.0 mm
     landing plate disk r 27.0000 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; it already had it)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 3.940 mm at module-B (x 10.00, y 24.50)); nearest BODY is the ribbon, 5.001 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 2.001 mm off it; cable exit along +Y below the plate: 2.001 mm to the fillet collar
-    smallest flat ring: rotor 7.400 mm, stator 6.150 mm (need 2.0)
+    smallest flat ring: rotor 5.400 mm, stator 6.150 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 9.501 (asked 10.0; reduced to 9.501 by EXO-79: the tongue ends 37.501 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
       outside convex  edge  25.00 mm long at (s  202.50, w    0.00, z    8.00)
-      pad     concave edge   8.00 mm long at (s   23.93, w  -12.50, z    4.00)
-      pad     concave edge   8.00 mm long at (s   23.93, w   12.50, z    4.00)
+      pad     concave edge   7.00 mm long at (s   23.93, w   12.50, z    3.50)
+      pad     concave edge   7.00 mm long at (s   23.93, w  -12.50, z    3.50)
       inside : no such edge on this link
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 9.501
-link_R34 -> g_link_R34: 3 features, 42 faces, volume 43143 mm3
+link_R34 -> g_link_R34: 3 features, 98 faces, volume 45599 mm3
     ribbon 52 x 8.0 mm, 1 path segments
     no plan turn (lateral offset 18.000 mm)
     no side S: the landing is level with the pad plane
@@ -277,16 +255,16 @@ link_R34 -> g_link_R34: 3 features, 42 faces, volume 43143 mm3
     landing y 33.00 (tongue to 37.00), cutout web 4.501 mm along the tongue (the true planar gap is 4.501 mm), buried 4.0 mm
     landing plate disk r 28.8430 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; r 27.000 gives 1.801 -> r 28.920 gives 3.066 -> r 28.843 gives 3.000 -> r 28.843 gives 3.001)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 3.001 mm at module-B (x 10.00, y 24.50)); nearest BODY is the ribbon, 4.501 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 1.501 mm off it; cable exit along +Y below the plate: nothing there
-    smallest flat ring: rotor 7.475 mm, stator 7.650 mm (need 2.0)
+    smallest flat ring: rotor 5.400 mm, stator 7.650 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 9.001 (asked 10.0; reduced to 9.001 by EXO-79: the tongue ends 37.001 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
       inside  concave edge   6.90 mm long at (s   24.50, w   26.00, z    4.55)
       inside  concave edge  52.00 mm long at (s   24.50, w   -0.00, z    8.00)
       inside  concave edge  13.15 mm long at (s   24.50, w   27.69, z    7.37)
       outside convex  edge  52.00 mm long at (s   32.50, w   -0.00, z    0.00)
-      inside : 3 edge(s) at r 1.125 - REDUCED from 3.000: Fusion refuses the larger radius on this geometry
+      inside : 3 edge(s) at r 1.266 - REDUCED from 3.000: Fusion refuses the larger radius on this geometry
       pad    : no such edge on this link
       outside: 1 edge(s) at r 9.001
-link_R45 -> g_link_R45: 3 features, 45 faces, volume 103503 mm3
+link_R45 -> g_link_R45: 3 features, 104 faces, volume 105952 mm3
     ribbon 44 x 8.0 mm, 6 path segments
     plan turn 53.12 deg, r 27.0, s 5.40 -> 27.00 (-18.00 mm of the pair's -18.00 mm lateral offset taken here)
     level change +27.500 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.896 mm of straight run at r 15.0)
@@ -303,15 +281,15 @@ link_R45 -> g_link_R45: 3 features, 45 faces, volume 103503 mm3
     landing y 31.50 (tongue to 35.50), cutout web 3.000 mm along the tongue (the true planar gap is 3.000 mm), buried 4.0 mm
     landing plate disk r 27.0000 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; it already had it)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 11.000 mm at module-B (x 10.00, y 24.50)); nearest BODY is the ribbon, 3.000 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 0.000 mm off it; cable exit along +Y below the plate: 0.000 mm to the fillet collar
-    smallest flat ring: rotor 7.400 mm, stator 6.150 mm (need 2.0)
+    smallest flat ring: rotor 5.400 mm, stator 6.150 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 7.500 (asked 10.0; reduced to 7.500 by EXO-79: the tongue ends 35.500 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
       outside convex  edge  44.00 mm long at (s  201.50, w  -18.00, z   35.50)
-      pad     concave edge   8.00 mm long at (s   -7.30, w  -26.00, z    4.00)
-      pad     concave edge   8.00 mm long at (s   26.70, w    4.01, z    4.00)
+      pad     concave edge   7.00 mm long at (s   -7.30, w  -26.00, z    3.50)
+      pad     concave edge   7.00 mm long at (s   26.70, w    4.01, z    3.50)
       inside : no such edge on this link
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 7.500
-link_R56 -> g_link_R56: 4 features, 43 faces, volume 40205 mm3
+link_R56 -> g_link_R56: 4 features, 102 faces, volume 42340 mm3
     ribbon 25 x 8.0 mm, 1 path segments
     no plan turn (lateral offset -0.000 mm)
     no side S: the landing is level with the pad plane
@@ -324,7 +302,7 @@ link_R56 -> g_link_R56: 4 features, 43 faces, volume 40205 mm3
     landing y 34.00 (tongue to 38.00), cutout web 5.500 mm along the tongue (the true planar gap is 5.500 mm), buried 4.0 mm
     landing plate disk r 27.0000 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; it already had it)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 3.940 mm at module-B (x 10.00, y 24.50)); nearest BODY is the ribbon, 5.500 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 2.500 mm off it; cable exit along +Y below the plate: nothing there
-    smallest flat ring: rotor 7.475 mm, stator 6.150 mm (need 2.0)
+    smallest flat ring: rotor 5.400 mm, stator 6.150 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 10.000
       inside  concave edge   1.75 mm long at (s   62.50, w   12.50, z    7.13)
       inside  concave edge  25.00 mm long at (s   62.50, w    0.00, z    8.00)
@@ -332,12 +310,12 @@ link_R56 -> g_link_R56: 4 features, 43 faces, volume 40205 mm3
       inside  concave edge  12.85 mm long at (s   62.50, w  -13.86, z   12.49)
       inside  concave edge  12.85 mm long at (s   62.50, w   13.86, z   12.49)
       outside convex  edge  25.00 mm long at (s   70.50, w    0.00, z    0.00)
-      pad     concave edge   8.00 mm long at (s   23.93, w   12.50, z    4.00)
-      pad     concave edge   8.00 mm long at (s   23.93, w  -12.50, z    4.00)
+      pad     concave edge   7.00 mm long at (s   23.93, w   12.50, z    3.50)
+      pad     concave edge   7.00 mm long at (s   23.93, w  -12.50, z    3.50)
       inside : 5 edge(s) at r 3.000
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 10.000
-link_R67 -> g_link_R67: 4 features, 47 faces, volume 34927 mm3
+link_R67 -> g_link_R67: 4 features, 116 faces, volume 37135 mm3
     ribbon 25 x 8.0 mm, 1 path segments
     no plan turn (lateral offset 0.000 mm)
     no side S: the landing is level with the pad plane
@@ -350,7 +328,7 @@ link_R67 -> g_link_R67: 4 features, 47 faces, volume 34927 mm3
     landing y 34.00 (tongue to 38.00), cutout web 5.500 mm along the tongue (the true planar gap is 5.500 mm), buried 4.0 mm
     landing plate disk r 27.0000 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; it already had it)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 3.940 mm at module-B (x 10.00, y 24.50)); nearest BODY is the ribbon, 5.500 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 2.500 mm off it; cable exit along +Y below the plate: nothing there
-    smallest flat ring: rotor 7.400 mm, stator 6.150 mm (need 2.0)
+    smallest flat ring: rotor 5.400 mm, stator 6.150 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 10.000
       inside  concave edge   1.75 mm long at (s   24.50, w   12.50, z    7.13)
       inside  concave edge  25.00 mm long at (s   24.50, w   -0.00, z    8.00)
@@ -358,55 +336,55 @@ link_R67 -> g_link_R67: 4 features, 47 faces, volume 34927 mm3
       inside  concave edge  12.85 mm long at (s   24.50, w  -13.86, z   12.49)
       inside  concave edge  12.85 mm long at (s   24.50, w   13.86, z   12.49)
       outside convex  edge  25.00 mm long at (s   32.50, w   -0.00, z    0.00)
-      pad     concave edge   8.00 mm long at (s   23.93, w   12.50, z    4.00)
-      pad     concave edge   8.00 mm long at (s   23.93, w  -12.50, z    4.00)
-      inside : 5 edge(s) at r 0.051 - REDUCED from 3.000: Fusion refuses the larger radius on this geometry
+      pad     concave edge   7.00 mm long at (s   23.93, w   12.50, z    3.50)
+      pad     concave edge   7.00 mm long at (s   23.93, w  -12.50, z    3.50)
+      inside : 7 edge(s) at r 0.738 - REDUCED from 3.000: Fusion refuses the larger radius on this geometry
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 10.000
 
 EXO-201: the XL330 is an exclusion volume and the module CARRIES it - the proxy body EXO-187 built beside every module is gone (it only duplicated the real one and z-fought with it in the viewport). The real actuator bodies below take part in the interference check; measured, `XL330 v2/Body1` is x -10.0..10.0, y -9.5..24.5 from its back z -36.5 on up (past the stator underside -24.5, where it is inside the stator's own solid) - the proxy rectangle to 0.000 mm. Each landing plate's opening is that footprint grown by ACT_OPEN_MARGIN 0.0 (EXO-193: the hand-made opening, validated with the real actuator), cut through the whole volume (z -36.5..-24.5); every BODY of every link was checked against the volume grown by MIN_CLEARANCE 1.0 in pure Python before the build and would have been refused by name; the EXO-183 collar is a blend tangent to the plate, so its bar is the XL330's own box (EXO-193).
-  R1  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  R1  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R1  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R1  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  R1  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  R1  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  R2  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  R2  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R2  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R2  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  R2  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  R2  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  R3  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  R3  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R3  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R3  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  R3  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  R3  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  R4  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  R4  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R4  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R4  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  R4  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  R4  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  R5  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  R5  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R5  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R5  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  R5  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  R5  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  R6  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  R6  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R6  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R6  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  R6  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  R6  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  R7  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  R7  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R7  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  R7  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  R7  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  R7  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  R1  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  R1  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R1  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R1  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  R1  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  R1  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  R2  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  R2  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R2  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R2  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  R2  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  R2  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  R3  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  R3  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R3  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R3  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  R3  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  R3  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  R4  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  R4  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R4  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R4  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  R4  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  R4  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  R5  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  R5  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R5  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R5  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  R5  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  R5  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  R6  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  R6  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R6  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R6  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  R6  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  R6  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  R7  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  R7  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R7  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  R7  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  R7  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  R7  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
   g_link_R23 opening takes 5440 mm3 off the plate (inside the plate outline); nearest BODY: the ribbon, 5.001 mm from the XL330 (need 1.0); EXO-183 collar 2.001 mm off it; worst clearance to each part's own bar +2.001 (the fillet collar); cable exit along +Y below the plate: 2.001 mm to the fillet collar
   g_link_R34 opening takes 5440 mm3 off the plate (inside the plate outline); nearest BODY: the ribbon, 4.501 mm from the XL330 (need 1.0); EXO-183 collar 1.501 mm off it; worst clearance to each part's own bar +1.501 (the fillet collar); cable exit along +Y below the plate: nothing there
   g_link_R45 opening takes 5440 mm3 off the plate (inside the plate outline); nearest BODY: the ribbon, 3.000 mm from the XL330 (need 1.0); EXO-183 collar 0.000 mm off it; worst clearance to each part's own bar +0.000 (the fillet collar); cable exit along +Y below the plate: 0.000 mm to the fillet collar
@@ -424,50 +402,58 @@ Module axis vs the URDF joint. With EXO-170 the origin is no longer ON the joint
 
 EXO-151 guards, measured on the filleted solids:
   g_link_R23
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / key pegs, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 7.396 mm, smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 6.145 mm, need 2.00 -> OK
       worst opening: s 202.499 at (s 198.50, w -0.00, z -48.75), bound 7.745 mm from the axis
   g_link_R34
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / key pegs, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 7.475 mm, smallest landing-plate ring 7.650 mm, need 2.00 -> OK
-      worst opening: z 0.000 at (s 0.00, w -11.00, z 4.00), bound 9.075 mm from the axis
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 7.650 mm, need 2.00 -> OK
+      worst opening: s 24.500 at (s 28.50, w 37.25, z 37.00), bound 9.250 mm from the axis
   g_link_R45
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / key pegs, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 7.395 mm, smallest landing-plate ring 6.147 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 6.147 mm, need 2.00 -> OK
       worst opening: s 201.500 at (s 197.50, w 1.25, z -0.00), bound 7.747 mm from the axis
   g_link_R56
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / key pegs, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 7.475 mm, smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 6.145 mm, need 2.00 -> OK
       worst opening: s 62.500 at (s 66.50, w -0.00, z 57.25), bound 7.745 mm from the axis
   g_link_R67
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -3.600 mm (the link stop block / key pegs, 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 14 openings measured on the filleted body; smallest rotor-pad ring 7.395 mm, smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 6.145 mm, need 2.00 -> OK
       worst opening: s 24.500 at (s 28.50, w 0.00, z 57.25), bound 7.745 mm from the axis
 
-Interference: 327 bodies (incl. 42 real XL330 bodies), 87 hit(s): 1 FAIL, 16 sliver(s), 70 module-internal - HOW: one run over all 327 bodies
-    hits involving an XL330: 28 - module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3
-    FAIL g_link_R45/g_link_R45 <-> M3x20 bolt x4 (1)/M3x20 bolt 2 volume=2.1 mm3 bbox=x[10.72,13.75] y[362.00,362.66] z[-0.00,2.75]
-    sliver g_link_R23/g_link_R23 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R23/g_link_R23 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R23/g_link_R23 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R34/g_link_R34 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R34/g_link_R34 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R34/g_link_R34 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R45/g_link_R45 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R45/g_link_R45 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R45/g_link_R45 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R56/g_link_R56 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R56/g_link_R56 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R56/g_link_R56 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R67/g_link_R67 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R67/g_link_R67 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_R67/g_link_R67 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver M3x20 bolt x4 (1)/M3x20 bolt 2 <-> stator/Body1 volume=0.00 mm3 depth=0.000 mm
+Interference: 320 bodies (incl. 42 real XL330 bodies), 81 hit(s): 0 FAIL, 15 sliver(s), 56 module-internal, 10 race clamp (EXO-373) - HOW: one run over all 320 bodies; race clamp per link (own rotor bearing, max 300 mm3): g_link_R23 250.117, g_link_R34 250.117, g_link_R45 250.117, g_link_R56 250.117, g_link_R67 250.117
+    race clamp g_link_R23/g_link_R23 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[-16.18,16.18] y[583.82,616.18] z[-25.50,-21.50]
+    race clamp g_link_R23/g_link_R23 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[-18.00,18.00] y[582.00,618.00] z[-25.38,-24.50]
+    race clamp g_link_R34/g_link_R34 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[-16.18,16.18] y[377.00,381.00] z[-16.18,16.18]
+    race clamp g_link_R34/g_link_R34 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[-18.00,18.00] y[377.12,378.00] z[-18.00,18.00]
+    race clamp g_link_R45/g_link_R45 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[1.82,34.18] y[319.82,352.18] z[-8.00,-4.00]
+    race clamp g_link_R45/g_link_R45 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[-0.00,36.00] y[318.00,354.00] z[-5.00,-4.12]
+    race clamp g_link_R56/g_link_R56 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[-16.18,16.18] y[114.00,118.00] z[-16.18,16.18]
+    race clamp g_link_R56/g_link_R56 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[-18.00,18.00] y[114.12,115.00] z[-18.00,18.00]
+    race clamp g_link_R67/g_link_R67 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[-16.18,16.18] y[55.82,88.18] z[42.00,46.00]
+    race clamp g_link_R67/g_link_R67 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[-18.00,18.00] y[54.00,90.00] z[42.12,43.00]
+    hits involving an XL330: 28 - module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3
+    sliver g_link_R23/g_link_R23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R23/g_link_R23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R23/g_link_R23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R34/g_link_R34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R34/g_link_R34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R34/g_link_R34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R45/g_link_R45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R45/g_link_R45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R45/g_link_R45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R56/g_link_R56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R56/g_link_R56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R56/g_link_R56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R67/g_link_R67 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R67/g_link_R67 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_R67/g_link_R67 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
 
   g_link_R23: no link_R23 in this document to compare against
   g_link_R34: no link_R34 in this document to compare against
