@@ -44,22 +44,22 @@ Module rotation about its own axis, FIXED BY THE LINK (EXO-150): +Y - the encode
   J1     +0.000 deg - nobody's stator end: the measured pose is kept (EXO-150)
   J2   +343.997 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both lean - z_A
       encoder +Y is 0.00e+00 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.0000 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.500 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 12.356 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.500 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   J3   +179.989 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is above module B's axis (z 4.00 vs 0.00), so the tongue and the encoder both lean + z_A
       encoder +Y is 0.00e+00 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.0000 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 3.000 mm (need 3.0); opening reach 24.500 mm; landing y 31.500, drop +27.500 mm; nearest non-plate BODY 3.000 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar -0.000 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 12.356 mm, smallest stator ring 6.150 mm (need 2.00); opening web 3.000 mm (need 3.0); opening reach 24.500 mm; landing y 31.500, drop +27.500 mm; nearest non-plate BODY 3.000 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar -0.000 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   J4   +269.997 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 80.52), so the tongue and the encoder both lean - z_A
       encoder +Y is 0.00e+00 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.4238 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.574 mm (need 2.00); opening web 48.018 mm (need 3.0); opening reach 24.500 mm; landing y 76.518, drop +0.000 mm; nearest non-plate BODY 48.018 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 45.018 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 12.356 mm, smallest stator ring 6.574 mm (need 2.00); opening web 48.018 mm (need 3.0); opening reach 24.500 mm; landing y 76.518, drop +0.000 mm; nearest non-plate BODY 48.018 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 45.018 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   J5   +179.997 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is above module B's axis (z 4.00 vs 1.89), so the tongue and the encoder both lean + z_A
       encoder +Y is 8.54e-07 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.0000 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 3.000 mm (need 3.0); opening reach 24.500 mm; landing y 31.500, drop +29.388 mm; nearest non-plate BODY 3.000 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar -0.000 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 12.356 mm, smallest stator ring 6.150 mm (need 2.00); opening web 3.000 mm (need 3.0); opening reach 24.500 mm; landing y 31.500, drop +29.388 mm; nearest non-plate BODY 3.000 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar -0.000 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   J6     +0.000 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 0.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 38.00), so the tongue and the encoder both lean - z_A
       encoder +Y is 0.00e+00 deg off the AXIS-ALIGNED direction it was snapped to (+0.0 deg, EXO-186), the tongue the route solved is +0.000 deg off the pad axis and the one it draws there is +0.000; landing plate disk r 27.0000 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.500 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 12.356 mm, smallest stator ring 6.150 mm (need 2.00); opening web 5.500 mm (need 3.0); opening reach 24.500 mm; landing y 34.000, drop +0.000 mm; nearest non-plate BODY 5.500 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 2.500 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
   J7   +270.000 deg - EXO-150/176: +Y (the encoder side) runs ALONG THE TONGUE, 90.000 deg off the rotor pad axis - the rotor pad plane is below module B's axis (z 4.00 vs 29.91), so the tongue and the encoder both lean - z_A
       encoder +Y is 0.00e+00 deg off the AXIS-ALIGNED direction it was snapped to (+90.0 deg, EXO-186), the tongue the route solved is +54.378 deg off the pad axis and the one it draws there is +54.378; landing plate disk r 29.4629 (grown from r 27.0, EXO-186)
-      CHECK: smallest rotor ring 5.400 mm, smallest stator ring 7.650 mm (need 2.00); opening web 6.249 mm (need 3.0); opening reach 25.740 mm; landing y 44.480, drop +0.000 mm; nearest non-plate BODY 11.906 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 8.906 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
+      CHECK: smallest rotor ring 12.356 mm, smallest stator ring 7.650 mm (need 2.00); opening web 6.249 mm (need 3.0); opening reach 25.740 mm; landing y 44.480, drop +0.000 mm; nearest non-plate BODY 11.906 mm from the XL330 (the ribbon, need 1.0), EXO-183 collar 8.906 mm off it (a blend tangent to the plate, need 0.0 - EXO-193)
 
 Which LANDING primitive the pair gets (EXO-176) and where the level change is taken inside it (EXO-158). The landing plate is a flat disk, so its plane carries two free directions; `square` is EXO-144's, with the tongue pinned to the rotor pad axis, and `angled` aims the tongue FROM THE DISK CENTRE AT THE POINT WHERE THE RIBBON ENTERS THE PLANE, so the pair may spend its lateral offset inside the plate plane, where it costs no straight run. Both are sized in full, square then angled first, and the first feasible one is taken - so a pair the square landing can take keeps exactly the route it had.
   link_12  square landing, tongue +0.000 deg off the pad axis, 52.00 mm wide, reaching 38.00 mm from the plate axis
@@ -212,7 +212,7 @@ Module placed at every joint: sensor module 2 rotor (already in the document, pa
 
 Component: generated_R_arm_general
 
-link_12 -> g_link_12: 3 features, 96 faces, volume 42865 mm3
+link_12 -> g_link_12: 3 features, 122 faces, volume 44803 mm3
     ribbon 52 x 8.0 mm, 1 path segments
     no plan turn (lateral offset 13.831 mm)
     no side S: the landing is level with the pad plane
@@ -225,7 +225,7 @@ link_12 -> g_link_12: 3 features, 96 faces, volume 42865 mm3
     landing y 34.00 (tongue to 38.00), cutout web 5.500 mm along the tongue (the true planar gap is 5.500 mm), buried 4.0 mm
     landing plate disk r 27.0000 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; it already had it)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 3.747 mm at module-B (x 10.00, y 24.50)); nearest BODY is the rotor pad, 5.500 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 2.500 mm off it; cable exit along +Y below the plate: nothing there
-    smallest flat ring: rotor 5.400 mm, stator 6.150 mm (need 2.0)
+    smallest flat ring: rotor 12.356 mm, stator 6.150 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 10.000
       inside  concave edge   2.03 mm long at (s   24.50, w   26.00, z    6.99)
       inside  concave edge  52.00 mm long at (s   24.50, w   -0.00, z    8.00)
@@ -234,7 +234,7 @@ link_12 -> g_link_12: 3 features, 96 faces, volume 42865 mm3
       inside : 3 edge(s) at r 3.000
       pad    : no such edge on this link
       outside: 1 edge(s) at r 10.000
-link_23 -> g_link_23: 3 features, 108 faces, volume 47977 mm3
+link_23 -> g_link_23: 3 features, 128 faces, volume 50234 mm3
     ribbon 25 x 8.0 mm, 6 path segments
     plan turn 14.10 deg, r 17.5, s 22.74 -> 27.00 (-6.24 mm of the pair's -6.24 mm lateral offset taken here)
     level change +27.500 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.896 mm of straight run at r 15.0)
@@ -251,15 +251,15 @@ link_23 -> g_link_23: 3 features, 108 faces, volume 47977 mm3
     landing y 31.50 (tongue to 35.50), cutout web 3.000 mm along the tongue (the true planar gap is 3.000 mm), buried 4.0 mm
     landing plate disk r 27.0000 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; it already had it)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 3.940 mm at module-B (x -10.00, y 24.50)); nearest BODY is the ribbon, 3.000 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 0.000 mm off it; cable exit along +Y below the plate: 0.000 mm to the fillet collar
-    smallest flat ring: rotor 5.400 mm, stator 6.150 mm (need 2.0)
+    smallest flat ring: rotor 12.356 mm, stator 6.150 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 7.500 (asked 10.0; reduced to 7.500 by EXO-79: the tongue ends 35.500 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
       outside convex  edge  25.00 mm long at (s   78.70, w   -6.24, z   35.50)
-      pad     concave edge   7.00 mm long at (s   20.17, w  -17.95, z    3.50)
-      pad     concave edge   7.00 mm long at (s   26.25, w    6.32, z    3.50)
+      pad     concave edge   8.00 mm long at (s   20.17, w  -17.95, z    4.00)
+      pad     concave edge   8.00 mm long at (s   26.25, w    6.32, z    4.00)
       inside : no such edge on this link
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 7.500
-link_34 -> g_link_34: 3 features, 96 faces, volume 61769 mm3
+link_34 -> g_link_34: 3 features, 122 faces, volume 63708 mm3
     ribbon 52 x 8.0 mm, 1 path segments
     no plan turn (lateral offset 15.783 mm)
     no side S: the landing is level with the pad plane
@@ -272,7 +272,7 @@ link_34 -> g_link_34: 3 features, 96 faces, volume 61769 mm3
     landing y 76.52 (tongue to 80.52), cutout web 48.018 mm along the tongue (the true planar gap is 48.018 mm), buried 4.0 mm
     landing plate disk r 27.4238 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; r 27.000 gives 2.724 -> r 27.443 gives 3.013 -> r 27.424 gives 3.000 -> r 27.424 gives 3.001)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 3.001 mm at module-B (x 10.00, y 24.50)); nearest BODY is the rotor pad, 48.018 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 45.018 mm off it; cable exit along +Y below the plate: nothing there
-    smallest flat ring: rotor 5.400 mm, stator 6.574 mm (need 2.0)
+    smallest flat ring: rotor 12.356 mm, stator 6.574 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 10.000
       outside convex  edge  52.00 mm long at (s   32.50, w   -0.00, z   -0.00)
       inside  concave edge  14.01 mm long at (s   24.50, w   27.61, z   53.16)
@@ -280,7 +280,7 @@ link_34 -> g_link_34: 3 features, 96 faces, volume 61769 mm3
       inside : 2 edge(s) at r 3.000
       pad    : no such edge on this link
       outside: 1 edge(s) at r 10.000
-link_45 -> g_link_45: 3 features, 104 faces, volume 60603 mm3
+link_45 -> g_link_45: 3 features, 130 faces, volume 62548 mm3
     ribbon 44 x 8.0 mm, 6 path segments
     plan turn 25.61 deg, r 27.0, s 15.33 -> 27.00 (-10.00 mm of the pair's -10.00 mm lateral offset taken here)
     level change +29.388 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.994 mm of straight run at r 15.0)
@@ -297,15 +297,15 @@ link_45 -> g_link_45: 3 features, 104 faces, volume 60603 mm3
     landing y 31.50 (tongue to 35.50), cutout web 3.000 mm along the tongue (the true planar gap is 3.000 mm), buried 4.0 mm
     landing plate disk r 27.0000 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; it already had it)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 11.000 mm at module-B (x 10.00, y 24.50)); nearest BODY is the ribbon, 3.000 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 0.000 mm off it; cable exit along +Y below the plate: 0.000 mm to the fillet collar
-    smallest flat ring: rotor 5.400 mm, stator 6.150 mm (need 2.0)
+    smallest flat ring: rotor 12.356 mm, stator 6.150 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 7.500 (asked 10.0; reduced to 7.500 by EXO-79: the tongue ends 35.500 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
       outside convex  edge  44.00 mm long at (s   75.50, w  -10.00, z   37.39)
-      pad     concave edge   7.00 mm long at (s    4.61, w  -26.60, z    3.50)
-      pad     concave edge   7.00 mm long at (s   23.62, w   13.07, z    3.50)
+      pad     concave edge   8.00 mm long at (s    4.61, w  -26.60, z    4.00)
+      pad     concave edge   8.00 mm long at (s   23.62, w   13.07, z    4.00)
       inside : no such edge on this link
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 7.500
-link_56 -> g_link_56: 4 features, 102 faces, volume 41796 mm3
+link_56 -> g_link_56: 4 features, 125 faces, volume 44052 mm3
     ribbon 25 x 8.0 mm, 1 path segments
     no plan turn (lateral offset -0.000 mm)
     no side S: the landing is level with the pad plane
@@ -318,7 +318,7 @@ link_56 -> g_link_56: 4 features, 102 faces, volume 41796 mm3
     landing y 34.00 (tongue to 38.00), cutout web 5.500 mm along the tongue (the true planar gap is 5.500 mm), buried 4.0 mm
     landing plate disk r 27.0000 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; it already had it)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 3.940 mm at module-B (x -10.00, y 24.50)); nearest BODY is the ribbon, 5.500 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 2.500 mm off it; cable exit along +Y below the plate: nothing there
-    smallest flat ring: rotor 5.400 mm, stator 6.150 mm (need 2.0)
+    smallest flat ring: rotor 12.356 mm, stator 6.150 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 10.000
       inside  concave edge   1.75 mm long at (s   54.41, w   12.50, z    7.13)
       inside  concave edge  25.00 mm long at (s   54.41, w   -0.00, z    8.00)
@@ -326,13 +326,13 @@ link_56 -> g_link_56: 4 features, 102 faces, volume 41796 mm3
       inside  concave edge  12.85 mm long at (s   54.41, w  -13.86, z   12.49)
       inside  concave edge  12.85 mm long at (s   54.41, w   13.86, z   12.49)
       outside convex  edge  25.00 mm long at (s   62.41, w    0.00, z   -0.00)
-      pad     concave edge   7.00 mm long at (s   23.93, w   12.50, z    3.50)
-      pad     concave edge   7.00 mm long at (s   23.93, w  -12.50, z    3.50)
+      pad     concave edge   8.00 mm long at (s   23.93, w   12.50, z    4.00)
+      pad     concave edge   8.00 mm long at (s   23.93, w  -12.50, z    4.00)
       inside : 5 edge(s) at r 3.000
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 10.000
     g_link_67: the EXO-151 outer round at r 8.648 leaves a screw 0.408 mm of flat ring over 6 openings (need 2.00) - EXO-184: halving it to r 4.324 and building the link again
-link_67 -> g_link_67: 4 features, 111 faces, volume 41607 mm3
+link_67 -> g_link_67: 4 features, 129 faces, volume 43843 mm3
     ribbon 25 x 8.0 mm, 3 path segments
     plan turn 27.03 deg, r 17.5, s 15.55 -> 23.50 (-9.84 mm of the pair's -46.00 mm lateral offset taken here)
     no side S: the landing is level with the pad plane
@@ -345,7 +345,7 @@ link_67 -> g_link_67: 4 features, 111 faces, volume 41607 mm3
     landing y 44.48 (tongue to 56.97), cutout web 6.249 mm along the tongue (the true planar gap is 6.249 mm), buried 4.0 mm
     landing plate disk r 29.4629 (EXO-186: grown from r 27.0 until the opening has 3.0 mm of plate all round it wherever the snapped spin puts it; r 27.000 gives 0.538 -> r 30.941 gives 4.478 -> r 29.463 gives 3.000 -> r 29.463 gives 3.001)
     actuator (EXO-187/EXO-193): the opening is the XL330 grown by 0.0 mm - its own footprint - cut through the whole exclusion volume; it takes 5440 mm3 off the plate (all inside the plate outline, thinnest plate round it 3.001 mm at module-B (x 10.00, y 24.50)); nearest BODY is the ribbon, 11.906 mm from the XL330 (need 1.0), and the EXO-183 collar - a blend tangent to the plate - stands 8.906 mm off it; cable exit along +Y below the plate: nothing there
-    smallest flat ring: rotor 5.400 mm, stator 7.650 mm (need 2.0)
+    smallest flat ring: rotor 12.356 mm, stator 7.650 mm (need 2.0)
     rounding (EXO-151): inside r 3.000, outside r 8.648 (asked 10.0; reduced to 8.648 by EXO-79: the tongue ends 56.970 mm out and the plate's far face must stay flat to r 27.0 + 1.0)
       inside  concave edge  25.00 mm long at (s   24.50, w   -9.84, z    8.00)
       inside  concave edge   8.00 mm long at (s   24.50, w  -22.34, z    4.00)
@@ -353,8 +353,8 @@ link_67 -> g_link_67: 4 features, 111 faces, volume 41607 mm3
       inside  concave edge  12.37 mm long at (s   24.50, w  -15.30, z   22.71)
       outside convex  edge   8.00 mm long at (s   32.50, w    2.66, z    4.00)
       outside convex  edge  25.00 mm long at (s   32.50, w   -9.84, z   -0.00)
-      pad     concave edge   7.00 mm long at (s   26.87, w    2.66, z    3.50)
-      pad     concave edge   7.00 mm long at (s   16.36, w  -21.48, z    3.50)
+      pad     concave edge   8.00 mm long at (s   16.36, w  -21.48, z    4.00)
+      pad     concave edge   8.00 mm long at (s   26.87, w    2.66, z    4.00)
       inside : 4 edge(s) at r 3.000
       pad    : 2 edge(s) at r 3.000
       outside: 2 edge(s) at r 4.324
@@ -423,32 +423,32 @@ EXO-151 guards, measured on the filleted solids:
   g_link_12
     guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 6.146 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.146 mm, need 2.00 -> OK
       worst opening: s 32.500 at (s 28.50, w 33.08, z 38.00), bound 7.746 mm from the axis
   g_link_23
     guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.145 mm, need 2.00 -> OK
       worst opening: s 70.700 at (s 74.70, w -6.24, z -19.25), bound 7.745 mm from the axis
   g_link_34
     guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 70.518 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 6.569 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.569 mm, need 2.00 -> OK
       worst opening: s 32.500 at (s 28.50, w 35.03, z 80.52), bound 8.169 mm from the axis
   g_link_45
     guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 6.147 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.147 mm, need 2.00 -> OK
       worst opening: s 75.500 at (s 71.50, w 9.25, z 1.89), bound 7.747 mm from the axis
   g_link_56
     guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 6.145 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.145 mm, need 2.00 -> OK
       worst opening: s 54.406 at (s 58.41, w -0.00, z 57.25), bound 7.745 mm from the axis
   g_link_67
     guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is bounded by the O16 centre hole, held to the M3 head, EXO-375), smallest landing-plate ring 4.732 mm, need 2.00 -> OK
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 4.732 mm, need 2.00 -> OK
       worst opening: s 32.500 at (s 28.50, w -46.00, z 10.66), bound 6.332 mm from the axis
 
 Interference: 321 bodies (incl. 42 real XL330 bodies), 86 hit(s): 0 FAIL, 18 sliver(s), 56 module-internal, 12 race clamp (EXO-373) - HOW: one run over all 321 bodies; race clamp per link (own rotor bearing, max 300 mm3): g_link_12 250.117, g_link_23 250.117, g_link_34 250.117, g_link_45 250.117, g_link_56 250.117, g_link_67 250.117

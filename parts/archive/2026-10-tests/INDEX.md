@@ -57,3 +57,7 @@
 - `link_12_exo364.3mf`: link_12 with the 8 mm rotor pad and the three EXO-364 key pegs, mesh V 40406.203; replaced by `parts/link_12_p7.3mf` / `_p6` (EXO-375)
 - `link_23_exo364.3mf`: link_23 with the 8 mm rotor pad and the three EXO-364 key pegs, mesh V 45832.391; replaced by `parts/link_23_p7.3mf` / `_p6` (EXO-375)
 - `rotor_exo364.bambu.3mf`: the rotor plate (top rotor face down + bottom), EXO-364; archived with the top (a plate of one bottom is meaningless). Still the settings source of `tools/bambu_plate_exo343.py`
+- `link_12_p7.3mf`: EXO-375 fused link_12, rotor pad 7 (M3x20, heads on the pad face), O16 centre hole, label "p7"; mesh V 42859.827; replaced by the pad-8 counterbore links (EXO-383)
+- `link_23_p7.3mf`: EXO-375 fused link_23, rotor pad 7, O16, "p7"; mesh V 47968.263; replaced by EXO-383
+- `link_12_p6.3mf`: EXO-375 fused link_12, rotor pad 6 (M3x18 test), O16, "p6"; mesh V 41522.010; dropped by EXO-383
+- `link_23_p6.3mf`: EXO-375 fused link_23, rotor pad 6, O16, "p6"; mesh V 46311.994; dropped by EXO-383

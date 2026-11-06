@@ -194,26 +194,32 @@ STOP_ANGLE = 0.0            # deg, centre of the block, measured from module +X
 STOP_H = 3.6                # protrudes 3.6 below the pad face (stator top is at -4.0)
 # EXO-370: THE FUSED LINK. The separate rotor top is gone: every link's rotor pad IS the rotor
 # top (Esteban, 2026-11-05). In the module frame of the link's rotor joint (rotor face z 0):
-#   * the rotor pad is ROTOR_PAD_T thick, a PARAMETER (EXO-375: 7 by default with M3x20, tip
-#     -13.0 = the nut's bottom; 6 is the print-test variant with M3x18, tip -12.0). The stator
-#     pad and the ribbon stay PAD_T 8, so inside the fused top's r 18 the ribbon is cut down to
-#     the pad face (`TOP_DISK_R`: the HEAD FLAT) and the four M3 heads seat on z ROTOR_PAD_T;
-#     outside r 18 the ribbon keeps its 8. (EXO-374: a 12 mm pad fouled module J2 on link_12.)
+#   * the rotor pad is ROTOR_PAD_T thick, a PARAMETER, default 8 (EXO-383: the recorded arm;
+#     EXO-375's 7 / 6 are dropped, EXO-374's 12 fouled module J2). The four M3 heads sink into it
+#     through O6.2 COUNTERBORES (`ROTOR_CBORE_*`, ISO 4762 M3 head O5.5 x 3.0) from the outer face,
+#     depth a PARAMETER, default 1.0 (test variants 1.5 / 2.0). Screw tip = PAD_T - depth -
+#     length: M3x18 -12.0 / -12.5 / -13.0, M3x20 -13.0 / -13.5 / -14.0 at 1.0 / 1.5 / 2.0 (the
+#     servo top is -13.5; the nut is -10.6..-13.0). If the pad were thinner than the ribbon
+#     (PAD_T 8), `build_link` cuts the ribbon down to it inside r 18 (the EXO-375 head flat).
 #   * below it, the top as `BuildArm.module_rotor_final` made it: disk r 18 over z -5.001..0 (its
 #     underside is the race shoulder), journal O30.1 over z -8.0..-5.001 (3.0, the other 3.0 is
 #     the bottom's), eight O3.0 register pegs at r 12.2 (22.5 + k*45 deg) from the joint face
 #     z -8.0 down 1.2 to -9.2;
-#   * 4x O3.2 M3 at r 11 through pad + top (`ROTOR_PAD_BOLTS`);
-#   * a O16 CENTRE HOLE through pad + top (driver access to the four M2 horn-screw heads, which
-#     replaces the four O5 head columns); the bottom's r 7.8 boss rises to z -7.0 INSIDE it
-#     (0.2 radial), so there is no recess and the wall to the M3 holes is the hole's 1.4
-#     (EXO-373: an r 8.7 recess left 0.7);
+#   * 4x O3.2 M3 at r 11 through pad + top;
+#   * a O13.8 CENTRE HOLE through pad + top (EXO-384: O16 left the O6.2 counterbores -0.1 from
+#     it; O13.8 leaves 1.0). Driver access to the four M2 horn-screw heads (r 6, reaching r 7.63)
+#     through it is PARTIAL: the horn screws are driven before the link goes on.
+#   * an underside RECESS r 8.0 over z -8.0..-5.4 (EXO-384/385): the bottom's r 7.8 boss (to
+#     -7.0) and the M2 heads on it (to z -5.647, r 7.63) clear by 0.2 / 0.37 radial, 0.25 axial;
+#     wall to the M3 hole edge r 9.4: 1.4.
 #   * no EXO-364 key pegs / sockets, no index tab or notch: the link goes on the rotor in any of
 #     the four M3 positions 90 deg apart (8 pegs, 4 holes), so the zero pose is set at assembly.
 # The stop block (r >= STOP_R_IN 20) and ALIGN_MARK_* are unchanged.
-ROTOR_PAD_T_DEFAULT = 7.0        # EXO-375: the module default (the module's drawn bolts use it)
-ROTOR_PAD_T = ROTOR_PAD_T_DEFAULT  # what `build_link` draws; a variant build sets it (6.0)
-ROTOR_PAD_BOLTS = {7.0: 20.0, 6.0: 18.0}   # pad -> M3 length: tip -13.0 at 7, -12.0 at 6
+ROTOR_PAD_T_DEFAULT = 8.0        # EXO-383: the module default (the module's drawn bolts use it)
+ROTOR_PAD_T = ROTOR_PAD_T_DEFAULT  # what `build_link` draws; a variant build may set it
+ROTOR_CBORE_R = 3.1              # O6.2 M3 head counterbore (EXO-383)
+ROTOR_CBORE_D_DEFAULT = 1.0      # its depth: default 1.0, test variants 1.5 / 2.0
+ROTOR_CBORE_D = ROTOR_CBORE_D_DEFAULT
 TOP_DISK_R = 18.0                # fused top disk, z TOP_SHOULDER_Z..0
 TOP_SHOULDER_Z = -5.001          # race shoulder (disk underside); bottom flange -11.001: gap 6.0
 TOP_JOURNAL_R = 15.05            # O30.1 journal, z TOP_JOINT_Z..TOP_SHOULDER_Z (3.0)
@@ -221,10 +227,23 @@ TOP_JOINT_Z = -8.0               # joint face against the bottom
 TOP_PEG_AT = 12.2                # register pegs: circle, angles, O3.0 x 1.2
 TOP_PEG_ANGLES = tuple(22.5 + 45.0 * k for k in range(8))
 TOP_PEG_R, TOP_PEG_H = 1.5, 1.2
-TOP_CENTRE_R = 8.0               # O16 centre hole through pad + top
-ROTOR_BOLT_L_DEFAULT = ROTOR_PAD_BOLTS[ROTOR_PAD_T_DEFAULT]   # M3x20 on the default pad
-ROTOR_LABEL_H, ROTOR_LABEL_D = 3.0, 0.4   # "p7" / "p6" debossed on the pad's outer face
-ROTOR_LABEL_AT = (13.8, 45.0)             # (r, deg) of the label centre, module frame
+TOP_CENTRE_R = 6.9               # O13.8 centre hole through pad + top (EXO-384)
+TOP_RECESS_R = 8.0               # underside recess for the boss + the M2 heads (EXO-384/385)
+TOP_RECESS_Z = (-8.0, -5.4)
+ROTOR_BOLT_L_DEFAULT = 20.0      # M3x20: the module's drawn bolts, head on the default floor z 7.0
+ROTOR_LABEL_H, ROTOR_LABEL_D = 3.0, 0.4   # "c1.0" / "c1.5" / "c2.0" debossed on the pad's outer face
+ROTOR_LABEL_AT = (13.0, 45.0)             # (r, deg) of the label centre, module frame
+
+
+def rotor_head_seat_z(pad_t=None, depth=None):
+    """z of the M3 head seat (the counterbore floor), module frame."""
+    return (ROTOR_PAD_T if pad_t is None else pad_t) - (ROTOR_CBORE_D if depth is None else depth)
+
+
+def rotor_label_text():
+    """The test-variant label debossed on the pad (EXO-383: the counterbore depth)."""
+    return 'c%.1f' % ROTOR_CBORE_D
+
 TOP_Z_MIN = TOP_JOINT_Z - TOP_PEG_H   # -9.2: lowest point of the fused link
 
 

@@ -2377,13 +2377,27 @@ close('EXO-208: 15 deg is J1\'s own ceiling, to inside the measurement tolerance
 close('EXO-370: register pegs r 12.2, 8 at 22.5 + k*45, O3.0 x 1.2 below the joint face -8.0',
       [armgen.TOP_PEG_AT, len(armgen.TOP_PEG_ANGLES), armgen.TOP_PEG_ANGLES[0], 2 * armgen.TOP_PEG_R,
        armgen.TOP_JOINT_Z, armgen.TOP_Z_MIN], [12.2, 8, 22.5, 3.0, -8.0, -9.2], 1e-9)
-close('EXO-370: journal 3.0 (-8.0..-5.001), O30.1; disk r 18; O16 centre hole, 1.4 to an M3 hole',
-      [armgen.TOP_SHOULDER_Z - armgen.TOP_JOINT_Z, 2 * armgen.TOP_JOURNAL_R, armgen.TOP_DISK_R,
-       armgen.ROTOR_HOLE_RADIUS - armgen.HOLE_R - armgen.TOP_CENTRE_R], [2.999, 30.1, 18.0, 1.4], 1e-9)
-close('EXO-375: pad 7 default with M3x20 (tip -13.0), pad 6 with M3x18 (tip -12.0)',
-      [armgen.ROTOR_PAD_T_DEFAULT, armgen.ROTOR_PAD_T, armgen.ROTOR_BOLT_L_DEFAULT,
-       7.0 - armgen.ROTOR_PAD_BOLTS[7.0], 6.0 - armgen.ROTOR_PAD_BOLTS[6.0]],
-      [7.0, 7.0, 20.0, -13.0, -12.0], 1e-9)
+close('EXO-370: journal 3.0 (-8.0..-5.001), O30.1; disk r 18',
+      [armgen.TOP_SHOULDER_Z - armgen.TOP_JOINT_Z, 2 * armgen.TOP_JOURNAL_R, armgen.TOP_DISK_R],
+      [2.999, 30.1, 18.0], 1e-9)
+close('EXO-383/384: O6.2 counterbore 1.0 off the O13.8 hole; 11.9 / 12.9 to the r 26 / 27 pad edge',
+      [armgen.ROTOR_HOLE_RADIUS - armgen.ROTOR_CBORE_R - armgen.TOP_CENTRE_R,
+       26.0 - armgen.ROTOR_HOLE_RADIUS - armgen.ROTOR_CBORE_R,
+       27.0 - armgen.ROTOR_HOLE_RADIUS - armgen.ROTOR_CBORE_R], [1.0, 11.9, 12.9], 1e-9)
+close('EXO-384/385: recess r 8.0 to -5.4: 0.2 over the r 7.8 boss, 1.4 to the M3 hole edge',
+      [armgen.TOP_RECESS_R - 7.8, armgen.ROTOR_HOLE_RADIUS - armgen.HOLE_R - armgen.TOP_RECESS_R,
+       armgen.TOP_RECESS_Z[0], armgen.TOP_RECESS_Z[1]], [0.2, 1.4, -8.0, -5.4], 1e-9)
+close('EXO-383: pad 8, counterbore 1.0 default, M3x20 from the floor 7.0 -> tip -13.0; label c1.0',
+      [armgen.ROTOR_PAD_T_DEFAULT, armgen.ROTOR_PAD_T, armgen.ROTOR_CBORE_D_DEFAULT,
+       armgen.rotor_head_seat_z() - armgen.ROTOR_BOLT_L_DEFAULT, armgen.rotor_label_text() == 'c1.0'],
+      [8.0, 8.0, 1.0, -13.0, True], 1e-9)
+# EXO-383: the screw-tip table, tip = 8 - depth - length. (The issue's M3x18 column, -12.0 /
+# -12.5 / -13.0, is 1.0 too deep: the formula gives -11.0 / -11.5 / -12.0, i.e. 0.4 / 0.9 / 1.4
+# of thread past the nut's top face -10.6.)
+for _d, _t18, _t20 in ((1.0, -11.0, -13.0), (1.5, -11.5, -13.5), (2.0, -12.0, -14.0)):
+    close('EXO-383: tips at depth %.1f: M3x18 %.1f, M3x20 %.1f' % (_d, _t18, _t20),
+          [armgen.rotor_head_seat_z(8.0, _d) - 18.0, armgen.rotor_head_seat_z(8.0, _d) - 20.0],
+          [_t18, _t20], 1e-9)
 
 _L1 = armgen.limited_joint(_J1U, -1, 26.0)          # J1 as the arm actually builds it
 _L1P = armgen.limited_joint(_J1U, +1, 26.0)         # the same joint with the axis flipped

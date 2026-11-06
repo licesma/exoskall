@@ -340,7 +340,7 @@ def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
     # --- rotor pad disk: joins into the profile body ---
     sk = PlaneSketch(comp, 'rotor pad', FA.point([0, 0, g.ROTOR_PAD_T / 2]), ex, ey)
     sk.circle((0, 0), pad_r)
-    sk.extrude(1, g.ROTOR_PAD_T, JOIN, body)      # EXO-375: rotor pad parameter
+    sk.extrude(1, g.ROTOR_PAD_T, JOIN, body)      # EXO-375/383: rotor pad parameter
 
     # --- stator slab: the disk with its flange tongue and the tongue's blends, drawn in FS ---
     sk = PlaneSketch(comp, 'stator pad + flange', FS.point([0, 0, z_slab_mid]), sx, sy)
@@ -380,6 +380,10 @@ def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
                                   g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a)))
                                  for a in g.ROTOR_HOLE_ANGLES], g.HOLE_R, CUT)
     band('centre hole', z0, z1, [(0, 0)], g.TOP_CENTRE_R, CUT)
+    band('boss recess', z0, g.TOP_RECESS_Z[1], [(0, 0)], g.TOP_RECESS_R, CUT)
+    band('head counterbores', g.rotor_head_seat_z(), z1, [(g.ROTOR_HOLE_RADIUS * math.cos(math.radians(a)),
+                                                           g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a)))
+                                                          for a in g.ROTOR_HOLE_ANGLES], g.ROTOR_CBORE_R, CUT)
 
     # --- stator-side cuts: 3 insert holes + actuator cutout through the slab ---
     sk = PlaneSketch(comp, 'stator holes + cutout', FB.point([0, 0, z_slab_mid]), bx, by)
@@ -833,12 +837,12 @@ V3_BOLT_R = 1.5                # M3 shank, Ø3.0 - the thread's major diameter, 
 V3_BOLT_HEAD_R = 2.75          # ISO 4762 socket head cap screw M3: head Ø5.5
 V3_BOLT_HEAD_H = 3.0           # ... 3.0 high. The pad's flat ring (armgen.HOLE_FLAT_RING 2.0
                                # past a Ø3.2 hole edge = Ø7.2 of flat) already seats it.
-V3_BOLT_L = armgen.ROTOR_BOLT_L_DEFAULT  # EXO-375: M3x20, head seated on the FUSED link's
-                               # rotor pad outer face z = armgen.ROTOR_PAD_T_DEFAULT 7. Tip
-                               # lands at 7 - 20 = -13.0 = the nut's bottom face (2.4 of thread
-                               # in the nut) and 0.5 off the XL330 top face -13.5. (EXO-231..369:
-                               # M3x20 from the 8 mm pad, tip -12.0.) The module always draws the
-                               # DEFAULT pad's bolts, whatever pad a variant build draws.
+V3_BOLT_L = armgen.ROTOR_BOLT_L_DEFAULT  # EXO-383: M3x20, head seated on the floor of the
+                               # FUSED link's default O6.2 x 1.0 counterbore, z = 8 - 1.0 = 7.0
+                               # (`armgen.rotor_head_seat_z` at the defaults). Tip lands at
+                               # 7 - 20 = -13.0 = the nut's bottom face (2.4 of thread in the nut)
+                               # and 0.5 off the XL330 top face -13.5. The module always draws the
+                               # DEFAULT link's bolts, whatever counterbore a variant draws.
 
 # EXO-242: the three PRINTED parts of the module are renamed in every v3 copy - the
 # original `sensor module 2` keeps Fusion's `Component1..3`. The mapping and the two
@@ -1228,7 +1232,8 @@ def module_v3_fasteners(module_occ):
     """
     nut_occ = bolt_occ = None
     z_nut = (min(V3_NUT_STD_Z), max(V3_NUT_STD_Z))
-    z_bolt = (armgen.ROTOR_PAD_T_DEFAULT - V3_BOLT_L, armgen.ROTOR_PAD_T_DEFAULT + V3_BOLT_HEAD_H)
+    _seat = armgen.rotor_head_seat_z(armgen.ROTOR_PAD_T_DEFAULT, armgen.ROTOR_CBORE_D_DEFAULT)
+    z_bolt = (_seat - V3_BOLT_L, _seat + V3_BOLT_HEAD_H)
     for i in range(module_occ.childOccurrences.count):
         c = module_occ.childOccurrences.item(i)
         comp = c.component
@@ -1259,7 +1264,7 @@ def _std_fasteners_v3(comp, rep=None):
     The module as drawn carries 1.8 mm THIN nuts; those four occurrences are deleted first.
     Returns (nut_occ, bolt_occ, how)."""
     m3 = [_polar(V3_M3_R, a) for a in V3_M3_ANG]
-    z_seat = armgen.ROTOR_PAD_T_DEFAULT         # the fused link's rotor pad outer face (EXO-375)
+    z_seat = armgen.rotor_head_seat_z(armgen.ROTOR_PAD_T_DEFAULT, armgen.ROTOR_CBORE_D_DEFAULT)  # EXO-383: counterbore floor
     z_tip = z_seat - V3_BOLT_L
     z_top = z_seat + V3_BOLT_HEAD_H
 

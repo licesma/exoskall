@@ -4,7 +4,8 @@
     python3 -I tools/bambu_plate_exo343.py                      # link.bambu.3mf: 2x stator + link_12
     python3 -I tools/bambu_plate_exo343.py --plate joints4      # joints4.bambu.3mf (EXO-345)
     python3 -I tools/bambu_plate_exo343.py --plate all          # all.bambu.3mf (EXO-348): joints4 + link_12
-    python3 -I tools/bambu_plate_exo343.py --plate joints2      # joints2.bambu.3mf (EXO-369): link_12, link_23, 2x stator/top/bottom
+    python3 -I tools/bambu_plate_exo343.py --plate joints2a     # joints2a.bambu.3mf (EXO-383): c1.0 + c1.5 links, 2x stator, 2x bottom
+    python3 -I tools/bambu_plate_exo343.py --plate joints2b     # joints2b.bambu.3mf (EXO-383): the c2.0 links
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia   # stator_dia.bambu.3mf (EXO-355): O42.2..42.6 stators
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia_low  # stator_dia_low.bambu.3mf (EXO-358): O41.8..42.4
     python3 -I tools/bambu_plate_exo343.py --plate rotor        # rotor.bambu.3mf (EXO-338 layout, rebuilt EXO-364)
@@ -60,13 +61,13 @@ PNS = '{http://schemas.microsoft.com/3dmanufacturing/production/2015/06}path'
 LINK_LAYOUT = [
     ('stator_1', 'stator', None, (91.0, 160.25)),
     ('stator_2', 'stator', None, (91.0, 95.75)),
-    ('link_12', 'link_12_p7', ('bed', (-1, 0, 0)), (160.25, 128.0)),
+    ('link_12', 'link_12_c1.0', ('bed', (-1, 0, 0)), (160.25, 128.0)),
 ]
 # joints4 (EXO-345): rows of 60.2 / 54 / 36 / 35 with 10.5 gaps, centred on the bed (y 19.6..236.4).
 # Row 1: link_23 (105.7 x 60.2 after rotation), stator, top; row 2: 3 stators, top;
 # row 3: 2 tops, 2 bottoms; row 4: 2 bottoms. Row 1 starts at x 19.65 (P1S exclude zone 18x28).
 J4_LAYOUT = [
-    ('link_23', 'link_23_p7', ('bed', (1, 0, 0)), (72.5, 49.75)),
+    ('link_23', 'link_23_c1.0', ('bed', (1, 0, 0)), (72.5, 49.75)),
     ('stator_1', 'stator', None, (162.85, 49.75)),
     ('stator_2', 'stator', None, (40.25, 117.375)),
     ('stator_3', 'stator', None, (104.75, 117.375)),
@@ -79,8 +80,8 @@ J4_LAYOUT = [
 # all (EXO-348): one plate, 14 objects; footprints link_23 105.7 x 60.2, link_12 63.5 x 74.5,
 # stator 54, top 36, bottom 35; nominal gaps >= 11, layout x 9.88..246.12, y 11.75..244.26.
 ALL_LAYOUT = [
-    ('link_23', 'link_23_p7', ('bed', (1, 0, 0)), (71.73, 41.88)),
-    ('link_12', 'link_12_p7', ('bed', (-1, 0, 0)), (167.35, 49.01)),
+    ('link_23', 'link_23_c1.0', ('bed', (1, 0, 0)), (71.73, 41.88)),
+    ('link_12', 'link_12_c1.0', ('bed', (-1, 0, 0)), (167.35, 49.01)),
     ('stator_1', 'stator', None, (36.88, 110.0)),
     ('stator_2', 'stator', None, (101.88, 126.86)),   # EXO-375: +2.6, the fused link_12 is 79.7 deep
     ('stator_3', 'stator', None, (166.88, 126.86)),
@@ -90,21 +91,25 @@ ALL_LAYOUT = [
     ('bottom_3', 'bottom', None, (186.38, 215.25)),
     ('bottom_4', 'bottom', None, (92.38, 226.76)),
 ]
-# joints2 (EXO-369, rebuilt EXO-375): the fused links at pad 7 AND pad 6 (print test), 2 stators,
-# 2 bottoms; orientations as ALL_LAYOUT (link_12 on the J2 pad outer face, link_23 on the J3
-# flange end face). Footprints link_23 105.7 x 60.26, link_12 63.54 x 79.7 (fused top), stator 54,
-# bottom 35. Rows (gap 10.5): bottom + link_23_p7 + link_12_p7 (y 10.8..90.5), the same at p6
-# (y 101..180.7), 2 stators (y 191.2..245.2); across, gaps 12; bottoms first, clear of the P1S
-# exclude zone (x < 18, y < 28).
+# joints2a / joints2b (EXO-383; joints2 EXO-369/375): the six counterbore links (c1.0 / c1.5 /
+# c2.0, link_12 + link_23 each) + 2 stators + 2 bottoms do not fit one plate with gaps >= 10
+# (link_12 is 63.54 x 79.7: three link rows need 260 mm), so: joints2a = c1.0 + c1.5 links,
+# 2 stators, 2 bottoms (the EXO-375 layout: rows of bottom + link_23 + link_12 at y 10.8..90.5
+# and 101..180.7, 2 stators at y 191.2..245.2, gaps 10.5 / 12, clear of the P1S exclude zone);
+# joints2b = the two c2.0 links (link_23 + link_12, gap 12, centred). Orientations as ALL_LAYOUT.
 J2_LAYOUT = [
     ('bottom_1', 'bottom', None, (31.38, 50.65)),
-    ('link_23_p7', 'link_23_p7', ('bed', (1, 0, 0)), (113.73, 50.65)),
-    ('link_12_p7', 'link_12_p7', ('bed', (-1, 0, 0)), (210.35, 50.65)),
+    ('link_23_c1.0', 'link_23_c1.0', ('bed', (1, 0, 0)), (113.73, 50.65)),
+    ('link_12_c1.0', 'link_12_c1.0', ('bed', (-1, 0, 0)), (210.35, 50.65)),
     ('bottom_2', 'bottom', None, (31.38, 140.85)),
-    ('link_23_p6', 'link_23_p6', ('bed', (1, 0, 0)), (113.73, 140.85)),
-    ('link_12_p6', 'link_12_p6', ('bed', (-1, 0, 0)), (210.35, 140.85)),
+    ('link_23_c1.5', 'link_23_c1.5', ('bed', (1, 0, 0)), (113.73, 140.85)),
+    ('link_12_c1.5', 'link_12_c1.5', ('bed', (-1, 0, 0)), (210.35, 140.85)),
     ('stator_1', 'stator', None, (95.0, 218.2)),
     ('stator_2', 'stator', None, (161.0, 218.2)),
+]
+J2B_LAYOUT = [
+    ('link_23_c2.0', 'link_23_c2.0', ('bed', (1, 0, 0)), (90.23, 128.0)),
+    ('link_12_c2.0', 'link_12_c2.0', ('bed', (-1, 0, 0)), (186.85, 128.0)),
 ]
 # stator_dia (EXO-355): five stators 54 x 54, rows of 3 + 2 at 64.5 pitch (gap 10.5), centred on 128/128.
 SDIA_LAYOUT = [
@@ -143,7 +148,8 @@ PLATES = {
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
     'all': (os.path.join(PARTS, 'all.bambu.3mf'), 'all', ALL_LAYOUT),
-    'joints2': (os.path.join(PARTS, 'joints2.bambu.3mf'), 'joints2', J2_LAYOUT),
+    'joints2a': (os.path.join(PARTS, 'joints2a.bambu.3mf'), 'joints2a', J2_LAYOUT),
+    'joints2b': (os.path.join(PARTS, 'joints2b.bambu.3mf'), 'joints2b', J2B_LAYOUT),
     'stator_dia': (os.path.join(PARTS, 'stator_dia.bambu.3mf'), 'stator_dia', SDIA_LAYOUT),
     'rotor_head': (os.path.join(PARTS, 'rotor_head.bambu.3mf'), 'rotor_head', HEAD_LAYOUT),
     'stator_dia_low': (os.path.join(PARTS, 'stator_dia_low.bambu.3mf'), 'stator_dia_low', SDIA_LOW_LAYOUT),
@@ -156,10 +162,12 @@ SOURCE_V.update({'stator_d41.8': 25815.537, 'stator_d41.9': 25769.600, 'stator_d
                  'stator_d42.1': 25677.170})   # EXO-358
 SOURCE_V.update({'bottom_h0.5': 3831.022, 'bottom_h1.0': 3799.806})   # EXO-352
 # EXO-370/375: fused links (pad 7 default, pad 6 test) and the new bottom (boss r 7.8)
-SOURCE_V.update({'link_12_p7': 42859.827, 'link_23_p7': 47968.263, 'link_12_p6': 41522.010,
-                 'link_23_p6': 46311.994, 'bottom': 3377.371})
+SOURCE_V.update({'bottom': 3377.371})
+# EXO-383: pad 8 + O6.2 head counterbore 1.0 / 1.5 / 2.0 (the EXO-375 p7 / p6 links are archived)
+SOURCE_V.update({'link_12_c1.0': 44797.717, 'link_23_c1.0': 50224.587, 'link_12_c1.5': 44753.497,
+                 'link_23_c1.5': 50180.383, 'link_12_c2.0': 44708.888, 'link_23_c2.0': 50135.790})
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
-PLATE_MARGIN = {'joints2': 10.0}   # stricter per-plate margins (EXO-369)
+PLATE_MARGIN = {'joints2a': 10.0, 'joints2b': 10.0}   # stricter per-plate margins (EXO-369)
 HDR = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
        'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
        'xmlns:BambuStudio="http://schemas.bambulab.com/package/2021" '
