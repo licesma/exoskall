@@ -2374,9 +2374,19 @@ close('EXO-208: 15 deg is J1\'s own ceiling, to inside the measurement tolerance
       0.0, math.degrees(armgen.LINK_STOP_B_TOL))
 # EXO-370/375: the fused link. No key: the 8 register pegs (22.5 + k*45) and the 4 M3 holes
 # let the link go on in four positions; the zero pose is set at assembly.
-close('EXO-370: register pegs r 12.2, 8 at 22.5 + k*45, O3.0 x 1.2 below the joint face -8.0',
-      [armgen.TOP_PEG_AT, len(armgen.TOP_PEG_ANGLES), armgen.TOP_PEG_ANGLES[0], 2 * armgen.TOP_PEG_R,
-       armgen.TOP_JOINT_Z, armgen.TOP_Z_MIN], [12.2, 8, 22.5, 3.0, -8.0, -9.2], 1e-9)
+close('EXO-394: 8 register sockets O3.3 x 2.1 in the link (r 12.2, 22.5 + k*45) for O3.0 x 2.0 bottom pegs',
+      [armgen.TOP_PEG_AT, len(armgen.TOP_PEG_ANGLES), armgen.TOP_PEG_ANGLES[0], 2 * armgen.TOP_SOCKET_R,
+       armgen.TOP_SOCKET_D, 2 * armgen.BOTTOM_PEG_R, armgen.BOTTOM_PEG_H, armgen.TOP_Z_MIN],
+      [12.2, 8, 22.5, 3.3, 2.1, 3.0, 2.0, -8.0], 1e-9)
+close('EXO-394: socket walls: to the journal 1.2, to an M3 hole 1.4266, to the recess 2.55',
+      [armgen.TOP_JOURNAL_R - armgen.TOP_PEG_AT - armgen.TOP_SOCKET_R,
+       math.hypot(armgen.TOP_PEG_AT * math.cos(math.radians(22.5)) - 11.0,
+                  armgen.TOP_PEG_AT * math.sin(math.radians(22.5))) - armgen.TOP_SOCKET_R - armgen.HOLE_R,
+       armgen.TOP_PEG_AT - armgen.TOP_SOCKET_R - armgen.TOP_RECESS_R], [1.2, 1.4266, 2.55], 1e-4)
+close('EXO-394: shoulder flat r 15.05..16.2 at -5.001, 45 deg chamfer to r 18 at -3.201',
+      [armgen.TOP_SHOULDER_R - armgen.TOP_JOURNAL_R, armgen.TOP_CHAMFER_Z,
+       (armgen.TOP_CHAMFER_Z - armgen.TOP_SHOULDER_Z) / (armgen.TOP_DISK_R - armgen.TOP_SHOULDER_R)],
+      [1.15, -3.201, 1.0], 1e-9)
 close('EXO-370: journal 3.0 (-8.0..-5.001), O30.1; disk r 18',
       [armgen.TOP_SHOULDER_Z - armgen.TOP_JOINT_Z, 2 * armgen.TOP_JOURNAL_R, armgen.TOP_DISK_R],
       [2.999, 30.1, 18.0], 1e-9)
@@ -2387,10 +2397,10 @@ close('EXO-383/384: O6.2 counterbore 1.0 off the O13.8 hole; 11.9 / 12.9 to the 
 close('EXO-384/385: recess r 8.0 to -5.4: 0.2 over the r 7.8 boss, 1.4 to the M3 hole edge',
       [armgen.TOP_RECESS_R - 7.8, armgen.ROTOR_HOLE_RADIUS - armgen.HOLE_R - armgen.TOP_RECESS_R,
        armgen.TOP_RECESS_Z[0], armgen.TOP_RECESS_Z[1]], [0.2, 1.4, -8.0, -5.4], 1e-9)
-close('EXO-383: pad 8, counterbore 1.0 default, M3x20 from the floor 7.0 -> tip -13.0; label c1.0',
+close('EXO-394: pad 8, counterbore 2.0 default, M3x18 from the floor 6.0 -> tip -12.0; no label',
       [armgen.ROTOR_PAD_T_DEFAULT, armgen.ROTOR_PAD_T, armgen.ROTOR_CBORE_D_DEFAULT,
-       armgen.rotor_head_seat_z() - armgen.ROTOR_BOLT_L_DEFAULT, armgen.rotor_label_text() == 'c1.0'],
-      [8.0, 8.0, 1.0, -13.0, True], 1e-9)
+       armgen.rotor_head_seat_z() - armgen.ROTOR_BOLT_L_DEFAULT, armgen.ROTOR_LABEL_ON],
+      [8.0, 8.0, 2.0, -12.0, False], 1e-9)
 # EXO-383: the screw-tip table, tip = 8 - depth - length. (The issue's M3x18 column, -12.0 /
 # -12.5 / -13.0, is 1.0 too deep: the formula gives -11.0 / -11.5 / -12.0, i.e. 0.4 / 0.9 / 1.4
 # of thread past the nut's top face -10.6.)

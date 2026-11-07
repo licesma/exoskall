@@ -199,20 +199,24 @@ Deleted previous: generated_R_arm_general
   lower: wall band, hole to bore         r  8.800    0.0 deg z -10.550  want solid got solid OK
   lower: solid between pockets           r 11.000   45.0 deg z -12.000  want solid got solid OK
   lower: nut pocket corner pulled in (5.6 AF) r 11.531   17.5 deg z -12.000  want solid got solid OK
-  lower: socket open under the face      r 12.200   22.5 deg z  -8.100  want void  got void  OK
-  lower: socket open at the bottom       r 12.200  112.5 deg z  -9.250  want void  got void  OK
-  lower: socket floor solid              r 12.200  112.5 deg z  -9.400  want solid got solid OK
+  lower: peg solid just above the joint face r 12.200   22.5 deg z  -7.900  want solid got solid OK
+  lower: peg solid near its tip          r 12.200  112.5 deg z  -6.050  want solid got solid OK
+  lower: nothing above the peg tip       r 12.200  112.5 deg z  -5.950  want void  got void  OK
+  lower: peg edge inside r 1.5           r 13.650   22.5 deg z  -7.000  want solid got solid OK
+  lower: air beside a peg                r 13.800   22.5 deg z  -7.000  want void  got void  OK
+  lower: old socket filled under the face r 12.200  112.5 deg z  -8.600  want solid got solid OK
   lower: old v3 socket filled            r 12.200   67.5 deg z -10.000  want solid got solid OK
-  lower: solid between two sockets       r 12.200   45.0 deg z  -8.600  want solid got solid OK
+  lower: solid between two pegs (under the face) r 12.200   45.0 deg z  -8.600  want solid got solid OK
+  lower: air between two pegs (over the face) r 12.200   45.0 deg z  -7.000  want void  got void  OK
   lower: journal solid inside r 15.05    r 15.030  202.5 deg z  -9.000  want solid got solid OK
   lower: air outside r 15.05             r 15.070  202.5 deg z  -9.000  want void  got void  OK
   lower: flange top solid below -11.001  r 16.500    0.0 deg z -11.020  want solid got solid OK
   lower: air above the flange            r 16.500    0.0 deg z -10.980  want void  got void  OK
-Module placed at every joint: sensor module 2 rotor (already in the document, parts named stator / inner_top / inner_bottom, stop block measured 160.50223..175.50227 deg (arc 15.00005) and all 31 rotor probes read back)
+Module placed at every joint: sensor module 2 rotor (already in the document, parts named stator / inner_top / inner_bottom, stop block measured 160.50223..175.50227 deg (arc 15.00005) and all 35 rotor probes read back)
 
 Component: generated_R_arm_general
 
-link_12 -> g_link_12: 3 features, 122 faces, volume 44803 mm3
+link_12 -> g_link_12: 3 features, 66 faces, volume 44328 mm3
     ribbon 52 x 8.0 mm, 1 path segments
     no plan turn (lateral offset 13.831 mm)
     no side S: the landing is level with the pad plane
@@ -234,7 +238,7 @@ link_12 -> g_link_12: 3 features, 122 faces, volume 44803 mm3
       inside : 3 edge(s) at r 3.000
       pad    : no such edge on this link
       outside: 1 edge(s) at r 10.000
-link_23 -> g_link_23: 3 features, 128 faces, volume 50234 mm3
+link_23 -> g_link_23: 3 features, 72 faces, volume 49759 mm3
     ribbon 25 x 8.0 mm, 6 path segments
     plan turn 14.10 deg, r 17.5, s 22.74 -> 27.00 (-6.24 mm of the pair's -6.24 mm lateral offset taken here)
     level change +27.500 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.896 mm of straight run at r 15.0)
@@ -259,7 +263,7 @@ link_23 -> g_link_23: 3 features, 128 faces, volume 50234 mm3
       inside : no such edge on this link
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 7.500
-link_34 -> g_link_34: 3 features, 122 faces, volume 63708 mm3
+link_34 -> g_link_34: 3 features, 66 faces, volume 63233 mm3
     ribbon 52 x 8.0 mm, 1 path segments
     no plan turn (lateral offset 15.783 mm)
     no side S: the landing is level with the pad plane
@@ -280,7 +284,7 @@ link_34 -> g_link_34: 3 features, 122 faces, volume 63708 mm3
       inside : 2 edge(s) at r 3.000
       pad    : no such edge on this link
       outside: 1 edge(s) at r 10.000
-link_45 -> g_link_45: 3 features, 130 faces, volume 62548 mm3
+link_45 -> g_link_45: 3 features, 74 faces, volume 62073 mm3
     ribbon 44 x 8.0 mm, 6 path segments
     plan turn 25.61 deg, r 27.0, s 15.33 -> 27.00 (-10.00 mm of the pair's -10.00 mm lateral offset taken here)
     level change +29.388 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.994 mm of straight run at r 15.0)
@@ -305,7 +309,7 @@ link_45 -> g_link_45: 3 features, 130 faces, volume 62548 mm3
       inside : no such edge on this link
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 7.500
-link_56 -> g_link_56: 4 features, 125 faces, volume 44052 mm3
+link_56 -> g_link_56: 4 features, 69 faces, volume 43578 mm3
     ribbon 25 x 8.0 mm, 1 path segments
     no plan turn (lateral offset -0.000 mm)
     no side S: the landing is level with the pad plane
@@ -332,7 +336,7 @@ link_56 -> g_link_56: 4 features, 125 faces, volume 44052 mm3
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 10.000
     g_link_67: the EXO-151 outer round at r 8.648 leaves a screw 0.408 mm of flat ring over 6 openings (need 2.00) - EXO-184: halving it to r 4.324 and building the link again
-link_67 -> g_link_67: 4 features, 129 faces, volume 43843 mm3
+link_67 -> g_link_67: 4 features, 73 faces, volume 43368 mm3
     ribbon 25 x 8.0 mm, 3 path segments
     plan turn 27.03 deg, r 17.5, s 15.55 -> 23.50 (-9.84 mm of the pair's -46.00 mm lateral offset taken here)
     no side S: the landing is level with the pad plane
@@ -361,48 +365,48 @@ link_67 -> g_link_67: 4 features, 129 faces, volume 43843 mm3
       EXO-184: the outer round was capped at r 4.324 and built on attempt 2; smallest ring 4.732 mm over 6 openings
 
 EXO-201: the XL330 is an exclusion volume and the module CARRIES it - the proxy body EXO-187 built beside every module is gone (it only duplicated the real one and z-fought with it in the viewport). The real actuator bodies below take part in the interference check; measured, `XL330 v2/Body1` is x -10.0..10.0, y -9.5..24.5 from its back z -36.5 on up (past the stator underside -24.5, where it is inside the stator's own solid) - the proxy rectangle to 0.000 mm. Each landing plate's opening is that footprint grown by ACT_OPEN_MARGIN 0.0 (EXO-193: the hand-made opening, validated with the real actuator), cut through the whole volume (z -36.5..-24.5); every BODY of every link was checked against the volume grown by MIN_CLEARANCE 1.0 in pure Python before the build and would have been refused by name; the EXO-183 collar is a blend tangent to the plate, so its bar is the XL330's own box (EXO-193).
-  J1  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  J1  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J1  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J1  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  J1  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  J1  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  J2  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  J2  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J2  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J2  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  J2  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  J2  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  J3  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  J3  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J3  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J3  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  J3  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  J3  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  J4  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  J4  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J4  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J4  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  J4  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  J4  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  J5  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  J5  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J5  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J5  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  J5  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  J5  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  J6  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  J6  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J6  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J6  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  J6  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  J6  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
-  J7  actuator body XL330 v2/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
-  J7  actuator body XL330 v2/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J7  actuator body XL330 v2/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
-  J7  actuator body XL330 v2/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
-  J7  actuator body XL330 v2/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
-  J7  actuator body XL330 v2/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  J1  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  J1  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J1  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J1  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  J1  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  J1  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  J2  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  J2  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J2  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J2  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  J2  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  J2  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  J3  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  J3  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J3  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J3  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  J3  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  J3  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  J4  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  J4  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J4  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J4  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  J4  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  J4  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  J5  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  J5  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J5  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J5  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  J5  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  J5  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  J6  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  J6  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J6  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J6  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  J6  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  J6  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
+  J7  actuator body XL330 v2 (1)/Body1 in the module frame x -10.000..10.000 y -9.500..24.500 z -36.500..-10.500, volume 15107.1 mm3
+  J7  actuator body XL330 v2 (1)/Body13 in the module frame x -9.250..-7.550 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J7  actuator body XL330 v2 (1)/Body14 in the module frame x 7.550..9.250 y -5.350..-3.650 z -35.500..-31.500, volume n/a
+  J7  actuator body XL330 v2 (1)/Body15 in the module frame x -5.750..-4.050 y 22.050..23.750 z -35.500..-31.500, volume n/a
+  J7  actuator body XL330 v2 (1)/Body16 in the module frame x 7.550..9.250 y 18.550..20.250 z -35.500..-31.500, volume n/a
+  J7  actuator body XL330 v2 (1)/Body17 in the module frame x -1.075..1.075 y -1.075..1.075 z -20.100..-12.100, volume n/a
   g_link_12 opening takes 5440 mm3 off the plate (inside the plate outline); nearest BODY: the rotor pad, 5.500 mm from the XL330 (need 1.0); EXO-183 collar 2.500 mm off it; worst clearance to each part's own bar +2.500 (the fillet collar); cable exit along +Y below the plate: nothing there
   g_link_23 opening takes 5440 mm3 off the plate (inside the plate outline); nearest BODY: the ribbon, 3.000 mm from the XL330 (need 1.0); EXO-183 collar 0.000 mm off it; worst clearance to each part's own bar +0.000 (the fillet collar); cable exit along +Y below the plate: 0.000 mm to the fillet collar
   g_link_34 opening takes 5440 mm3 off the plate (inside the plate outline); nearest BODY: the rotor pad, 48.018 mm from the XL330 (need 1.0); EXO-183 collar 45.018 mm off it; worst clearance to each part's own bar +45.018 (the fillet collar); cable exit along +Y below the plate: nothing there
@@ -421,68 +425,68 @@ Module axis vs the URDF joint. With EXO-170 the origin is no longer ON the joint
 
 EXO-151 guards, measured on the filleted solids:
   g_link_12
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -8.000 mm (EXO-370/394: the fused rotor top's joint face is z -8.0, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
     guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.146 mm, need 2.00 -> OK
       worst opening: s 32.500 at (s 28.50, w 33.08, z 38.00), bound 7.746 mm from the axis
   g_link_23
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -8.000 mm (EXO-370/394: the fused rotor top's joint face is z -8.0, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
     guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.145 mm, need 2.00 -> OK
       worst opening: s 70.700 at (s 74.70, w -6.24, z -19.25), bound 7.745 mm from the axis
   g_link_34
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -8.000 mm (EXO-370/394: the fused rotor top's joint face is z -8.0, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 70.518 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
     guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.569 mm, need 2.00 -> OK
       worst opening: s 32.500 at (s 28.50, w 35.03, z 80.52), bound 8.169 mm from the axis
   g_link_45
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -8.000 mm (EXO-370/394: the fused rotor top's joint face is z -8.0, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
     guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.147 mm, need 2.00 -> OK
       worst opening: s 75.500 at (s 71.50, w 9.25, z 1.89), bound 7.747 mm from the axis
   g_link_56
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -8.000 mm (EXO-370/394: the fused rotor top's joint face is z -8.0, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
     guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.145 mm, need 2.00 -> OK
       worst opening: s 54.406 at (s 58.41, w -0.00, z 57.25), bound 7.745 mm from the axis
   g_link_67
-    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -9.200 mm (EXO-370: the fused rotor top's register pegs reach z -9.2, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
+    guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -8.000 mm (EXO-370/394: the fused rotor top's joint face is z -8.0, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
     guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 4.732 mm, need 2.00 -> OK
       worst opening: s 32.500 at (s 28.50, w -46.00, z 10.66), bound 6.332 mm from the axis
 
-Interference: 321 bodies (incl. 42 real XL330 bodies), 86 hit(s): 0 FAIL, 18 sliver(s), 56 module-internal, 12 race clamp (EXO-373) - HOW: one run over all 321 bodies; race clamp per link (own rotor bearing, max 300 mm3): g_link_12 250.117, g_link_23 250.117, g_link_34 250.117, g_link_45 250.117, g_link_56 250.117, g_link_67 250.117
+Interference: 321 bodies (incl. 42 real XL330 bodies), 86 hit(s): 0 FAIL, 18 sliver(s), 56 module-internal, 12 race clamp (EXO-373) - HOW: one run over all 321 bodies; race clamp per link (own rotor bearing, max 300 mm3): g_link_12 127.822, g_link_23 127.822, g_link_34 127.822, g_link_45 127.822, g_link_56 127.822, g_link_67 127.822
     race clamp g_link_12/g_link_12 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[-16.18,16.18] y[-201.01,-188.59] z[-16.93,14.42]
-    race clamp g_link_12/g_link_12 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[-18.00,18.00] y[-201.43,-190.66] z[-18.68,16.17]
+    race clamp g_link_12/g_link_12 <-> 5972K159_Ball Bearing/Body11 volume=11.744 mm3 bbox=x[-17.08,17.08] y[-201.17,-191.16] z[-17.55,15.28]
     race clamp g_link_23/g_link_23 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[-8.00,-3.99] y[-256.95,-224.59] z[-19.00,13.36]
-    race clamp g_link_23/g_link_23 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[-5.00,-4.11] y[-258.77,-222.77] z[-20.82,15.18]
+    race clamp g_link_23/g_link_23 <-> 5972K159_Ball Bearing/Body11 volume=11.744 mm3 bbox=x[-5.00,-4.11] y[-257.85,-223.69] z[-19.90,14.26]
     race clamp g_link_34/g_link_34 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[-16.18,16.18] y[-263.20,-230.83] z[-102.02,-98.02]
-    race clamp g_link_34/g_link_34 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[-18.00,18.00] y[-265.02,-229.02] z[-101.90,-101.02]
+    race clamp g_link_34/g_link_34 <-> 5972K159_Ball Bearing/Body11 volume=11.744 mm3 bbox=x[-17.07,17.08] y[-264.09,-229.94] z[-101.90,-101.02]
     race clamp g_link_45/g_link_45 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[-0.40,31.96] y[-243.02,-239.02] z[-202.72,-170.36]
-    race clamp g_link_45/g_link_45 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[-2.22,33.78] y[-242.90,-242.01] z[-204.54,-168.54]
+    race clamp g_link_45/g_link_45 <-> 5972K159_Ball Bearing/Body11 volume=11.744 mm3 bbox=x[-1.30,32.86] y[-242.90,-242.01] z[-203.61,-169.46]
     race clamp g_link_56/g_link_56 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[107.78,111.78] y[-265.07,-232.71] z[-212.72,-180.36]
-    race clamp g_link_56/g_link_56 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[110.78,111.66] y[-266.89,-230.89] z[-214.54,-178.54]
+    race clamp g_link_56/g_link_56 <-> 5972K159_Ball Bearing/Body11 volume=11.744 mm3 bbox=x[110.78,111.66] y[-265.97,-231.81] z[-213.62,-179.47]
     race clamp g_link_67/g_link_67 <-> 5972K159_Ball Bearing/Body2 volume=116.079 mm3 bbox=x[137.61,169.97] y[-286.79,-282.78] z[-212.72,-180.36]
-    race clamp g_link_67/g_link_67 <-> 5972K159_Ball Bearing/Body11 volume=134.038 mm3 bbox=x[135.79,171.79] y[-283.79,-282.91] z[-214.54,-178.54]
-    hits involving an XL330: 28 - module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.73 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3; module-internal XL330 v2/Body1 <-> screw 1/Body1 3.74 mm3
-    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_12/g_link_12 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_23/g_link_23 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_34/g_link_34 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_45/g_link_45 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_56/g_link_56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_56/g_link_56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_56/g_link_56 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.011 mm
-    sliver g_link_67/g_link_67 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_67/g_link_67 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
-    sliver g_link_67/g_link_67 <-> m3_6mm_insert/Body1 volume=0.11 mm3 depth=0.010 mm
+    race clamp g_link_67/g_link_67 <-> 5972K159_Ball Bearing/Body11 volume=11.744 mm3 bbox=x[136.71,170.87] y[-283.79,-282.91] z[-213.62,-179.47]
+    hits involving an XL330: 28 - module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.73 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3; module-internal XL330 v2 (1)/Body1 <-> screw 1 (1)/Body1 3.74 mm3
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_12/g_link_12 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_23/g_link_23 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_34/g_link_34 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_45/g_link_45 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_56/g_link_56 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_56/g_link_56 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_56/g_link_56 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.011 mm
+    sliver g_link_67/g_link_67 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_67/g_link_67 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
+    sliver g_link_67/g_link_67 <-> m3_6mm_insert (1)/Body1 volume=0.11 mm3 depth=0.010 mm
 
   g_link_12: no link_12 in this document to compare against
   g_link_23: no link_23 in this document to compare against

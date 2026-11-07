@@ -713,9 +713,10 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
     body = _merge(comp, body, sk.extrude(1, stop_h + BuildArm.JOIN_OVERLAP, NEW), JOIN,
                   'stop block', name)
 
-    # EXO-370: the FUSED ROTOR TOP under the pad, in the module frame A (`armgen.TOP_*`): disk
-    # r 18 down to the race shoulder -5.001, journal O30.1 down to the joint face -8.0, eight
-    # O3.0 register pegs at r 12.2 down to -9.2. Each tool overlaps the solid above it (no
+    # EXO-370/394: the FUSED ROTOR TOP under the pad, in the module frame A (`armgen.TOP_*`):
+    # disk r 18 whose underside is the flat race shoulder -5.001 on r 15.05..16.2 and a 45 deg
+    # chamfer up to the rim (r 18, -3.201) - one REVOLVED profile - and the journal O30.1 down to
+    # the joint face -8.0; the register sockets are cut below. Each tool overlaps the solid above it (no
     # coincident join face). The EXO-364 key pegs and the EXO-204 tab are gone: nothing keys
     # the link's angle on the rotor beyond the four M3 holes, so URDF q = 0 <-> the link as
     # drawn is set at assembly.
@@ -724,19 +725,28 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
                                    ex, ey)
         draw(sk_)
         return sk_.extrude(n, z_hi - z_lo, NEW)
-    body = _merge(comp, body, _band('top disk', g.TOP_SHOULDER_Z, BuildArm.JOIN_OVERLAP,
-                                    lambda k: k.circle((0, 0), g.TOP_DISK_R), 1),
-                  JOIN, 'fused top disk', name)
+    ez = FA.vector([0, 0, 1])
+    sk = BuildArm.PlaneSketch(comp, name + ' top disk profile', FA.point([0, 0, 0]), ex, ez)
+    r0, j1 = 6.0, BuildArm.JOIN_OVERLAP      # r 0..6 is inside the O13.8 centre hole anyway
+    pts = [(r0, j1), (g.TOP_DISK_R, j1), (g.TOP_DISK_R, g.TOP_CHAMFER_Z),
+           (g.TOP_SHOULDER_R, g.TOP_SHOULDER_Z), (r0, g.TOP_SHOULDER_Z)]
+    segs = []
+    for k in range(len(pts)):
+        g._line(segs, pts[k], pts[(k + 1) % len(pts)])
+    sk.loop(segs)
+    axis = sk.sketch.sketchCurves.sketchLines.addByTwoPoints(sk.pt(0.0, -6.0), sk.pt(0.0, 2.0))
+    axis.isConstruction = True
+    if sk.sketch.profiles.count != 1:
+        raise RuntimeError('%s: top disk profile has %d profiles' % (name, sk.sketch.profiles.count))
+    rin = comp.features.revolveFeatures.createInput(sk.sketch.profiles.item(0), axis, NEW)
+    rin.setAngleExtent(False, adsk.core.ValueInput.createByString('360 deg'))
+    rf = comp.features.revolveFeatures.add(rin)
+    sk.sketch.isVisible = False
+    sk.cplane.isLightBulbOn = False
+    body = _merge(comp, body, rf, JOIN, 'fused top disk (shoulder + 45 deg chamfer)', name)
     body = _merge(comp, body, _band('top journal', g.TOP_JOINT_Z, g.TOP_SHOULDER_Z + 0.5,
                                     lambda k: k.circle((0, 0), g.TOP_JOURNAL_R), 1),
                   JOIN, 'fused top journal', name)
-
-    def _pegs(k):
-        for c in g.top_peg_centres():
-            k.circle(c, g.TOP_PEG_R)
-    body = _merge(comp, body, _band('top register pegs', g.TOP_Z_MIN, g.TOP_JOINT_Z + 0.2,
-                                    _pegs, len(g.TOP_PEG_ANGLES)),
-                  JOIN, 'fused top register pegs', name)
 
     sk = BuildArm.PlaneSketch(comp, name + ' landing plate',
                               FS.point([0, 0, z_slab_mid]), sx, sy)
@@ -779,7 +789,14 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
                       g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a))), g.ROTOR_CBORE_R)
     body = _merge(comp, body, _band('head counterbores', g.rotor_head_seat_z(), z_hi_t, _cbores,
                                     len(g.ROTOR_HOLE_ANGLES)), CUT, 'head counterbores', name)
-    body = _rotor_label(comp, body, FA, ex, ey, name)
+    # EXO-394: eight O3.3 x 2.1 register sockets from the joint face up, for the bottom's pegs
+    def _sockets(k):
+        for c in g.top_peg_centres():
+            k.circle(c, g.TOP_SOCKET_R)
+    body = _merge(comp, body, _band('register sockets', z_lo_t, g.TOP_JOINT_Z + g.TOP_SOCKET_D,
+                                    _sockets, len(g.TOP_PEG_ANGLES)), CUT, 'register sockets', name)
+    if g.ROTOR_LABEL_ON:
+        body = _rotor_label(comp, body, FA, ex, ey, name)
 
     sk = BuildArm.PlaneSketch(comp, name + ' stator holes',
                               FB.point([0, 0, z_slab_mid]), bx, by)
@@ -1329,7 +1346,7 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
         start = route.get('y_round', route['y_end']) - rad['r_out']
         rep('  %s' % gname)
         rep('    guard 1 (EXO-77/84): lowest material inside r %.1f of the pad axis z %.3f mm '
-            '(EXO-370: the fused rotor top\'s register pegs reach z %.1f, inside module A; '
+            '(EXO-370/394: the fused rotor top\'s joint face is z %.1f, inside module A; '
             'the link stop block %.1f mm deep; no blend is below the pad plane '
             'by construction)' % (armgen.STATOR_PAD_R, zmin, armgen.TOP_Z_MIN, armgen.STOP_H))
         rep('    guard 2 (EXO-79): the outer round starts %.3f mm from the plate axis, '

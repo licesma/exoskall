@@ -61,3 +61,8 @@
 - `link_23_p7.3mf`: EXO-375 fused link_23, rotor pad 7, O16, "p7"; mesh V 47968.263; replaced by EXO-383
 - `link_12_p6.3mf`: EXO-375 fused link_12, rotor pad 6 (M3x18 test), O16, "p6"; mesh V 41522.010; dropped by EXO-383
 - `link_23_p6.3mf`: EXO-375 fused link_23, rotor pad 6, O16, "p6"; mesh V 46311.994; dropped by EXO-383
+- `link_12_c1.0.3mf`, `link_12_c1.5.3mf`, `link_12_c2.0.3mf`: EXO-383 fused link_12, pad 8, O6.2 M3 head counterbore 1.0 / 1.5 / 2.0, link pegs O3.0 x 1.2, flat disk underside, label "c1.x"; mesh V 44797.717 / 44753.497 / 44708.888; replaced by `parts/link_12.3mf` (EXO-394: counterbore 2.0, sockets, chamfer)
+- `link_23_c1.0.3mf`, `link_23_c1.5.3mf`, `link_23_c2.0.3mf`: EXO-383 fused link_23, same variants; mesh V 50224.587 / 50180.383 / 50135.790; replaced by `parts/link_23.3mf` (EXO-394)
+- `joints2a_exo383.bambu.3mf`, `joints2b_exo383.bambu.3mf`: the EXO-383 test plates (c1.0 + c1.5 links, 2 stators, 2 bottoms / the c2.0 links), were `parts/joints2a|b.bambu.3mf`
+- `links6_exo383.bambu.3mf`: the EXO-392 plate of the six counterbored links, was `parts/links6.bambu.3mf`
+- `bottom_exo383.3mf`: the EXO-370/383 bottom (boss r 7.8, sockets O3.3 floor -9.3, mesh V 3377.371); mates the c* links; replaced by the EXO-394 bottom with O3.0 x 2.0 pegs

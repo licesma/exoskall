@@ -371,8 +371,7 @@ def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
         k.extrude(len(centres), z_hi - z_lo, op, body)
     band('top disk', g.TOP_SHOULDER_Z, JOIN_OVERLAP, [(0, 0)], g.TOP_DISK_R, JOIN)
     band('top journal', g.TOP_JOINT_Z, g.TOP_SHOULDER_Z + 0.5, [(0, 0)], g.TOP_JOURNAL_R, JOIN)
-    band('top register pegs', g.TOP_Z_MIN, g.TOP_JOINT_Z + 0.2, g.top_peg_centres(),
-         g.TOP_PEG_R, JOIN)
+    # (legacy builder: the disk underside stays flat here; BuildArmGen revolves the EXO-394 chamfer)
 
     # --- rotor-side cuts: 4x M3 and the O16 centre hole through pad + top ---
     z0, z1 = g.TOP_JOINT_Z - eps, g.ROTOR_PAD_T + eps
@@ -381,6 +380,7 @@ def build_link_body(comp, FA, R_ab, t_ab, spec, routed):
                                  for a in g.ROTOR_HOLE_ANGLES], g.HOLE_R, CUT)
     band('centre hole', z0, z1, [(0, 0)], g.TOP_CENTRE_R, CUT)
     band('boss recess', z0, g.TOP_RECESS_Z[1], [(0, 0)], g.TOP_RECESS_R, CUT)
+    band('register sockets', z0, g.TOP_JOINT_Z + g.TOP_SOCKET_D, g.top_peg_centres(), g.TOP_SOCKET_R, CUT)
     band('head counterbores', g.rotor_head_seat_z(), z1, [(g.ROTOR_HOLE_RADIUS * math.cos(math.radians(a)),
                                                            g.ROTOR_HOLE_RADIUS * math.sin(math.radians(a)))
                                                           for a in g.ROTOR_HOLE_ANGLES], g.ROTOR_CBORE_R, CUT)
@@ -726,7 +726,7 @@ MODULE_V3_NAME = 'sensor module 2 rotor'
 MODULE_ROTOR_NAME = MODULE_V3_NAME
 MODULE_LEGACY_NAMES = ('sensor module 2 v3',)
 V3_NUT_COMP_NAME = 'M3 nut ISO 4032 x4'      # EXO-231, drawn: the four standard nuts
-V3_BOLT_COMP_NAME = 'M3x20 bolt x4'          # EXO-231, drawn: the four M3 bolts (EXO-375: M3x20 from the 7 mm pad)
+V3_BOLT_COMP_NAME = 'M3x%g bolt x4' % armgen.ROTOR_BOLT_L_DEFAULT   # EXO-231, drawn: the four M3 bolts (EXO-394: M3x18)
 
 V3_TOL = 0.02                  # mm, how close a measured face has to land on its number
 
@@ -837,12 +837,12 @@ V3_BOLT_R = 1.5                # M3 shank, Ø3.0 - the thread's major diameter, 
 V3_BOLT_HEAD_R = 2.75          # ISO 4762 socket head cap screw M3: head Ø5.5
 V3_BOLT_HEAD_H = 3.0           # ... 3.0 high. The pad's flat ring (armgen.HOLE_FLAT_RING 2.0
                                # past a Ø3.2 hole edge = Ø7.2 of flat) already seats it.
-V3_BOLT_L = armgen.ROTOR_BOLT_L_DEFAULT  # EXO-383: M3x20, head seated on the floor of the
-                               # FUSED link's default O6.2 x 1.0 counterbore, z = 8 - 1.0 = 7.0
+V3_BOLT_L = armgen.ROTOR_BOLT_L_DEFAULT  # EXO-394: M3x18, head seated on the floor of the
+                               # FUSED link's default O6.2 x 2.0 counterbore, z = 8 - 2.0 = 6.0
                                # (`armgen.rotor_head_seat_z` at the defaults). Tip lands at
-                               # 7 - 20 = -13.0 = the nut's bottom face (2.4 of thread in the nut)
-                               # and 0.5 off the XL330 top face -13.5. The module always draws the
-                               # DEFAULT link's bolts, whatever counterbore a variant draws.
+                               # 6 - 18 = -12.0: 1.4 of thread past the nut's top face -10.6, 1.5
+                               # off the XL330 top -13.5. (M3x20 would end at -14.0, in the servo.)
+                               # The module always draws the DEFAULT link's bolts.
 
 # EXO-242: the three PRINTED parts of the module are renamed in every v3 copy - the
 # original `sensor module 2` keeps Fusion's `Component1..3`. The mapping and the two
@@ -1507,7 +1507,8 @@ V3_STAGE_PROBES = [
 # EXO-333 / EXO-370: what `measure_rotor_v3` asks the FINAL module rotor. Since EXO-370 the
 # module holds the BOTTOM only (the upper part is fused into every link and deleted from the
 # copy - `measure_rotor_v3` also requires that no upper part is left): joint face -8.0,
-# central boss r 7.8 to -7.0, sockets floor -9.3, journal O30.1 -11.001..-8.0, 5.6 AF pockets.
+# central boss r 7.8 to -7.0, eight O3.0 x 2.0 pegs to -6.0 (EXO-394), journal O30.1
+# -11.001..-8.0, 5.6 AF pockets.
 # `ensure_v3_module` accepts a module only if every one reads back; `V3_STAGE_PROBES` above
 # check the intermediate v3 pair inside `build_v3_copy`, before `module_rotor_final` runs.
 V3_PROBES = [
@@ -1533,11 +1534,15 @@ V3_PROBES = [
     ('lower: wall band, hole to bore', 'lower', 8.8, 0.0, -10.55, True),
     ('lower: solid between pockets', 'lower', 11.0, 45.0, -12.0, True),
     ('lower: nut pocket corner pulled in (5.6 AF)', 'lower', 11.5313, 17.4607, -12.0, True),
-    ('lower: socket open under the face', 'lower', 12.2, 22.5, -8.1, False),
-    ('lower: socket open at the bottom', 'lower', 12.2, 112.5, -9.25, False),
-    ('lower: socket floor solid', 'lower', 12.2, 112.5, -9.4, True),
+    ('lower: peg solid just above the joint face', 'lower', 12.2, 22.5, -7.9, True),
+    ('lower: peg solid near its tip', 'lower', 12.2, 112.5, -6.05, True),
+    ('lower: nothing above the peg tip', 'lower', 12.2, 112.5, -5.95, False),
+    ('lower: peg edge inside r 1.5', 'lower', 13.65, 22.5, -7.0, True),
+    ('lower: air beside a peg', 'lower', 13.8, 22.5, -7.0, False),
+    ('lower: old socket filled under the face', 'lower', 12.2, 112.5, -8.6, True),
     ('lower: old v3 socket filled', 'lower', 12.2, 67.5, -10.0, True),
-    ('lower: solid between two sockets', 'lower', 12.2, 45.0, -8.6, True),
+    ('lower: solid between two pegs (under the face)', 'lower', 12.2, 45.0, -8.6, True),
+    ('lower: air between two pegs (over the face)', 'lower', 12.2, 45.0, -7.0, False),
     ('lower: journal solid inside r 15.05', 'lower', 15.03, 202.5, -9.0, True),
     ('lower: air outside r 15.05', 'lower', 15.07, 202.5, -9.0, False),
     ('lower: flange top solid below -11.001', 'lower', 16.5, 0.0, -11.02, True),
@@ -1768,7 +1773,8 @@ def build_v3_copy(design, name, rep=None):
 #   * JOINT FACE z -8.0 (was -7.0): journal O30.1 (r 15.05) over -11.001..-8.0 = 3.0 of the
 #     race, the fused link carries the other 3.0 (-8.0..-5.001). Flange shoulder -11.001 and
 #     the link's shoulder -5.001: race gap 6.0 on the 7.000 race (1.0 clamp).
-#   * eight O3.3 sockets at r 12.2 (22.5 + k*45), floor -9.3 (1.3 deep), for the link's pegs.
+#   * eight O3.0 x 2.0 register PEGS at r 12.2 (22.5 + k*45) from the joint face up to -6.0, into
+#     the link's O3.3 x 2.1 sockets (EXO-394: the pegs moved from the link to the bottom).
 #   * a central BOSS r 7.8 from -8.0 up to -7.0, which rises INSIDE the link's O16 centre
 #     hole (0.2 radial; EXO-373 dropped the link's r 8.7 recess, which left a 0.7 wall). The
 #     four M2 horn-screw heads seat on its top -7.0 (web 3.5 from the bore ceiling -10.5,
@@ -1850,16 +1856,16 @@ def module_rotor_final(comp, rep=None):
         ('lower M3 through', _combine_feature(
             lo, 'rotor M3 lower', dz_lo, ROTOR_M3_Z0, J + 0.1,
             _circles(m3, V3_M3_HOLE_R), len(m3), CUT)),
-        ('lower register sockets', _combine_feature(
-            lo, 'rotor sockets', dz_lo, J - ROTOR_SOCKET_DEPTH, J + 0.1,
-            _circles(pegs, V3_SOCKET_R), len(pegs), CUT)),
+        ('lower register pegs', _combine_feature(
+            lo, 'rotor pegs', dz_lo, J - 0.2, J + armgen.BOTTOM_PEG_H,
+            _circles(pegs, armgen.BOTTOM_PEG_R), len(pegs), JOIN)),
         ('lower journal O%.1f' % (2 * ROTOR_JOURNAL_R), _ring_join(
             lo, dz_lo, ROTOR_RING_IN, ROTOR_JOURNAL_R, ROTOR_FLANGE_Z, J, 'rotor journal lower')),
     ]
     ring = math.pi * (ROTOR_JOURNAL_R ** 2 - boss_r ** 2)
     expect = {moved[5][0]: ring * (J - ROTOR_FLANGE_Z),
               moved[1][0]: math.pi * ROTOR_BOSS_R ** 2 * (H - J),
-              moved[4][0]: -len(pegs) * math.pi * V3_SOCKET_R ** 2 * ROTOR_SOCKET_DEPTH}
+              moved[4][0]: len(pegs) * math.pi * armgen.BOTTOM_PEG_R ** 2 * armgen.BOTTOM_PEG_H}
     for what, want in expect.items():
         got = dict(moved)[what]
         if abs(got - want) > 0.01:
@@ -1879,10 +1885,11 @@ def module_rotor_final(comp, rep=None):
         rep('  upper part "%s" (%.3f mm3) DELETED from the module: the fused link carries it'
             % (up_name, v_up))
     return ('joint face z %.1f, central boss r %.1f to %.1f (head seat, web %.1f), journal O%.1f '
-            '%.3f..%.1f, sockets floor %.1f; upper part removed (fused into every link, EXO-370); '
-            'lower %.3f mm3'
+            '%.3f..%.1f, eight O%.1f x %.1f pegs to %.1f (EXO-394); upper part removed (fused into '
+            'every link, EXO-370); lower %.3f mm3'
             % (J, ROTOR_BOSS_R, H, H - bore_ceil, 2 * ROTOR_JOURNAL_R, ROTOR_FLANGE_Z, J,
-               J - ROTOR_SOCKET_DEPTH, lo.bRepBodies.item(0).volume * 1000.0))
+               2 * armgen.BOTTOM_PEG_R, armgen.BOTTOM_PEG_H, J + armgen.BOTTOM_PEG_H,
+               lo.bRepBodies.item(0).volume * 1000.0))
 
 
 def _cyl_face_radius(body, near_r, z_mid):

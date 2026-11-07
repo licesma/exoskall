@@ -1,6 +1,7 @@
-"""EXO-370/375/383: export parts/bottom.3mf (module bottom, only with WITH_BOTTOM) and
+"""EXO-370/375/383/394: export parts/bottom.3mf (module bottom, only with WITH_BOTTOM) and
 parts/link_12_c<D>.3mf / link_23_c<D>.3mf (fused links, D = the M3 head counterbore depth of
-the arm as built, READ OFF THE SOLID) at High refinement from `exo generated`, and bisect the fused rotor end of each link in
+the arm as built, READ OFF THE SOLID; EXO-394: plain link_12.3mf / link_23.3mf unless
+VARIANT_NAMES) at High refinement from `exo generated`, and bisect the fused rotor end of each link in
 its rotor joint's module frame (pad top, disk, shoulder, journal, joint face, pegs, centre hole,
 M3 holes). No document change.
 Run: /usr/bin/python3 tools/fusion_run.py tools/bridge_scripts/export_exo370.py --timeout 600"""
@@ -29,6 +30,13 @@ say('module probes %s (%d)' % ('ALL OK' if ok else 'WRONG', len(lines)))
 up, lo = BuildArm.module_rotor_occs(occ, in_context=True)
 b = lo.component.bRepBodies.item(0)
 WITH_BOTTOM = globals().get('WITH_BOTTOM', True)
+INSb = lambda x, y, z: b.pointContainment(adsk.core.Point3D.create(x/10, y/10, z/10)) in INS
+_dzb = -lo.transform.translation.z * 10
+Bt = lambda r, a, z: INSb(r*math.cos(math.radians(a)), r*math.sin(math.radians(a)), z + _dzb)
+_pc = (12.2*math.cos(math.radians(22.5)), 12.2*math.sin(math.radians(22.5)))
+say('bottom pegs: tip z %.5f (@22.5), %.5f (@202.5); peg r %.5f; joint face z %.5f (r 10 @67.5); air between pegs at -7.0 @45: %s' % (
+    bis(lambda z: Bt(12.2, 22.5, z), -7.9, -5.0), bis(lambda z: Bt(12.2, 202.5, z), -7.9, -5.0),
+    bis(lambda r: INSb(_pc[0] + r, _pc[1], -7.0 + _dzb), 0.5, 2.5), bis(lambda z: Bt(10, 67.5, z), -8.5, -7.5), not Bt(12.2, 45, -7.0)))
 say('%s V %.3f -> %s' % (lo.component.name, b.volume*1000,
     export(b, P + 'bottom.3mf') if WITH_BOTTOM else 'not exported'))
 def mat(m):
@@ -64,14 +72,19 @@ for link, J in (('g_link_12', 'GJ1_'), ('g_link_23', 'GJ2_')):
     say('  disk r %.5f at z -2 (@100), shoulder z %.5f (r 16.5 @100)' % (bis(lambda r: at(r, 100, -2.0), 16, 19.5), bis(lambda z: at(16.5, 100, z), -1.0, -6.0)))
     say('  journal r %.5f at z -6.5 (@100), %.5f (@200)' % (bis(lambda r: at(r, 100, -6.5), 14, 16), bis(lambda r: at(r, 200, -6.5), 14, 16)))
     say('  joint face z %.5f (r 10 @67.5)' % bis(lambda z: at(10, 67.5, z), -1.0, -8.5))
-    say('  peg tip z %.5f (r 12.2 @22.5), peg r %.5f' % (bis(lambda z: at(12.2, 22.5, z), -8.5, -10.0),
-        bis(lambda r: L(P2(12.2, 22.5)[0] + r, P2(12.2, 22.5)[1], -8.6), 0.5, 2.5)))
+    say('  socket top z %.5f (r 12.2 @22.5), %.5f (@202.5); socket r %.5f at z -7.0' % (
+        bis(lambda z: not at(12.2, 22.5, z), -7.9, -4.0), bis(lambda z: not at(12.2, 202.5, z), -7.9, -4.0),
+        bis(lambda r: not L(P2(12.2, 22.5)[0] + r, P2(12.2, 22.5)[1], -7.0), 0.5, 2.5)))
+    say('  shoulder: flat to r %.5f at z -5.05 (@100); underside z at r 16.5 %.5f, r 17.0 %.5f, r 17.5 %.5f, r 17.95 %.5f (45 deg: -4.701 / -4.201 / -3.701 / -3.251)' % (
+        bis(lambda r: at(r, 100, -4.95), 15.2, 17.9),
+        bis(lambda z: at(16.5, 100, z), -1.0, -6.0), bis(lambda z: at(17.0, 100, z), -1.0, -6.0),
+        bis(lambda z: at(17.5, 100, z), -1.0, -6.0), bis(lambda z: at(17.95, 100, z), -1.0, -6.0)))
     say('  centre hole r %.5f at z 5 (@30), %.5f at z -3.0 (@200)' % (bis(lambda r: not at(r, 30, 5.0), 5.0, 9.0), bis(lambda r: not at(r, 200, -3.0), 5.0, 9.0)))
     for a in (0, 90, 180, 270):
         cx, cy = P2(11, a)
         hr = [bis(lambda r: not L(cx + r*math.cos(math.radians(k)), cy + r*math.sin(math.radians(k)), zz), 0.5, 2.5) for k in (45, 225) for zz in (3.0, -7.5)]
         say('  M3 @%3d: r %s; open at z pad-0.1 %s, -7.9 %s' % (a, ['%.4f' % v for v in hr], not L(cx, cy, pad - 0.1), not L(cx, cy, -7.9)))
-    say('  air below the pegs at -9.25: %s; solid between pegs at -8.6 @45: %s' % (not at(12.2, 22.5, -9.25), at(12.2, 45, -8.6)))
-    path = P + '%s_c%.1f.3mf' % (link[2:], depth)
+    say('  nothing below the joint face at -8.05 (r 12.2 @22.5): %s; solid between sockets at -7.0 @45: %s' % (not at(12.2, 22.5, -8.05), at(12.2, 45, -7.0)))
+    path = P + ('%s_c%.1f.3mf' % (link[2:], depth) if globals().get('VARIANT_NAMES') else '%s.3mf' % link[2:])
     say('  export -> %s %s' % (export(lb, path), path))
 say('isModified %s' % app.activeDocument.isModified)
