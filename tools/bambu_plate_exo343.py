@@ -10,6 +10,7 @@
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia_low  # stator_dia_low.bambu.3mf (EXO-358): O41.8..42.4
     python3 -I tools/bambu_plate_exo343.py --plate rotor        # rotor.bambu.3mf (EXO-338 layout, rebuilt EXO-364)
     python3 -I tools/bambu_plate_exo343.py --plate rotor_head   # rotor_head.bambu.3mf (EXO-352): bottom_h0.5 + bottom_h1.0
+    python3 -I tools/bambu_plate_exo343.py --plate body_mount   # body_mount.bambu.3mf (EXO-401): the chest mount
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -143,7 +144,16 @@ ROTOR_LAYOUT = [
     ('top', 'top', 'flipX', (105.0, 128.0)),
     ('bottom', 'bottom', None, (151.0, 128.0)),
 ]
+# body_mount (EXO-401): the hand-made chest mount (Fusion `arm complete_chest mount`, doc frame =
+# arm frame) on its x -45 robot bolt face (15655 mm2, 8x O3.5 counterbores open on the bed):
+# R maps -X onto -Z, the J1 seat pads end up vertical, their O4.0 holes horizontal. Footprint
+# 114.15 x 176.43 (long side along Y), 75 tall, centred on 128/128. Ceilings at 3 / 5 / 7 / 55
+# above the bed take supports.
+BODY_MOUNT_LAYOUT = [
+    ('body_mount', 'body_mount', ('bed', (-1, 0, 0)), (128.0, 128.0)),
+]
 PLATES = {
+    'body_mount': (os.path.join(PARTS, 'body_mount.bambu.3mf'), 'body_mount', BODY_MOUNT_LAYOUT),
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
     'all': (os.path.join(PARTS, 'all.bambu.3mf'), 'all', ALL_LAYOUT),
@@ -164,6 +174,7 @@ SOURCE_V.update({'bottom_h0.5': 3831.022, 'bottom_h1.0': 3799.806})   # EXO-352
 SOURCE_V.update({'bottom': 3578.998})   # EXO-394: O3.0 x 2.0 pegs on the bottom
 # EXO-383: pad 8 + O6.2 head counterbore 1.0 / 1.5 / 2.0 (the EXO-375 p7 / p6 links are archived)
 SOURCE_V.update({'link_12': 44324.563, 'link_23': 49751.082})   # EXO-394 (c2.0, sockets, chamfer)
+SOURCE_V.update({'body_mount': 200380.178})   # EXO-401 (Fusion Body1 200387.392)
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
 HDR = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
@@ -390,14 +401,15 @@ def check(path):
             gy = max(b[1][1] - a[2][1], a[1][1] - b[2][1])
             gaps.append((a[0], b[0], max(gx, gy)))
             print('gap %s - %s: %.2f mm' % (a[0], b[0], max(gx, gy)))
-    assert min(g[2] for g in gaps) >= 10
+    assert not gaps or min(g[2] for g in gaps) >= 10   # EXO-401: one-object plates have no gaps
     LO = [min(b[1][k] for b in boxes) for k in range(2)]
     HI = [max(b[2][k] for b in boxes) for k in range(2)]
     print('margin required >= %.1f' % margin)
     print('layout bbox x %.2f..%.2f, y %.2f..%.2f (%.2f x %.2f); margins left %.2f right %.2f front %.2f back %.2f'
           % (LO[0], HI[0], LO[1], HI[1], HI[0] - LO[0], HI[1] - LO[1], LO[0], 256 - HI[0], LO[1], 256 - HI[1]))
-    g = min(gaps, key=lambda q: q[2])
-    print('smallest gap %.2f mm (%s - %s)' % (g[2], g[0], g[1]))
+    if gaps:
+        g = min(gaps, key=lambda q: q[2])
+        print('smallest gap %.2f mm (%s - %s)' % (g[2], g[0], g[1]))
     txt = z.read('Metadata/project_settings.config')
     ps = json.loads(txt)
     keys = ['printer_settings_id', 'filament_settings_id', 'print_settings_id', 'layer_height', 'enable_support',

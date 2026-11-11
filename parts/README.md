@@ -1,5 +1,21 @@
 # parts/: print files
 
+## Chest mount (EXO-401, 2026-11-11)
+
+The hand-made chest mount that holds both arms' J1 stators (Fusion `arm complete_chest mount`,
+folder `/body mount`, doc v1, one body `Body1`; EXO-399, EXO-400), for a fit test with the
+generated J1 stator. High-refinement 3MF export from the Fusion doc, opened read-only and never
+saved (`tools/bridge_scripts/export_body_mount_exo401.py`), in the doc frame = arm frame (origin
+on the left J1 rotor face). Not the exo STEP copy: its outline differs (EXO-399).
+
+| File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
+|---|---|---|---|---|---|
+| `body_mount.3mf` | `Body1` of `arm complete_chest mount`: two J1 seats, each a 7.0 pad with 3x O4.0 plain holes at r 19.25 (0/180/270, none on +Y); 8x O3.5 / O6.0 counterbores on the x -45 robot face | 75.000 x 176.430 x 114.148 | 200380.178 | 200387.392 | 18 |
+| `body_mount.bambu.3mf` | Bambu plate: the mount on its **x -45 robot bolt face** (15655 mm2 on the bed, counterbores open on the bed); J1 seat pads vertical, their O4.0 holes horizontal; 114.15 x 176.43, 75 tall, centred, margins 70.9 (x) / 39.8 (y); supports on (ceilings 3 / 5 / 7 / 55 above the bed); settings as `link.bambu.3mf` | - | - | - | - |
+
+Fit test: M3 from the mount side into the stator's three heat-set inserts (stator underside on
+the pad). Screw length is modelled nowhere (EXO-399).
+
 ## Fused link + bottom (EXO-370 / EXO-394, 2026-11-06)
 
 The separate rotor top is gone: every link's rotor pad IS the rotor top. The joint's printed
