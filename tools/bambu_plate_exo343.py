@@ -26,6 +26,9 @@ EXO-405/406: project_settings.config = that reference with the declared per-plat
 (settings_overrides(): PLA_CF_MATCHA for every plate not in LEGACY_PLA_BASIC, plus
 PLATE_SETTINGS), re-serialised exactly as Bambu writes it; per-object settings (OBJECT_SETTINGS)
 go into model_settings.config. --check rebuilds the expected bytes and lists every changed key.
+EXO-409: plates not in LEGACY_PLA_BASIC also carry different_settings_to_system (diff_to_system()),
+without which Bambu Studio reloads the system preset values on open; --check asserts it and
+reports the same latent problem on the legacy plates (not rebuilt).
 
 Orientation is BAKED INTO THE MESH; build items are pure translations. Per layout entry:
   None            as exported;
@@ -276,19 +279,101 @@ def settings_overrides(plate):
     return o
 
 
+# EXO-409: on load Bambu Studio (PresetCollection::load_external_preset ->
+# update_non_diff_values_to_base_config) resets every process / filament / printer key of the
+# project to the named system preset unless the key is listed in different_settings_to_system:
+# [process keys, one entry per filament, printer keys], each "k1;k2;..." (escape_strings_cstyle).
+# The GUI writes the key only when an entry is non-empty. The list is computed against the
+# installed system profiles with inheritance resolved; keys the profile chain does not set take the
+# built-in default, read from a GUI-saved project that declares no difference (NO_DIFF_GUI).
+BBL_SYSTEM = os.path.expanduser('~/Library/Application Support/BambuStudio/system/BBL')
+NO_DIFF_GUI = os.path.join(PARTS, 'archive', '2026-10-tests', 'inner_bottom_v2.3mf')   # GUI-saved, no key
+DIFF_GUI = FILAMENT_XCHECK   # GUI-saved with ["enable_support", "", ""]
+DST = 'different_settings_to_system'
+PRESET_META = {'name', 'inherits', 'from', 'setting_id', 'instantiation', 'description', 'type', 'include',
+               'compatible_printers', 'compatible_printers_condition', 'compatible_prints',
+               'compatible_prints_condition', 'renamed_from', 'filament_id'}
+IGNORED = {'inherits', 'print_settings_id', 'filament_settings_id', 'printer_settings_id'}   # ignore_settings_list
+NOT_PRESET = {'filament_colour', 'filament_multi_colour', 'filament_ids'}   # project-level (DIFF_GUI lists none)
+CODE_DEFAULT_KIND = {'brim_type': 'process'}   # print option, default auto_brim, no profile sets it
+_SYS = {}
+
+
+def system_preset(kind, name):
+    """Installed system preset `name` (kind process / filament / machine), inheritance resolved."""
+    import glob, json
+    if kind not in _SYS:
+        _SYS[kind] = {}
+        for p in glob.glob(os.path.join(BBL_SYSTEM, kind, '**', '*.json'), recursive=True):
+            d = json.load(open(p))
+            if 'name' in d:
+                _SYS[kind][d['name']] = d
+    d, out = _SYS[kind][name], {}
+    if d.get('inherits'):
+        out.update(system_preset(kind, d['inherits']))
+    for inc in d.get('include', []):
+        out.update(system_preset(kind, inc))
+    out.update(d)
+    return out
+
+
+def _norm(v):
+    """Value as the slicer compares it: scalar = 1-vector, numbers numeric, point 0.5x0.5 = 0.5,0.5."""
+    out = []
+    for x in (v if isinstance(v, list) else [v]):
+        if isinstance(x, str) and x.count('x') == 1 and x.replace('x', '').replace('.', '').isdigit():
+            x = x.replace('x', ',')
+        try:
+            x = float(x)
+        except (TypeError, ValueError):
+            pass
+        out.append(x)
+    return out
+
+
+def diff_to_system(ps):
+    """different_settings_to_system for project settings ps, as the GUI would save them."""
+    import json
+    assert len(ps['filament_settings_id']) == 1, 'one filament only'
+    kinds = [('process', ps['print_settings_id']), ('filament', ps['filament_settings_id'][0]),
+             ('machine', ps['printer_settings_id'])]
+    chains = [(kind, system_preset(kind, name)) for kind, name in kinds]
+    nodiff = json.loads(zipfile.ZipFile(NO_DIFF_GUI).read('Metadata/project_settings.config'))
+    slots = {kind: [] for kind, _ in kinds}
+    for k in sorted(ps):
+        if k in IGNORED or k == DST:
+            continue
+        kind = next((kd for kd, c in chains if k in c and k not in PRESET_META), None)
+        if kind is not None:
+            if _norm(ps[k]) != _norm(dict(chains)[kind][k]):
+                slots[kind].append(k)
+        elif _norm(ps[k]) != _norm(nodiff[k]) and k not in NOT_PRESET:
+            assert k in CODE_DEFAULT_KIND, 'no system value known for %s' % k
+            slots[CODE_DEFAULT_KIND[k]].append(k)
+    for v in slots.values():
+        assert all(c.isalnum() or c == '_' for k in v for c in k)   # no escaping needed
+    return [';'.join(slots[kind]) for kind, _ in kinds]
+
+
 def project_settings(plate):
     """Reference project_settings.config with the plate's overrides, serialised as Bambu does
-    (sorted keys, indent 4, trailing newline: reproduces the reference byte for byte)."""
+    (sorted keys, indent 4, trailing newline: reproduces the reference byte for byte); plates not
+    in LEGACY_PLA_BASIC also get different_settings_to_system (EXO-409)."""
     import json
     raw = zipfile.ZipFile(SETTINGS_SRC).read('Metadata/project_settings.config')
     o = settings_overrides(plate)
     if not o:
         return raw
     ps = json.loads(raw)
-    assert (json.dumps(ps, indent=4, ensure_ascii=False) + '\n').encode() == raw
+    assert (json.dumps(ps, indent=4, ensure_ascii=False) + '\n').encode() == raw and list(ps) == sorted(ps)
     for k, v in o.items():
         assert k in ps and type(ps[k]) is type(v) and ps[k] != v, k   # only existing keys, real changes
         ps[k] = v
+    if plate not in LEGACY_PLA_BASIC:
+        assert DST not in ps
+        dst = diff_to_system(ps)
+        if any(dst):
+            ps = dict(sorted(dict(ps, **{DST: dst}).items()))
     return (json.dumps(ps, indent=4, ensure_ascii=False) + '\n').encode()
 HDR = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
        'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
@@ -533,12 +618,28 @@ def check(path):
     for k in keys:
         print('%s = %s' % (k, ps[k]))
     over = settings_overrides(key[0]) if key else {}
+    # EXO-409: the computation reproduces what the GUI itself saved, on both GUI-saved projects
+    for gp in (DIFF_GUI, NO_DIFF_GUI):
+        g = json.loads(zipfile.ZipFile(gp).read('Metadata/project_settings.config'))
+        calc = diff_to_system(g)
+        print('%s vs system presets: computed %s, GUI wrote %s' % (os.path.basename(gp), calc, g.get(DST, 'none')))
+        assert calc == g.get(DST, ['', '', ''])
+    dst = diff_to_system(ps)
+    print('%s in file: %s' % (DST, ps.get(DST, 'none')))
+    print('%s computed vs installed system presets: %s' % (DST, dst))
+    if key and key[0] not in LEGACY_PLA_BASIC:
+        assert ps[DST] == dst
+        need = {'enable_support'} | set(PLATE_SETTINGS.get(key[0], {}))
+        assert need <= set(dst[0].split(';')), need - set(dst[0].split(';'))
+        over = dict(over, **{DST: dst})
+    elif any(dst) and DST not in ps:
+        print('LATENT (EXO-409): Bambu Studio resets these to the system preset on load:', dst)
     changed = sorted(k for k in set(ps) | set(ref) if ps.get(k) != ref.get(k))
     print('keys changed vs the reference %s: %d (declared overrides %d)'
           % (os.path.basename(SETTINGS_SRC), len(changed), len(over)))
     for k in changed:
         print('  %s: %s -> %s' % (k, json.dumps(ref.get(k)), json.dumps(ps.get(k))))
-    assert set(ps) == set(ref) and changed == sorted(over) and all(ps[k] == v for k, v in over.items())
+    assert set(ps) == set(ref) | set(over) and changed == sorted(over) and all(ps[k] == v for k, v in over.items())
     same = txt == (project_settings(key[0]) if key else zipfile.ZipFile(SETTINGS_SRC).read('Metadata/project_settings.config'))
     print('project_settings.config byte-identical to the reference + declared overrides:', same)
     assert same and ps['enable_support'] == '1' and ps['support_type'] == over.get('support_type', 'tree(auto)')
