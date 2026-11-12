@@ -23,12 +23,14 @@ parts/rotor.bambu.3mf (EXO-338: P1S 0.4, PLA Basic, 0.20mm Standard, supports tr
 threshold 30, not build-plate-only). Ids per EXO-294: mesh in object_k.model id 2k-1,
 wrapper id 2k, names on both and in model_settings.config.
 EXO-405/406: project_settings.config = that reference with the declared per-plate overrides
-(settings_overrides(): PLA_CF_MATCHA for every plate not in LEGACY_PLA_BASIC, plus
-PLATE_SETTINGS), re-serialised exactly as Bambu writes it; per-object settings (OBJECT_SETTINGS)
-go into model_settings.config. --check rebuilds the expected bytes and lists every changed key.
-EXO-409: plates not in LEGACY_PLA_BASIC also carry different_settings_to_system (diff_to_system()),
-without which Bambu Studio reloads the system preset values on open; --check asserts it and
-reports the same latent problem on the legacy plates (not rebuilt).
+(settings_overrides(): PLA_CF_MATCHA plus PLATE_SETTINGS), re-serialised exactly as Bambu
+writes it; per-object settings (OBJECT_SETTINGS) go into model_settings.config. --check rebuilds
+the expected bytes and lists every changed key.
+EXO-409: every plate also carries different_settings_to_system (diff_to_system()), without which
+Bambu Studio reloads the system preset values on open; --check asserts it, and reports the latent
+problem on any file that is not a PLATES output.
+EXO-411: the nine plates built before EXO-406 (PLA Basic, tree supports, no key) rebuilt to this
+standard config; meshes and positions unchanged.
 
 Orientation is BAKED INTO THE MESH; build items are pure translations. Per layout entry:
   None            as exported;
@@ -258,23 +260,25 @@ PLA_CF_MATCHA = {
     'supertack_plate_temp_initial_layer': ['50'],
 }
 FILAMENT_XCHECK = os.path.join(PARTS, 'archive', '2026-10-tests', 'rotor_dia.bambu.3mf')   # GUI-saved, same preset
-# Plates built before EXO-406 keep PLA Basic (their files are not rebuilt); drop a name here to
-# rebuild that plate in PLA-CF.
-LEGACY_PLA_BASIC = {'body_mount', 'link', 'joints4', 'all', 'joints2', 'links2', 'stator_dia',
-                    'rotor_head', 'stator_dia_low'}
 # EXO-405: normal supports with a dense top interface; brim only where OBJECT_SETTINGS asks
 # (auto_brim would pick its own brims). Key names as in the reference and in the 02.04 binary.
 SUPPORT_EXO405 = {'support_type': 'normal(auto)', 'support_top_z_distance': '0.15',
                   'support_interface_top_layers': '3', 'support_interface_spacing': '0.2',
                   'brim_type': 'no_brim'}
-PLATE_SETTINGS = {'links34': SUPPORT_EXO405, 'joints34': SUPPORT_EXO405}
+# EXO-411: every plate gets them. The plates holding link_12 (73 tall on 410.2 mm2) or link_23
+# (62.5 tall on 332.6 mm2, CoM 25 mm off the foot) keep their previous global auto_brim: both sit
+# between link_34 (115.9 tall, outer brim) and link_45 (62.5 tall on 440.3 mm2, no brim), so the
+# brim choice is Esteban's. auto_brim is the system value, so it is not in different_settings_to_system.
+SUPPORT_AUTO_BRIM = {k: v for k, v in SUPPORT_EXO405.items() if k != 'brim_type'}
+PLATE_SETTINGS = {p: SUPPORT_EXO405 for p in PLATES}
+PLATE_SETTINGS.update({p: SUPPORT_AUTO_BRIM for p in ('link', 'joints4', 'all', 'joints2', 'links2')})
 # per-object settings (model_settings.config <object> metadata), by plate and object name
 OBJECT_SETTINGS = {('links34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')],
                    ('joints34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')]}
 
 
 def settings_overrides(plate):
-    o = {} if plate in LEGACY_PLA_BASIC else dict(PLA_CF_MATCHA)
+    o = dict(PLA_CF_MATCHA)
     o.update(PLATE_SETTINGS.get(plate, {}))
     return o
 
@@ -357,8 +361,8 @@ def diff_to_system(ps):
 
 def project_settings(plate):
     """Reference project_settings.config with the plate's overrides, serialised as Bambu does
-    (sorted keys, indent 4, trailing newline: reproduces the reference byte for byte); plates not
-    in LEGACY_PLA_BASIC also get different_settings_to_system (EXO-409)."""
+    (sorted keys, indent 4, trailing newline: reproduces the reference byte for byte), with
+    different_settings_to_system (EXO-409)."""
     import json
     raw = zipfile.ZipFile(SETTINGS_SRC).read('Metadata/project_settings.config')
     o = settings_overrides(plate)
@@ -369,11 +373,10 @@ def project_settings(plate):
     for k, v in o.items():
         assert k in ps and type(ps[k]) is type(v) and ps[k] != v, k   # only existing keys, real changes
         ps[k] = v
-    if plate not in LEGACY_PLA_BASIC:
-        assert DST not in ps
-        dst = diff_to_system(ps)
-        if any(dst):
-            ps = dict(sorted(dict(ps, **{DST: dst}).items()))
+    assert DST not in ps
+    dst = diff_to_system(ps)
+    if any(dst):
+        ps = dict(sorted(dict(ps, **{DST: dst}).items()))
     return (json.dumps(ps, indent=4, ensure_ascii=False) + '\n').encode()
 HDR = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
        'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
@@ -627,7 +630,7 @@ def check(path):
     dst = diff_to_system(ps)
     print('%s in file: %s' % (DST, ps.get(DST, 'none')))
     print('%s computed vs installed system presets: %s' % (DST, dst))
-    if key and key[0] not in LEGACY_PLA_BASIC:
+    if key:
         assert ps[DST] == dst
         need = {'enable_support'} | set(PLATE_SETTINGS.get(key[0], {}))
         assert need <= set(dst[0].split(';')), need - set(dst[0].split(';'))

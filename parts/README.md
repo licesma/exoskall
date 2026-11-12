@@ -11,7 +11,7 @@ on the left J1 rotor face). Not the exo STEP copy: its outline differs (EXO-399)
 | File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
 |---|---|---|---|---|---|
 | `body_mount.3mf` | `Body1` of `arm complete_chest mount`: two J1 seats, each a 7.0 pad with 3x O4.0 plain holes at r 19.25 (0/180/270, none on +Y); 8x O3.5 / O6.0 counterbores on the x -45 robot face | 75.000 x 176.430 x 114.148 | 200380.178 | 200387.392 | 18 |
-| `body_mount.bambu.3mf` | Bambu plate: the mount on its **x -45 robot bolt face** (15655 mm2 on the bed, counterbores open on the bed); J1 seat pads vertical, their O4.0 holes horizontal; 114.15 x 176.43, 75 tall, centred, margins 70.9 (x) / 39.8 (y); supports on (ceilings 3 / 5 / 7 / 55 above the bed); settings as `link.bambu.3mf` | - | - | - | - |
+| `body_mount.bambu.3mf` | Bambu plate: the mount on its **x -45 robot bolt face** (15655 mm2 on the bed, counterbores open on the bed); J1 seat pads vertical, their O4.0 holes horizontal; 114.15 x 176.43, 75 tall, centred, margins 70.9 (x) / 39.8 (y); supports on (ceilings 3 / 5 / 7 / 55 above the bed); EXO-411: standard settings (PLA-CF Matcha Green, normal supports, global brim off, see Material below), geometry unchanged | - | - | - | - |
 
 Fit test: M3 from the mount side into the stator's three heat-set inserts (stator underside on
 the pad). Screw length is modelled nowhere (EXO-399).
@@ -38,10 +38,17 @@ link_34 rotor side down: centre of mass 18.9 from the J3 axis (outside the r 15.
 r 27 pad that rests on supports). To lay it flat instead (J4 pad outer face, 4669.7 mm2, 58.5
 tall, J3 journal horizontal), see the comment at `LINKS34_LAYOUT`.
 
-Material (EXO-406): plates built from now on carry Bambu PLA-CF, Matcha Green (preset `Bambu
-PLA-CF @BBL X1C`, values from the installed Bambu Studio profiles; the printer preset stays `Bambu
-Lab P1S 0.4 nozzle`, listed as compatible by that preset). PLA-CF wants a hardened nozzle
-(required_nozzle_HRC 40); the plates still say stainless_steel. Older plates keep PLA Basic.
+Material (EXO-406): plates carry Bambu PLA-CF, Matcha Green (preset `Bambu PLA-CF @BBL X1C`,
+values from the installed Bambu Studio profiles; the printer preset stays `Bambu Lab P1S 0.4
+nozzle`, listed as compatible by that preset). PLA-CF wants a hardened nozzle
+(required_nozzle_HRC 40); the plates still say stainless_steel.
+
+Standard settings on every plate in `parts/` (EXO-411 rebuilt the nine older ones from PLA Basic
+and tree supports; meshes and positions unchanged): PLA-CF as above, supports normal(auto),
+threshold 30, not build-plate-only, top Z 0.15, 3 top interface layers at 0.2 spacing, all listed
+in `different_settings_to_system`. Brim: global off on links34, joints34, body_mount, stator_dia,
+stator_dia_low, rotor_head (link_34 outer-only 6). The plates with link_12 or link_23 (link,
+joints4, all, joints2, links2) keep their previous global auto_brim until Esteban decides.
 
 ## Fused link + bottom (EXO-370 / EXO-394, 2026-11-06)
 
@@ -97,7 +104,7 @@ High-refinement 3MF exports from `exo generated`; read back with `tools/verify_3
 | File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) |
 |---|---|---|---|---|
 | `stator.3mf` | 15 deg stop-block stator + assembly mark (component `stator EXO-341 export`) | 53.999 x 54.000 x 24.100 | 25680.834 | 25684.494 |
-| `link.bambu.3mf` | Bambu Studio plate (EXO-343, rebuilt EXO-394): 2x stator underside down; link_12 rotor side down (joint face on the bed, 73 tall); settings = the archived `rotor_exo364.bambu.3mf`; built by `tools/bambu_plate_exo343.py` | - | - | - |
+| `link.bambu.3mf` | Bambu Studio plate (EXO-343, rebuilt EXO-394): 2x stator underside down; link_12 rotor side down (joint face on the bed, 73 tall); settings = the archived `rotor_exo364.bambu.3mf` + the standard overrides (EXO-411, global auto_brim kept); built by `tools/bambu_plate_exo343.py` | - | - | - |
 
 - **Stator**: own frame, **module z = file z - 7.5** (underside file z -17.0). Bore O42.10
   (r 21.05), 3 x O4.0 inserts r 19.25 at 0/180/270, "0" label: identical to the previous
@@ -150,8 +157,8 @@ r 19.25 unchanged; the exposed shoulder is then r 19.25..R). 42.7 / 42.9
 | `stator_d42.4.3mf` | O42.4000, z -3.5..3.5 | 53.999 x 54.000 x 24.100 | 25537.812 | 25541.092 |
 | `stator_d42.5.3mf` | O42.5000, z -3.5..3.5 | 53.999 x 54.000 x 24.100 | 25491.064 | 25494.326 |
 | `stator_d42.6.3mf` | O42.6000, z -3.5..3.5 | 53.999 x 54.000 x 24.100 | 25443.948 | 25447.461 |
-| `stator_dia.bambu.3mf` | Bambu plate: the five, underside down, bore + label up, rows of 3 + 2, gaps 10.5; settings = `rotor.bambu.3mf`; `tools/bambu_plate_exo343.py --plate stator_dia` | - | - | - |
-| `stator_dia_low.bambu.3mf` | Bambu plate (EXO-358): stator_d41.8 .. 42.4 (7), underside down, rows of 3 + 3 + 1, gaps 10.5, margins 36.5; settings = `rotor.bambu.3mf`; `tools/bambu_plate_exo343.py --plate stator_dia_low` | - | - | - |
+| `stator_dia.bambu.3mf` | Bambu plate: the five, underside down, bore + label up, rows of 3 + 2, gaps 10.5; standard settings (EXO-411); `tools/bambu_plate_exo343.py --plate stator_dia` | - | - | - |
+| `stator_dia_low.bambu.3mf` | Bambu plate (EXO-358): stator_d41.8 .. 42.4 (7), underside down, rows of 3 + 3 + 1, gaps 10.5, margins 36.5; standard settings (EXO-411); `tools/bambu_plate_exo343.py --plate stator_dia_low` | - | - | - |
 
 ## Rotor key (EXO-364, 2026-11-04) - superseded by EXO-370
 
