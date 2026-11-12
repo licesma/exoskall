@@ -11,6 +11,8 @@
     python3 -I tools/bambu_plate_exo343.py --plate rotor        # rotor.bambu.3mf (EXO-338 layout, rebuilt EXO-364)
     python3 -I tools/bambu_plate_exo343.py --plate rotor_head   # rotor_head.bambu.3mf (EXO-352): bottom_h0.5 + bottom_h1.0
     python3 -I tools/bambu_plate_exo343.py --plate body_mount   # body_mount.bambu.3mf (EXO-401): the chest mount
+    python3 -I tools/bambu_plate_exo343.py --plate links34      # links34.bambu.3mf (EXO-402): link_34, link_45
+    python3 -I tools/bambu_plate_exo343.py --plate joints34     # joints34.bambu.3mf (EXO-402): link_34, link_45, 2x stator, 2x bottom
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -152,6 +154,29 @@ ROTOR_LAYOUT = [
 BODY_MOUNT_LAYOUT = [
     ('body_mount', 'body_mount', ('bed', (-1, 0, 0)), (128.0, 128.0)),
 ]
+# links34 / joints34 (EXO-402): link_34 ROTOR SIDE DOWN (joint face -8.0 of J3, 410.2 mm2, on the
+# bed: R maps -Z_J3 = arm +Z onto -Z; 115.9 tall; the pad underside ring 8 above the bed and the
+# body take supports; CoM 18.9 from the J3 axis, outside the r 15.05 foot, inside the r 27 pad).
+# link_45 cannot go rotor side down (its J5 stator pad reaches module z -25.1, 17.1 past the J4
+# joint face) nor pad face down (the ramp reaches 29.4 past the pad face: 440 mm2 foot, 3450 mm2
+# of supports, counterbores facing down on them): it stands on the MATING face of its J5 stator
+# pad (arm x 91.3, normal +X, 1780.1 mm2; the 0.6 x 0.4 assembly mark is a groove in the bed
+# face), 102.5 tall, CoM over the foot, J4 axis horizontal (journal, sockets, counterbores print
+# sideways). Its only two support planes are these. To lay link_34 flat instead (J4 stator pad outer face, arm +Y, 4669.7 mm2, 58.5
+# tall, J3 axis horizontal) use ('bed', (0, 1, 0)) and its footprint 69.2 x 115.9.
+# Footprints link_34 60.66 x 71.89, link_45 64.00 x 62.51; joints34 row 2 = joints2 row 2.
+LINKS34_LAYOUT = [
+    ('link_34', 'link_34', ('bed', (0, 0, 1)), (90.0, 128.0)),
+    ('link_45', 'link_45', ('bed', (1, 0, 0)), (164.33, 128.0)),
+]
+J34_LAYOUT = [
+    ('link_34', 'link_34', ('bed', (0, 0, 1)), (90.0, 95.0)),
+    ('link_45', 'link_45', ('bed', (1, 0, 0)), (164.33, 95.0)),
+    ('stator_1', 'stator', None, (48.0, 169.94)),
+    ('stator_2', 'stator', None, (114.0, 169.94)),
+    ('bottom_1', 'bottom', None, (170.5, 169.94)),
+    ('bottom_2', 'bottom', None, (217.5, 169.94)),
+]
 PLATES = {
     'body_mount': (os.path.join(PARTS, 'body_mount.bambu.3mf'), 'body_mount', BODY_MOUNT_LAYOUT),
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
@@ -162,6 +187,8 @@ PLATES = {
     'stator_dia': (os.path.join(PARTS, 'stator_dia.bambu.3mf'), 'stator_dia', SDIA_LAYOUT),
     'rotor_head': (os.path.join(PARTS, 'rotor_head.bambu.3mf'), 'rotor_head', HEAD_LAYOUT),
     'stator_dia_low': (os.path.join(PARTS, 'stator_dia_low.bambu.3mf'), 'stator_dia_low', SDIA_LOW_LAYOUT),
+    'links34': (os.path.join(PARTS, 'links34.bambu.3mf'), 'links34', LINKS34_LAYOUT),
+    'joints34': (os.path.join(PARTS, 'joints34.bambu.3mf'), 'joints34', J34_LAYOUT),
 }
 # EXO-364: top / link_12 / link_23 re-exported with the rotor key (was 5786.178 / 40392.766 / 45818.953)
 SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom': 3865.634,
@@ -175,8 +202,10 @@ SOURCE_V.update({'bottom': 3578.998})   # EXO-394: O3.0 x 2.0 pegs on the bottom
 # EXO-383: pad 8 + O6.2 head counterbore 1.0 / 1.5 / 2.0 (the EXO-375 p7 / p6 links are archived)
 SOURCE_V.update({'link_12': 44324.563, 'link_23': 49751.082})   # EXO-394 (c2.0, sockets, chamfer)
 SOURCE_V.update({'body_mount': 200380.178})   # EXO-401 (Fusion Body1 200387.392)
+SOURCE_V.update({'link_34': 63225.829, 'link_45': 62060.991})   # EXO-402 (Fusion 63232.554 / 62072.567)
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
+PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
 HDR = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
        'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
        'xmlns:BambuStudio="http://schemas.bambulab.com/package/2021" '
