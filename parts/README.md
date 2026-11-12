@@ -28,13 +28,20 @@ with `stator.3mf` and `bottom.3mf` (EXO-394), not with EXO-383 parts.
 |---|---|---|---|---|---|
 | `link_34.3mf` | `g_link_34` (J3 rotor to J4 stator) | 69.207 x 58.505 x 115.946 | 63225.829 | 63232.554 | 9 |
 | `link_45.3mf` | `g_link_45` (J4 rotor to J5 stator) | 102.506 x 62.505 x 64.004 | 62060.991 | 62072.567 | 9 |
-| `links34.bambu.3mf` | Bambu plate: link_34 **rotor side down** (J3 joint face, 410.2 mm2 on the bed, 115.9 tall; pad underside 8 above the bed on supports); link_45 on its **J5 stator-pad mating face** (1780.1 mm2, the assembly mark is a groove in the bed face; 102.5 tall; J4 journal horizontal); 136.66 x 71.89, gap 12; `tools/bambu_plate_exo343.py --plate links34` | - | - | - | - |
-| `joints34.bambu.3mf` | Bambu plate: the two links as above, 2x stator, 2x bottom (pegs up); 214.00 x 137.89, gaps >= 11.99, margins >= 21; `--plate joints34` | - | - | - | - |
+| `links34.bambu.3mf` | Bambu plate (EXO-405/406): link_34 **rotor side down** (J3 joint face, 410.2 mm2 on the bed, 115.9 tall; pad underside 8 above the bed on supports), **outer-only brim 6** on this object only; link_45 **rotor side up** (J4 journal vertical, joint face up at 45.4, sockets and journal up, 62.5 tall) on its J5-end face (440.3 mm2); its pad outer face cannot reach the bed (the J5 end sticks out 29.4 past it) and faces down at 29.4 on supports; 175.16 x 71.89, gap 12; **Bambu PLA-CF @BBL X1C, Matcha Green #5C9748**; supports normal(auto), threshold 30, top Z 0.15, 3 top interface layers at 0.2 spacing, global brim off; `tools/bambu_plate_exo343.py --plate links34` | - | - | - | - |
+| `joints34.bambu.3mf` | Bambu plate: the two links as above, 2x stator, 2x bottom (pegs up); 214.00 x 137.89, gaps >= 11.99, margins >= 21; same material and settings; `--plate joints34` | - | - | - | - |
 
 link_45 cannot go rotor side down: its J5 stator pad reaches 17.1 mm past the J4 joint face.
-link_34 can, but its centre of mass is 18.9 from the J3 axis (outside the r 15.05 foot, inside the
+Rotor side up (EXO-405) it stands on the J5-end face, centre of mass 23 mm off that foot; the
+supports under the pad face (2304.3 mm2 at 29.4, the M3 counterbores open into them) carry it.
+link_34 rotor side down: centre of mass 18.9 from the J3 axis (outside the r 15.05 foot, inside the
 r 27 pad that rests on supports). To lay it flat instead (J4 pad outer face, 4669.7 mm2, 58.5
 tall, J3 journal horizontal), see the comment at `LINKS34_LAYOUT`.
+
+Material (EXO-406): plates built from now on carry Bambu PLA-CF, Matcha Green (preset `Bambu
+PLA-CF @BBL X1C`, values from the installed Bambu Studio profiles; the printer preset stays `Bambu
+Lab P1S 0.4 nozzle`, listed as compatible by that preset). PLA-CF wants a hardened nozzle
+(required_nozzle_HRC 40); the plates still say stainless_steel. Older plates keep PLA Basic.
 
 ## Fused link + bottom (EXO-370 / EXO-394, 2026-11-06)
 

@@ -11,8 +11,8 @@
     python3 -I tools/bambu_plate_exo343.py --plate rotor        # rotor.bambu.3mf (EXO-338 layout, rebuilt EXO-364)
     python3 -I tools/bambu_plate_exo343.py --plate rotor_head   # rotor_head.bambu.3mf (EXO-352): bottom_h0.5 + bottom_h1.0
     python3 -I tools/bambu_plate_exo343.py --plate body_mount   # body_mount.bambu.3mf (EXO-401): the chest mount
-    python3 -I tools/bambu_plate_exo343.py --plate links34      # links34.bambu.3mf (EXO-402): link_34, link_45
-    python3 -I tools/bambu_plate_exo343.py --plate joints34     # joints34.bambu.3mf (EXO-402): link_34, link_45, 2x stator, 2x bottom
+    python3 -I tools/bambu_plate_exo343.py --plate links34      # links34.bambu.3mf (EXO-402, EXO-405/406): link_34, link_45
+    python3 -I tools/bambu_plate_exo343.py --plate joints34     # joints34.bambu.3mf (EXO-402, EXO-405/406): + 2x stator, 2x bottom
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -22,6 +22,10 @@ Settings, slice_info, filament_sequence and [Content_Types] are copied verbatim 
 parts/rotor.bambu.3mf (EXO-338: P1S 0.4, PLA Basic, 0.20mm Standard, supports tree(auto),
 threshold 30, not build-plate-only). Ids per EXO-294: mesh in object_k.model id 2k-1,
 wrapper id 2k, names on both and in model_settings.config.
+EXO-405/406: project_settings.config = that reference with the declared per-plate overrides
+(settings_overrides(): PLA_CF_MATCHA for every plate not in LEGACY_PLA_BASIC, plus
+PLATE_SETTINGS), re-serialised exactly as Bambu writes it; per-object settings (OBJECT_SETTINGS)
+go into model_settings.config. --check rebuilds the expected bytes and lists every changed key.
 
 Orientation is BAKED INTO THE MESH; build items are pure translations. Per layout entry:
   None            as exported;
@@ -164,14 +168,21 @@ BODY_MOUNT_LAYOUT = [
 # face), 102.5 tall, CoM over the foot, J4 axis horizontal (journal, sockets, counterbores print
 # sideways). Its only two support planes are these. To lay link_34 flat instead (J4 stator pad outer face, arm +Y, 4669.7 mm2, 58.5
 # tall, J3 axis horizontal) use ('bed', (0, 1, 0)) and its footprint 69.2 x 115.9.
-# Footprints link_34 60.66 x 71.89, link_45 64.00 x 62.51; joints34 row 2 = joints2 row 2.
+# EXO-405 (Esteban): link_45 ROTOR SIDE UP instead: J4 axis (arm Y) vertical, joint face y -239.0,
+# journal and sockets up. Its pad outer face (y -255.0, one plane to 0.012, 2304.3 mm2, the M3
+# counterbores) cannot touch the bed: the J5 end (arm x 53..91) reaches y -284.4, 29.4 past it, so
+# the bed face is that end face (normal -Y, 440.3 mm2, x 73.7..83.7 of the part), 62.5 tall, CoM
+# 23 mm off the foot; the pad face sits 29.4 above the bed on supports (normal, dense interface).
+# link_34 unchanged, with an outer-only 6 mm brim (OBJECT_SETTINGS).
+# Footprints link_34 60.66 x 71.89, link_45 102.50 x 64.02; row 175.16 wide, gap 12, centred;
+# joints34 row 2 = joints2 row 2.
 LINKS34_LAYOUT = [
-    ('link_34', 'link_34', ('bed', (0, 0, 1)), (90.0, 128.0)),
-    ('link_45', 'link_45', ('bed', (1, 0, 0)), (164.33, 128.0)),
+    ('link_34', 'link_34', ('bed', (0, 0, 1)), (70.75, 128.0)),
+    ('link_45', 'link_45', ('bed', (0, -1, 0)), (164.33, 128.0)),
 ]
 J34_LAYOUT = [
-    ('link_34', 'link_34', ('bed', (0, 0, 1)), (90.0, 95.0)),
-    ('link_45', 'link_45', ('bed', (1, 0, 0)), (164.33, 95.0)),
+    ('link_34', 'link_34', ('bed', (0, 0, 1)), (70.75, 95.0)),
+    ('link_45', 'link_45', ('bed', (0, -1, 0)), (164.33, 95.0)),
     ('stator_1', 'stator', None, (48.0, 169.94)),
     ('stator_2', 'stator', None, (114.0, 169.94)),
     ('bottom_1', 'bottom', None, (170.5, 169.94)),
@@ -206,6 +217,79 @@ SOURCE_V.update({'link_34': 63225.829, 'link_45': 62060.991})   # EXO-402 (Fusio
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
 PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
+# EXO-406: default filament for plates built from now on: Bambu PLA-CF, Matcha Green. Values =
+# preset "Bambu PLA-CF @BBL X1C" (GFSA50_01; lists P1S 0.4 nozzle as compatible) with inheritance
+# resolved (-> @base -> fdm_filament_pla -> fdm_filament_common, include
+# fdm_filament_template_direct_dual) from the installed system profiles (BBL 02.04.00.10): only the
+# keys that differ from the reference's PLA Basic @BBL P1S 0.4 nozzle (whose 98 filament keys the
+# same resolution reproduces exactly). Colour: filaments_color_codes.json, GFA50 code 14500 "Matcha
+# Green" #5c9748FF. All 28 equal the GUI-saved FILAMENT_XCHECK, which --check asserts.
+PLA_CF_MATCHA = {
+    'additional_cooling_fan_speed': ['0'],
+    'cool_plate_temp': ['45'],
+    'cool_plate_temp_initial_layer': ['45'],
+    'filament_change_length': ['10'],
+    'filament_colour': ['#5C9748'],
+    'filament_cost': ['34.99'],
+    'filament_density': ['1.22'],
+    'filament_deretraction_speed': ['nil', 'nil'],
+    'filament_flow_ratio': ['0.98', '0.975'],
+    'filament_ids': ['GFA50'],
+    'filament_max_volumetric_speed': ['15', '25'],
+    'filament_multi_colour': ['#5C9748'],
+    'filament_prime_volume': ['45'],
+    'filament_retraction_length': ['nil', '0.8'],
+    'filament_retraction_speed': ['nil', 'nil'],
+    'filament_scarf_gap': ['15%'],
+    'filament_settings_id': ['Bambu PLA-CF @BBL X1C'],
+    'filament_type': ['PLA-CF'],
+    'filament_z_hop': ['nil', '0.4'],
+    'impact_strength_z': ['7.8'],
+    'nozzle_temperature': ['230', '230'],
+    'nozzle_temperature_initial_layer': ['230', '230'],
+    'nozzle_temperature_range_high': ['250'],
+    'nozzle_temperature_range_low': ['210'],
+    'required_nozzle_HRC': ['40'],
+    'slow_down_layer_time': ['8'],
+    'supertack_plate_temp': ['50'],
+    'supertack_plate_temp_initial_layer': ['50'],
+}
+FILAMENT_XCHECK = os.path.join(PARTS, 'archive', '2026-10-tests', 'rotor_dia.bambu.3mf')   # GUI-saved, same preset
+# Plates built before EXO-406 keep PLA Basic (their files are not rebuilt); drop a name here to
+# rebuild that plate in PLA-CF.
+LEGACY_PLA_BASIC = {'body_mount', 'link', 'joints4', 'all', 'joints2', 'links2', 'stator_dia',
+                    'rotor_head', 'stator_dia_low'}
+# EXO-405: normal supports with a dense top interface; brim only where OBJECT_SETTINGS asks
+# (auto_brim would pick its own brims). Key names as in the reference and in the 02.04 binary.
+SUPPORT_EXO405 = {'support_type': 'normal(auto)', 'support_top_z_distance': '0.15',
+                  'support_interface_top_layers': '3', 'support_interface_spacing': '0.2',
+                  'brim_type': 'no_brim'}
+PLATE_SETTINGS = {'links34': SUPPORT_EXO405, 'joints34': SUPPORT_EXO405}
+# per-object settings (model_settings.config <object> metadata), by plate and object name
+OBJECT_SETTINGS = {('links34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')],
+                   ('joints34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')]}
+
+
+def settings_overrides(plate):
+    o = {} if plate in LEGACY_PLA_BASIC else dict(PLA_CF_MATCHA)
+    o.update(PLATE_SETTINGS.get(plate, {}))
+    return o
+
+
+def project_settings(plate):
+    """Reference project_settings.config with the plate's overrides, serialised as Bambu does
+    (sorted keys, indent 4, trailing newline: reproduces the reference byte for byte)."""
+    import json
+    raw = zipfile.ZipFile(SETTINGS_SRC).read('Metadata/project_settings.config')
+    o = settings_overrides(plate)
+    if not o:
+        return raw
+    ps = json.loads(raw)
+    assert (json.dumps(ps, indent=4, ensure_ascii=False) + '\n').encode() == raw
+    for k, v in o.items():
+        assert k in ps and type(ps[k]) is type(v) and ps[k] != v, k   # only existing keys, real changes
+        ps[k] = v
+    return (json.dumps(ps, indent=4, ensure_ascii=False) + '\n').encode()
 HDR = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
        'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
        'xmlns:BambuStudio="http://schemas.bambulab.com/package/2021" '
@@ -309,7 +393,8 @@ def build(plate='link'):
         tr = '1 0 0 0 1 0 0 0 1 %s %s %s' % (f(px), f(py), f(tz))
         items.append('  <item objectid="%d" p:UUID="%s" transform="%s" printable="1"/>\n' % (oid, uuid.uuid4(), tr))
         rels.append(' <Relationship Target="/3D/Objects/%s" Id="rel-%d" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>\n' % (sub, i + 1))
-        ms_objs.append('  <object id="%d">\n    <metadata key="name" value="%s"/>\n    <metadata key="extruder" value="1"/>\n'
+        objset = ''.join('    <metadata key="%s" value="%s"/>\n' % kv for kv in OBJECT_SETTINGS.get((plate, name), []))
+        ms_objs.append(('  <object id="%d">\n    <metadata key="name" value="%s"/>\n' + objset.replace('%', '%%') + '    <metadata key="extruder" value="1"/>\n'
                        '    <metadata face_count="%d"/>\n    <part id="%d" subtype="normal_part">\n'
                        '      <metadata key="name" value="%s"/>\n      <metadata key="matrix" value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>\n'
                        '      <metadata key="source_file" value="%s.3mf"/>\n      <metadata key="source_object_id" value="0"/>\n'
@@ -317,7 +402,7 @@ def build(plate='link'):
                        '      <metadata key="source_offset_x" value="%s"/>\n      <metadata key="source_offset_y" value="%s"/>\n'
                        '      <metadata key="source_offset_z" value="%s"/>\n'
                        '      <mesh_stat face_count="%d" edges_fixed="0" degenerate_facets="0" facets_removed="0" facets_reversed="0" backwards_edges="0"/>\n'
-                       '    </part>\n  </object>\n' % (oid, name, len(T), mid, name, srcname, f(c[0]), f(c[1]), f(c[2]), len(T)))
+                       '    </part>\n  </object>\n') % (oid, name, len(T), mid, name, srcname, f(c[0]), f(c[1]), f(c[2]), len(T)))
         ms_inst.append('    <model_instance>\n      <metadata key="object_id" value="%d"/>\n'
                        '      <metadata key="instance_id" value="0"/>\n      <metadata key="identify_id" value="%d"/>\n'
                        '    </model_instance>\n' % (oid, 100 + i))
@@ -331,9 +416,9 @@ def build(plate='link'):
                                             + ''.join(rels) + '</Relationships>')
     files['_rels/.rels'] = ('<?xml version="1.0" encoding="UTF-8"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">\n'
                             ' <Relationship Target="/3D/3dmodel.model" Id="rel-1" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>\n</Relationships>')
-    for k in ('[Content_Types].xml', 'Metadata/project_settings.config', 'Metadata/slice_info.config',
-              'Metadata/filament_sequence.json'):
+    for k in ('[Content_Types].xml', 'Metadata/slice_info.config', 'Metadata/filament_sequence.json'):
         files[k] = src.read(k)
+    files['Metadata/project_settings.config'] = project_settings(plate)
     files['Metadata/model_settings.config'] = ('<?xml version="1.0" encoding="UTF-8"?>\n<config>\n' + ''.join(ms_objs)
         + '  <plate>\n    <metadata key="plater_id" value="1"/>\n    <metadata key="plater_name" value=""/>\n'
           '    <metadata key="locked" value="false"/>\n    <metadata key="filament_map_mode" value="Auto For Flush"/>\n'
@@ -441,14 +526,39 @@ def check(path):
         print('smallest gap %.2f mm (%s - %s)' % (g[2], g[0], g[1]))
     txt = z.read('Metadata/project_settings.config')
     ps = json.loads(txt)
-    keys = ['printer_settings_id', 'filament_settings_id', 'print_settings_id', 'layer_height', 'enable_support',
-            'support_type', 'support_threshold_angle', 'support_on_build_plate_only']
+    ref = json.loads(zipfile.ZipFile(SETTINGS_SRC).read('Metadata/project_settings.config'))
+    keys = ['printer_settings_id', 'filament_settings_id', 'filament_colour', 'print_settings_id', 'layer_height',
+            'enable_support', 'support_type', 'support_threshold_angle', 'support_on_build_plate_only',
+            'support_top_z_distance', 'support_interface_top_layers', 'support_interface_spacing', 'brim_type', 'brim_width']
     for k in keys:
         print('%s = %s' % (k, ps[k]))
-    same = txt == zipfile.ZipFile(SETTINGS_SRC).read('Metadata/project_settings.config')
-    print('project_settings.config byte-identical to rotor.bambu.3mf:', same)
-    assert same and ps['enable_support'] == '1' and ps['support_type'] == 'tree(auto)'
+    over = settings_overrides(key[0]) if key else {}
+    changed = sorted(k for k in set(ps) | set(ref) if ps.get(k) != ref.get(k))
+    print('keys changed vs the reference %s: %d (declared overrides %d)'
+          % (os.path.basename(SETTINGS_SRC), len(changed), len(over)))
+    for k in changed:
+        print('  %s: %s -> %s' % (k, json.dumps(ref.get(k)), json.dumps(ps.get(k))))
+    assert set(ps) == set(ref) and changed == sorted(over) and all(ps[k] == v for k, v in over.items())
+    same = txt == (project_settings(key[0]) if key else zipfile.ZipFile(SETTINGS_SRC).read('Metadata/project_settings.config'))
+    print('project_settings.config byte-identical to the reference + declared overrides:', same)
+    assert same and ps['enable_support'] == '1' and ps['support_type'] == over.get('support_type', 'tree(auto)')
     assert ps['support_threshold_angle'] == '30' and ps['support_on_build_plate_only'] == '0'
+    fil = [k for k in over if k in PLA_CF_MATCHA]
+    if fil:   # the filament keys as Bambu Studio itself saved this preset (GUI project)
+        xc = json.loads(zipfile.ZipFile(FILAMENT_XCHECK).read('Metadata/project_settings.config'))
+        bad = [k for k in fil if xc[k] != ps[k]]
+        print('filament keys = %s (GUI-saved, %s): %d of %d' % (os.path.basename(FILAMENT_XCHECK),
+              xc['filament_settings_id'][0], len(fil) - len(bad), len(fil)))
+        assert not bad, bad
+    objset = {}
+    for o in ms.findall('object'):
+        extra = [(m.get('key'), m.get('value')) for m in o.findall('metadata')
+                 if m.get('key') not in (None, 'name', 'extruder')]
+        if extra:
+            objset[ms_names[o.get('id')]] = extra
+    want = {n: v for (pl, n), v in OBJECT_SETTINGS.items() if key and pl == key[0]}
+    print('per-object settings:', objset or 'none')
+    assert objset == want, (objset, want)
     print('READBACK OK')
 
 
