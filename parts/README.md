@@ -1,5 +1,24 @@
 # parts/: print files
 
+## link_12 opening fit test, 0.2 / 0.4 total clearance (EXO-417, 2026-11-13)
+
+Two link_12 variants to find the opening the XL330 passes. Named by the TOTAL clearance over the
+XL330's 20.0 x 34.0: "0.2" = `ACT_OPEN_MARGIN` 0.1 per side, "0.4" = 0.2 per side (the design
+default, = `link_12.3mf`). Built in `exo generated` through the bridge without saving
+(`tools/bridge_scripts/run_open0.2_exo417.py` / `run_open0.4_exo417.py`, export
+`export_link12_open_exo417.py`), then the document was closed unsaved and reopened at v33.
+Each carries its label debossed 0.4 deep, Arial Black 3.0, on the rotor pad's outer face
+(z +8, between the M3 counterbores at 0 and 90 deg), which is UP on the plate; 98.5 % of the
+label area survives a 0.4 mm opening. `link_12_open0.4` = `link_12.3mf` + the label (every
+`link_12.3mf` vertex is in it); `link_12_open0.2` differs from it only at the 12 opening-wall
+vertices and the label. Nothing else moves at margin 0.1 for link_12.
+
+| File | Part | Opening (mesh, 8 depths) | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
+|---|---|---|---|---|---|---|
+| `link_12_open0.2.3mf` | `g_link_12`, margin 0.1, label "0.2" | 20.200 x 34.200 | 58.500 x 79.184 x 63.530 | 44233.633 | 44237.266 | 9 |
+| `link_12_open0.4.3mf` | `g_link_12`, margin 0.2, label "0.4" | 20.400 x 34.400 | 58.500 x 79.184 x 63.530 | 44146.411 | 44150.046 | 9 |
+| `link12_open.bambu.3mf` | Bambu plate: both, rotor side down exactly as link_12 on links2 (joint face 410.2 mm2 on the bed, 73 tall, labels up); **"0.2" on the LEFT** (x 63.5..122.0), **"0.4" on the RIGHT** (x 134.0..192.5), y 94.58..161.42, gap 12; object names `link_12_open0.2` / `link_12_open0.4`; settings byte-identical to links2 (PLA-CF Matcha Green, normal supports, global auto_brim kept); `tools/bambu_plate_exo343.py --plate link12_open` | - | - | - | - | - |
+
 ## Link actuator opening 20.4 x 34.4 (EXO-415, 2026-11-12)
 
 The actuator would not pass the printed links (EXO-413: every opening was the XL330's own
