@@ -2239,18 +2239,20 @@ close('EXO-176: the slide is what moves the entry to the far side of the plate a
 # this footprint, back at ACT_Z[0], carrying on up to z -10.5 inside the stator - so
 # `check_interference` sees the real actuator as one of its module wrapper's own bodies and
 # EXO-187's proxy body is gone. The rules below are pure Python and unchanged: the landing
-# plate's opening is cut to that footprint EXACTLY (EXO-193 - `ACT_OPEN_MARGIN` 0: the
-# hand-made links do that and the real actuator fits) and through the whole volume, and every
+# plate's opening is cut to that footprint grown by `ACT_OPEN_MARGIN` (0 in EXO-193, the
+# hand-made links; 0.2 per side since EXO-415, the printed EXO-394 links would not take the
+# actuator at 0) and through the whole volume, and every
 # other solid the builder makes is checked against the volume grown by MIN_CLEARANCE in pure
 # Python before build and refused by name.
 print()
-close('EXO-193: the opening grows by ACT_OPEN_MARGIN and that is ZERO',
-      armgen.ACT_OPEN_MARGIN, 0.0, 0)
+close('EXO-415: the opening grows by ACT_OPEN_MARGIN and that is 0.2 per side',
+      armgen.ACT_OPEN_MARGIN, 0.2, 0)
 close('EXO-187: at m 0 the rectangle IS the XL330 footprint',
       list(armgen.actuator_rect(0.0)),
       [armgen.CUTOUT_X[0], armgen.CUTOUT_X[1], armgen.CUTOUT_Y[0], armgen.CUTOUT_Y[1]], 0)
-close('EXO-193: and the OPENING is that same rectangle - zero growth, the validated opening',
-      list(armgen.actuator_rect()), list(armgen.actuator_rect(0.0)), 0)
+close('EXO-415: and the OPENING is that rectangle grown 0.2 all round: 20.4 x 34.4',
+      list(armgen.actuator_rect()), [armgen.CUTOUT_X[0] - 0.2, armgen.CUTOUT_X[1] + 0.2,
+                                     armgen.CUTOUT_Y[0] - 0.2, armgen.CUTOUT_Y[1] + 0.2], 1e-12)
 close('EXO-193: the volume runs from the actuator back to the stator underside',
       list(armgen.actuator_volume()[4:]),
       [armgen.ACT_Z[0] - armgen.ACT_OPEN_MARGIN, armgen.STATOR_UNDERSIDE_Z], 0)
@@ -2266,10 +2268,10 @@ close('EXO-193: the non-plate check still grows the volume by MIN_CLEARANCE',
        armgen.CUTOUT_Y[0] - 1.0, armgen.CUTOUT_Y[1] + 1.0,
        armgen.ACT_Z[0] - 1.0, armgen.STATOR_UNDERSIDE_Z], 0)
 close('EXO-187: a point in the middle of the volume is inside, by its depth to the nearest face',
-      armgen.actuator_box_dist((0.0, 7.5, -31.0)), -min(10.0, 17.0, 5.5), 1e-9)
+      armgen.actuator_box_dist((0.0, 7.5, -31.0), 0.0), -min(10.0, 17.0, 5.5), 1e-9)
 close('EXO-187: outside, the distance is Euclidean',
-      armgen.actuator_box_dist((13.0, 28.5, -31.0)), 5.0, 1e-9)
-close('EXO-187: on the face it is 0', armgen.actuator_box_dist((10.0, 0.0, -30.0)), 0.0, 1e-12)
+      armgen.actuator_box_dist((13.0, 28.5, -31.0), 0.0), 5.0, 1e-9)
+close('EXO-187: on the face it is 0', armgen.actuator_box_dist((10.0, 0.0, -30.0), 0.0), 0.0, 1e-12)
 close('EXO-187: in_actuator_rect is the opening over the cut\'s z span',
       [armgen.in_actuator_rect((0.0, 0.0, -30.0)), armgen.in_actuator_rect((0.0, 0.0, -20.0)),
        armgen.in_actuator_rect((10.5, 0.0, -30.0))], [True, False, False], 0)
@@ -2278,16 +2280,22 @@ close('EXO-187: in_actuator_rect is the opening over the cut\'s z span',
 # SW_LINKS loop above checks CUTOUT_Y[1] to 1e-6)
 close('EXO-187: the old router still measures the XL330\'s own edge (EXO-130 datum)',
       armgen.landing_numbers(R_23, t_23)['cut_reach'], armgen.CUTOUT_Y[1], 5e-3)
-close('EXO-193: and the OPENING reaches exactly as far - zero growth',
+close('EXO-415: and the OPENING reaches ACT_OPEN_MARGIN further',
       armgen.landing_numbers(R_23, t_23)['cut_reach_clear'],
       armgen.CUTOUT_Y[1] + armgen.ACT_OPEN_MARGIN, 5e-3)
 _ACT_LINKS = ('link_12', 'link_23', 'link_34', 'link_45', 'link_56', 'link_67')
 for _n in _ACT_LINKS:
     _r = _AR[_n]
-    # the opening's reach along the tongue is the rectangle's support function, and since
-    # EXO-193 the opening IS the footprint, so the two reaches coincide on every landing
-    close('EXO-193: %s sizes its web off the OPENING = the XL330\'s own edge' % _n,
-          _r['cut_reach'] - _r['cut_reach_act'], armgen.ACT_OPEN_MARGIN, 1e-9)
+    # the opening's reach along the tongue is the rectangle's support function: the grown
+    # rectangle's reach minus the XL330's own, along the tongue's own +Y (EXO-415: 0.2 on a
+    # square landing, more on an angled one)
+    _Rs = _r.get('R_t') or _r['R_b']
+    _yt = [_Rs[i][1] for i in range(3)]
+    _nm = _r['numbers']
+    close('EXO-193: %s sizes its web off the OPENING, not the XL330\'s own edge' % _n,
+          _r['cut_reach'] - _r['cut_reach_act'],
+          armgen._cutout_reach(_nm['x_b'], _nm['y_b'], _yt, armgen.ACT_OPEN_MARGIN)
+          - armgen._cutout_reach(_nm['x_b'], _nm['y_b'], _yt, 0.0), 1e-9)
     close('EXO-187: %s keeps LAND_WEB of plate between the OPENING and the ribbon' % _n,
           _r['cut_web'] >= sweepgen.LAND_WEB - 1e-9, True, 0)
     close('EXO-187: %s\'s true planar gap to the opening is no less than the solved web' % _n,
@@ -2305,8 +2313,9 @@ for _n in _ACT_LINKS:
           * armgen.PAD_T, 1e-6)
     # the thinnest plate ANYWHERE round the opening is measured (EXO-186's number, not enforced)
     close('EXO-187: %s reports the thinnest plate round the opening, at a +Y corner' % _n,
-          _r['act_web_min'] > 0.0 and abs(_r['act_web_at'][0]) == 10.0
-          and _r['act_web_at'][1] == 24.5, True, 0)
+          _r['act_web_min'] > 0.0
+          and abs(abs(_r['act_web_at'][0]) - armgen.actuator_rect()[1]) < 1e-12
+          and abs(_r['act_web_at'][1] - armgen.actuator_rect()[3]) < 1e-12, True, 0)
     close('EXO-187: %s\'s stator rings are bounded by the OPENING where the opening binds' % _n,
           all(h['bound'] != 'the actuator cutout' for h in _r['rings']), True, 0)
 # the check is by NAME: grow the volume until it swallows link_23's collar and it says which
@@ -2320,8 +2329,9 @@ close('EXO-187: the collar is what stands nearest the XL330 on every link',
 # tangent to, and the plate's opening edge IS the actuator's face. Every BODY keeps 1 mm.
 close('EXO-193: every link\'s collar clears the XL330\'s own box',
       [_AR[n]['act_collar_gap'] >= -1e-9 for n in _ACT_LINKS], [True] * 6, 0)
-close('EXO-193: and on the two links the web binds, the collar stands exactly on it',
-      [round(_AR[n]['act_collar_gap'], 6) for n in ('link_23', 'link_45')], [0.0, 0.0], 1e-9)
+close('EXO-193/415: and on the two links the web binds, the collar stands exactly on the opening edge',
+      [round(_AR[n]['act_collar_gap'], 6) for n in ('link_23', 'link_45')],
+      [armgen.ACT_OPEN_MARGIN] * 2, 1e-9)
 close('EXO-193: the bar a BODY gets is still the volume grown by MIN_CLEARANCE',
       [_AR[n]['act_gap'] >= armgen.MIN_CLEARANCE - 1e-9 for n in _ACT_LINKS], [True] * 6, 0)
 close('EXO-193: and no body is the nearest thing - the collar is, on every link',

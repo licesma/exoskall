@@ -343,7 +343,13 @@ MIN_CLEARANCE = 1.0         # mm between generated body and the next module
 # cut feature - opens to exactly one number. The pure-Python `actuator_check` on NON-plate
 # material (ribbon, collar, rotor pad, stop block, tab) is a different question and keeps
 # MIN_CLEARANCE: nothing but the plate is allowed to mate with the actuator.
-ACT_OPEN_MARGIN = 0.0
+# EXO-415 (Esteban, 2026-11-12): 0.2 per side, so the LINK opening is 20.4 x 34.4. The printed
+# links (EXO-394 generation) would not take the actuator at 0 (EXO-413). Only the generated
+# links read this constant: the stator pocket is `sensor module 2`'s own solid and the body
+# mount is its own document, both stay 20.0 x 34.0. The landing solve follows it, so the
+# 3.0 LAND_WEB stays: link_23 / link_45 land 0.2 further out (drop +0.2), link_34 / link_67
+# landing disks grow (r 27.424 -> 27.834, 29.463 -> 29.723); link_12 / link_56 only open.
+ACT_OPEN_MARGIN = 0.2
 # The module as a SOLID OF REVOLUTION about its own axis: (z_lo, z_hi, radius) in the
 # module frame, measured off the leaf bodies of `sensor module 2` in the exo STEP
 # (EXO-166, tools/bridge_scripts/measure_wrist_profiles.py). It is a fact about the

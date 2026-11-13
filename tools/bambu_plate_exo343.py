@@ -219,6 +219,9 @@ SOURCE_V.update({'bottom': 3578.998})   # EXO-394: O3.0 x 2.0 pegs on the bottom
 SOURCE_V.update({'link_12': 44324.563, 'link_23': 49751.082})   # EXO-394 (c2.0, sockets, chamfer)
 SOURCE_V.update({'body_mount': 200380.178})   # EXO-401 (Fusion Body1 200387.392)
 SOURCE_V.update({'link_34': 63225.829, 'link_45': 62060.991})   # EXO-402 (Fusion 63232.554 / 62072.567)
+# EXO-415: actuator opening 20.4 x 34.4 (ACT_OPEN_MARGIN 0.2); link_23 / link_45 land 0.2 further
+# out, link_34's landing disk r 27.424 -> 27.834 (Fusion 44154.172 / 49645.770 / 63447.633 / 62009.438)
+SOURCE_V.update({'link_12': 44150.533, 'link_23': 49637.858, 'link_34': 63440.986, 'link_45': 62000.328})
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
 PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
