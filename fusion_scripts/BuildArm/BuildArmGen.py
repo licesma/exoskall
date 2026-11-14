@@ -806,7 +806,7 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
     body = _merge(comp, body, sk.extrude(len(g.INSERT_ANGLES), g.PAD_T + 2 * eps, NEW),
                   CUT, 'stator holes', name)
     # EXO-187/EXO-193: the actuator OPENING - the XL330's footprint grown by
-    # `ACT_OPEN_MARGIN` (0.2 per side since EXO-415; 0 in EXO-193), in the
+    # `ACT_OPEN_MARGIN` (0.1 per side since EXO-419; 0.2 in EXO-415, 0 in EXO-193), in the
     # true stator frame B, cut THROUGH the whole exclusion volume (the actuator's back up to
     # the stator underside), not to the plate's depth. `sweepgen.actuator_check` has already
     # refused any route whose ribbon, collar or rotor join sits in that volume, so what this
@@ -1262,7 +1262,7 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
         'interference check; measured, `XL330 v2/Body1` is x %.1f..%.1f, y %.1f..%.1f from its '
         'back z %.1f on up (past the stator underside %.1f, where it is inside the stator\'s '
         'own solid) - the proxy rectangle to 0.000 mm. Each landing plate\'s opening is that '
-        'footprint grown by ACT_OPEN_MARGIN %.1f (EXO-415: 0.2 per side; 0 in EXO-193), cut through the whole volume (z %.1f..%.1f); every BODY of '
+        'footprint grown by ACT_OPEN_MARGIN %.1f (EXO-419: 0.1 per side; 0.2 in EXO-415, 0 in EXO-193), cut through the whole volume (z %.1f..%.1f); every BODY of '
         'every link was checked against the volume grown by MIN_CLEARANCE %.1f in pure Python '
         'before the build and would have been refused by name; the EXO-183 collar is a blend '
         'tangent to the plate, so its bar is the XL330\'s own box (EXO-193).'

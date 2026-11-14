@@ -13,7 +13,6 @@
     python3 -I tools/bambu_plate_exo343.py --plate body_mount   # body_mount.bambu.3mf (EXO-401): the chest mount
     python3 -I tools/bambu_plate_exo343.py --plate links34      # links34.bambu.3mf (EXO-402, EXO-405/406): link_34, link_45
     python3 -I tools/bambu_plate_exo343.py --plate joints34     # joints34.bambu.3mf (EXO-402, EXO-405/406): + 2x stator, 2x bottom
-    python3 -I tools/bambu_plate_exo343.py --plate link12_open  # link12_open.bambu.3mf (EXO-417): link_12 opening 0.2 / 0.4
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -194,14 +193,6 @@ J34_LAYOUT = [
     ('bottom_1', 'bottom', None, (170.5, 169.94)),
     ('bottom_2', 'bottom', None, (217.5, 169.94)),
 ]
-# link12_open (EXO-417): link_12 actuator-opening fit test, both variants exactly as link_12 on
-# links2 (ROTOR SIDE DOWN, joint face on the bed): link_12_open0.2 (20.2 x 34.2, label "0.2") on the
-# LEFT, link_12_open0.4 (20.4 x 34.4, label "0.4") on the RIGHT. Labels debossed 0.4 into the rotor
-# pad's outer face, which is up. Footprints 58.5 x 66.84, gap 12, centred on 128/128.
-LINK12_OPEN_LAYOUT = [
-    ('link_12_open0.2', 'link_12_open0.2', ('bed', (-0.000199314, 0.961245874, -0.275692454)), (92.75, 128.0)),
-    ('link_12_open0.4', 'link_12_open0.4', ('bed', (-0.000199314, 0.961245874, -0.275692454)), (163.25, 128.0)),
-]
 PLATES = {
     'body_mount': (os.path.join(PARTS, 'body_mount.bambu.3mf'), 'body_mount', BODY_MOUNT_LAYOUT),
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
@@ -214,7 +205,6 @@ PLATES = {
     'stator_dia_low': (os.path.join(PARTS, 'stator_dia_low.bambu.3mf'), 'stator_dia_low', SDIA_LOW_LAYOUT),
     'links34': (os.path.join(PARTS, 'links34.bambu.3mf'), 'links34', LINKS34_LAYOUT),
     'joints34': (os.path.join(PARTS, 'joints34.bambu.3mf'), 'joints34', J34_LAYOUT),
-    'link12_open': (os.path.join(PARTS, 'link12_open.bambu.3mf'), 'link12_open', LINK12_OPEN_LAYOUT),
 }
 # EXO-364: top / link_12 / link_23 re-exported with the rotor key (was 5786.178 / 40392.766 / 45818.953)
 SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom': 3865.634,
@@ -232,12 +222,13 @@ SOURCE_V.update({'link_34': 63225.829, 'link_45': 62060.991})   # EXO-402 (Fusio
 # EXO-415: actuator opening 20.4 x 34.4 (ACT_OPEN_MARGIN 0.2); link_23 / link_45 land 0.2 further
 # out, link_34's landing disk r 27.424 -> 27.834 (Fusion 44154.172 / 49645.770 / 63447.633 / 62009.438)
 SOURCE_V.update({'link_12': 44150.533, 'link_23': 49637.858, 'link_34': 63440.986, 'link_45': 62000.328})
-# EXO-417: link_12 opening 20.2 x 34.2 (margin 0.1) / 20.4 x 34.4, each with its pad label (Fusion 44237.266 / 44150.046)
-SOURCE_V.update({'link_12_open0.2': 44233.633, 'link_12_open0.4': 44146.411})
+# EXO-419: actuator opening 20.2 x 34.2 (ACT_OPEN_MARGIN 0.1, the EXO-417 fit test's "0.2" link);
+# link_23 / link_45 land 0.1 less far out than EXO-415, link_34's landing disk r 27.834 -> 27.630
+# (Fusion 44241.508 / 49702.823 / 63340.638 / 62041.359). The EXO-417 link12_open plate is archived.
+SOURCE_V.update({'link_12': 44237.869, 'link_23': 49694.996, 'link_34': 63334.118, 'link_45': 62029.693})
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
 PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
-PLATE_MARGIN.update({'link12_open': 10.0})   # EXO-417
 # EXO-406: default filament for plates built from now on: Bambu PLA-CF, Matcha Green. Values =
 # preset "Bambu PLA-CF @BBL X1C" (GFSA50_01; lists P1S 0.4 nozzle as compatible) with inheritance
 # resolved (-> @base -> fdm_filament_pla -> fdm_filament_common, include
@@ -288,7 +279,6 @@ SUPPORT_EXO405 = {'support_type': 'normal(auto)', 'support_top_z_distance': '0.1
 SUPPORT_AUTO_BRIM = {k: v for k, v in SUPPORT_EXO405.items() if k != 'brim_type'}
 PLATE_SETTINGS = {p: SUPPORT_EXO405 for p in PLATES}
 PLATE_SETTINGS.update({p: SUPPORT_AUTO_BRIM for p in ('link', 'joints4', 'all', 'joints2', 'links2')})
-PLATE_SETTINGS['link12_open'] = SUPPORT_AUTO_BRIM   # EXO-417: link_12 alone, brim as links2
 # per-object settings (model_settings.config <object> metadata), by plate and object name
 OBJECT_SETTINGS = {('links34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')],
                    ('joints34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')]}

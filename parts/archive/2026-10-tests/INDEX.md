@@ -66,3 +66,6 @@
 - `joints2a_exo383.bambu.3mf`, `joints2b_exo383.bambu.3mf`: the EXO-383 test plates (c1.0 + c1.5 links, 2 stators, 2 bottoms / the c2.0 links), were `parts/joints2a|b.bambu.3mf`
 - `links6_exo383.bambu.3mf`: the EXO-392 plate of the six counterbored links, was `parts/links6.bambu.3mf`
 - `bottom_exo383.3mf`: the EXO-370/383 bottom (boss r 7.8, sockets O3.3 floor -9.3, mesh V 3377.371); mates the c* links; replaced by the EXO-394 bottom with O3.0 x 2.0 pegs
+- `link_12_open0.2.3mf`: EXO-417 link_12 fit test, opening 20.2 x 34.2 (ACT_OPEN_MARGIN 0.1, 0.2 total), label "0.2"; mesh V 44233.633. Result: FITS (Esteban, 2026-11-13, PLA-CF, normal supports, rotor side down: "0.2 works fine"). Became the design default: `parts/link_12.3mf` (EXO-419) is this part without the label
+- `link_12_open0.4.3mf`: EXO-417 link_12 fit test, opening 20.4 x 34.4 (margin 0.2, 0.4 total, the EXO-415 default), label "0.4"; mesh V 44146.411. Not reported on; superseded by the 0.2 total opening (EXO-419)
+- `link12_open_exo417.bambu.3mf`: the EXO-417 plate of both (0.2 left, 0.4 right), was `parts/link12_open.bambu.3mf` (`--plate link12_open`, retired by EXO-419)

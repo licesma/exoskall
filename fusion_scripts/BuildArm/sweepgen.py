@@ -436,7 +436,7 @@ def sweep_route(R_ab, t_ab, pad_r, width, thickness=RIBBON_T, web=LAND_WEB,
     # ---- 1. how high the ribbon arrives, and therefore how long the tongue is.
     # The landing sits `web` past the actuator OPENING's reach, measured in the TRUE stator
     # frame where the actuator is, so the module's rotation moves it. The opening is the
-    # XL330's footprint grown by `ACT_OPEN_MARGIN` (0.2 since EXO-415, 0 in EXO-193), so
+    # XL330's footprint grown by `ACT_OPEN_MARGIN` (0.1 since EXO-419, 0.2 in EXO-415, 0 in EXO-193), so
     # `cut_reach_clear` is the opening's edge and the web is plate between the OPENING and
     # the ribbon. The ribbon stays in the rotor pad's
     # plane when the opening lets

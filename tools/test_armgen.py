@@ -2240,19 +2240,20 @@ close('EXO-176: the slide is what moves the entry to the far side of the plate a
 # `check_interference` sees the real actuator as one of its module wrapper's own bodies and
 # EXO-187's proxy body is gone. The rules below are pure Python and unchanged: the landing
 # plate's opening is cut to that footprint grown by `ACT_OPEN_MARGIN` (0 in EXO-193, the
-# hand-made links; 0.2 per side since EXO-415, the printed EXO-394 links would not take the
-# actuator at 0) and through the whole volume, and every
+# hand-made links; 0.2 per side in EXO-415, the printed EXO-394 links would not take the
+# actuator at 0; 0.1 per side since EXO-419, the EXO-417 fit test's "0.2" link fits) and
+# through the whole volume, and every
 # other solid the builder makes is checked against the volume grown by MIN_CLEARANCE in pure
 # Python before build and refused by name.
 print()
-close('EXO-415: the opening grows by ACT_OPEN_MARGIN and that is 0.2 per side',
-      armgen.ACT_OPEN_MARGIN, 0.2, 0)
+close('EXO-419: the opening grows by ACT_OPEN_MARGIN and that is 0.1 per side',
+      armgen.ACT_OPEN_MARGIN, 0.1, 0)
 close('EXO-187: at m 0 the rectangle IS the XL330 footprint',
       list(armgen.actuator_rect(0.0)),
       [armgen.CUTOUT_X[0], armgen.CUTOUT_X[1], armgen.CUTOUT_Y[0], armgen.CUTOUT_Y[1]], 0)
-close('EXO-415: and the OPENING is that rectangle grown 0.2 all round: 20.4 x 34.4',
-      list(armgen.actuator_rect()), [armgen.CUTOUT_X[0] - 0.2, armgen.CUTOUT_X[1] + 0.2,
-                                     armgen.CUTOUT_Y[0] - 0.2, armgen.CUTOUT_Y[1] + 0.2], 1e-12)
+close('EXO-419: and the OPENING is that rectangle grown 0.1 all round: 20.2 x 34.2',
+      list(armgen.actuator_rect()), [armgen.CUTOUT_X[0] - 0.1, armgen.CUTOUT_X[1] + 0.1,
+                                     armgen.CUTOUT_Y[0] - 0.1, armgen.CUTOUT_Y[1] + 0.1], 1e-12)
 close('EXO-193: the volume runs from the actuator back to the stator underside',
       list(armgen.actuator_volume()[4:]),
       [armgen.ACT_Z[0] - armgen.ACT_OPEN_MARGIN, armgen.STATOR_UNDERSIDE_Z], 0)
@@ -2287,7 +2288,7 @@ _ACT_LINKS = ('link_12', 'link_23', 'link_34', 'link_45', 'link_56', 'link_67')
 for _n in _ACT_LINKS:
     _r = _AR[_n]
     # the opening's reach along the tongue is the rectangle's support function: the grown
-    # rectangle's reach minus the XL330's own, along the tongue's own +Y (EXO-415: 0.2 on a
+    # rectangle's reach minus the XL330's own, along the tongue's own +Y (EXO-419: 0.1 on a
     # square landing, more on an angled one)
     _Rs = _r.get('R_t') or _r['R_b']
     _yt = [_Rs[i][1] for i in range(3)]

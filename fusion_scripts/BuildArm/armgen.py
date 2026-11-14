@@ -349,7 +349,10 @@ MIN_CLEARANCE = 1.0         # mm between generated body and the next module
 # mount is its own document, both stay 20.0 x 34.0. The landing solve follows it, so the
 # 3.0 LAND_WEB stays: link_23 / link_45 land 0.2 further out (drop +0.2), link_34 / link_67
 # landing disks grow (r 27.424 -> 27.834, 29.463 -> 29.723); link_12 / link_56 only open.
-ACT_OPEN_MARGIN = 0.2
+# EXO-419 (Esteban, 2026-11-13): 0.1 per side, link opening 20.2 x 34.2. The EXO-417 fit test
+# printed link_12 at 20.2 x 34.2 and 20.4 x 34.4; "0.2 works fine" (0.2 TOTAL). The landing
+# solve follows it as above, half the EXO-415 shift.
+ACT_OPEN_MARGIN = 0.1
 # The module as a SOLID OF REVOLUTION about its own axis: (z_lo, z_hi, radius) in the
 # module frame, measured off the leaf bodies of `sensor module 2` in the exo STEP
 # (EXO-166, tools/bridge_scripts/measure_wrist_profiles.py). It is a fact about the
