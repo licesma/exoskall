@@ -827,7 +827,162 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
     sk.loop(g.rect_outline(g.ALIGN_MARK_R_IN, -g.ALIGN_MARK_W / 2,
                            g.ALIGN_MARK_R_OUT, g.ALIGN_MARK_W / 2))
     body = _merge(comp, body, sk.extrude(1, mz1 - mz0, NEW), CUT, 'assembly mark', name)
+    if g.JOINT_LABEL_ON:
+        body = _joint_labels(comp, body, FA, FB, pad_r, name, rep)
     return body
+
+
+_INSIDE = None
+
+
+def _solid(body, F, p):
+    """True if the point p (frame F, mm) is inside or on `body`."""
+    global _INSIDE
+    if _INSIDE is None:
+        _INSIDE = (adsk.fusion.PointContainment.PointInsidePointContainment,
+                   adsk.fusion.PointContainment.PointOnPointContainment)
+    return body.pointContainment(F.point(p)) in _INSIDE
+
+
+def _label_room(body, F, c, step=0.5):
+    """EXO-421: the glyph box of candidate `c` grown by JOINT_LABEL_PROBE_M is flat solid face:
+    every probe point is solid 0.6 below the label floor and empty 0.3 outside the face plane
+    (a hole, a counterbore, the opening, an edge, a fillet or the ribbon in the way fails it)."""
+    hw, hh = c['half']
+    m = armgen.JOINT_LABEL_PROBE_M
+    ns = int(math.ceil(2 * (hw + m) / step)) + 1
+    nt = int(math.ceil(2 * (hh + m) / step)) + 1
+    for i in range(ns):
+        s = -(hw + m) + 2 * (hw + m) * i / (ns - 1)
+        for j in range(nt):
+            t = -(hh + m) + 2 * (hh + m) * j / (nt - 1)
+            for w, want in ((-(c['depth'] + 0.6), True), (0.3, False)):
+                p = [c['centre'][k] + s * c['u'][k] + t * c['v'][k] + w * c['n'][k]
+                     for k in range(3)]
+                if _solid(body, F, p) != want:
+                    return False, (s, t, w)
+    return True, None
+
+
+def _joint_labels(comp, body, FA, FB, pad_r, name, rep=None):
+    """EXO-421: the joint numbers (`armgen.joint_label_texts`): joint a's on the rotor pad's rim,
+    joint b's on the stator pad's outer face, each at the first candidate (best first, see
+    armgen) whose glyph box is flat solid face on the body as built."""
+    g = armgen
+    texts = g.joint_label_texts(name)
+    if texts is None:
+        if rep:
+            rep('      EXO-421 joint numbers: none (%s has no joint pair in its name)' % name)
+        return body
+    for text, F, cands in ((texts[0], FA, g.rim_label_candidates(FA.R, pad_r)),
+                           (texts[1], FB, g.stator_label_candidates(FB.R))):
+        tried = []
+        for c in cands:
+            ok, where = _label_room(body, F, c)
+            if ok:
+                break
+            tried.append('%g' % c['angle'])
+        else:
+            raise RuntimeError('%s: no room for joint number %s on the %s (tried %s)'
+                               % (name, text, cands[0]['face'] if cands else '?', ', '.join(tried)))
+        body = _cut_label(comp, body, F, c, text, '%s J%s number' % (name, text))
+        if rep:
+            rep('      EXO-421 joint number "%s": %s at %g deg (centre %s, frame of J%s), up = world %s, '
+                'floor %.3f deep at the centre, %.3f at the shallowest; view score %.3f; rejected %s'
+                % (text, c['face'], c['angle'], ['%.3f' % x for x in c['centre']], text, c['how'],
+                   c['depth'], g.JOINT_LABEL_D, c['score'], ', '.join(tried) or 'none'))
+    return body
+
+
+def _cut_label(comp, body, F, c, text, nm):
+    """Deboss one digit: Arial Black, JOINT_LABEL_H, sketched on the floor plane (normal = the
+    face's outward normal, so it reads unmirrored from outside), turned so it reads along u with
+    its top along v, extruded to 0.1 past the face as new bodies, refused if a glyph vertex
+    leaves the probed box, then combine-cut."""
+    g = armgen
+    depth = c['depth']
+    floor = [c['centre'][k] - depth * c['n'][k] for k in range(3)]
+    e1, e2 = F.vector(c['u']), F.vector(c['v'])
+    sk = BuildArm.PlaneSketch(comp, nm, F.point(floor), e1, e2)
+    nrm = sk.sketch.xDirection.crossProduct(sk.sketch.yDirection)
+    if nrm.dotProduct(F.vector(c['n'])) < 0.99:
+        raise RuntimeError('%s: sketch normal is not the outward face normal (%.3f)'
+                           % (nm, nrm.dotProduct(F.vector(c['n']))))
+    h = g.JOINT_LABEL_H
+    o, px = sk.pt(0.0, 0.0), sk.pt(1.0, 0.0)
+    ti = sk.sketch.sketchTexts.createInput2(text, h * BuildArm.MM_TO_CM)
+    box = 1.5 * h * BuildArm.MM_TO_CM
+    ti.setAsMultiLine(adsk.core.Point3D.create(o.x - box, o.y - box, 0),
+                      adsk.core.Point3D.create(o.x + box, o.y + box, 0),
+                      adsk.core.HorizontalAlignments.CenterHorizontalAlignment,
+                      adsk.core.VerticalAlignments.MiddleVerticalAlignment, 0)
+    ti.fontName = g.JOINT_LABEL_FONT
+    st = sk.sketch.sketchTexts.add(ti)
+    if st.fontName != g.JOINT_LABEL_FONT:
+        raise RuntimeError('%s: font is %r' % (nm, st.fontName))
+    ang = math.atan2(px.y - o.y, px.x - o.x) % (2.0 * math.pi)   # u in sketch space; text runs along x
+    if 1e-9 < ang < 2.0 * math.pi - 1e-9:
+        err = None
+        for a in (ang, ang - 2.0 * math.pi):       # the API refuses some ranges ("invalid input angle")
+            try:
+                st.definition.rotate(a)
+                err = None
+                break
+            except Exception as e:
+                err = e
+        if err is not None:
+            raise RuntimeError('%s: cannot turn the text by %.6f rad: %s' % (nm, ang, err))
+    keep = set(comp.bRepBodies.item(i).entityToken for i in range(comp.bRepBodies.count))
+    feats = comp.features.extrudeFeatures
+    ein = feats.createInput(st, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+    ein.setDistanceExtent(False, adsk.core.ValueInput.createByReal((depth + 0.1) * BuildArm.MM_TO_CM))
+    feats.add(ein)
+    hw, hh = c['half']
+    tools = adsk.core.ObjectCollection.create()
+    pts = []
+    for i in range(comp.bRepBodies.count):
+        b = comp.bRepBodies.item(i)
+        if b.entityToken in keep:
+            continue
+        for k in range(b.vertices.count):
+            q = F.local(b.vertices.item(k).geometry)
+            d = [q[j] - c['centre'][j] for j in range(3)]
+            pts.append((armgen.dot(d, c['u']), armgen.dot(d, c['v']), armgen.dot(d, c['n'])))
+        tools.add(b)
+    if tools.count == 0:
+        raise RuntimeError('%s: the digit made no glyph bodies' % nm)
+    # the text box's alignment centres the advance width and the line, not the ink: move the
+    # glyphs so the ink's box is centred on the probed centre
+    lo = [min(p[j] for p in pts) for j in range(3)]
+    hi = [max(p[j] for p in pts) for j in range(3)]
+    sc, tc = (lo[0] + hi[0]) / 2.0, (lo[1] + hi[1]) / 2.0
+    if abs(sc) > 1e-4 or abs(tc) > 1e-4:
+        mv = [-(sc * c['u'][k] + tc * c['v'][k]) for k in range(3)]
+        mw = F.vector(mv)
+        mt = adsk.core.Matrix3D.create()
+        mt.translation = adsk.core.Vector3D.create(mw.x * BuildArm.MM_TO_CM, mw.y * BuildArm.MM_TO_CM,
+                                                   mw.z * BuildArm.MM_TO_CM)
+        comp.features.moveFeatures.add(comp.features.moveFeatures.createInput(tools, mt))
+        lo, hi = [lo[0] - sc, lo[1] - tc, lo[2]], [hi[0] - sc, hi[1] - tc, hi[2]]
+    if not (hi[0] <= hw and hi[1] <= hh and lo[2] >= -depth - 1e-3 and hi[2] <= 0.1 + 1e-3):
+        raise RuntimeError('%s: glyph box reading %.3f..%.3f up %.3f..%.3f out %.3f..%.3f is outside '
+                           'the probed box %.2f x %.2f' % (nm, lo[0], hi[0], lo[1], hi[1], lo[2], hi[2],
+                                                         2 * hw, 2 * hh))
+    # a digit stands upright along +v: taller than half its height, whatever its width
+    if not (hi[1] - lo[1] > 0.8 * h):
+        raise RuntimeError('%s: glyph %.3f tall along up, %.3f along reading: not upright'
+                           % (nm, hi[1] - lo[1], hi[0] - lo[0]))
+    c['shift'] = (sc, tc)
+    c['glyph'] = (lo, hi)
+    cin = comp.features.combineFeatures.createInput(body, tools)
+    cin.operation = adsk.fusion.FeatureOperations.CutFeatureOperation
+    cin.isKeepToolBodies = False
+    comp.features.combineFeatures.add(cin)
+    if comp.bRepBodies.count != 1:
+        raise RuntimeError('%s: %d bodies after the digit' % (nm, comp.bRepBodies.count))
+    sk.sketch.isVisible = False
+    sk.cplane.isLightBulbOn = False
+    return comp.bRepBodies.item(0)
 
 
 def _rotor_label(comp, body, FA, ex, ey, name):

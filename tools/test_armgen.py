@@ -2881,6 +2881,77 @@ close('EXO-242: the rename cannot change an interference verdict - the classifie
        == armgen.classify_interference('Component1/Body1', 'm3_6mm_insert/Body1',
                                        big, True)], [True, True], 0)
 
+# EXO-421: joint numbers, one per link end. Pure rules (`armgen.joint_label_*`); the build probes
+# the real body on top of them (`BuildArmGen._label_room`).
+close('EXO-421: texts are the two joint numbers of the link name, rotor end first',
+      [armgen.joint_label_texts('g_link_12') == ('1', '2'), armgen.joint_label_texts('link_23') == ('2', '3'),
+       armgen.joint_label_texts('g_link_67') == ('6', '7'), armgen.joint_label_texts('link_R45') == ('4', '5'),
+       armgen.joint_label_texts('stator') is None, armgen.JOINT_LABEL_ON], [True] * 6, 0)
+close('EXO-421: Arial Black, 4.5 high, 0.4 deep (EXO-417 method, bigger digit)',
+      [armgen.JOINT_LABEL_FONT == 'Arial Black', armgen.JOINT_LABEL_H, armgen.JOINT_LABEL_D],
+      [True, 4.5, 0.4], 0)
+_jl_up = {}
+for _n in ((0, 1, 0), (1, 0, 0), (0, 0, 1), (0, 0, -1), (0.6, -0.8, 0), (0, -0.9612, 0.2757)):
+    _u, _v, _how = armgen.joint_label_axes(_n)
+    _nn = armgen.unit(_n)
+    _x = armgen.cross(_u, _v)
+    _jl_up[_n] = _how
+    close('EXO-421: axes on normal %s: unit, orthogonal, u x v = outward n (not mirrored)' % (_n,),
+          [armgen.dot(_u, _u), armgen.dot(_v, _v), armgen.dot(_u, _v), armgen.dot(_v, _nn)] + _x,
+          [1.0, 1.0, 0.0, 0.0] + _nn, 1e-12)
+close('EXO-421: up is world +Z on a wall, AWAY (-X) on a face looking up or down',
+      [_jl_up[(1, 0, 0)] == 'up', _jl_up[(0, 0, 1)] == 'away', _jl_up[(0, 0, -1)] == 'away',
+       armgen.joint_label_axes((1, 0, 0))[1][2], armgen.joint_label_axes((0, 0, 1))[1][0]],
+      [True, True, True, 1.0, -1.0], 1e-12)
+_hw, _hh = armgen.joint_label_glyph_half()
+close('EXO-421: glyph box holds an Arial Black digit (EXO-417 "0": 0.96 H wide, 1.03 H tall)',
+      [2 * _hw >= 0.96 * armgen.JOINT_LABEL_H, 2 * _hh >= 1.03 * armgen.JOINT_LABEL_H], [True, True], 0)
+for _a in armgen.JOINT_LABEL_STATOR_ANGLES:
+    _x, _y = (armgen.JOINT_LABEL_STATOR_R * math.cos(math.radians(_a)),
+              armgen.JOINT_LABEL_STATOR_R * math.sin(math.radians(_a)))
+    _o, _h, _e = armgen.stator_label_clearance(_x, _y)
+    close('EXO-421: stator spot %g deg clears the opening %.2f, an insert ring %.2f, the edge %.2f'
+          % (_a, _o, _h - armgen.HOLE_R - armgen.HOLE_FLAT_RING, _e),
+          [_o >= armgen.JOINT_LABEL_WEB, _h >= armgen.HOLE_R + armgen.HOLE_FLAT_RING,
+           _e >= armgen.JOINT_LABEL_EDGE, armgen.stator_label_ok(_x, _y)], [True] * 4, 0)
+close('EXO-421: a spot on the opening, on an insert or past the edge is refused',
+      [armgen.stator_label_ok(0.0, 0.0), armgen.stator_label_ok(armgen.INSERT_RADIUS, 0.0),
+       armgen.stator_label_ok(0.0, -26.0)], [False, False, False], 0)
+# frames of the built arm at q = 0 (exo generated v34, export_exo419 log): rotation columns X Y Z
+_JLF = {'J1': ((0.99999998, 0.00020735, 0.0), (-0.00005716, 0.27569245, 0.96124590), (0.00019931, -0.96124587, 0.27569245)),
+        'J2': ((0.0, -0.27569246, -0.96124589), (-0.00019931, 0.96124587, -0.27569246), (0.99999998, 0.00019159, -0.00005495)),
+        'J3': ((-0.00019158, 0.99999998, -0.00006), (0.99999998, 0.00019158, -0.00005495), (-0.00005494, -0.00006001, -1.0)),
+        'J4': ((0.99999998, 0.00019159, -0.00005495), (0.00005494, 0.00006001, 1.0), (0.00019159, -0.99999998, 0.00006)),
+        'J5': ((0.00005494, 0.00006, 1.0), (0.00019159, -0.99999998, 0.00005999), (0.99999998, 0.00019159, -0.00005495))}
+_JLR = dict((k, [[c[i] for c in v] for i in range(3)]) for k, v in _JLF.items())
+for _lk, _a, _b, _pr, _first_rim, _first_st in (('12', 'J1', 'J2', 26.0, 345.0, 210.0),
+                                                 ('23', 'J2', 'J3', 27.0, 285.0, 300.0),
+                                                 ('34', 'J3', 'J4', 26.0, 135.0, 150.0),
+                                                 ('45', 'J4', 'J5', 27.0, 0.0, 30.0)):
+    _rc = armgen.rim_label_candidates(_JLR[_a], _pr)
+    _sc = armgen.stator_label_candidates(_JLR[_b])
+    close('EXO-421: link_%s rim: candidates fit the pad height, sorted by view, floor 0.4 at the '
+          'shallowest; first %g deg' % (_lk, _first_rim),
+          [len(_rc) > 0, all(c['axial'] <= armgen.ROTOR_PAD_T / 2 + 1e-9 for c in _rc),
+           all(_rc[i]['score'] >= _rc[i + 1]['score'] for i in range(len(_rc) - 1)),
+           all(abs(c['depth'] - c['sag'] - armgen.JOINT_LABEL_D) < 1e-12 for c in _rc),
+           all(c['depth'] < 0.75 for c in _rc), _rc[0]['angle']],
+          [True, True, True, True, True, _first_rim], 1e-9)
+    close('EXO-421: link_%s rim floor leaves >= HOLE_FLAT_RING to the M3 counterbore (%.3f)'
+          % (_lk, _pr - max(c['depth'] for c in _rc) - armgen.ROTOR_HOLE_RADIUS - armgen.ROTOR_CBORE_R),
+          _pr - max(c['depth'] for c in _rc) - armgen.ROTOR_HOLE_RADIUS - armgen.ROTOR_CBORE_R
+          >= armgen.HOLE_FLAT_RING, True, 0)
+    close('EXO-421: link_%s stator: all six spots, highest along up first (%g deg); floor 7.6 of 8 left'
+          % (_lk, _first_st),
+          [len(_sc), _sc[0]['angle'], all(c['n'] == [0.0, 0.0, -1.0] for c in _sc),
+           armgen.PAD_T - armgen.JOINT_LABEL_D],
+          [6, _first_st, True, 7.6], 1e-9)
+    for c in _rc[:1] + _sc[:1]:
+        _w = armgen.cross(armgen.matvec(_JLR[_a if c['end'] == 'rotor' else _b], c['u']),
+                          armgen.matvec(_JLR[_a if c['end'] == 'rotor' else _b], c['v']))
+        close('EXO-421: link_%s %s digit reads from outside (u x v = outward n, world)' % (_lk, c['face']),
+              _w, armgen.matvec(_JLR[_a if c['end'] == 'rotor' else _b], c['n']), 1e-6)
+
 print()
 if fails:
     print('FAILED:', fails)

@@ -1,5 +1,33 @@
 # parts/: print files
 
+## Joint numbers on every link, plate links345 (EXO-421, EXO-422, 2026-11-13)
+
+Every link carries the number of each joint it meets, one per end: link_12 "1" and "2", link_23
+"2" and "3", link_34 "3" and "4", link_45 "4" and "5" (link_56, link_67 in Fusion likewise), so
+the two parts meeting at a joint show the same number. Generator feature (`armgen.JOINT_LABEL_*`,
+`BuildArmGen._joint_labels`): Arial Black 4.5 high, debossed 0.4. Rotor end: on the round edge
+(rim) of the rotor pad, mid height. Stator end: on the stator pad's outer face (the side the M3
+heads go in from), r 20 between an insert and the opening. Never on a mating or functional face.
+Both faces are vertical on every plate, so no number prints on supports. Digit up = world up at
+q = 0 where the face allows it. ~99 % of each groove survives a 0.4 nozzle (mesh raster).
+
+| Link | rotor end number | stator end number |
+|---|---|---|
+| link_12 | "1" J1 rim 345 deg, faces front | "2" J2 outer face 210 deg, faces back |
+| link_23 | "2" J2 rim 285 deg, faces right | "3" J3 outer face 300 deg, faces up |
+| link_34 | "3" J3 rim 135 deg, faces front-right | "4" J4 outer face 150 deg, faces the torso |
+| link_45 | "4" J4 rim 35 deg, faces front-up | "5" J5 outer face 30 deg, faces back |
+
+`exo generated` v35 (0 FAIL, race clamp 127.822, bracket J1..J6 PASS). Links re-exported
+(`export_exo421.py`); each differs from its EXO-419 file only on the two labelled faces (bbox
+equal, opening still 20.200 x 34.200). Volumes: link_12 44229.471, link_23 49685.932, link_34
+63325.391, link_45 62020.286. Plates with links rebuilt (link, joints4, all, joints2, links2,
+links34, joints34): positions, orientations, settings unchanged.
+
+| File | What | Footprint | Settings |
+|---|---|---|---|
+| `links345.bambu.3mf` | link_23 FRONT centre (x 75.2..180.9, y 55.9..116.2; J3 flange end face down, as links2); link_34 BACK LEFT (x 40.4..101.1, y 128.1..200.2; rotor side down, as links34); link_45 BACK RIGHT (x 113.1..215.6, y 132.1..196.1; rotor side up, as links34); gaps >= 11.90, margins >= 40.4; `--plate links345` | 175.16 x 144.26 | PLA-CF Matcha Green, normal supports 30 / 0.15 / 3 / 0.2, global brim off, link_34 outer brim 6, link_23 its own auto brim (as on links2), `different_settings_to_system` |
+
 ## Link actuator opening 20.2 x 34.2 (EXO-419, 2026-11-13)
 
 The EXO-417 fit test settled it: Esteban printed `link12_open` (PLA-CF, normal supports, rotor
@@ -93,8 +121,8 @@ with `stator.3mf` and `bottom.3mf` (EXO-394), not with EXO-383 parts.
 
 | File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
 |---|---|---|---|---|---|
-| `link_34.3mf` | `g_link_34` (J3 rotor to J4 stator); EXO-419: opening 20.2 x 34.2, landing disk r 27.630 | 69.414 x 58.505 x 116.152 | 63334.118 | 63340.638 | 9 |
-| `link_45.3mf` | `g_link_45` (J4 rotor to J5 stator); EXO-419: opening 20.2 x 34.2, bar 0.1 lower than EXO-394 | 102.506 x 62.605 x 64.004 | 62029.693 | 62041.359 | 9 |
+| `link_34.3mf` | `g_link_34` (J3 rotor to J4 stator); EXO-419: opening 20.2 x 34.2, landing disk r 27.630; EXO-421: numbers 3 / 4 | 69.414 x 58.505 x 116.152 | 63325.391 | 63331.790 | 9 |
+| `link_45.3mf` | `g_link_45` (J4 rotor to J5 stator); EXO-419: opening 20.2 x 34.2, bar 0.1 lower than EXO-394; EXO-421: numbers 4 / 5 | 102.506 x 62.605 x 64.004 | 62020.286 | 62031.881 | 9 |
 | `links34.bambu.3mf` | Bambu plate (EXO-405/406): link_34 **rotor side down** (J3 joint face, 410.2 mm2 on the bed, 116.15 tall since EXO-419; pad underside 8 above the bed on supports), **outer-only brim 6** on this object only; link_45 **rotor side up** (J4 journal vertical, joint face up at 45.4, sockets and journal up, 62.6 tall since EXO-419) on its J5-end face (435.8 mm2; 431.3 at EXO-415, 440.3 before); its pad outer face cannot reach the bed (the J5 end sticks out 29.4 past it) and faces down at 29.4 on supports; 175.16 x 72.10, gap 12; **Bambu PLA-CF @BBL X1C, Matcha Green #5C9748**; supports normal(auto), threshold 30, top Z 0.15, 3 top interface layers at 0.2 spacing, global brim off; EXO-409: these process values are listed in `different_settings_to_system`, so Bambu Studio keeps them on open (before, it reset them to the system preset: tree(auto), support off); `tools/bambu_plate_exo343.py --plate links34` | - | - | - | - |
 | `joints34.bambu.3mf` | Bambu plate: the two links as above, 2x stator, 2x bottom (pegs up); 214.00 x 137.99, gaps >= 11.89, margins >= 21 (EXO-419); same material and settings; `--plate joints34` | - | - | - | - |
 
@@ -130,10 +158,10 @@ its component frame (**module z = file z - 7.5**).
 | File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
 |---|---|---|---|---|---|
 | `bottom.3mf` | `inner_bottom` of `sensor module 2 rotor`: joint face -8.0, 8 pegs O3.0 x 2.0 to -6.0, boss r 7.8 to -7.0, journal 3.0 | 35.000 x 34.995 x 7.200 | 3578.998 | 3579.643 | 8 |
-| `link_12.3mf` | `g_link_12`; EXO-419: opening 20.2 x 34.2 | 58.500 x 79.184 x 63.530 | 44237.869 | 44241.508 | 9 |
-| `link_23.3mf` | `g_link_23`; EXO-419: opening 20.2 x 34.2, bar 0.1 lower than EXO-394 | 62.604 x 60.246 x 105.702 | 49694.996 | 49702.823 | 9 |
+| `link_12.3mf` | `g_link_12`; EXO-419: opening 20.2 x 34.2; EXO-421: numbers 1 / 2 | 58.500 x 79.184 x 63.530 | 44229.471 | 44233.048 | 9 |
+| `link_23.3mf` | `g_link_23`; EXO-419: opening 20.2 x 34.2, bar 0.1 lower than EXO-394; EXO-421: numbers 2 / 3 | 62.604 x 60.246 x 105.702 | 49685.932 | 49693.659 | 9 |
 | `joints2.bambu.3mf` | Bambu plate: link_12 **rotor side down** (joint face, 410.2 mm2 on the bed, 73 tall), link_23 on its J3 flange end face (it cannot go rotor side down: its bar hangs 19 mm past the joint face), 2x stator, 2x bottom (pegs up); 214.00 x 132.84, gaps >= 12; EXO-419: rebuilt with the 20.2 x 34.2 links | - | - | - | - |
-| `links2.bambu.3mf` | Bambu plate: the two links, same orientations; 176.20 x 66.84, gap 12; EXO-419: rebuilt with the 20.2 x 34.2 links (link_23 62.6 tall on 329.9 mm2), standard settings, global auto_brim kept; **print this one first** | - | - | - | - |
+| `links2.bambu.3mf` | Bambu plate: the two links, same orientations; 176.20 x 66.84, gap 12; EXO-419: rebuilt with the 20.2 x 34.2 links (link_23 62.6 tall on 329.9 mm2), standard settings, global auto_brim kept; EXO-421: rebuilt with the numbered links; **print this one first** | - | - | - | - |
 
 The stack, module frame of the joint (rotor face z 0):
 

@@ -291,6 +291,155 @@ ALIGN_MARK_ANGLE = 90.0     # deg, module frame
 ALIGN_MARK_W = 0.6          # mm, tangential width
 ALIGN_MARK_D = 0.4          # mm, depth into each face
 ALIGN_MARK_R_IN, ALIGN_MARK_R_OUT = 23.5, 27.6
+# EXO-421: JOINT NUMBERS. Every link carries the number of each joint it meets, one per end, so
+# the two parts meeting at a joint show the same number: link_12 "1" at J1 and "2" at J2, link_23
+# "2" and "3", ... link_67 "6" and "7". Debossed JOINT_LABEL_D in Arial Black (EXO-317/417: the
+# default font's strokes do not survive a 0.4 nozzle), cut in `BuildArmGen._joint_labels`.
+# Faces (never a mating or functional one: not the joint face, journal, sockets, the stator-pad
+# face the stator sits on, a counterbore floor, a screw-head seat):
+#   * ROTOR end (joint a): the round EDGE (rim) of the rotor pad, r pad_r over z 0..ROTOR_PAD_T.
+#     It is vertical in every print orientation the cue allows (journal axis vertical, rotor
+#     side up or down), so it never prints on supports; the pad's outer face is not used
+#     because it prints facing down on link_23 and link_45.
+#   * STATOR end (joint b): the stator pad's OUTER face (z STATOR_UNDERSIDE_Z - PAD_T, the side
+#     the M3 heads go in from), at r JOINT_LABEL_STATOR_R between the inserts and the opening.
+# Reading: the digit's up is the world up (+Z, the arm hanging at URDF q = 0) projected onto the
+# face; where that projection is short (a face looking up or down) it is the direction AWAY
+# from a person in front of the robot (-X), the way such a face reads from there. The sketch
+# normal is the outward normal, so the digit is never mirrored seen from outside.
+# Place: among the candidates the pure rules below accept, the rim angle that faces the viewer
+# most (JOINT_LABEL_VIEW, front-right of the right arm), and the stator spot highest along the
+# digit's up; `BuildArmGen._joint_labels` then probes the real body and takes the first
+# candidate whose whole glyph box (+ JOINT_LABEL_PROBE_M) is flat solid face.
+JOINT_LABEL_ON = True
+JOINT_LABEL_FONT = 'Arial Black'
+JOINT_LABEL_H = 4.5               # Fusion text height (EXO-417 used 3.0 for "0.2"; one digit has room).
+                                  # Measured on the EXO-417 mesh: its Arial Black "0" at 3.0 is
+                                  # 2.88 wide x 3.10 tall, i.e. a digit ~0.96 H wide, ~1.03 H tall
+JOINT_LABEL_D = 0.4               # deboss depth, the shallowest point of the floor
+JOINT_LABEL_HALF = (0.55, 0.6)    # (reading, up) half-extent of the glyph box, x JOINT_LABEL_H
+                                  # (a digit is ~0.48 / ~0.52 of it); Fusion's glyph vertices are
+                                  # refused outside it
+JOINT_LABEL_PROBE_M = 0.5         # solid flat face required this far round the glyph box (on top
+                                  # of the box's own slack over a real digit, ~0.3)
+JOINT_LABEL_UP = (0.0, 0.0, 1.0)  # world up, arm hanging
+JOINT_LABEL_AWAY = (-1.0, 0.0, 0.0)   # away from a person in front of the robot (+X forward)
+JOINT_LABEL_UP_MIN = 0.5          # shorter up projection than this -> use AWAY
+JOINT_LABEL_VIEW = (math.sqrt(0.5), -math.sqrt(0.5), 0.0)   # front-right of the right arm
+JOINT_LABEL_RIM_STEP = 5.0        # deg between rim candidates
+JOINT_LABEL_STATOR_R = 20.0
+JOINT_LABEL_STATOR_ANGLES = (30.0, 150.0, 210.0, 330.0, 240.0, 300.0)
+JOINT_LABEL_WEB = 2.0             # glyph circle to the actuator opening, at least
+JOINT_LABEL_EDGE = 1.0            # glyph circle to the pad edge, at least
+
+
+def joint_label_texts(link_name):
+    """('1', '2') for 'link_12' / 'g_link_12' / 'link_R12': the joint numbers of the rotor
+    end (a) and the stator end (b). None if the name ends in no two digits."""
+    import re
+    m = re.search(r'(\d)(\d)$', link_name or '')
+    return (m.group(1), m.group(2)) if m else None
+
+
+def joint_label_glyph_half():
+    """(reading, up) half-extents of the box a digit must fit in, mm."""
+    return (JOINT_LABEL_HALF[0] * JOINT_LABEL_H, JOINT_LABEL_HALF[1] * JOINT_LABEL_H)
+
+
+def joint_label_axes(n):
+    """Reading direction u and up direction v (unit, same frame as `n`) of a digit on a face with
+    outward normal n, u x v = n (read from outside, not mirrored). `n` and the result are WORLD
+    vectors. Returns (u, v, how) with how 'up' or 'away'."""
+    n = unit(n)
+    for how, ref in (('up', JOINT_LABEL_UP), ('away', JOINT_LABEL_AWAY)):
+        p = [ref[i] - dot(ref, n) * n[i] for i in range(3)]
+        if math.sqrt(dot(p, p)) >= JOINT_LABEL_UP_MIN:
+            v = unit(p)
+            return cross(v, n), v, how
+    raise ValueError('no reading direction for a face with normal %s' % (n,))
+
+
+def _label_local(R, n_loc):
+    """Axes of a digit on a face with LOCAL outward normal n_loc in a frame with world rotation R,
+    in that local frame: (u, v, how)."""
+    u, v, how = joint_label_axes(matvec(R, n_loc))
+    Rt = transpose(R)
+    return matvec(Rt, u), matvec(Rt, v), how
+
+
+def rim_label_candidates(R_A, pad_r):
+    """Rotor-end candidates on the rotor pad's rim, module frame of joint a (rotation R_A in the
+    world), best first. Each: angle, centre (on the rim, mid pad height), outward normal n, u, v,
+    `depth` = the floor's depth below the tangent plane at the centre (JOINT_LABEL_D plus the
+    rim's sag over the glyph's tangential half-width, so the floor is JOINT_LABEL_D deep at its
+    shallowest), the probed half-extents, `score` = n . JOINT_LABEL_VIEW. A candidate whose
+    probed box (glyph box + JOINT_LABEL_PROBE_M) does not fit the pad's height is dropped."""
+    hw, hh = joint_label_glyph_half()
+    m = JOINT_LABEL_PROBE_M
+    out = []
+    k, n_ang = 0, int(round(360.0 / JOINT_LABEL_RIM_STEP))
+    for k in range(n_ang):
+        a = k * JOINT_LABEL_RIM_STEP
+        c, s = math.cos(math.radians(a)), math.sin(math.radians(a))
+        n = [c, s, 0.0]
+        u, v, how = _label_local(R_A, n)
+        tan = [-s, c, 0.0]
+        axial = (hw + m) * abs(u[2]) + (hh + m) * abs(v[2])     # the probed box's half-height
+        tang = hw * abs(dot(u, tan)) + hh * abs(dot(v, tan))
+        if axial > ROTOR_PAD_T / 2.0 + 1e-9:
+            continue
+        sag = tang * tang / (2.0 * pad_r)
+        out.append({'end': 'rotor', 'face': 'rim', 'angle': a,
+                    'centre': [pad_r * c, pad_r * s, ROTOR_PAD_T / 2.0], 'n': n, 'u': u, 'v': v,
+                    'how': how, 'depth': JOINT_LABEL_D + sag, 'sag': sag, 'half': (hw, hh),
+                    'axial': axial, 'tangential': tang,
+                    'score': dot(matvec(R_A, n), JOINT_LABEL_VIEW)})
+    out.sort(key=lambda d: -d['score'])
+    return out
+
+
+def stator_label_clearance(x, y):
+    """(to the actuator opening, to the nearest insert hole centre, to the pad edge) of the
+    glyph's bounding circle centred at (x, y) on the stator pad's outer face, mm."""
+    hw, hh = joint_label_glyph_half()
+    rb = math.hypot(hw, hh)
+    x0, x1, y0, y1 = actuator_rect(ACT_OPEN_MARGIN)
+    dx, dy = max(x0 - x, 0.0, x - x1), max(y0 - y, 0.0, y - y1)
+    to_open = math.hypot(dx, dy) - rb
+    to_hole = min(math.hypot(x - INSERT_RADIUS * math.cos(math.radians(a)),
+                             y - INSERT_RADIUS * math.sin(math.radians(a)))
+                  for a in INSERT_ANGLES) - rb
+    to_edge = STATOR_PAD_R - math.hypot(x, y) - rb
+    return to_open, to_hole, to_edge
+
+
+def stator_label_ok(x, y):
+    """The glyph circle clears the opening by JOINT_LABEL_WEB, the insert screw's flat ring
+    (HOLE_R + HOLE_FLAT_RING) and the pad edge by JOINT_LABEL_EDGE."""
+    o, h, e = stator_label_clearance(x, y)
+    return (o >= JOINT_LABEL_WEB - 1e-9 and h >= HOLE_R + HOLE_FLAT_RING - 1e-9
+            and e >= JOINT_LABEL_EDGE - 1e-9)
+
+
+def stator_label_candidates(R_B):
+    """Stator-end candidates on the stator pad's outer face (outward normal -Z of joint b's
+    module frame, rotation R_B in the world), best first: the spot highest along the digit's
+    up. Same keys as `rim_label_candidates`."""
+    hw, hh = joint_label_glyph_half()
+    n = [0.0, 0.0, -1.0]
+    u, v, how = _label_local(R_B, n)
+    z = STATOR_UNDERSIDE_Z - PAD_T
+    out = []
+    for a in JOINT_LABEL_STATOR_ANGLES:
+        x = JOINT_LABEL_STATOR_R * math.cos(math.radians(a))
+        y = JOINT_LABEL_STATOR_R * math.sin(math.radians(a))
+        if not stator_label_ok(x, y):
+            continue
+        out.append({'end': 'stator', 'face': 'stator outer', 'angle': a, 'centre': [x, y, z],
+                    'n': n, 'u': u, 'v': v, 'how': how, 'depth': JOINT_LABEL_D, 'sag': 0.0,
+                    'half': (hw, hh), 'score': x * v[0] + y * v[1]})
+    out.sort(key=lambda d: -d['score'])
+    return out
 
 # The three PRINTED parts of the module, and the two names each of them answers to.
 # `sensor module 2` - the cloud design, the STEP in the repo, the linked component - carries

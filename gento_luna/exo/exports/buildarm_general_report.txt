@@ -216,7 +216,7 @@ Module placed at every joint: sensor module 2 rotor (already in the document, pa
 
 Component: generated_R_arm_general
 
-link_12 -> g_link_12: 3 features, 66 faces, volume 44242 mm3
+link_12 -> g_link_12: 3 features, 99 faces, volume 44233 mm3
     ribbon 52 x 8.0 mm, 1 path segments
     no plan turn (lateral offset 13.831 mm)
     no side S: the landing is level with the pad plane
@@ -238,7 +238,9 @@ link_12 -> g_link_12: 3 features, 66 faces, volume 44242 mm3
       inside : 3 edge(s) at r 3.000
       pad    : no such edge on this link
       outside: 1 edge(s) at r 10.000
-link_23 -> g_link_23: 3 features, 72 faces, volume 49703 mm3
+      EXO-421 joint number "1": rim at 345 deg (centre ['25.114', '-6.729', '4.000'], frame of J1), up = world up, floor 0.609 deep at the centre, 0.400 at the shallowest; view score 0.733; rejected none
+      EXO-421 joint number "2": stator outer at 210 deg (centre ['-17.321', '-10.000', '-32.500'], frame of J2), up = world up, floor 0.400 deep at the centre, 0.400 at the shallowest; view score 19.406; rejected none
+link_23 -> g_link_23: 3 features, 128 faces, volume 49694 mm3
     ribbon 25 x 8.0 mm, 6 path segments
     plan turn 14.10 deg, r 17.5, s 22.74 -> 27.00 (-6.24 mm of the pair's -6.24 mm lateral offset taken here)
     level change +27.600 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.904 mm of straight run at r 15.0)
@@ -263,7 +265,9 @@ link_23 -> g_link_23: 3 features, 72 faces, volume 49703 mm3
       inside : no such edge on this link
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 7.600
-link_34 -> g_link_34: 3 features, 66 faces, volume 63341 mm3
+      EXO-421 joint number "2": rim at 285 deg (centre ['6.988', '-26.080', '4.000'], frame of J2), up = world up, floor 0.535 deep at the centre, 0.400 at the shallowest; view score 0.707; rejected none
+      EXO-421 joint number "3": stator outer at 300 deg (centre ['10.000', '-17.321', '-32.500'], frame of J3), up = world away, floor 0.400 deep at the centre, 0.400 at the shallowest; view score 17.322; rejected none
+link_34 -> g_link_34: 3 features, 115 faces, volume 63332 mm3
     ribbon 52 x 8.0 mm, 1 path segments
     no plan turn (lateral offset 15.783 mm)
     no side S: the landing is level with the pad plane
@@ -284,7 +288,9 @@ link_34 -> g_link_34: 3 features, 66 faces, volume 63341 mm3
       inside : 2 edge(s) at r 3.000
       pad    : no such edge on this link
       outside: 1 edge(s) at r 10.000
-link_45 -> g_link_45: 3 features, 74 faces, volume 62041 mm3
+      EXO-421 joint number "3": rim at 135 deg (centre ['-18.385', '18.385', '4.000'], frame of J3), up = world up, floor 0.518 deep at the centre, 0.400 at the shallowest; view score 1.000; rejected none
+      EXO-421 joint number "4": stator outer at 150 deg (centre ['-17.321', '10.000', '-32.500'], frame of J4), up = world up, floor 0.400 deep at the centre, 0.400 at the shallowest; view score 10.001; rejected none
+link_45 -> g_link_45: 3 features, 117 faces, volume 62032 mm3
     ribbon 44 x 8.0 mm, 6 path segments
     plan turn 25.61 deg, r 27.0, s 15.33 -> 27.00 (-10.00 mm of the pair's -10.00 mm lateral offset taken here)
     level change +29.488 mm taken on the final leg (the run between the pad and the plate) (EXO-158; it needs 29.996 mm of straight run at r 15.0)
@@ -309,7 +315,9 @@ link_45 -> g_link_45: 3 features, 74 faces, volume 62041 mm3
       inside : no such edge on this link
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 7.600
-link_56 -> g_link_56: 4 features, 69 faces, volume 43491 mm3
+      EXO-421 joint number "4": rim at 35 deg (centre ['22.117', '15.487', '4.000'], frame of J4), up = world up, floor 0.535 deep at the centre, 0.400 at the shallowest; view score 0.579; rejected 0, 355, 5, 350, 10, 345, 15, 340, 20, 335, 25, 330, 30, 325
+      EXO-421 joint number "5": stator outer at 30 deg (centre ['17.321', '10.000', '-32.500'], frame of J5), up = world up, floor 0.400 deep at the centre, 0.400 at the shallowest; view score 17.321; rejected none
+link_56 -> g_link_56: 4 features, 126 faces, volume 43481 mm3
     ribbon 25 x 8.0 mm, 1 path segments
     no plan turn (lateral offset -0.000 mm)
     no side S: the landing is level with the pad plane
@@ -335,8 +343,10 @@ link_56 -> g_link_56: 4 features, 69 faces, volume 43491 mm3
       inside : 5 edge(s) at r 3.000
       pad    : 2 edge(s) at r 3.000
       outside: 1 edge(s) at r 10.000
+      EXO-421 joint number "5": rim at 125 deg (centre ['-15.487', '22.117', '4.000'], frame of J5), up = world up, floor 0.535 deep at the centre, 0.400 at the shallowest; view score 0.579; rejected 90, 95, 85, 100, 80, 105, 75, 110, 70, 115, 65, 120, 60
+      EXO-421 joint number "6": stator outer at 150 deg (centre ['-17.321', '10.000', '-32.500'], frame of J6), up = world up, floor 0.400 deep at the centre, 0.400 at the shallowest; view score 17.321; rejected none
     g_link_67: the EXO-151 outer round at r 8.648 leaves a screw 0.408 mm of flat ring over 6 openings (need 2.00) - EXO-184: halving it to r 4.324 and building the link again
-link_67 -> g_link_67: 4 features, 73 faces, volume 43448 mm3
+link_67 -> g_link_67: 4 features, 114 faces, volume 43439 mm3
     ribbon 25 x 8.0 mm, 3 path segments
     plan turn 27.03 deg, r 17.5, s 15.55 -> 23.50 (-9.84 mm of the pair's -46.00 mm lateral offset taken here)
     no side S: the landing is level with the pad plane
@@ -362,6 +372,8 @@ link_67 -> g_link_67: 4 features, 73 faces, volume 43448 mm3
       inside : 4 edge(s) at r 3.000
       pad    : 2 edge(s) at r 3.000
       outside: 2 edge(s) at r 4.324
+      EXO-421 joint number "6": rim at 270 deg (centre ['-0.000', '-27.000', '4.000'], frame of J6), up = world up, floor 0.535 deep at the centre, 0.400 at the shallowest; view score 0.707; rejected none
+      EXO-421 joint number "7": stator outer at 30 deg (centre ['17.321', '10.000', '-32.500'], frame of J7), up = world away, floor 0.400 deep at the centre, 0.400 at the shallowest; view score 10.003; rejected none
       EXO-184: the outer round was capped at r 4.324 and built on attempt 2; smallest ring 4.732 mm over 6 openings
 
 EXO-201: the XL330 is an exclusion volume and the module CARRIES it - the proxy body EXO-187 built beside every module is gone (it only duplicated the real one and z-fought with it in the viewport). The real actuator bodies below take part in the interference check; measured, `XL330 v2/Body1` is x -10.0..10.0, y -9.5..24.5 from its back z -36.5 on up (past the stator underside -24.5, where it is inside the stator's own solid) - the proxy rectangle to 0.000 mm. Each landing plate's opening is that footprint grown by ACT_OPEN_MARGIN 0.1 (EXO-419: 0.1 per side; 0.2 in EXO-415, 0 in EXO-193), cut through the whole volume (z -36.6..-24.5); every BODY of every link was checked against the volume grown by MIN_CLEARANCE 1.0 in pure Python before the build and would have been refused by name; the EXO-183 collar is a blend tangent to the plate, so its bar is the XL330's own box (EXO-193).
@@ -437,8 +449,8 @@ EXO-151 guards, measured on the filleted solids:
   g_link_34
     guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -8.000 mm (EXO-370/394: the fused rotor top's joint face is z -8.0, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 70.518 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK
-    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.775 mm, need 2.00 -> OK
-      worst opening: s 32.500 at (s 28.50, w 35.03, z 80.52), bound 8.375 mm from the axis
+    guard 3 (EXO-124/128): 6 openings measured on the filleted body; smallest rotor-pad ring nan mm (nan: every M3 opening is a counterbore floor, held to the M3 head, EXO-383), smallest landing-plate ring 6.130 mm, need 2.00 -> OK
+      worst opening: s 32.500 at (s 28.50, w -3.47, z 80.52), bound 7.730 mm from the axis
   g_link_45
     guard 1 (EXO-77/84): lowest material inside r 27.0 of the pad axis z -8.000 mm (EXO-370/394: the fused rotor top's joint face is z -8.0, inside module A; the link stop block 3.6 mm deep; no blend is below the pad plane by construction)
     guard 2 (EXO-79): the outer round starts 28.000 mm from the plate axis, need >= 27.0 + 1.0 = 28.0 -> OK

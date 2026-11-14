@@ -13,6 +13,7 @@
     python3 -I tools/bambu_plate_exo343.py --plate body_mount   # body_mount.bambu.3mf (EXO-401): the chest mount
     python3 -I tools/bambu_plate_exo343.py --plate links34      # links34.bambu.3mf (EXO-402, EXO-405/406): link_34, link_45
     python3 -I tools/bambu_plate_exo343.py --plate joints34     # joints34.bambu.3mf (EXO-402, EXO-405/406): + 2x stator, 2x bottom
+    python3 -I tools/bambu_plate_exo343.py --plate links345     # links345.bambu.3mf (EXO-422): link_23, link_34, link_45
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -193,6 +194,16 @@ J34_LAYOUT = [
     ('bottom_1', 'bottom', None, (170.5, 169.94)),
     ('bottom_2', 'bottom', None, (217.5, 169.94)),
 ]
+# links345 (EXO-422): the three links Esteban prints next, numbered (EXO-421). Orientations as on
+# their reference plates: link_23 on its J3 flange end face (as links2), link_34 rotor side down
+# with its 6 mm outer brim (as links34), link_45 rotor side up (as links34). Rows: link_34 +
+# link_45 exactly the links34 row (175.16 x 71.89, gap 12) at the back, link_23 (105.70 x 60.26)
+# centred in front, row gap 12; the block (175.16 x 144.15) centred on the bed.
+LINKS345_LAYOUT = [
+    ('link_23', 'link_23', ('bed', (1, 0, 0)), (128.0, 86.05)),
+    ('link_34', 'link_34', ('bed', (0, 0, 1)), (70.75, 164.13)),
+    ('link_45', 'link_45', ('bed', (0, -1, 0)), (164.33, 164.13)),
+]
 PLATES = {
     'body_mount': (os.path.join(PARTS, 'body_mount.bambu.3mf'), 'body_mount', BODY_MOUNT_LAYOUT),
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
@@ -205,6 +216,7 @@ PLATES = {
     'stator_dia_low': (os.path.join(PARTS, 'stator_dia_low.bambu.3mf'), 'stator_dia_low', SDIA_LOW_LAYOUT),
     'links34': (os.path.join(PARTS, 'links34.bambu.3mf'), 'links34', LINKS34_LAYOUT),
     'joints34': (os.path.join(PARTS, 'joints34.bambu.3mf'), 'joints34', J34_LAYOUT),
+    'links345': (os.path.join(PARTS, 'links345.bambu.3mf'), 'links345', LINKS345_LAYOUT),
 }
 # EXO-364: top / link_12 / link_23 re-exported with the rotor key (was 5786.178 / 40392.766 / 45818.953)
 SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom': 3865.634,
@@ -226,9 +238,14 @@ SOURCE_V.update({'link_12': 44150.533, 'link_23': 49637.858, 'link_34': 63440.98
 # link_23 / link_45 land 0.1 less far out than EXO-415, link_34's landing disk r 27.834 -> 27.630
 # (Fusion 44241.508 / 49702.823 / 63340.638 / 62041.359). The EXO-417 link12_open plate is archived.
 SOURCE_V.update({'link_12': 44237.869, 'link_23': 49694.996, 'link_34': 63334.118, 'link_45': 62029.693})
+# EXO-421: joint numbers debossed on both ends of every link (Arial Black 4.5, 0.4 deep: joint a's on
+# the rotor pad rim, joint b's on the stator pad's outer face); geometry otherwise unchanged
+# (Fusion 44233.048 / 49693.659 / 63331.790 / 62031.881, `exo generated` v35)
+SOURCE_V.update({'link_12': 44229.471, 'link_23': 49685.932, 'link_34': 63325.391, 'link_45': 62020.286})
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
 PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
+PLATE_MARGIN.update({'links345': 10.0})   # EXO-422
 # EXO-406: default filament for plates built from now on: Bambu PLA-CF, Matcha Green. Values =
 # preset "Bambu PLA-CF @BBL X1C" (GFSA50_01; lists P1S 0.4 nozzle as compatible) with inheritance
 # resolved (-> @base -> fdm_filament_pla -> fdm_filament_common, include
@@ -282,6 +299,11 @@ PLATE_SETTINGS.update({p: SUPPORT_AUTO_BRIM for p in ('link', 'joints4', 'all', 
 # per-object settings (model_settings.config <object> metadata), by plate and object name
 OBJECT_SETTINGS = {('links34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')],
                    ('joints34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')]}
+# EXO-422: links345 mixes link_34 (global no_brim + its own 6 mm outer brim, as links34) with link_23,
+# which printed for Esteban with the global auto_brim of links2. Global no_brim (as links34, so
+# link_45 stays without a brim as there) and link_23 keeps auto_brim as its own per-object value.
+OBJECT_SETTINGS.update({('links345', 'link_23'): [('brim_type', 'auto_brim')],
+                        ('links345', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')]})
 
 
 def settings_overrides(plate):
