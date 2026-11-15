@@ -14,6 +14,7 @@
     python3 -I tools/bambu_plate_exo343.py --plate links34      # links34.bambu.3mf (EXO-402, EXO-405/406): link_34, link_45
     python3 -I tools/bambu_plate_exo343.py --plate joints34     # joints34.bambu.3mf (EXO-402, EXO-405/406): + 2x stator, 2x bottom
     python3 -I tools/bambu_plate_exo343.py --plate links345     # links345.bambu.3mf (EXO-422): link_23, link_34, link_45
+    python3 -I tools/bambu_plate_exo343.py --plate joints67     # joints67.bambu.3mf (EXO-425): link_56, link_67, 2x stator
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -204,6 +205,23 @@ LINKS345_LAYOUT = [
     ('link_34', 'link_34', ('bed', (0, 0, 1)), (70.75, 164.13)),
     ('link_45', 'link_45', ('bed', (0, -1, 0)), (164.33, 164.13)),
 ]
+# joints67 (EXO-425): link_56, link_67 (first export, numbered, opening 20.2 x 34.2) and 2 stators.
+# Both links ROTOR SIDE DOWN: the rotor joint face -8.0 (410.2 mm2) on the bed, journal axis vertical.
+# Rotor side up is impossible on both: the extreme along +Z_rotor is the round rim of the far stator
+# pad (no flat face, 0 mm2 of contact). link_56: -Z_J5 = arm -X, 73.00 tall, CoM 24.7 from the J5 axis
+# (9.6 outside the r 15.05 foot); link_67: -Z_J6 = arm -Y, 67.50 tall, CoM 23.7 from the J6 axis (8.6
+# outside). Supported: the rotor pad and ribbon underside 8 above the bed, the stop tabs at 4.4, the
+# shoulder / sockets / recess (3.0 / 2.1 / 2.6), the opening roof (link_56 20.2 x 8 at 55.6, link_67
+# 34.2 x 8 at 48.0). Numbers: rim and stator outer face both vertical. Each link gets the link_34
+# outer-only 6 mm brim (tall on a 30.1 foot); the brim ring (r <= 21.05) stays under the r 27 pad.
+# Stators as exported (as joints34). Footprints link_56 54.01 x 89.41, link_67 102.58 x 59.52, stator
+# 54 x 54: links at the back (gap 12), stators in front (row gap 12), block 168.59 x 155.41 centred.
+JOINTS67_LAYOUT = [
+    ('link_56', 'link_56', ('bed', (-1, 0, 0)), (70.71, 161.0)),
+    ('link_67', 'link_67', ('bed', (0, -1, 0)), (161.0, 161.0)),
+    ('stator_1', 'stator', None, (94.0, 77.3)),
+    ('stator_2', 'stator', None, (160.0, 77.3)),
+]
 PLATES = {
     'body_mount': (os.path.join(PARTS, 'body_mount.bambu.3mf'), 'body_mount', BODY_MOUNT_LAYOUT),
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
@@ -217,6 +235,7 @@ PLATES = {
     'links34': (os.path.join(PARTS, 'links34.bambu.3mf'), 'links34', LINKS34_LAYOUT),
     'joints34': (os.path.join(PARTS, 'joints34.bambu.3mf'), 'joints34', J34_LAYOUT),
     'links345': (os.path.join(PARTS, 'links345.bambu.3mf'), 'links345', LINKS345_LAYOUT),
+    'joints67': (os.path.join(PARTS, 'joints67.bambu.3mf'), 'joints67', JOINTS67_LAYOUT),
 }
 # EXO-364: top / link_12 / link_23 re-exported with the rotor key (was 5786.178 / 40392.766 / 45818.953)
 SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom': 3865.634,
@@ -242,10 +261,13 @@ SOURCE_V.update({'link_12': 44237.869, 'link_23': 49694.996, 'link_34': 63334.11
 # the rotor pad rim, joint b's on the stator pad's outer face); geometry otherwise unchanged
 # (Fusion 44233.048 / 49693.659 / 63331.790 / 62031.881, `exo generated` v35)
 SOURCE_V.update({'link_12': 44229.471, 'link_23': 49685.932, 'link_34': 63325.391, 'link_45': 62020.286})
+# EXO-425: first export of link_56 / link_67, same v35 (Fusion 43480.828 / 43438.693)
+SOURCE_V.update({'link_56': 43476.084, 'link_67': 43433.710})
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
 PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
 PLATE_MARGIN.update({'links345': 10.0})   # EXO-422
+PLATE_MARGIN.update({'joints67': 10.0})   # EXO-425
 # EXO-406: default filament for plates built from now on: Bambu PLA-CF, Matcha Green. Values =
 # preset "Bambu PLA-CF @BBL X1C" (GFSA50_01; lists P1S 0.4 nozzle as compatible) with inheritance
 # resolved (-> @base -> fdm_filament_pla -> fdm_filament_common, include
@@ -304,6 +326,10 @@ OBJECT_SETTINGS = {('links34', 'link_34'): [('brim_type', 'outer_only'), ('brim_
 # link_45 stays without a brim as there) and link_23 keeps auto_brim as its own per-object value.
 OBJECT_SETTINGS.update({('links345', 'link_23'): [('brim_type', 'auto_brim')],
                         ('links345', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')]})
+# EXO-425: joints67 global no_brim; link_56 (73.0 tall) and link_67 (67.5 tall) each stand on the 410.2 mm2
+# joint face with the CoM 8.6..9.6 outside it, so each gets link_34's outer-only 6 mm brim; stators none.
+OBJECT_SETTINGS.update({('joints67', 'link_56'): [('brim_type', 'outer_only'), ('brim_width', '6')],
+                        ('joints67', 'link_67'): [('brim_type', 'outer_only'), ('brim_width', '6')]})
 
 
 def settings_overrides(plate):

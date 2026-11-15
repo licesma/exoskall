@@ -1,5 +1,31 @@
 # parts/: print files
 
+## Links 56 and 67, plate joints67 (EXO-425, 2026-11-14)
+
+First export of the last two right arm links, from `exo generated` v35 (the EXO-421 build: opening
+20.2 x 34.2, joint numbers), High refinement, arm coordinates, export only (document unmodified,
+not saved; `tools/bridge_scripts/export_exo425.py`). Same rotor end as the other links (EXO-394:
+pad 8, O6.2 x 2.0 counterbores, eight O3.3 x 2.1 sockets, journal O30.1, recess r 8, O13.8 centre
+hole; probed in Fusion and on the mesh). Opening 20.200 x 34.200 at 8 depths through the pad
+(37.2 in y only through the EXO-341 mark groove on link_56, as on link_12..45). Thinnest wall round
+the opening (full depth): link_56 3.81, link_67 3.00 (same as link_34). Numbers read correctly on
+the mesh: link_56 "5" J5 rim 125 deg, "6" J6 outer face 150 deg; link_67 "6" J6 rim 270 deg, "7" J7
+outer face 30 deg.
+
+| File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
+|---|---|---|---|---|---|
+| `link_56.3mf` | `g_link_56` (J5 rotor to J6 stator, wrist roll, in-plane landing, 25 wide); numbers 5 / 6 | 73.015 x 89.407 x 54.001 | 43476.084 | 43480.828 | 9 |
+| `link_67.3mf` | `g_link_67` (J6 rotor to J7 stator, wrist pitch, angled landing, 21 wide); numbers 6 / 7 | 102.580 x 67.508 x 59.504 | 43433.710 | 43438.693 | 9 |
+| `joints67.bambu.3mf` | Bambu plate: link_56 BACK LEFT (x 43.7..97.7, y 116.3..205.7, 73.00 tall), link_67 BACK RIGHT (x 109.7..212.3, y 131.2..190.8, 67.50 tall), both **rotor side down** (joint face 410.2 mm2 on the bed, journal vertical, outer-only 6 mm brim each); stator_1 FRONT LEFT (x 67..121), stator_2 FRONT RIGHT (x 133..187), y 50.3..104.3, as exported (as joints34), current `stator.3mf` (seat 42.1); gaps >= 12.00, margins >= 43.7; standard settings (PLA-CF Matcha Green, normal supports 30 / 0.15 / 3 / 0.2, global brim off, `different_settings_to_system`); `--plate joints67` | - | - | - | - |
+
+Rotor side up is impossible on both: the far end along the journal axis is the round rim of the
+stator pad, no flat face to stand on. Rotor side down they stand like link_12 / link_34; the centre
+of mass is 24.7 (link_56) / 23.7 (link_67) from the journal axis, 9.6 / 8.6 outside the r 15.05
+foot, carried by the supports under the pad. Supported: pad and ribbon underside 8 above the bed
+(1591.7 / 918.7 mm2), the stop tabs at 4.4 (341.6 / 459.3), shoulder, sockets and recess (232.5),
+the opening roof (link_56 20.2 x 8 at 55.6, link_67 34.2 x 8 at 48.0). Numbers on vertical faces,
+not on supports. Not sliced, not printed.
+
 ## Joint numbers on every link, plate links345 (EXO-421, EXO-422, 2026-11-13)
 
 Every link carries the number of each joint it meets, one per end: link_12 "1" and "2", link_23
