@@ -10,11 +10,11 @@
     python3 -I tools/bambu_plate_exo343.py --plate stator_dia_low  # stator_dia_low.bambu.3mf (EXO-358): O41.8..42.4
     python3 -I tools/bambu_plate_exo343.py --plate rotor        # rotor.bambu.3mf (EXO-338 layout, rebuilt EXO-364)
     python3 -I tools/bambu_plate_exo343.py --plate rotor_head   # rotor_head.bambu.3mf (EXO-352): bottom_h0.5 + bottom_h1.0
-    python3 -I tools/bambu_plate_exo343.py --plate body_mount   # body_mount.bambu.3mf (EXO-401): the chest mount
     python3 -I tools/bambu_plate_exo343.py --plate links34      # links34.bambu.3mf (EXO-402, EXO-405/406): link_34, link_45
     python3 -I tools/bambu_plate_exo343.py --plate joints34     # joints34.bambu.3mf (EXO-402, EXO-405/406): + 2x stator, 2x bottom
     python3 -I tools/bambu_plate_exo343.py --plate links345     # links345.bambu.3mf (EXO-422): link_23, link_34, link_45
     python3 -I tools/bambu_plate_exo343.py --plate joints67     # joints67.bambu.3mf (EXO-425): link_56, link_67, 2x stator
+    python3 -I tools/bambu_plate_exo343.py --plate chest_mount  # chest_mount.bambu.3mf (EXO-429): the hooked chest mount, dense J1 pads (modifiers)
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -157,14 +157,6 @@ ROTOR_LAYOUT = [
     ('top', 'top', 'flipX', (105.0, 128.0)),
     ('bottom', 'bottom', None, (151.0, 128.0)),
 ]
-# body_mount (EXO-401): the hand-made chest mount (Fusion `arm complete_chest mount`, doc frame =
-# arm frame) on its x -45 robot bolt face (15655 mm2, 8x O3.5 counterbores open on the bed):
-# R maps -X onto -Z, the J1 seat pads end up vertical, their O4.0 holes horizontal. Footprint
-# 114.15 x 176.43 (long side along Y), 75 tall, centred on 128/128. Ceilings at 3 / 5 / 7 / 55
-# above the bed take supports.
-BODY_MOUNT_LAYOUT = [
-    ('body_mount', 'body_mount', ('bed', (-1, 0, 0)), (128.0, 128.0)),
-]
 # links34 / joints34 (EXO-402): link_34 ROTOR SIDE DOWN (joint face -8.0 of J3, 410.2 mm2, on the
 # bed: R maps -Z_J3 = arm +Z onto -Z; 115.9 tall; the pad underside ring 8 above the bed and the
 # body take supports; CoM 18.9 from the J3 axis, outside the r 15.05 foot, inside the r 27 pad).
@@ -222,8 +214,14 @@ JOINTS67_LAYOUT = [
     ('stator_1', 'stator', None, (94.0, 77.3)),
     ('stator_2', 'stator', None, (160.0, 77.3)),
 ]
+# chest_mount (EXO-429): the hooked chest mount (Body14 of `arm complete` v35, copied into the Fusion doc
+# `/body mount/chest mount hooks 20.2`, arm frame, J1 openings widened to 20.2 x 34.2). Orientation as the
+# retired body_mount plate (EXO-401): the x -45 face with the 8 counterbored reader-board holes on the
+# bed (R maps -X onto -Z), J1 seat pads vertical. Footprint 114.96 x 200.43, 75 tall, centred on 128/128.
+CHEST_MOUNT_LAYOUT = [
+    ('chest_mount', 'chest_mount', ('bed', (-1, 0, 0)), (128.0, 128.0)),
+]
 PLATES = {
-    'body_mount': (os.path.join(PARTS, 'body_mount.bambu.3mf'), 'body_mount', BODY_MOUNT_LAYOUT),
     'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
     'all': (os.path.join(PARTS, 'all.bambu.3mf'), 'all', ALL_LAYOUT),
@@ -236,6 +234,7 @@ PLATES = {
     'joints34': (os.path.join(PARTS, 'joints34.bambu.3mf'), 'joints34', J34_LAYOUT),
     'links345': (os.path.join(PARTS, 'links345.bambu.3mf'), 'links345', LINKS345_LAYOUT),
     'joints67': (os.path.join(PARTS, 'joints67.bambu.3mf'), 'joints67', JOINTS67_LAYOUT),
+    'chest_mount': (os.path.join(PARTS, 'chest_mount.bambu.3mf'), 'chest_mount', CHEST_MOUNT_LAYOUT),
 }
 # EXO-364: top / link_12 / link_23 re-exported with the rotor key (was 5786.178 / 40392.766 / 45818.953)
 SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom': 3865.634,
@@ -248,7 +247,7 @@ SOURCE_V.update({'bottom_h0.5': 3831.022, 'bottom_h1.0': 3799.806})   # EXO-352
 SOURCE_V.update({'bottom': 3578.998})   # EXO-394: O3.0 x 2.0 pegs on the bottom
 # EXO-383: pad 8 + O6.2 head counterbore 1.0 / 1.5 / 2.0 (the EXO-375 p7 / p6 links are archived)
 SOURCE_V.update({'link_12': 44324.563, 'link_23': 49751.082})   # EXO-394 (c2.0, sockets, chamfer)
-SOURCE_V.update({'body_mount': 200380.178})   # EXO-401 (Fusion Body1 200387.392)
+SOURCE_V.update({'body_mount': 200380.178})   # EXO-401 (Fusion Body1 200387.392); plate retired, archived by EXO-429
 SOURCE_V.update({'link_34': 63225.829, 'link_45': 62060.991})   # EXO-402 (Fusion 63232.554 / 62072.567)
 # EXO-415: actuator opening 20.4 x 34.4 (ACT_OPEN_MARGIN 0.2); link_23 / link_45 land 0.2 further
 # out, link_34's landing disk r 27.424 -> 27.834 (Fusion 44154.172 / 49645.770 / 63447.633 / 62009.438)
@@ -263,11 +262,14 @@ SOURCE_V.update({'link_12': 44237.869, 'link_23': 49694.996, 'link_34': 63334.11
 SOURCE_V.update({'link_12': 44229.471, 'link_23': 49685.932, 'link_34': 63325.391, 'link_45': 62020.286})
 # EXO-425: first export of link_56 / link_67, same v35 (Fusion 43480.828 / 43438.693)
 SOURCE_V.update({'link_56': 43476.084, 'link_67': 43433.710})
+# EXO-429: hooked chest mount, openings 20.2 x 34.2 (Fusion 212140.720 = Body14 212292.480 - 151.760)
+SOURCE_V.update({'chest_mount': 212133.928})
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
 PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
 PLATE_MARGIN.update({'links345': 10.0})   # EXO-422
 PLATE_MARGIN.update({'joints67': 10.0})   # EXO-425
+PLATE_MARGIN.update({'chest_mount': 10.0})   # EXO-429
 # EXO-406: default filament for plates built from now on: Bambu PLA-CF, Matcha Green. Values =
 # preset "Bambu PLA-CF @BBL X1C" (GFSA50_01; lists P1S 0.4 nozzle as compatible) with inheritance
 # resolved (-> @base -> fdm_filament_pla -> fdm_filament_common, include
@@ -318,6 +320,22 @@ SUPPORT_EXO405 = {'support_type': 'normal(auto)', 'support_top_z_distance': '0.1
 SUPPORT_AUTO_BRIM = {k: v for k, v in SUPPORT_EXO405.items() if k != 'brim_type'}
 PLATE_SETTINGS = {p: SUPPORT_EXO405 for p in PLATES}
 PLATE_SETTINGS.update({p: SUPPORT_AUTO_BRIM for p in ('link', 'joints4', 'all', 'joints2', 'links2')})
+# EXO-429 (Esteban: "it's only denser on the pads, I don't want to waste filament"): the chest mount
+# keeps the standard process (2 wall loops, 15% sparse infill); each J1 seat pad and its root get a
+# modifier box (Bambu "modifier_part") with 4 wall loops and 40% sparse infill. Format as Bambu Studio
+# saves it (its own calib/pressure_advance/auto_pa_line_single.3mf; bbs_3mf.cpp): the box is a second
+# mesh object, type="other", in the object's sub-model, a second component of the wrapper, and a
+# <part subtype="modifier_part"> in model_settings.config whose other metadata keys are loaded into
+# the part's own config (volume->config.set_deserialize), i.e. model config like the per-object brim,
+# not preset values: different_settings_to_system does not apply. Boxes in PLATE coordinates
+# (x0, x1, y0, y1, z0, z1), full height. Pad root (source x -34.8, just above the 10 thick base plate
+# x -45..-35): left y -42.9..-12.2, z -41.9..26.4; box = root + 8 mm into the plate in source z
+# (plate x) and toward the plate centre in y, clamped at the plate end (source y -12.0 / -188.43;
+# the hooks are left out). Plate = (125.5502 - z, y + 228.215, x + 45) of the source frame.
+MODIFIERS = {('chest_mount', 'chest_mount'): [
+    ('pad_left_dense', (91.0502, 175.5502, 177.215, 216.215, 0.0, 75.5), [('wall_loops', '4'), ('sparse_infill_density', '40%')]),
+    ('pad_right_dense', (91.0502, 175.5502, 39.785, 78.785, 0.0, 75.5), [('wall_loops', '4'), ('sparse_infill_density', '40%')]),
+]}
 # per-object settings (model_settings.config <object> metadata), by plate and object name
 OBJECT_SETTINGS = {('links34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')],
                    ('joints34', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')]}
@@ -518,6 +536,15 @@ def mesh_text(V, T):
             + ''.join('     <triangle v1="%d" v2="%d" v3="%d"/>\n' % t for t in T))
 
 
+def box_mesh(b):
+    """Axis-aligned box (x0, x1, y0, y1, z0, z1): 8 vertices, 12 outward triangles."""
+    x0, x1, y0, y1, z0, z1 = b
+    V = [(x, y, z) for z in (z0, z1) for y in (y0, y1) for x in (x0, x1)]
+    T = [(0, 2, 1), (1, 2, 3), (4, 5, 6), (5, 7, 6), (0, 1, 4), (1, 5, 4),
+         (2, 6, 3), (3, 6, 7), (0, 4, 2), (2, 4, 6), (1, 3, 5), (3, 7, 5)]
+    return V, T
+
+
 def build(plate='link'):
     OUT, title, LAYOUT = PLATES[plate]
     src = zipfile.ZipFile(SETTINGS_SRC)
@@ -528,12 +555,26 @@ def build(plate='link'):
         body = [HDR, ' <metadata name="BambuStudio:3mfVersion">1</metadata>\n <resources>\n',
                 '  <object id="%d" name="%s" p:UUID="%s" type="model">\n   <mesh>\n    <vertices>\n' % (mid, name, uuid.uuid4())]
         body.append(mesh_text(V, T))
-        body.append('    </triangles>\n   </mesh>\n  </object>\n </resources>\n <build/>\n</model>\n')
-        files['3D/Objects/' + sub] = ''.join(body)
-        objects.append('  <object id="%d" name="%s" p:UUID="%s" type="model">\n   <components>\n'
-                       '    <component p:path="/3D/Objects/%s" objectid="%d" p:UUID="%s" transform="1 0 0 0 1 0 0 0 1 0 0 0"/>\n'
-                       '   </components>\n  </object>\n' % (oid, name, uuid.uuid4(), sub, mid, uuid.uuid4()))
+        body.append('    </triangles>\n   </mesh>\n  </object>\n')
         tr = '1 0 0 0 1 0 0 0 1 %s %s %s' % (f(px), f(py), f(tz))
+        mods, comps, ms_mods = MODIFIERS.get((plate, name), []), [mid], ''
+        for j, (mname, b, mset) in enumerate(mods):   # EXO-429: box in plate coords -> object coords
+            mod_id = 2 * len(LAYOUT) + 1 + sum(len(MODIFIERS.get((plate, e[0]), [])) for e in LAYOUT[:i]) + j
+            MV, MT = box_mesh((b[0] - px, b[1] - px, b[2] - py, b[3] - py, b[4] - tz, b[5] - tz))
+            body.append('  <object id="%d" name="%s" p:UUID="%s" type="other">\n   <mesh>\n    <vertices>\n' % (mod_id, mname, uuid.uuid4()))
+            body.append(mesh_text(MV, MT) + '    </triangles>\n   </mesh>\n  </object>\n')
+            comps.append(mod_id)
+            ms_mods += ('    <part id="%d" subtype="modifier_part">\n      <metadata key="name" value="%s"/>\n'
+                        '      <metadata key="matrix" value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>\n' % (mod_id, mname)
+                        + ''.join('      <metadata key="%s" value="%s"/>\n' % kv for kv in mset)
+                        + '      <mesh_stat face_count="12" edges_fixed="0" degenerate_facets="0" facets_removed="0" facets_reversed="0" backwards_edges="0"/>\n'
+                        '    </part>\n')
+        body.append(' </resources>\n <build/>\n</model>\n')
+        files['3D/Objects/' + sub] = ''.join(body)
+        objects.append('  <object id="%d" name="%s" p:UUID="%s" type="model">\n   <components>\n' % (oid, name, uuid.uuid4())
+                       + ''.join('    <component p:path="/3D/Objects/%s" objectid="%d" p:UUID="%s" transform="1 0 0 0 1 0 0 0 1 0 0 0"/>\n'
+                                 % (sub, cid, uuid.uuid4()) for cid in comps)
+                       + '   </components>\n  </object>\n')
         items.append('  <item objectid="%d" p:UUID="%s" transform="%s" printable="1"/>\n' % (oid, uuid.uuid4(), tr))
         rels.append(' <Relationship Target="/3D/Objects/%s" Id="rel-%d" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>\n' % (sub, i + 1))
         objset = ''.join('    <metadata key="%s" value="%s"/>\n' % kv for kv in OBJECT_SETTINGS.get((plate, name), []))
@@ -545,7 +586,8 @@ def build(plate='link'):
                        '      <metadata key="source_offset_x" value="%s"/>\n      <metadata key="source_offset_y" value="%s"/>\n'
                        '      <metadata key="source_offset_z" value="%s"/>\n'
                        '      <mesh_stat face_count="%d" edges_fixed="0" degenerate_facets="0" facets_removed="0" facets_reversed="0" backwards_edges="0"/>\n'
-                       '    </part>\n  </object>\n') % (oid, name, len(T), mid, name, srcname, f(c[0]), f(c[1]), f(c[2]), len(T)))
+                       '    </part>\n') % (oid, name, len(T), mid, name, srcname, f(c[0]), f(c[1]), f(c[2]), len(T))
+                       + ms_mods + '  </object>\n')
         ms_inst.append('    <model_instance>\n      <metadata key="object_id" value="%d"/>\n'
                        '      <metadata key="instance_id" value="0"/>\n      <metadata key="identify_id" value="%d"/>\n'
                        '    </model_instance>\n' % (oid, 100 + i))
@@ -598,13 +640,36 @@ def check(path):
         t = [float(x) for x in it.get('transform').split()]
         assert t[:9] == [1, 0, 0, 0, 1, 0, 0, 0, 1], 'non-translation build transform'
         w = wrappers[oid]
-        comp = w.find('m:components/m:component', NS)
+        comps = w.findall('m:components/m:component', NS)
+        comp = comps[0]
         sub, mid = comp.get(PNS).lstrip('/'), comp.get('objectid')
         raw = z.read(sub)
         md5.add(hashlib.md5(raw).hexdigest())
         sroot = ET.fromstring(raw)
         so = sroot.findall('m:resources/m:object', NS)
-        assert len(so) == 1 and so[0].get('id') == mid
+        assert so[0].get('id') == mid and so[0].get('type') == 'model'
+        # EXO-429: modifier boxes = the other mesh objects of the sub-model, one component each
+        want_mods = MODIFIERS.get((key[0] if key else None, w.get('name')), [])
+        assert len(so) == len(comps) == 1 + len(want_mods), (len(so), len(comps), len(want_mods))
+        ms_obj = [o for o in ms.findall('object') if o.get('id') == oid][0]
+        ms_mod_parts = ms_obj.findall("part[@subtype='modifier_part']")
+        assert len(ms_obj.findall('part')) == 1 + len(ms_mod_parts) == 1 + len(want_mods)
+        for (mname, b, mset), mo, mc, mp in zip(want_mods, so[1:], comps[1:], ms_mod_parts):
+            assert mo.get('type') == 'other' and mo.get('name') == mname and mc.get('objectid') == mo.get('id') == mp.get('id')
+            assert mc.get(PNS).lstrip('/') == sub and mc.get('transform') == '1 0 0 0 1 0 0 0 1 0 0 0'
+            mm = mo.find('m:mesh', NS)
+            MV = [(float(v.get('x')) + t[9], float(v.get('y')) + t[10], float(v.get('z')) + t[11]) for v in mm.findall('m:vertices/m:vertex', NS)]
+            MT = [(int(q.get('v1')), int(q.get('v2')), int(q.get('v3'))) for q in mm.findall('m:triangles/m:triangle', NS)]
+            mlo = [min(v[q] for v in MV) for q in range(3)]
+            mhi = [max(v[q] for v in MV) for q in range(3)]
+            got_b = (mlo[0], mhi[0], mlo[1], mhi[1], mlo[2], mhi[2])
+            mvol = volume(MV, MT)
+            assert len(MV) == 8 and len(MT) == 12 and max(abs(got_b[q] - b[q]) for q in range(6)) < 1e-5, (got_b, b)
+            assert abs(mvol - (b[1] - b[0]) * (b[3] - b[2]) * (b[5] - b[4])) < 1e-3
+            pset = [(m.get('key'), m.get('value')) for m in mp.findall('metadata') if m.get('key') not in ('name', 'matrix')]
+            assert mp.find("metadata[@key='name']").get('value') == mname and pset == mset, (pset, mset)
+            print('modifier %s on %s: box x %.3f..%.3f y %.3f..%.3f z %.3f..%.3f (%.2f x %.2f x %.2f), V %.1f, settings %s'
+                  % ((mname, w.get('name')) + got_b + (b[1] - b[0], b[3] - b[2], b[5] - b[4], mvol, pset)))
         k = int(re.search(r'object_(\d+)\.model', sub).group(1))
         assert int(mid) == 2 * k - 1 and int(oid) == 2 * k, (sub, mid, oid)
         assert ms_names[oid] == w.get('name') == so[0].get('name') and ms_parts[oid] == mid and oid in plate
@@ -672,7 +737,8 @@ def check(path):
     ref = json.loads(zipfile.ZipFile(SETTINGS_SRC).read('Metadata/project_settings.config'))
     keys = ['printer_settings_id', 'filament_settings_id', 'filament_colour', 'print_settings_id', 'layer_height',
             'enable_support', 'support_type', 'support_threshold_angle', 'support_on_build_plate_only',
-            'support_top_z_distance', 'support_interface_top_layers', 'support_interface_spacing', 'brim_type', 'brim_width']
+            'support_top_z_distance', 'support_interface_top_layers', 'support_interface_spacing', 'brim_type', 'brim_width',
+            'wall_loops', 'sparse_infill_density']
     for k in keys:
         print('%s = %s' % (k, ps[k]))
     over = settings_overrides(key[0]) if key else {}

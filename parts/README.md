@@ -1,5 +1,46 @@
 # parts/: print files
 
+## Chest mount with hooks, plate chest_mount (EXO-429, 2026-11-14)
+
+The chest mount to print. It is the NEWER version (EXO-427 version B): component `chest mount`
+(Body14) of `arm complete` v35, one body with 4 J-hooks at the ends (purpose not recorded), no
+pocket on the robot face. Copied (body copy, identity occurrence, arm frame kept, so the EXO-399 /
+EXO-400 seat results hold) into its own Fusion document `/body mount/chest mount hooks 20.2`
+(base feature + one Offset Faces feature, saved; `arm complete` untouched). Both J1 actuator
+openings widened 20.0 x 34.0 -> **20.2 x 34.2** (0.1 per side, the fit proven on the links,
+EXO-417/419), through the full 7.0 pad (`tools/bridge_scripts/chest_mount_exo429.py`).
+
+Measured on the mesh: 20.200 x 34.200 at 9 depths through each pad; against Body14 exported the
+same way, 16 of 18120 vertices differ (the 8 opening corners per pad, moved 0.1 + 0.1), triangles
+identical, everything else bit-identical (seat holes 3x O4.000 at r 19.250, pads 24.5..31.5,
+hooks, the 8 board holes). Volume -151.760 mm3 in Fusion = 2 x (20.2 x 34.2 - 20 x 34) x 7.
+Thinnest wall round each opening: 3.40 to the pad rim at mid depth (was 3.53), 1.83 at the pad
+faces where the rim is rounded (was 1.95); 7.15 / 7.65 to the O4.0 holes.
+
+The 8 holes on the robot (x -45) face, O3.5 with O6.0 x 3.0 counterbores, carry two Dynamixel
+reader boards, 4 holes each (Esteban, 2026-11-14), y -50.47 / -92.47 and -107.97 / -149.97, z
+-4.16 / -52.16 (-4.26 / -52.26 on the right board). Unchanged.
+
+| File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
+|---|---|---|---|---|---|
+| `chest_mount.3mf` | `chest mount` of `/body mount/chest mount hooks 20.2` (Body14 of `arm complete` v35, openings 20.2 x 34.2), arm frame | 75.000 x 200.430 x 114.956 | 212133.928 | 212140.720 | 18 |
+| `chest_mount.bambu.3mf` | Bambu plate: as the EXO-401 plate, the x -45 board face down (16929.5 mm2 on the bed, counterbores open on the bed), pads vertical; 114.96 x 200.43, 75 tall, centred, margins 70.52 / 27.78; standard settings (PLA-CF Matcha Green, normal supports, global brim off), 2 walls and 15% infill on the part, and two **modifier boxes** (one per J1 pad and its root) with **4 wall loops and 40% sparse infill**; `--plate chest_mount` | - | - | - | - |
+
+Supports (threshold 30): the two opening roofs (34.2 x 7 each, 478.8 mm2) at 55.1 above the bed,
+supports standing on the opening floors at 34.9 (the 20.2 is the vertical size); a 50 x 15 recess
+in the bed face (722 mm2 ceiling at 5); the 8 counterbore ceilings at 3 (149 mm2); the tops of the
+horizontal O4.0 seat holes (small). The hooks stand on the bed and curl upward: no support beyond
+their 0.5 mm bottom edge round.
+
+Pad modifiers (Esteban: dense only on the pads), plate coordinates, full height z 0..75.5:
+`pad_left_dense` x 91.05..175.55, y 177.215..216.215; `pad_right_dense` x 91.05..175.55, y
+39.785..78.785 (84.5 x 39.0 each). Each = the pad root footprint at the base plate (10 thick)
+plus 8 mm into the plate, clamped at the plate end (hooks left out); it also takes in part of the
+board hole columns at y -50.47 / -149.97. Stored as Bambu saves them (type "other" mesh +
+`modifier_part` with its own wall_loops / sparse_infill_density, part config, not preset values).
+Rough estimate (slices, solid shells ignored): standard 60 g, with the modifiers 98 g (+38 g),
+whole part at 4 walls / 30% 113 g (+53 g), whole part at 4 / 40% 134 g (+74 g).
+
 ## Links 56 and 67, plate joints67 (EXO-425, 2026-11-14)
 
 First export of the last two right arm links, from `exo generated` v35 (the EXO-421 build: opening
@@ -121,7 +162,10 @@ link_45 6.0; M3 hole to opening 7.45 (0/180 deg) and 7.95 (270 deg).
 | `link_34.3mf` | 63225.829 | 63440.986 | 63447.633 | opening, landing disk r 27.834 |
 | `link_45.3mf` | 62060.991 | 62000.328 | 62009.438 | opening, bar 0.2 lower |
 
-## Chest mount (EXO-401, 2026-11-11)
+## Chest mount, older version (EXO-401, 2026-11-11; archived by EXO-429)
+
+Superseded by `chest_mount` above. Both files are now in `archive/2026-10-tests/` as
+`body_mount_exo401.3mf` / `body_mount_exo401.bambu.3mf`; the `--plate body_mount` entry is retired.
 
 The hand-made chest mount that holds both arms' J1 stators (Fusion `arm complete_chest mount`,
 folder `/body mount`, doc v1, one body `Body1`; EXO-399, EXO-400), for a fit test with the
@@ -167,7 +211,7 @@ nozzle`, listed as compatible by that preset). PLA-CF wants a hardened nozzle
 Standard settings on every plate in `parts/` (EXO-411 rebuilt the nine older ones from PLA Basic
 and tree supports; meshes and positions unchanged): PLA-CF as above, supports normal(auto),
 threshold 30, not build-plate-only, top Z 0.15, 3 top interface layers at 0.2 spacing, all listed
-in `different_settings_to_system`. Brim: global off on links34, joints34, body_mount, stator_dia,
+in `different_settings_to_system`. Brim: global off on links34, joints34, chest_mount, stator_dia,
 stator_dia_low, rotor_head (link_34 outer-only 6). The plates with link_12 or link_23 (link,
 joints4, all, joints2, links2) keep their previous global auto_brim until Esteban decides.
 

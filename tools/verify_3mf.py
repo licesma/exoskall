@@ -37,6 +37,7 @@ def apply(t, p):
 
 
 PNS = '{http://schemas.microsoft.com/3dmanufacturing/production/2015/06}path'
+MODIFIERS = []   # (name, bbox lo, hi) of type="other" components skipped by the last load() (EXO-429)
 
 
 def mul(a, b):
@@ -57,7 +58,9 @@ def mul(a, b):
 
 def load(path):
     """Objects as (name, vertices, triangles); component objects (Bambu Studio, 3MF
-    production extension p:path) are flattened into one mesh."""
+    production extension p:path) are flattened into one mesh. Components of type "other"
+    (Bambu modifier volumes, not printed) are left out and listed in MODIFIERS."""
+    del MODIFIERS[:]
     z = zipfile.ZipFile(path)
     model = [n for n in z.namelist() if n.lower().endswith('.model')]
     main = '3D/3dmodel.model' if '3D/3dmodel.model' in model else model[0]
@@ -82,8 +85,14 @@ def load(path):
                 return o.get('name'), vs, ts
             vs, ts = [], []
             for c in o.findall('m:components/m:component', NS):
-                _, cv, ct = mesh_of(c.get(PNS) or part, c.get('objectid'),
-                                    mul(parse_transform(c.get('transform')), t))
+                cpart = c.get(PNS) or part
+                ctype = [q.get('type') for q in tree(cpart).findall('m:resources/m:object', NS)
+                         if q.get('id') == c.get('objectid')]
+                cname, cv, ct = mesh_of(cpart, c.get('objectid'),
+                                        mul(parse_transform(c.get('transform')), t))
+                if ctype == ['other']:
+                    MODIFIERS.append((cname, cv))
+                    continue
                 ts += [(a + len(vs), b + len(vs), d + len(vs)) for a, b, d in ct]
                 vs += cv
             return o.get('name'), vs, ts
@@ -139,6 +148,11 @@ def report(path):
     print('  parts: %s' % ', '.join(names))
     print('  unit %s; title %r; objects %d; build items %d'
           % (unit, meta.get('Title'), len(objs), len(items)))
+    for name, mv in MODIFIERS:
+        lo = [min(p[k] for p in mv) for k in range(3)]
+        hi = [max(p[k] for p in mv) for k in range(3)]
+        print('  modifier volume %r (type other, not printed, object coords): %d vertices, bbox (%.3f, %.3f, %.3f)..(%.3f, %.3f, %.3f)'
+              % ((name, len(mv)) + tuple(lo) + tuple(hi)))
     for oid, t in items:
         name, vs0, ts = objs[oid]
         vs = [tuple(c * scale for c in apply(t, p)) for p in vs0]
