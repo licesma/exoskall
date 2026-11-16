@@ -3059,6 +3059,82 @@ close('EXO-444: module reach - radial = the r 27.001 shell, down the axis = the 
       [27.001, 36.5, 27.001, 0.0], 1e-9)
 print('EXO-444 checks took %.1f s' % (_time.time() - _t444))
 
+
+# ---------------- EXO-445: the generated end link after J7 (link_7h) ----------------
+# The standard rotor end + manual 01's hand flange and clamp ear (numbers measured on 01 in the
+# J7 module frame), the M4 nut pocket made to fit, and J7's stop by the generator's own rule at
+# a RANGE OVERRIDE of -55..+80 deg.
+print()
+close('EXO-445: the end link is named like the others and its rotor joint is J7 (race clamp, label)',
+      [armgen.END_LINK_NAME == 'link_7h',
+       _BG.BuildArm.link_rotor_label('g_' + armgen.END_LINK_NAME) == 'J7',
+       armgen.END_LINK_JOINT_LABEL == '7', armgen.joint_label_texts(armgen.END_LINK_NAME) is None],
+      [True, True, True, True], 0)
+close('EXO-445: the J7 range is an explicit parameter, -55 .. +80 deg (agent default, not confirmed)',
+      armgen.END_STOP_RANGE_DEG, (-55.0, 80.0), 0)
+_j7 = joints['right_wrist_yaw_joint']
+close('EXO-445: the URDF J7 range it overrides is +-92.5 deg',
+      [math.degrees(_j7['lower']), math.degrees(_j7['upper'])], [-92.5, 92.5], 1e-3)
+_ej = armgen.end_stop_joint(dict(_j7, name='right_wrist_yaw_joint'))
+close('EXO-445: the override replaces the limits and keeps the URDF ones on the side',
+      [math.degrees(_ej['lower']), math.degrees(_ej['upper']), _ej['urdf_lower_orig'],
+       _j7['lower']], [-55.0, 80.0, _j7['lower'], _j7['lower']], 1e-12)
+_LJ7 = armgen.limited_joint(_ej, +1, armgen.END_PAD_R)
+close('EXO-445: the existing rule sizes it: b = 360 - 15 - 135 = 210 deg, r 20..26 x 3.6',
+      [math.degrees(_LJ7['arc']), _LJ7['r_in'], _LJ7['r_out'], _LJ7['stop_h'], _LJ7['capped']],
+      [210.0, 20.0, 26.0, 3.6, False], 1e-9)
+_lo7, _hi7, _n7 = armgen.stop_sweep(_LJ7)
+close('EXO-445: and the rotor first touches the joint stop at -55 and +80 deg (sweep)',
+      [math.degrees(_lo7), math.degrees(_hi7)], [-55.0, 80.0], 1e-6)
+close('EXO-445: block centre 335.50225 deg, contact faces 230.50225 and 80.50225 deg (J7 frame)',
+      [_LJ7['stop_angle'], (_LJ7['stop_angle'] - _LJ7['stop_half']) % 360.0,
+       (_LJ7['stop_angle'] + _LJ7['stop_half']) % 360.0], [335.50225, 230.50225, 80.50225], 1e-5)
+# interfaces: 01's numbers, in the J7 module frame
+close('EXO-445: hand flange face 46.5 from the J7 axis, 5.0 plate, holes O3.3 on 10 x 30',
+      [-armgen.END_HAND_FACE_Y, armgen.END_HAND_T, 2 * armgen.END_HAND_HOLE_R,
+       max(x for x, z in armgen.END_HAND_HOLES) - min(x for x, z in armgen.END_HAND_HOLES),
+       max(z for x, z in armgen.END_HAND_HOLES) - min(z for x, z in armgen.END_HAND_HOLES)],
+      [46.5, 5.0, 3.3, 10.0, 30.0], 1e-9)
+_eh = armgen.END_EAR_HOLES
+close('EXO-445: ear holes O4.5, 20.22 apart, at x -49.15, two 6.0 prongs, slot 28.00',
+      [2 * armgen.END_EAR_HOLE_R, math.hypot(_eh[0][0] - _eh[1][0], _eh[0][1] - _eh[1][1]),
+       (_eh[0][0] + _eh[1][0]) / 2.0, armgen.END_EAR_PRONG_A[1] - armgen.END_EAR_PRONG_A[0],
+       armgen.END_EAR_PRONG_B[1] - armgen.END_EAR_PRONG_B[0],
+       armgen.END_EAR_PRONG_B[0] - armgen.END_EAR_PRONG_A[1]],
+      [4.5, 20.216, -49.1435, 6.0, 6.0, 28.0], 1e-3)
+close('EXO-445: O8.0 x 4.0 counterbore, M4 nut pocket 7.30 AF (7.00 + 0.30) x 4.0; grip 32.0 (M4x35)',
+      [2 * armgen.END_EAR_CBORE_R, armgen.END_EAR_CBORE_D, armgen.END_EAR_NUT_AF, armgen.END_EAR_NUT_D,
+       (armgen.END_EAR_PRONG_B[1] - armgen.END_EAR_NUT_D) - (armgen.END_EAR_PRONG_A[0] + armgen.END_EAR_CBORE_D)],
+      [8.0, 4.0, 7.3, 4.0, 32.0], 1e-9)
+close('EXO-445: the nut pocket fits a real M4 nut (01 had 6.80 < 7.00)',
+      armgen.END_EAR_NUT_AF > armgen.M4_NUT_AF, True, 0)
+_ROT = armgen.limited_joint(_ej, +1, armgen.END_PAD_R)
+close('EXO-445: the ear is on the OUTER side (J7 module -X, EXO-443/444): 49.1 mm out',
+      -(_eh[0][0] + _eh[1][0]) / 2.0 > armgen.WRIST_OUTER_MAX_MM, True, 0)
+_hp = armgen.hex_points((0.0, 0.0), 7.3, 'z')
+close('EXO-445: hex across flats 7.30 with flats square to z (corners on x)',
+      [max(p[1] for p in _hp) - min(p[1] for p in _hp), max(p[0] for p in _hp) - min(p[0] for p in _hp)],
+      [7.3, 7.3 * 2.0 / math.sqrt(3.0)], 1e-9)
+_W = armgen.end_ear_walls()
+close('EXO-445: prong walls: hole 3.48, counterbore 1.73 (as 01), nut pocket 2.08',
+      [_W['hole O4.5'], _W['counterbore O8.0'], _W['nut pocket 7.30 AF']], [3.481, 1.731, 2.081], 1e-3)
+close('EXO-445: the pocket orientation is the one with more wall (flats square to x: 1.52)',
+      [_W['nut pocket 7.30 AF'] > armgen.end_ear_walls(flats_normal='x')['nut pocket 7.30 AF'],
+       armgen.end_ear_walls(flats_normal='x')['nut pocket 7.30 AF']], [True, 1.517], 1e-3)
+close('EXO-445: hand holes keep 3.59 mm to the flange edge', armgen.end_hand_walls(), 3.594, 1e-3)
+_es, _ep = armgen.end_ear_profile()
+close('EXO-445: the ear profile is closed and nothing of it below z 0 comes inside r 28 '
+      '(the stator r 27 + 1) at any y of the ear',
+      [armgen.profile_closed(_es),
+       min(abs(x) for x, z in _ep if z < 0.0) >= armgen.END_NECK_RELIEF_R,
+       round(min(abs(x) for x, z in _ep if z <= 0.0 and abs(x) > armgen.END_PAD_R), 3)],
+      [True, True, 31.889], 1e-9)
+close('EXO-445: its root is inside the r 26 pad over the whole ear width',
+      math.hypot(armgen.END_EAR_ROOT_X, armgen.END_EAR_PRONG_A[0]) < armgen.END_PAD_R, True, 0)
+close('EXO-445: the neck starts inside the pad and stays clear of the M3 counterbores (r 11 + 3.1)',
+      [math.hypot(armgen.END_HAND_X[0], armgen.END_NECK_Y_IN) < armgen.END_PAD_R,
+       -armgen.END_NECK_Y_IN > armgen.ROTOR_HOLE_RADIUS + armgen.ROTOR_CBORE_R], [True, True], 0)
+
 print()
 if fails:
     print('FAILED:', fails)

@@ -16,6 +16,8 @@
     python3 -I tools/bambu_plate_exo343.py --plate joints67     # joints67.bambu.3mf (EXO-425): link_56, link_67, 2x stator
     python3 -I tools/bambu_plate_exo343.py --plate chest_mount  # chest_mount.bambu.3mf (EXO-429): the hooked chest mount, dense J1 pads (modifiers)
     python3 -I tools/bambu_plate_exo343.py --plate stators6     # stators6.bambu.3mf (EXO-435): 6x stator
+    python3 -I tools/bambu_plate_exo343.py --plate link7h       # link7h.bambu.3mf (EXO-445): end link link_7h + 1 bottom
+    python3 -I tools/bambu_plate_exo343.py --plate clamp07      # clamp07.bambu.3mf (EXO-445): wrist clamp 07, 6 pieces
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -233,6 +235,44 @@ STATORS6_LAYOUT = [
     ('stator_5', 'stator', None, (128.0, 95.75)),
     ('stator_6', 'stator', None, (192.5, 95.75)),
 ]
+# link7h (EXO-445): the end link on J7 (rotor end + manual 01's hand flange and clamp ear) and one
+# rotor bottom. link_7h ROTOR SIDE UP, J7 journal vertical: 'flipX' (the J7 axis is world Z to 6e-5 rad,
+# so its bed face lies flat to 0.001 mm). Rotor side down is impossible: the hand flange (J7 z -20.25)
+# and the ear (-12.50) reach below the joint face (-8.0). Rotor up it stands on the flange's top edge
+# (J7 z +20.25, 69.8 mm2, 40.49 tall, CoM 32.8 off the foot), the joint face, journal, sockets and
+# recess print as clean top surfaces, the hand flange face and the ear's prong faces are vertical (their
+# O3.3 / O4.5 holes horizontal), the "7" on the rim vertical; supported (2993.5 mm2): the pad's outer face
+# with the four M3 head counterbores 12.25 above the bed (as link_45, EXO-405), the ear arm and neck
+# tops, the prong tops 0.75 above the bed. Outer-only 6 mm brim. Bottom as exported (O35 plate down).
+# Footprints link_7h 72.50 x 81.80, bottom 35 x 35; row 119.50 wide, gap 12, centred.
+LINK7H_LAYOUT = [
+    ('link_7h', 'link_7h', 'flipX', (104.5, 128.0)),
+    ('bottom', 'bottom', None, (170.25, 128.0)),
+]
+# clamp07 (EXO-445): wrist clamp 07, the manual right arm's (EXO-437/438), its six printable pieces split
+# verbatim from parts/hand_candidates/07_wrist_clamp_v12.3mf (tools/split_3mf_exo445.py). Each piece on
+# its own flat face:
+#   side0 halves: OUTER face down (2024.8 / 2016.5 mm2, 20.0 tall): hinge holes vertical (round), the
+#     nut pockets / head counterbores open on the bed (bridged), the split face up; supported 443 / 451 mm2
+#     (the ceiling of the notch 01's prong sits in, 6.4 above the bed).
+#   hook: one outer side face down (574.7 mm2, 40.0 tall), hinge hole vertical; supported 546 mm2.
+#   lock: on its largest flat face at an extreme, normal (0, -0.793, 0.609) (50.9 mm2, 23.93 tall, CoM 4.8
+#     off the 13.4 x 3.8 foot, carried by its supports), the integral O4.3 pins horizontal; supported
+#     212.6 mm2 (the other candidate, normal (0, 0.184, -0.983): 37.9 mm2, 30.16 tall, 300 mm2 of
+#     supports); outer 6 mm brim.
+#   button: on one face of the 3.2 plate (259.8 mm2), pins in the plate plane; supported 22 mm2.
+#   spring: the V profile FLAT on the bed (67.5 mm2, 10.0 tall = its width): every layer holds the whole V,
+#     so the layer lines run ALONG the 1.5 legs and the legs never bend across a layer seam; no support.
+# Rows: the two side0 halves at the back (71.91 x 92.98 each, gap 12), hook + lock + button + spring in
+# front (72.26 x 68.75, 21.00 x 31.88, 21.00 x 20.08, 22.01 x 8.98, gaps 12); block 172.27 x 173.73 centred.
+CLAMP07_LAYOUT = [
+    ('side0_nuts', 'clamp07_side0_nuts', ('bed', (-1, 0, 0)), (86.045, 168.38)),
+    ('side0_heads', 'clamp07_side0_heads', ('bed', (1, 0, 0)), (169.955, 168.38)),
+    ('hook', 'clamp07_hook', ('bed', (1, 0, 0)), (77.995, 75.515)),
+    ('lock', 'clamp07_lock', ('bed', (0.0, -0.793162, 0.609011)), (136.625, 75.515)),
+    ('button', 'clamp07_button', ('bed', (0.0, 0.542712, -0.839919)), (169.625, 75.515)),
+    ('spring', 'clamp07_spring', ('bed', (1, 0, 0)), (203.13, 75.515)),
+]
 PLATES = {
     'link':(os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
@@ -248,6 +288,8 @@ PLATES = {
     'joints67': (os.path.join(PARTS, 'joints67.bambu.3mf'), 'joints67', JOINTS67_LAYOUT),
     'chest_mount': (os.path.join(PARTS, 'chest_mount.bambu.3mf'), 'chest_mount', CHEST_MOUNT_LAYOUT),
     'stators6': (os.path.join(PARTS, 'stators6.bambu.3mf'), 'stators6', STATORS6_LAYOUT),
+    'link7h': (os.path.join(PARTS, 'link7h.bambu.3mf'), 'link7h', LINK7H_LAYOUT),
+    'clamp07': (os.path.join(PARTS, 'clamp07.bambu.3mf'), 'clamp07', CLAMP07_LAYOUT),
 }
 # EXO-364: top / link_12 / link_23 re-exported with the rotor key (was 5786.178 / 40392.766 / 45818.953)
 SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom': 3865.634,
@@ -280,6 +322,10 @@ SOURCE_V.update({'link_56': 43476.084, 'link_67': 43433.710})
 SOURCE_V.update({'link_56': 43475.335, 'link_67': 43433.865})
 # EXO-429: hooked chest mount, openings 20.2 x 34.2 (Fusion 212140.720 = Body14 212292.480 - 151.760)
 SOURCE_V.update({'chest_mount': 212133.928})
+# EXO-445: the end link (`exo generated` v38, Fusion 48552.095) and clamp 07's pieces (the 07 meshes, EXO-434)
+SOURCE_V.update({'link_7h': 48556.443, 'clamp07_side0_nuts': 37079.175, 'clamp07_side0_heads': 37045.736,
+                 'clamp07_button': 942.198, 'clamp07_lock': 3302.047, 'clamp07_spring': 674.682,
+                 'clamp07_hook': 30737.186})
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
 PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
@@ -287,6 +333,7 @@ PLATE_MARGIN.update({'links345': 10.0})   # EXO-422
 PLATE_MARGIN.update({'joints67': 10.0})   # EXO-425
 PLATE_MARGIN.update({'chest_mount': 10.0})   # EXO-429
 PLATE_MARGIN.update({'stators6': 10.0})   # EXO-435
+PLATE_MARGIN.update({'link7h': 10.0, 'clamp07': 10.0})   # EXO-445
 # EXO-406: default filament for plates built from now on: Bambu PLA-CF, Matcha Green. Values =
 # preset "Bambu PLA-CF @BBL X1C" (GFSA50_01; lists P1S 0.4 nozzle as compatible) with inheritance
 # resolved (-> @base -> fdm_filament_pla -> fdm_filament_common, include
@@ -363,6 +410,9 @@ OBJECT_SETTINGS.update({('links345', 'link_23'): [('brim_type', 'auto_brim')],
                         ('links345', 'link_34'): [('brim_type', 'outer_only'), ('brim_width', '6')]})
 # EXO-425: joints67 global no_brim; link_56 (73.0 tall) and link_67 (67.5 tall) each stand on the 410.2 mm2
 # joint face with the CoM 8.6..9.6 outside it, so each gets link_34's outer-only 6 mm brim; stators none.
+# EXO-445: link_7h stands 40.5 tall on its flange's 69.8 mm2 top edge, the clamp's lock 23.9 on 50.9 mm2
+OBJECT_SETTINGS.update({('link7h', 'link_7h'): [('brim_type', 'outer_only'), ('brim_width', '6')],
+                        ('clamp07', 'lock'): [('brim_type', 'outer_only'), ('brim_width', '6')]})
 OBJECT_SETTINGS.update({('joints67', 'link_56'): [('brim_type', 'outer_only'), ('brim_width', '6')],
                         ('joints67', 'link_67'): [('brim_type', 'outer_only'), ('brim_width', '6')]})
 

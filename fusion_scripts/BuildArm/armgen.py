@@ -4251,3 +4251,128 @@ def wrist_side_rank(rule, frames):
     want_inner = rule.get('side', 'inner') == 'inner'
     return (0 if inner == want_inner else 1), off
 
+
+# ---------------- EXO-445: the generated END LINK after J7 (`link_7h`, "7 to the hand") ----------
+# Esteban, 2026-11-16: a new last link on the generated arm so the wrist cuff attaches on the OUTER
+# side (the operator hugs the exo from outside). Nothing is generated after J7 otherwise: the
+# chain's links run link_12 .. link_67, so J7's rotor had no part with the generated rotor end.
+#
+# link_7h = the standard generated ROTOR END on J7 (pad, fused rotor top, journal, sockets, O6.2 x
+# 2.0 counterbores, recess, centre hole, the link stop: exactly what every link carries, EXO-394,
+# so it bolts to parts/bottom.3mf) + two interfaces taken from the manual last link 01
+# `last_link_cuff_v12` (parts/hand_candidates/01_last_link_cuff_v12.3mf, Fusion
+# `/hand/candidates/01 last_link_cuff_v12`, read only), measured on its B-rep in the J7 module
+# frame (EXO-440/443 frame: z 0 = the face the link sits on, the hand on -Y, the outer side -X):
+#   * the HAND FLANGE for the robot hand base: flat face 46.5 from the J7 axis, normal -Y, 4x O3.3
+#     on 10 (x) x 30 (z), through the 5.0 plate, plate 23.97 x 40.49 with r 5 corners;
+#   * the CLAMP EAR on the OUTER side for wrist clamp 07: two 6.0 prongs with a 28.00 slot for the
+#     clamp's tongue, 2x O4.5 hinge holes 20.22 apart along z at x -49.15, axes along Y; O8.0 x 4.0
+#     counterbore on the -Y prong, an M4 nut pocket on the +Y prong (M4x35, grip 32.0).
+# Every number below is 01's, so the hand base and the cuff sit where the manual arm has them
+# relative to the J7 axis. Two are changed on purpose: the nut pocket (01: 6.80 across flats, under
+# a real M4 nut's 7.00, EXO-438) and the stop (01 had a tab, this link gets the generator's rule).
+# Specific to the G1 right arm (outer = -X of the J7 module, EXO-443/444); a left arm needs it
+# mirrored, which is not done here.
+END_LINK_NAME = 'link_7h'
+END_LINK_JOINT_LABEL = '7'            # EXO-421 numbering: the joint it meets, on the rotor pad rim
+END_PAD_R = 26.0                      # 01's plate r 26.000 (and link_12's / link_34's)
+# J7 travel on this link: the URDF's +-92.5 deg cannot clear the arm with a cuff on the outer side
+# (EXO-441: the clamp meets link_56 / J5 / link_45 below about -55 and the hand base meets the J6
+# landing disk above about +85), and -55..+80 matches the manual arm Esteban uses (-55..+85).
+# A RANGE OVERRIDE of the generator's stop rule (`limited_joint`), not a new rule. CHOSEN BY THE
+# AGENT WITHOUT ESTEBAN'S CONFIRMATION (EXO-445): his to change, here and only here.
+END_STOP_RANGE_DEG = (-55.0, 80.0)
+# hand flange (01 F62 face, F54..F57 holes, F58..F64 corners, F82 / F88 sides, F77 / F86 back)
+END_HAND_FACE_Y = -46.5
+END_HAND_T = 5.0
+END_HAND_X = (-14.9821, 8.9833)
+END_HAND_Z = (-20.2469, 20.2444)
+END_HAND_CORNER_R = 5.0
+END_HAND_HOLE_R = 1.65                # O3.3 (M3 clearance, as 01)
+END_HAND_HOLES = ((-8.0, -15.0), (-8.0, 15.0), (2.0, -15.0), (2.0, 15.0))   # (x, z): 10 x 30
+# the neck from the pad to the flange: 01's x span, z -8 (01 F65) up to the pad face; below z 0
+# nothing inside r END_NECK_RELIEF_R (01 F67: r 28.000 = the stator's r 27 + 1)
+END_NECK_Z_LO = -8.0
+END_NECK_Y_IN = -18.0                 # the neck runs into the pad to here (inside r 26 for |x| <= 15)
+END_NECK_RELIEF_R = 28.0
+END_NECK_FILLET_R = 3.0               # concave neck -> flange back (ELBOW_R_IN, the generator's)
+# the ear's -Y side (y END_EAR_PRONG_A[0]) and the neck's -X side (x END_HAND_X[0]) meet the pad rim
+# 0.7 mm apart (233.0 / 234.9 deg): the notch between them is filled with a concave r 5 round in
+# plan, z 0..pad face (JOIN_ROUND_R, the generator's join round), so no sliver of rim is left there
+END_CORNER_R = JOIN_ROUND_R
+# clamp ear (01 F19 / F46 prong inner faces, F42 / F45 tip, F8 / F17 top / bottom, F39 slot bottom,
+# F40..F44 holes, F9 / F23 counterbores, F25..F38 the 6.80 hex; planes read to 1e-4 mm)
+END_EAR_PRONG_A = (-20.756, -14.756)  # -Y prong: the counterbore (screw head) side
+END_EAR_PRONG_B = (13.244, 19.244)    # +Y prong: the nut side; slot between = 28.000
+END_EAR_X_TIP = -55.797
+END_EAR_SLOT_X = -43.5971             # slot bottom
+END_EAR_Z = (-12.5023, 19.4977)       # = clamp 07's side0 recess for the prongs
+END_EAR_HOLES = ((-49.145, 13.445), (-49.142, -6.771))   # (x, z): 20.216 apart
+END_EAR_HOLE_R = 2.25                 # O4.5 (M4 clearance)
+END_EAR_CBORE_R, END_EAR_CBORE_D = 4.0, 4.0
+M4_NUT_AF = 7.0                       # ISO 4032 M4 nut, across flats (max; 6.78 min)
+END_EAR_NUT_CLEAR = 0.3               # print clearance on the across-flats (0.15 per flat)
+END_EAR_NUT_AF = M4_NUT_AF + END_EAR_NUT_CLEAR             # 7.30 (01: 6.80)
+END_EAR_NUT_D = 4.0                   # pocket depth (M4 nut m 3.2)
+# hex orientation: flats square to z, corners along x - the corners would otherwise point at the
+# prong's top and bottom faces, which are closer (`end_ear_walls`: 2.08 vs 1.52 at the bottom)
+END_EAR_NUT_FLATS_NORMAL = 'z'
+END_EAR_ROOT_X = -12.0                # the ear arm starts inside the pad: at x -12 its full y span
+                                      # (|y| <= 20.76, r <= 24.0) is inside the r 26 disk
+END_EAR_CHAMFER_X = -44.3917         # where the 45 deg chamfers meet the prong top / bottom (01 F8 /
+                                      # F17, = where 07's side0 recess ends); the arm then rises / drops
+                                      # at 45 deg to the pad top (z 8) and the pad face (z 0)
+
+
+def end_stop_joint(joint, rng_deg=END_STOP_RANGE_DEG):
+    """The URDF joint with its limits replaced by the end link's range override (radians), the
+    original kept as 'urdf_lower' / 'urdf_upper_orig' for the reports."""
+    out = dict(joint)
+    out['urdf_lower_orig'], out['urdf_upper_orig'] = joint.get('lower'), joint.get('upper')
+    out['lower'], out['upper'] = math.radians(rng_deg[0]), math.radians(rng_deg[1])
+    return out
+
+
+def end_ear_profile(pad_t=None):
+    """The ear arm's side profile in the J7 module (x, z) plane, closed polyline, mm. Extruded
+    over the prongs' full y span; the slot is cut afterwards."""
+    pad_t = ROTOR_PAD_T if pad_t is None else pad_t
+    xc, (z0, z1) = END_EAR_CHAMFER_X, END_EAR_Z
+    pts = [(END_EAR_ROOT_X, 0.0), (END_EAR_ROOT_X, pad_t), (xc + (z1 - pad_t), pad_t), (xc, z1),
+           (END_EAR_X_TIP, z1), (END_EAR_X_TIP, z0), (xc, z0), (xc - z0, 0.0)]
+    segs = []
+    for k in range(len(pts)):
+        _line(segs, pts[k], pts[(k + 1) % len(pts)])
+    return segs, pts
+
+
+def hex_points(c, af, flats_normal='z'):
+    """The six corners of a hexagon of across-flats `af` centred on c = (x, z): with
+    flats_normal 'z' two flats are square to z (corners on the x axis), with 'x' square to x."""
+    rc = af / math.sqrt(3.0)
+    off = 0.0 if flats_normal == 'z' else 30.0
+    return [(c[0] + rc * math.cos(math.radians(off + 60.0 * k)),
+             c[1] + rc * math.sin(math.radians(off + 60.0 * k))) for k in range(6)]
+
+
+def end_ear_walls(af=None, flats_normal=None):
+    """Smallest material left round each ear feature in the prong's (x, z) outline, mm:
+    {feature: (wall, where)}. The prong is x END_EAR_X_TIP..(slot side), z END_EAR_Z."""
+    af = END_EAR_NUT_AF if af is None else af
+    fl = END_EAR_NUT_FLATS_NORMAL if flats_normal is None else flats_normal
+    (z0, z1), xt = END_EAR_Z, END_EAR_X_TIP
+    out = {}
+    for name, r in (('hole O4.5', END_EAR_HOLE_R), ('counterbore O8.0', END_EAR_CBORE_R)):
+        w = min(min(z1 - (z + r), (z - r) - z0, (x - r) - xt) for x, z in END_EAR_HOLES)
+        out[name] = w
+    hx = [p for c in END_EAR_HOLES for p in hex_points(c, af, fl)]
+    out['nut pocket %.2f AF' % af] = min(min(z1 - z, z - z0, x - xt) for x, z in hx)
+    return out
+
+
+def end_hand_walls():
+    """Smallest material round the four O3.3 hand-flange holes to the flange plate's edges, mm."""
+    x0, x1 = END_HAND_X
+    z0, z1 = END_HAND_Z
+    r = END_HAND_HOLE_R
+    return min(min(x - r - x0, x1 - x - r, z - r - z0, z1 - z - r) for x, z in END_HAND_HOLES)

@@ -1,5 +1,63 @@
 # parts/: print files
 
+## End link link_7h on J7 with clamp 07, plates link7h and clamp07 (EXO-445, 2026-11-16)
+
+A new last link on the generated arm so the wrist cuff attaches on the OUTER side (the operator hugs
+the exo from outside). Generator feature (`armgen.END_*`, `BuildArmGen.build_end_link`,
+`G1_SPEC['end_link']`), built in `exo generated` **v38** (0 FAIL, race clamp 127.822 x 7, bracket
+J1..J6 PASS; link_12..link_67 identical to v36). `link_7h` = the standard generated rotor end on J7
+(pad 8, O6.2 x 2.0 counterbores, eight O3.3 x 2.1 sockets, journal O30.1, recess r 8, O13.8 hole;
+bolts to `bottom.3mf` like every link) + manual part 01's hand flange and clamp ear, at 01's numbers
+in the J7 frame (hand base and cuff where the manual arm has them):
+
+- **Hand flange**: face 46.500 from the J7 axis (-Y), 5.0 plate, 4x O3.300 on 10 x 30 (x -8 / 2, z +-15).
+- **Clamp ear** on the outer side (-X): 2x O4.500 at (x -49.145, z 13.445) and (-49.142, -6.771), 20.22
+  apart, axes along Y; prongs 6.000, slot **28.000** (clamp 07's tongue 27.20: 0.40 a side); O8.0 x 4.0
+  counterbores on the -Y prong, **M4 nut pockets 7.30 across flats** x 4.0 on the +Y prong (01 had 6.80,
+  under a real M4 nut's 7.00; 7.00 + 0.30 print clearance, flats square to z for the thicker wall).
+- **J7 stop**: the generator's rule with a **range override of -55 to +80 deg** (`END_STOP_RANGE_DEG`;
+  URDF +-92.5 cannot clear the arm). Hard stops measured in the model: -54.9997 / +79.9997 deg.
+  **Default chosen by the agent, not confirmed by Esteban.**
+- Joint number "7" on the pad rim (300 deg, faces front). Walls: prong round the counterbore 1.73 (as
+  01), round the nut pocket 2.08, round the O4.5 3.48; hand holes to the flange edge 3.59.
+
+Measured on the mesh in the J7 frame: every interface above equals 01 (and 07's hinge hole centres) to
+0.001; rotor end against `bottom.3mf` in the same frame: pegs O3.00 to -6.0 in sockets O3.30 to -5.9,
+boss r 7.78 in recess r 8.0, journal r 15.05 both, joint face -8.000, M3 holes on the bottom's nut axes.
+Clamp 07 and the hand base sit on it as on 01 (side0 touches the prongs, 0.001 mm3; hand base 0.271
+off the face). Sweep (J6 step 15, J7 step 5): the end link alone clears J5..J7 and the links by >= 2.998
+over the whole stop range at every J6; with clamp 07, hand base and enclosure 10: clear >= 2 mm
+-55..+80 at J6 0, -50..+80 for |J6| <= 30, -35..+80 over the full J6 range (below that 07 meets
+link_56: up to 260 mm3 at J6 -60, J7 -55; the stop does not prevent it).
+
+| File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
+|---|---|---|---|---|---|
+| `link_7h.3mf` | `g_link_7h` (end link on J7, arm coordinates) | 72.504 x 81.801 x 40.492 | 48556.443 | 48552.095 | 13 |
+| `clamp07_side0_nuts.3mf` ... `clamp07_hook.3mf` | the six pieces of clamp 07 (side0 half with nut pockets, side0 half with head counterbores, button, lock, spring, hook), split verbatim from `hand_candidates/07_wrist_clamp_v12.3mf` (`tools/split_3mf_exo445.py`) | as 07 | 37079.175 / 37045.736 / 942.198 / 3302.047 / 674.682 / 30737.186 | - | 5 / 5 / 0 / 1 / 0 / 1 |
+| `link7h.bambu.3mf` | Bambu plate: link_7h **rotor side up** (journal vertical; joint face, journal, sockets clean on top), standing on the hand flange's top edge (69.8 mm2, 40.49 tall, outer-only 6 mm brim); bottom as exported; standard settings; `--plate link7h` | - | - | - | - |
+| `clamp07.bambu.3mf` | Bambu plate: side0 halves outer face down (hinge holes vertical), hook on a side face, lock on its 50.9 mm2 face (6 mm brim), button flat, **spring with its V profile flat on the bed** so every layer runs along the 1.5 legs; standard settings; `--plate clamp07` | - | - | - | - |
+
+link_7h orientation trade-off: rotor side down is impossible (the flange and ear reach 12.25 / 4.5 below
+the joint face); rotor side up puts the pad's outer face with the four M3 head counterbores on supports
+12.25 above the bed (as link_45, EXO-405), plus the ear and neck tops; the foot is small (CoM 32.8 off
+it, carried by the supports, brim added). Flange face and ear prong faces are vertical, their holes
+horizontal. Laying it on the flange face (915 mm2, stable) would print the journal sideways.
+
+**Hardware.** J7 joint as every generated joint: `stator.3mf` (3 M3 heat-set inserts, onto link_67 with
+3x M3x12), bearing 5972K159, `bottom.3mf` with 4 M3 ISO 4032 nuts in its pockets and 4x M2x6 horn
+screws. Rotor end: 4x M3x18 (from the 2.0 counterbores into the bottom's nuts; not M3x20). Hand base:
+4x M3 with nuts or inserts as on 01 (length not checked). Clamp 07: 5x M4x35 SHCS and 5 M4 nuts (3 in the
+clamp, 2 for the ear).
+
+**Assembly order.** XL330 and stator as every joint; stator onto link_67 (3x M3x12); bearing; bottom on
+the horn (4x M2x6, before the link: driver access through the O13.8 hole is partial), M3 nuts in its
+pockets; servo to zero; link_7h on the pegs in the position with the ear on the OUTER side and the hand
+flange toward the hand (any other of the four positions turns the stop range), 4x M3x18; check the
+stops by hand (-55 / +80); hand base on the flange; clamp 07 assembled, its tongue into the 28.0 slot,
+2x M4x35 from the counterbore (-Y) prong into the nuts in the +Y prong.
+
+Not sliced, not printed, not loaded in the Bambu GUI.
+
 ## Wrist side rule: link_56 and link_67 regenerated, plate joints67 rebuilt (EXO-444, 2026-11-16)
 
 The operator hugs the exo from outside, so the wrist cuff goes on the OUTER side of the arm. The

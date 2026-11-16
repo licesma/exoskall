@@ -116,6 +116,10 @@ G1_SPEC = {
     'wrist_side': {'arm': 'G1 right arm', 'joint': 'J7', 'module': 'J6', 'side': 'inner',
                    'reach_modules': ('J5', 'J6', 'J7'), 'reach_links': ('link_56', 'link_67'),
                    'max_outer_mm': armgen.WRIST_OUTER_MAX_MM},
+    # EXO-445: the END LINK on J7's rotor (rotor end + manual 01's hand flange and clamp ear on
+    # the outer side), carrying J7's link stop at the END_STOP_RANGE_DEG override. THIS ARM ONLY.
+    'end_link': {'name': armgen.END_LINK_NAME, 'joint': 'J7',
+                 'range_deg': armgen.END_STOP_RANGE_DEG},
 }
 
 # Gento Luna, right arm (EXO-15/EXO-95). Seven revolute joints Arm_R1..R7_Joint; R1/R2 share
@@ -203,6 +207,8 @@ def report_limits(rep, spec, limits, order, unbuilt=()):
               ' / '.join('%.5f' % (math.degrees(lj['urdf_range'] - lj['range']) / 2.0)
                          for lab, lj in capped))))
     done = set(lab for _n, lab, _lj, _r in limits)
+    if spec.get('end_link'):
+        done.add(spec['end_link']['joint'])     # EXO-445: reported by build_arm with the end link
     nolink = dict(unbuilt)
     for lab in order:
         if lab in spec['limited'] and lab not in done:
@@ -677,41 +683,31 @@ def _merge(comp, body, tool_feature, op, step, name):
     return comp.bRepBodies.item(0)
 
 
-def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
-    """The whole link: ribbon + rotor pad + fused rotor top + landing plate + stop block, then
-    the cuts (EXO-370: the rotor pad IS the rotor top)."""
+def _rotor_adds(comp, body, FA, pad_r, pad_outline, stop_angle, stop_half, stop_h, name):
+    """The rotor end's added solids, in the rotor module frame FA (EXO-370/383/394): pad disk
+    (or the EXO-181 chord outline), the link stop block, the fused top disk (shoulder + 45 deg
+    chamfer) and the journal. `body` None: the pad disk starts the body (EXO-445 end link).
+    Moved out of `build_link` unchanged (EXO-445), so every link and the end link draw the same
+    rotor end with the same operations in the same order."""
     g = armgen
     NEW = adsk.fusion.FeatureOperations.NewBodyFeatureOperation
     JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
-    CUT = adsk.fusion.FeatureOperations.CutFeatureOperation
-    eps = 0.5
-    FA = arm.F
-    FB = FA.child(R_ab, t_ab)                    # the true stator frame: holes and cutout
-    # EXO-176: the plate's drawing frame is the TONGUE's - the snapped frame turned
-    # until its +Y is the tongue. For a square landing that IS `R_b` (theta = 0).
-    FS = FA.child(route.get('R_t') or route['R_b'], t_ab)
     ex, ey = FA.vector([1, 0, 0]), FA.vector([0, 1, 0])
-    bx, by = FB.vector([1, 0, 0]), FB.vector([0, 1, 0])
-    sx, sy = FS.vector([1, 0, 0]), FS.vector([0, 1, 0])
-    z_slab_mid = g.STATOR_UNDERSIDE_Z - g.PAD_T / 2.0
-    pad_r = route['pad_r']
-
-    body = build_ribbon(comp, arm, route, name)
-
     # EXO-375/383: the rotor pad is ROTOR_PAD_T thick (8 default), z 0..ROTOR_PAD_T; with a pad
     # thinner than the ribbon (PAD_T 8) the ribbon is cut down to it inside the r 18 head flat
     sk = BuildArm.PlaneSketch(comp, name + ' rotor pad', FA.point([0, 0, g.ROTOR_PAD_T / 2]), ex, ey)
     # EXO-181: the plain disk unless module B is in the way, in which case one solved chord
     # comes off it. `pad_outline` is None for every link whose pad already clears, so those
     # links draw exactly the circle they always drew.
-    if route.get('pad_outline'):
-        sk.loop(route['pad_outline'])
+    if pad_outline:
+        sk.loop(pad_outline)
     else:
         sk.circle((0, 0), pad_r)
-    body = _merge(comp, body, sk.extrude(1, g.ROTOR_PAD_T, NEW), JOIN, 'rotor pad disk', name)
+    feat = sk.extrude(1, g.ROTOR_PAD_T, NEW)
+    body = (feat.bodies.item(0) if body is None
+            else _merge(comp, body, feat, JOIN, 'rotor pad disk', name))
 
-    stop_h = route.get('stop_h', armgen.STOP_H)
-    half, ang = route['stop_half'], route['stop_angle']
+    half, ang = stop_half, stop_angle
     # EXO-218: the link stop is ONE solid block of the arc the rule solved - back to what
     # EXO-204 drew. Its two ends are the contact faces.
     sk = BuildArm.PlaneSketch(comp, name + ' stop block',
@@ -755,16 +751,24 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
                                     lambda k: k.circle((0, 0), g.TOP_JOURNAL_R), 1),
                   JOIN, 'fused top journal', name)
 
-    sk = BuildArm.PlaneSketch(comp, name + ' landing plate',
-                              FS.point([0, 0, z_slab_mid]), sx, sy)
-    sk.loop(route['flange'])
-    body = _merge(comp, body, sk.extrude(1, g.PAD_T, NEW), JOIN, 'landing plate', name)
+    return body
 
-    applied = []
-    if rep is not None:
-        body, _rad, applied = fillet_elbows(comp, body, arm, route, name, rep,
-                                            r_out_cap=r_out_cap)
 
+def _rotor_cuts(comp, body, FA, name):
+    """The rotor end's cuts (EXO-370/383/394): head flat (pad thinner than the ribbon), four M3
+    holes, O13.8 centre hole, boss recess, O6.2 head counterbores, eight register sockets, the
+    EXO-375 label if on. Moved out of `build_link` unchanged (EXO-445)."""
+    g = armgen
+    NEW = adsk.fusion.FeatureOperations.NewBodyFeatureOperation
+    CUT = adsk.fusion.FeatureOperations.CutFeatureOperation
+    eps = 0.5
+    ex, ey = FA.vector([1, 0, 0]), FA.vector([0, 1, 0])
+
+    def _band(label, z_lo, z_hi, draw, n):
+        sk_ = BuildArm.PlaneSketch(comp, name + ' ' + label, FA.point([0, 0, (z_lo + z_hi) / 2]),
+                                   ex, ey)
+        draw(sk_)
+        return sk_.extrude(n, z_hi - z_lo, NEW)
     # EXO-370/383: the four M3 holes and the O13.8 centre hole run through pad AND top (z -8.0 ..
     # ROTOR_PAD_T, eps past both faces); the underside recess r 8.0 up to -5.4 takes the bottom's
     # r 7.8 boss and the M2 heads on it; O6.2 counterbores ROTOR_CBORE_D deep take the M3 heads.
@@ -804,6 +808,46 @@ def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
                                     _sockets, len(g.TOP_PEG_ANGLES)), CUT, 'register sockets', name)
     if g.ROTOR_LABEL_ON:
         body = _rotor_label(comp, body, FA, ex, ey, name)
+
+    return body
+
+
+def build_link(comp, arm, R_ab, t_ab, route, name, rep=None, r_out_cap=None):
+    """The whole link: ribbon + rotor pad + fused rotor top + landing plate + stop block, then
+    the cuts (EXO-370: the rotor pad IS the rotor top)."""
+    g = armgen
+    NEW = adsk.fusion.FeatureOperations.NewBodyFeatureOperation
+    JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
+    CUT = adsk.fusion.FeatureOperations.CutFeatureOperation
+    eps = 0.5
+    FA = arm.F
+    FB = FA.child(R_ab, t_ab)                    # the true stator frame: holes and cutout
+    # EXO-176: the plate's drawing frame is the TONGUE's - the snapped frame turned
+    # until its +Y is the tongue. For a square landing that IS `R_b` (theta = 0).
+    FS = FA.child(route.get('R_t') or route['R_b'], t_ab)
+    ex, ey = FA.vector([1, 0, 0]), FA.vector([0, 1, 0])
+    bx, by = FB.vector([1, 0, 0]), FB.vector([0, 1, 0])
+    sx, sy = FS.vector([1, 0, 0]), FS.vector([0, 1, 0])
+    z_slab_mid = g.STATOR_UNDERSIDE_Z - g.PAD_T / 2.0
+    pad_r = route['pad_r']
+
+    body = build_ribbon(comp, arm, route, name)
+    # EXO-445: the rotor end's ADDED solids are `_rotor_adds`, shared with the end link
+    body = _rotor_adds(comp, body, FA, pad_r, route.get('pad_outline'), route['stop_angle'],
+                       route['stop_half'], route.get('stop_h', armgen.STOP_H), name)
+
+    sk = BuildArm.PlaneSketch(comp, name + ' landing plate',
+                              FS.point([0, 0, z_slab_mid]), sx, sy)
+    sk.loop(route['flange'])
+    body = _merge(comp, body, sk.extrude(1, g.PAD_T, NEW), JOIN, 'landing plate', name)
+
+    applied = []
+    if rep is not None:
+        body, _rad, applied = fillet_elbows(comp, body, arm, route, name, rep,
+                                            r_out_cap=r_out_cap)
+
+    # EXO-445: the rotor end's CUTS are `_rotor_cuts`, shared with the end link
+    body = _rotor_cuts(comp, body, FA, name)
 
     sk = BuildArm.PlaneSketch(comp, name + ' stator holes',
                               FB.point([0, 0, z_slab_mid]), bx, by)
@@ -1197,6 +1241,9 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
     # EXO-208: every joint in LIMITED_JOINTS is SIZED here, whether or not a link carries
     # it. `unbuilt` is the ones with no rotor pad in this arm (J7, the end of the chain).
     rotor_joints = set(L[1] for L in links)
+    end = spec.get('end_link')
+    if end is not None:
+        rotor_joints.add(end['joint'])          # EXO-445: the end link carries it
     unbuilt = [(lab, armgen.limited_joint(dict(joints[by_label[lab]['name']],
                                                name=by_label[lab]['name']),
                                           by_label[lab]['axis_sign'], armgen.ROTOR_PAD_R))
@@ -1306,6 +1353,25 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
             % (name, a, b, width, pad_r, why))
     rep('')
     report_limits(rep, spec, limits, order, unbuilt)
+    end_lj = None
+    if end is not None:
+        jd = by_label[end['joint']]
+        end_lj = armgen.limited_joint(armgen.end_stop_joint(dict(joints[jd['name']], name=jd['name']),
+                                                            end['range_deg']),
+                                      jd['axis_sign'], armgen.END_PAD_R)
+        lo_e, hi_e, n_e = armgen.stop_sweep(end_lj)
+        rep('  %-3s %s (%s, the END LINK, EXO-445), axis_sign %+d: RANGE OVERRIDE %+.1f .. %+.1f deg '
+            '(URDF %+.3f .. %+.3f deg; chosen by the agent, NOT confirmed by Esteban). RULE b = %.5f deg, '
+            'centre %.5f deg, block r %.1f..%.1f x %.1f mm; contact faces %.5f and %.5f deg. SWEEP %d '
+            'poses: first contact at %+.5f and %+.5f deg.'
+            % (end['joint'], end_lj['joint'], end['name'], end_lj['axis_sign'], end['range_deg'][0],
+               end['range_deg'][1], math.degrees(joints[jd['name']]['lower']),
+               math.degrees(joints[jd['name']]['upper']), math.degrees(end_lj['arc']),
+               end_lj['stop_angle'], end_lj['r_in'], end_lj['r_out'], end_lj['stop_h'],
+               (end_lj['stop_angle'] - end_lj['stop_half']) % 360.0,
+               (end_lj['stop_angle'] + end_lj['stop_half']) % 360.0, n_e,
+               math.degrees(lo_e), math.degrees(hi_e)))
+        rep('')
 
     # EXO-444: the wrist outer-side check, on the sized routes, BEFORE anything in the document
     # is deleted or built: an arm that breaks it raises here and the document is untouched.
@@ -1426,6 +1492,30 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
         # so XL330-vs-own-stator is module-internal and XL330-vs-link is a FAIL, exactly the
         # grouping EXO-187's proxy was built to get.
         wrappers.append((j['label'], wrp))
+    # EXO-445: the END LINK on the last joint's rotor, in that module's frame
+    if end is not None:
+        RA, tA = frames[end['joint']]
+        FA = BuildArm.Frame(RA, [v * 1000.0 for v in tA])
+        occ = arm_comp.occurrences.addNewComponent(identity)
+        gname = 'g_' + end['name']
+        occ.component.name = BuildArm.unique_name(design, gname)
+        rep('')
+        rep('%s (EXO-445): the end link on %s\'s rotor - the standard rotor end (r %.1f pad), '
+            'manual 01\'s hand flange (face y %.1f, 4x O%.1f on 10 x 30) and clamp ear on the outer '
+            'side (2x O%.1f at x %.3f / %.3f, slot %.2f, O%.1f x %.1f counterbore, M4 nut pocket %.2f '
+            'AF x %.1f, flats square to %s)'
+            % (gname, end['joint'], armgen.END_PAD_R, armgen.END_HAND_FACE_Y,
+               2 * armgen.END_HAND_HOLE_R, 2 * armgen.END_EAR_HOLE_R, armgen.END_EAR_HOLES[0][0],
+               armgen.END_EAR_HOLES[1][0], armgen.END_EAR_PRONG_B[0] - armgen.END_EAR_PRONG_A[1],
+               2 * armgen.END_EAR_CBORE_R, armgen.END_EAR_CBORE_D, armgen.END_EAR_NUT_AF,
+               armgen.END_EAR_NUT_D, armgen.END_EAR_NUT_FLATS_NORMAL))
+        ebody = build_end_link(occ.component, FA, end_lj, gname, rep)
+        ebody.name = gname
+        rep('%s -> %s: %d features, %d faces, volume %.3f mm3; walls (armgen, prong outline): %s; '
+            'hand holes to the flange edge %.3f'
+            % (end['name'], gname, occ.component.features.count, ebody.faces.count,
+               ebody.volume * 1000.0, ', '.join('%s %.3f' % kv for kv in sorted(armgen.end_ear_walls().items())),
+               armgen.end_hand_walls()))
     rep('')
     rep('EXO-201: the XL330 is an exclusion volume and the module CARRIES it - the proxy body '
         'EXO-187 built beside every module is gone (it only duplicated the real one and '
@@ -1655,3 +1745,219 @@ def build_general(app, ui, design, log=None, interactive=False):
 def build_luna(app, ui, design, log=None, interactive=False):
     """The Gento Luna right arm, into `generated_R_arm_luna` (EXO-218)."""
     return build_arm(LUNA_SPEC, app, ui, design, log, interactive)
+
+
+# ---------------- EXO-445: the generated END LINK after J7 ----------------
+
+def _edge_solid_fraction(body, edge, r_cm=0.02, n=24):
+    """EXO-445: the fraction of a small circle (r 0.2 mm, square to the edge at its midpoint) that
+    lies inside the body: about 0.75 at a concave edge, 0.25 at a convex one, 0.5 where smooth.
+    Used for the end link instead of `edge_convexity`, whose (n1 - n2) step read two of the end
+    link's concave neck edges as convex in the J7 frame (a face with isParamReversed whose
+    evaluator normal already pointed out of the body); `edge_convexity` itself is left as it is,
+    because every link's EXO-151 elbow set is selected with it."""
+    p = edge.pointOnEdge
+    ev = edge.evaluator
+    ok, prm = ev.getParameterAtPoint(p)
+    ok2, t = ev.getTangent(prm)
+    t = [t.x, t.y, t.z]
+    tn = math.sqrt(sum(c * c for c in t))
+    t = [c / tn for c in t]
+    a = [1.0, 0.0, 0.0] if abs(t[0]) < 0.9 else [0.0, 1.0, 0.0]
+    u = armgen.unit(armgen.cross(t, a))
+    v = armgen.cross(t, u)
+    inside = 0
+    for k in range(n):
+        c, s_ = math.cos(2 * math.pi * (k + 0.5) / n), math.sin(2 * math.pi * (k + 0.5) / n)
+        q = adsk.core.Point3D.create(p.x + r_cm * (c * u[0] + s_ * v[0]), p.y + r_cm * (c * u[1] + s_ * v[1]),
+                                     p.z + r_cm * (c * u[2] + s_ * v[2]))
+        if body.pointContainment(q) == adsk.fusion.PointContainment.PointInsidePointContainment:
+            inside += 1
+    return inside / float(n)
+
+
+def _concave_edges(body, F, pred):
+    """Indexes of the body's CONCAVE edges (`_edge_solid_fraction` > 0.6) whose midpoint (frame F,
+    mm) satisfies pred(p, edge)."""
+    out = []
+    for i in range(body.edges.count):
+        e = body.edges.item(i)
+        if e.faces.count != 2:
+            continue
+        p = F.local(e.pointOnEdge)
+        if pred(p, e) and _edge_solid_fraction(body, e) > 0.6:
+            out.append(i)
+    return out
+
+
+def _fillet_set(comp, F, pred, r, name, label, rep, steps=6):
+    """Fillet every concave edge `pred` picks at r, halving down to r / 2**steps if Fusion
+    refuses; reports what was applied. Returns the body."""
+    body = comp.bRepBodies.item(0)
+    idx = _concave_edges(body, F, pred)
+    if not idx:
+        if rep:
+            rep('      %s: no such edge' % label)
+        return body
+    rr = r
+    for _ in range(steps):
+        if _fillet(comp, _concave_edges(comp.bRepBodies.item(0), F, pred), rr) is not None:
+            if comp.bRepBodies.count != 1:
+                raise RuntimeError('%s: %d bodies after the %s fillet' % (name, comp.bRepBodies.count, label))
+            if rep:
+                rep('      %s: %d concave edge(s) filleted at r %.3f%s'
+                    % (label, len(idx), rr, '' if rr >= r - 1e-9 else ' (asked %.1f, Fusion refused it)' % r))
+            return comp.bRepBodies.item(0)
+        rr /= 2.0
+    raise RuntimeError('%s: no fillet down to r %.3f takes on the %s' % (name, rr, label))
+
+
+def build_end_link(comp, FA, lj, name, rep=None):
+    """EXO-445: the end link after J7 (`armgen.END_LINK_NAME`), in the J7 module frame FA:
+    the standard rotor end (`_rotor_adds` / `_rotor_cuts`, the same as every link, with the
+    link stop `lj` = `limited_joint` at the END_STOP_RANGE_DEG override), the hand flange and
+    neck at -Y and the clamp ear on the OUTER side (-X), all at manual part 01's numbers
+    (armgen END_*), the M4 nut pocket at END_EAR_NUT_AF, and joint number "7" on the pad rim."""
+    g = armgen
+    NEW = adsk.fusion.FeatureOperations.NewBodyFeatureOperation
+    JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
+    CUT = adsk.fusion.FeatureOperations.CutFeatureOperation
+    eps = 0.5
+    pad_r = g.END_PAD_R
+    ex, ey, ez = FA.vector([1, 0, 0]), FA.vector([0, 1, 0]), FA.vector([0, 0, 1])
+
+    def rect(x0, y0, x1, y1):
+        return g.rect_outline(x0, y0, x1, y1)
+
+    body = _rotor_adds(comp, None, FA, pad_r, None, lj['stop_angle'], lj['stop_half'],
+                       lj['stop_h'], name)
+
+    # the NECK: 01's x span, from inside the pad out to the flange (0.5 into it), z -8..pad face;
+    # below z 0 nothing inside r END_NECK_RELIEF_R (the stator's r 27 + 1, as 01's r 28 relief)
+    (hx0, hx1), y_back = g.END_HAND_X, g.END_HAND_FACE_Y + g.END_HAND_T
+    z0n, z1n = g.END_NECK_Z_LO, g.ROTOR_PAD_T
+    sk = BuildArm.PlaneSketch(comp, name + ' neck', FA.point([0, 0, (z0n + z1n) / 2]), ex, ey)
+    sk.loop(rect(hx0, y_back - eps, hx1, g.END_NECK_Y_IN))
+    neck = sk.extrude(1, z1n - z0n, NEW).bodies.item(0)
+    sk = BuildArm.PlaneSketch(comp, name + ' neck relief', FA.point([0, 0, (z0n - 1.0) / 2]), ex, ey)
+    sk.circle((0, 0), g.END_NECK_RELIEF_R)
+    relief = sk.extrude(1, 1.0 - z0n, NEW)
+    tools = adsk.core.ObjectCollection.create()
+    tools.add(relief.bodies.item(0))
+    ci = comp.features.combineFeatures.createInput(neck, tools)
+    ci.operation = CUT
+    ci.isKeepToolBodies = False
+    comp.features.combineFeatures.add(ci)
+    tools = adsk.core.ObjectCollection.create()
+    tools.add(neck)
+    ci = comp.features.combineFeatures.createInput(body, tools)
+    ci.operation = JOIN
+    ci.isKeepToolBodies = False
+    comp.features.combineFeatures.add(ci)
+    if comp.bRepBodies.count != 1:
+        raise RuntimeError('%s: %d bodies after the neck' % (name, comp.bRepBodies.count))
+    body = comp.bRepBodies.item(0)
+
+    # the HAND FLANGE: 01's plate, face y END_HAND_FACE_Y, r 5 corners in its (x, z) outline
+    (fz0, fz1), rc = g.END_HAND_Z, g.END_HAND_CORNER_R
+    segs = []
+    g._line(segs, (hx0 + rc, fz0), (hx1 - rc, fz0))
+    g._arc(segs, (hx1 - rc, fz0 + rc), rc, -90.0, 0.0)
+    g._line(segs, (hx1, fz0 + rc), (hx1, fz1 - rc))
+    g._arc(segs, (hx1 - rc, fz1 - rc), rc, 0.0, 90.0)
+    g._line(segs, (hx1 - rc, fz1), (hx0 + rc, fz1))
+    g._arc(segs, (hx0 + rc, fz1 - rc), rc, 90.0, 180.0)
+    g._line(segs, (hx0, fz1 - rc), (hx0, fz0 + rc))
+    g._arc(segs, (hx0 + rc, fz0 + rc), rc, 180.0, 270.0)
+    y_mid_f = g.END_HAND_FACE_Y + g.END_HAND_T / 2.0
+    sk = BuildArm.PlaneSketch(comp, name + ' hand flange', FA.point([0, y_mid_f, 0]), ex, ez)
+    sk.loop(segs)
+    body = _merge(comp, body, sk.extrude(1, g.END_HAND_T, NEW), JOIN, 'hand flange', name)
+
+    # the CLAMP EAR on the outer side: the side profile over both prongs' y span, then the slot
+    (ya0, _ya1), (_yb0, yb1) = g.END_EAR_PRONG_A, g.END_EAR_PRONG_B
+    segs, _pts = g.end_ear_profile()
+    sk = BuildArm.PlaneSketch(comp, name + ' clamp ear', FA.point([0, (ya0 + yb1) / 2, 0]), ex, ez)
+    sk.loop(segs)
+    body = _merge(comp, body, sk.extrude(1, yb1 - ya0, NEW), JOIN, 'clamp ear', name)
+    s0, s1 = g.END_EAR_PRONG_A[1], g.END_EAR_PRONG_B[0]
+    ez0, ez1 = g.END_EAR_Z
+    sk = BuildArm.PlaneSketch(comp, name + ' ear slot', FA.point([0, (s0 + s1) / 2, 0]), ex, ez)
+    sk.loop(rect(g.END_EAR_X_TIP - 2.0, ez0 - 2.0, g.END_EAR_SLOT_X, ez1 + 2.0))
+    body = _merge(comp, body, sk.extrude(1, s1 - s0, NEW), CUT, 'ear slot', name)
+
+    # the corner between the ear's -Y side and the neck's -X side: a concave r END_CORNER_R fill in
+    # plan over the pad thickness (their two vertical walls meet the rim 0.7 mm apart)
+    xc, yc, rc2 = hx0, ya0, g.END_CORNER_R
+    segs = []
+    g._line(segs, (xc - rc2, yc), (xc, yc))
+    g._line(segs, (xc, yc), (xc, yc - rc2))
+    g._arc(segs, (xc - rc2, yc - rc2), rc2, 0.0, 90.0)
+    sk = BuildArm.PlaneSketch(comp, name + ' ear-neck corner', FA.point([0, 0, g.ROTOR_PAD_T / 2]), ex, ey)
+    sk.loop(segs)
+    body = _merge(comp, body, sk.extrude(1, g.ROTOR_PAD_T, NEW), JOIN, 'ear-neck corner', name)
+
+    # rounds (generator default ELBOW_R_IN 3.0 on concave edges): neck -> flange back, and where
+    # the neck's and the ear's flat sides run into the pad rim (vertical edges, z 0..pad face)
+    if rep:
+        rep('    %s rounds:' % name)
+    tol = 0.05
+    body = _fillet_set(comp, FA, lambda p, e: abs(p[1] - y_back) < tol and abs(abs(p[2]) - 8.0) < tol
+                       and hx0 - tol <= p[0] <= hx1 + tol,
+                       g.END_NECK_FILLET_R, name, 'neck -> flange back', rep)
+    body = _fillet_set(comp, FA, lambda p, e: abs(math.hypot(p[0], p[1]) - pad_r) < tol
+                       and abs(p[2] - g.ROTOR_PAD_T / 2.0) < tol
+                       and abs(e.length * 10.0 - g.ROTOR_PAD_T) < tol,
+                       sweepgen.ELBOW_R_IN, name, 'neck and ear sides -> pad rim', rep)
+
+    body = _rotor_cuts(comp, body, FA, name)
+
+    # hand flange holes: 4x O3.3 through the plate (01: 10 x 30, 5 deep)
+    sk = BuildArm.PlaneSketch(comp, name + ' hand holes', FA.point([0, y_mid_f, 0]), ex, ez)
+    for x, z in g.END_HAND_HOLES:
+        sk.circle((x, z), g.END_HAND_HOLE_R)
+    body = _merge(comp, body, sk.extrude(len(g.END_HAND_HOLES), g.END_HAND_T + 2 * eps, NEW),
+                  CUT, 'hand holes', name)
+    # ear: 2x O4.5 through both prongs, O8.0 x 4.0 counterbores on the -Y prong, M4 nut pockets
+    sk = BuildArm.PlaneSketch(comp, name + ' ear holes', FA.point([0, (ya0 + yb1) / 2, 0]), ex, ez)
+    for x, z in g.END_EAR_HOLES:
+        sk.circle((x, z), g.END_EAR_HOLE_R)
+    body = _merge(comp, body, sk.extrude(len(g.END_EAR_HOLES), yb1 - ya0 + 2 * eps, NEW),
+                  CUT, 'ear holes', name)
+    d = g.END_EAR_CBORE_D
+    sk = BuildArm.PlaneSketch(comp, name + ' ear counterbores',
+                              FA.point([0, ya0 + (d - eps) / 2, 0]), ex, ez)
+    for x, z in g.END_EAR_HOLES:
+        sk.circle((x, z), g.END_EAR_CBORE_R)
+    body = _merge(comp, body, sk.extrude(len(g.END_EAR_HOLES), d + eps, NEW),
+                  CUT, 'ear counterbores', name)
+    d = g.END_EAR_NUT_D
+    sk = BuildArm.PlaneSketch(comp, name + ' ear nut pockets',
+                              FA.point([0, yb1 - (d - eps) / 2, 0]), ex, ez)
+    for c in g.END_EAR_HOLES:
+        hp = g.hex_points(c, g.END_EAR_NUT_AF, g.END_EAR_NUT_FLATS_NORMAL)
+        segs = []
+        for k in range(6):
+            g._line(segs, hp[k], hp[(k + 1) % 6])
+        sk.loop(segs)
+    # each hexagon is one profile; the O4.5 circle is not drawn here, so 2 profiles
+    body = _merge(comp, body, sk.extrude(len(g.END_EAR_HOLES), d + eps, NEW),
+                  CUT, 'ear nut pockets', name)
+
+    # EXO-421: the joint number "7" on the rotor pad's rim (the rim candidates of every link,
+    # probed on this body)
+    tried = []
+    for c in g.rim_label_candidates(FA.R, pad_r):
+        ok, _where = _label_room(body, FA, c)
+        if ok:
+            break
+        tried.append('%g' % c['angle'])
+    else:
+        raise RuntimeError('%s: no room for joint number 7 on the rim (tried %s)' % (name, ', '.join(tried)))
+    body = _cut_label(comp, body, FA, c, g.END_LINK_JOINT_LABEL, '%s J7 number' % name)
+    if rep:
+        rep('      EXO-421 joint number "%s": %s at %g deg (centre %s, frame of J7), up = world %s, '
+            'floor %.3f deep at the centre; view score %.3f; rejected %s'
+            % (g.END_LINK_JOINT_LABEL, c['face'], c['angle'], ['%.3f' % x for x in c['centre']],
+               c['how'], c['depth'], c['score'], ', '.join(tried) or 'none'))
+    return body
