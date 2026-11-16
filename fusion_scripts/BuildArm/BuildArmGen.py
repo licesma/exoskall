@@ -109,6 +109,13 @@ G1_SPEC = {
     'links': [dict(L) for L in list(BuildArm.LINKS) + NEW_LINKS],
     'limited': LIMITED_JOINTS,
     'report': REPORT_PATH,
+    # EXO-444: the wrist side rule, THIS ARM ONLY (see armgen `WRIST_OUTER_MAX_MM` for the why;
+    # the general problem is .knuth/docs/exo-human-fit.md). J6 sits on the inner side of the J7
+    # axis where the axis-sign combinations tie, and nothing from J5 to J7 reaches more than
+    # 40 mm to the outer side of the J7 axis, where the cuff and the operator's forearm go.
+    'wrist_side': {'arm': 'G1 right arm', 'joint': 'J7', 'module': 'J6', 'side': 'inner',
+                   'reach_modules': ('J5', 'J6', 'J7'), 'reach_links': ('link_56', 'link_67'),
+                   'max_outer_mm': armgen.WRIST_OUTER_MAX_MM},
 }
 
 # Gento Luna, right arm (EXO-15/EXO-95). Seven revolute joints Arm_R1..R7_Joint; R1/R2 share
@@ -1300,6 +1307,15 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
     rep('')
     report_limits(rep, spec, limits, order, unbuilt)
 
+    # EXO-444: the wrist outer-side check, on the sized routes, BEFORE anything in the document
+    # is deleted or built: an arm that breaks it raises here and the document is untouched.
+    side_rule = sweepgen.wrist_side_rule(spec, joints, by_child)
+    if side_rule is not None:
+        rep('')
+        _rows, line = sweepgen.wrist_outer_check(
+            side_rule, frames, dict((nm, (a, rt)) for nm, a, b, _R, _t, rt in specs))
+        rep(line)
+
     root = design.rootComponent
     gone = delete_previous(root, spec['name'])
     rep('Deleted previous: %s' % (', '.join(gone) if gone else 'none'))
@@ -1543,6 +1559,12 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
         rep('    sliver %s <-> %s volume=%.2f mm3 depth=%.3f mm'
             % (a, b, vol, min(bb[1][i] - bb[0][i] for i in range(3))))
 
+    # ---- EXO-444: the wrist outer-side check again, on the BUILT solids ----
+    side_fail = []
+    if side_rule is not None:
+        rep('')
+        side_fail = fusion_outer_reach(rep, side_rule, frames, wrappers, built)
+
     # ---- deviation from the link the current generator builds ----
     rep('')
     for name, gname, body, route, _arm in built:
@@ -1560,9 +1582,10 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
                d['faces_new'], d['shared'], d['symdiff'],
                100.0 * d['symdiff'] / d['v_old'], d['worst_vertex'], d['bbox']))
 
-    head = ('BuildArmGen done (%s).' % spec['key'] if not fails
-            else 'BuildArmGen (%s) finished with %d interference FAIL(s).'
-            % (spec['key'], len(fails)))
+    head = ('BuildArmGen done (%s).' % spec['key'] if not fails and not side_fail
+            else 'BuildArmGen (%s) finished with %d interference FAIL(s)%s.'
+            % (spec['key'], len(fails), '' if not side_fail else
+               ' and the EXO-444 wrist outer-side check FAILED on the solids: %s' % side_fail))
     text = head + '\n\n' + '\n'.join(report)
     try:
         dd = os.path.dirname(spec['report'])
@@ -1573,6 +1596,55 @@ def build_arm(spec, app, ui, design, log=None, interactive=False):
     except Exception:
         pass
     return text
+
+
+def fusion_outer_reach(rep, rule, frames, wrappers, built):
+    """EXO-444: how far each module of rule['reach_modules'] (every body under its placed
+    wrapper) and each link of rule['reach_links'] reaches to the outer side of the rule's joint
+    axis, measured on the solids: an oriented bounding box (`measureManager`, exact) of a world
+    copy of each body along the outer direction. Reports one line per group and returns the
+    groups over rule['max_outer_mm'] (empty when it passes)."""
+    tbm = adsk.fusion.TemporaryBRepManager.get()
+    mm = adsk.core.Application.get().measureManager
+    o = rule['outer']
+    t7 = [v * 1000.0 for v in frames[rule['joint']][1]]
+    side = armgen.unit(armgen.cross(o, [0.0, 0.0, 1.0] if abs(o[2]) < 0.9 else [1.0, 0.0, 0.0]))
+    L, W = adsk.core.Vector3D.create(*o), adsk.core.Vector3D.create(*side)
+
+    def reach(body):
+        tmp = tbm.copy(body)
+        ob = mm.getOrientedBoundingBox(tmp, L, W)
+        c = [ob.centerPoint.x * 10.0, ob.centerPoint.y * 10.0, ob.centerPoint.z * 10.0]
+        return armgen.outer_offset(c, t7, o) + ob.length * 10.0 / 2.0
+
+    def walk(occ, out):
+        for i in range(occ.bRepBodies.count):
+            out.append((occ.component.name + '/' + occ.bRepBodies.item(i).name, occ.bRepBodies.item(i)))
+        for i in range(occ.childOccurrences.count):
+            walk(occ.childOccurrences.item(i), out)
+
+    rows = []
+    for lab, wr in wrappers:
+        if lab in rule['reach_modules']:
+            bodies = []
+            walk(wr, bodies)
+            r = max((reach(b), nm) for nm, b in bodies)
+            rows.append(('%s module' % lab, r[0], r[1], len(bodies)))
+    for name, gname, body, _route, _arm in built:
+        if name in rule['reach_links']:
+            rows.append((name, reach(body), gname, 1))
+    lim = rule['max_outer_mm']
+    for name in rule['reach_links']:
+        if name not in [r[0] for r in rows]:
+            rows.append((name, None, 'NOT BUILT', 0))
+    rows.sort(key=lambda r: -1e18 if r[1] is None else -r[1])
+    bad = [r[0] for r in rows if r[1] is None or r[1] > lim + 1e-6]
+    rep('EXO-444 wrist outer-side check ON THE SOLIDS (oriented bounding box of every body along '
+        'outer = world (%+.4f, %+.4f, %+.4f), from the %s axis), need <= %.1f mm: %s -> %s'
+        % (o[0], o[1], o[2], rule['joint'], lim, '; '.join(
+            '%s %s (%s, %d bodies)' % (w, 'n/a' if v is None else '%.3f' % v, b, n)
+            for w, v, b, n in rows), 'FAIL ' + ', '.join(bad) if bad else 'PASS'))
+    return bad
 
 
 def build_general(app, ui, design, log=None, interactive=False):

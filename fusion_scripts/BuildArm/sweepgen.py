@@ -2301,6 +2301,13 @@ def axis_signs_of(spec, combo, table):
     return out
 
 
+def axis_sign_key(ok, total, slides, side_rank, k):
+    """The order `solve_axis_signs` ranks combinations by, smallest wins: most links routed,
+    shortest total centre line (to 1e-6 mm), least total slide, then (EXO-444, 0 for an arm
+    without the wrist side rule) the wrist side rank, then the lowest combination."""
+    return (-ok, round(total, 6), round(sum(abs(v) for v in slides.values()), 6), side_rank, k)
+
+
 def solve_axis_signs(spec, joints, by_child, shift, links, table, rep, order,
                      only=None, scores=None):
     """Solve every axis sign `axis_sign_rule` left free AND the EXO-170 slides, together.
@@ -2332,6 +2339,7 @@ def solve_axis_signs(spec, joints, by_child, shift, links, table, rep, order,
     free = [lab for lab, f in table.items() if f['solved']]
     free.sort()
     best = None
+    rule = wrist_side_rule(spec, joints, by_child)
     # `only` / `scores` (EXO-218) are how the enumeration is spread over processes: `only`
     # restricts it to a subset of the 2^n combinations and `scores` collects
     # (key, combo, slides) for every one tried, so the runs can be merged and the SAME rule
@@ -2371,16 +2379,25 @@ def solve_axis_signs(spec, joints, by_child, shift, links, table, rep, order,
                 except ValueError:
                     break
                 spun[b] = (g.frame_spun(RB, spin), tB)
-        key = (-ok, round(total, 6), round(sum(abs(v) for v in slides.values()), 6), k)
+        # EXO-444: the wrist side rule (G1 right arm only, `spec['wrist_side']`): a TIE-BREAK
+        # after links, centre line and slide - before the lowest combination. 0 everywhere
+        # for an arm without the rule, so its answer is what it always was.
+        side_rank, side_off = 0, None
+        if rule is not None:
+            side_rank, side_off = g.wrist_side_rank(rule, frames)
+        key = axis_sign_key(ok, total, slides, side_rank, k)
         if scores is not None:
             scores.append({'k': k, 'key': list(key), 'combo': dict(combo),
                            'slides': dict(slides), 'ok': ok, 'total': total,
-                           'why': list(why)})
+                           'why': list(why), 'side_rank': side_rank,
+                           'side_offset_mm': side_off})
         if best is None or key < best[0]:
             best = (key, combo, frames, why, slides, srows)
     if best is None:
         raise ValueError('no axis-sign combination was tried')
     key, combo, frames, why, slides, srows = best
+    if rule is not None:
+        rep(wrist_side_line(rule, frames, key[3]))
     rep('Module axis direction, the one thing the URDF does not fix (EXO-158):')
     for lab in sorted(table):
         f = table[lab]
@@ -2392,6 +2409,99 @@ def solve_axis_signs(spec, joints, by_child, shift, links, table, rep, order,
         else:
             rep('  %-3s %+d - %s' % (lab, f['axis_sign'], f['why']))
     return frames, combo, slides, srows
+
+
+# ---------------- EXO-444: the wrist side rule and its reach check ----------------
+# The rule and its reasons are in armgen (`WRIST_OUTER_MAX_MM` and the comment above it): it is
+# specific to the G1 right arm's wrist, carried by `spec['wrist_side']`, and an arm without that
+# key (Gento Luna) is solved exactly as before.
+
+def wrist_side_rule(spec, joints, by_child):
+    """The spec's 'wrist_side' rule with its world `outer` direction derived from the URDF
+    (`armgen.outer_direction` at the rule's joint), or None for an arm without the rule."""
+    r = spec.get('wrist_side')
+    if not r:
+        return None
+    jname = dict((j['label'], j['name']) for j in spec_joints(spec))[r['joint']]
+    t_w, ax_w = g.joint_world_pose(jname, joints, by_child)
+    out = dict(r)
+    out['outer'] = g.outer_direction(t_w, ax_w)
+    out['joint_world'] = t_w
+    return out
+
+
+def wrist_side_line(rule, frames, rank):
+    """One report line for the tie-break, with the numbers it read."""
+    _r, off = g.wrist_side_rank(rule, frames)
+    return ('Wrist side rule (EXO-444, %s only): outer = world (%+.3f, %+.3f, %+.3f), derived '
+            'from %s\'s world y %+.4f m (away from the sagittal midplane), square to its axis; '
+            '%s origin %+.3f mm to the outer side of the %s axis -> %s (want %s)%s'
+            % (rule.get('arm', 'this arm'), rule['outer'][0], rule['outer'][1], rule['outer'][2],
+               rule['joint'], rule['joint_world'][1], rule['module'], off, rule['joint'],
+               'INNER' if off < 0 else 'OUTER', rule.get('side', 'inner'),
+               '' if not rank else ' - the rule could not be met by any tied combination'))
+
+
+def link_points(route, step=ACT_STEP):
+    """Surface samples of the WHOLE link in its rotor-pad frame A (mm): `link_samples` (ribbon,
+    collar, pad, stop block, fused top) plus the landing plate's outline on both its faces."""
+    pts = [p for _part, p in link_samples(route, step=step)]
+    num = route['numbers']
+    Rt = route.get('R_t') or route['R_b']
+    t = num['t_ab']
+    for sg in route['flange']:
+        for (x, y) in g._seg_points(sg, step):
+            for z in (g.STATOR_UNDERSIDE_Z - g.PAD_T, g.STATOR_UNDERSIDE_Z):
+                pts.append([t[i] + Rt[i][0] * x + Rt[i][1] * y + Rt[i][2] * z
+                            for i in range(3)])
+    return pts
+
+
+def wrist_outer_reach(rule, frames, routes):
+    """EXO-444 check: how far every module in rule['reach_modules'] and every link in
+    rule['reach_links'] reaches to the outer side of the rule's joint axis, mm.
+    `routes` {link name: (a, route)}. Returns rows [(what, reach_mm)], farthest first."""
+    R7, t7 = frames[rule['joint']]
+    t7m = [v * 1000.0 for v in t7]
+    o = rule['outer']
+    rows = []
+    for lab in rule['reach_modules']:
+        R, t = frames[lab]
+        rows.append(('%s module' % lab,
+                     g.module_support(R, [v * 1000.0 for v in t], o) - g.dot(t7m, o)))
+    for name in rule['reach_links']:
+        if name not in routes:
+            rows.append((name, None))
+            continue
+        a, route = routes[name]
+        RA, tA = frames[a]
+        best = -1e18
+        for p in link_points(route):
+            w = [g.dot([RA[i][k] for k in range(3)], p) + tA[i] * 1000.0 for i in range(3)]
+            best = max(best, g.outer_offset(w, t7m, o))
+        rows.append((name, best))
+    rows.sort(key=lambda r: -1e18 if r[1] is None else -r[1])
+    return rows
+
+
+def wrist_outer_check(rule, frames, routes):
+    """`wrist_outer_reach` against rule['max_outer_mm']: returns (rows, report line) and RAISES
+    ValueError, by name and number, if anything reaches farther or a named link is missing."""
+    rows = wrist_outer_reach(rule, frames, routes)
+    lim = rule['max_outer_mm']
+    R7 = frames[rule['joint']][0]
+    loc = [g.dot(rule['outer'], [R7[i][k] for i in range(3)]) for k in range(3)]
+    line = ('Wrist outer-side check (EXO-444): outer = %s module (%+.3f, %+.3f, %+.3f) on the spun '
+            'frames; reach to the outer side of the %s axis, need <= %.1f mm: %s'
+            % (rule['joint'], loc[0], loc[1], loc[2], rule['joint'], lim, ', '.join(
+                '%s %s' % (w, 'NOT SIZED' if v is None else '%.3f' % v) for w, v in rows)))
+    bad = [(w, v) for w, v in rows if v is None or v > lim + 1e-9]
+    if bad:
+        raise ValueError('EXO-444 wrist outer-side check FAILED: %s (limit %.1f mm to the outer '
+                         'side of the %s axis, where the cuff and the operator\'s forearm go)'
+                         % (', '.join('%s %s' % (w, 'not sized' if v is None else '%.3f mm' % v)
+                                      for w, v in bad), lim, rule['joint']))
+    return rows, line
 
 
 # ---------------- default rounding (EXO-151) ----------------
@@ -2459,6 +2569,13 @@ def verify_solved(spec, joints, by_child, shift, links, table, rep, order):
     # the VERIFY lines above - every pair fits and every slide is minimal - so the slide
     # table is left to report the slides themselves.
     rows = []
+    rule = wrist_side_rule(spec, joints, by_child)
+    if rule is not None:
+        rank, _off = g.wrist_side_rank(rule, frames)
+        rep(wrist_side_line(rule, frames, rank))
+        if rank:
+            raise ValueError('the precomputed axis signs put %s on the wrong side of the %s '
+                             'axis (EXO-444 wrist side rule)' % (rule['module'], rule['joint']))
     rep('Module axis direction, the one thing the URDF does not fix (EXO-158):')
     for lab in sorted(table):
         f = table[lab]

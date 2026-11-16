@@ -2952,6 +2952,113 @@ for _lk, _a, _b, _pr, _first_rim, _first_st in (('12', 'J1', 'J2', 26.0, 345.0, 
         close('EXO-421: link_%s %s digit reads from outside (u x v = outward n, world)' % (_lk, c['face']),
               _w, armgen.matvec(_JLR[_a if c['end'] == 'rotor' else _b], c['n']), 1e-6)
 
+
+# ---------------- EXO-444: the wrist side rule (G1 right arm only) ----------------
+# Among (J6, J7) axis-sign combinations that tie on links, centre line and slide, keep the one
+# whose J6 module sits on the INNER side of the J7 axis; and nothing from J5 to J7 may reach more
+# than 40 mm to the OUTER side of the J7 axis (the cuff's and the operator's forearm's side).
+print()
+import time as _time  # noqa: E402
+_t444 = _time.time()
+_SP444 = _BG.G1_SPEC
+_SH444, _ = armgen.joint_world_pose(_SP444['origin_at'], joints, by_child)
+_L444 = sweepgen.spec_links(_SP444)
+_O444 = [j['label'] for j in sweepgen.spec_joints(_SP444)]
+_s444, _l444, _T444 = sweepgen.seed_frames(_SP444, joints, by_child, _SH444)
+_RULE = sweepgen.wrist_side_rule(_SP444, joints, by_child)
+_t7w, _a7w = armgen.joint_world_pose('right_wrist_yaw_joint', joints, by_child)
+close('EXO-444: outer is DERIVED - world -Y for the right wrist (y %.4f m), square to the J7 axis'
+      % _t7w[1], _RULE['outer'], [0.0, -1.0, 0.0], 1e-3)
+close('EXO-444: and it is square to the J7 axis', armgen.dot(_RULE['outer'], _a7w), 0.0, 1e-12)
+close('EXO-444: a left wrist (mirrored y) gets world +Y from the same code',
+      armgen.outer_direction([_t7w[0], -_t7w[1], _t7w[2]], _a7w), [0.0, 1.0, 0.0], 1e-3)
+try:
+    armgen.outer_direction([0.1, 0.0, 0.0], _a7w)
+    _mid = False
+except ValueError:
+    _mid = True
+close('EXO-444: a joint on the sagittal midplane has no outer side and says so', _mid, True, 0)
+close('EXO-444: the rule is on the G1 spec only (Luna is solved exactly as before)',
+      [_RULE is not None, sweepgen.wrist_side_rule(_BG.LUNA_SPEC, joints, by_child) is None],
+      [True, True], 0)
+close('EXO-444: the check limit is 40 mm', _RULE['max_outer_mm'], 40.0, 0)
+# the four combinations at the solved J6 slide (EXO-441: all four tie at 6/6, 410.016 mm, -29.906)
+_SL444 = {'J1': 0.0, 'J2': 0.0, 'J3': 0.0, 'J4': 0.0, 'J5': 0.0, 'J6': -29.90625, 'J7': 0.0}
+_ranks, _offs = [], []
+for _k in range(4):
+    _cb = {'J6': 1 if _k & 1 == 0 else -1, 'J7': 1 if _k & 2 == 0 else -1}
+    _fr, _l, _t = sweepgen.seed_frames(_SP444, joints, by_child, _SH444, signs=_cb, slides=_SL444)
+    _rk, _of = armgen.wrist_side_rank(_RULE, _fr)
+    _ranks.append(_rk)
+    _offs.append(_of)
+close('EXO-444: J6 +1 puts the module OUTSIDE the J7 axis, J6 -1 INSIDE, whatever J7 is (rank)',
+      _ranks, [1, 0, 1, 0], 0)
+close('EXO-444: by the J6 slide, 29.9 mm either side (offset of the J6 origin, mm)',
+      _offs, [29.915, -29.897, 29.915, -29.897], 0.01)
+# the ranking itself, on the tie EXO-441 measured: the side rank decides before the lowest k
+_TOT = 410.01597048410025
+_keys = [sweepgen.axis_sign_key(6, _TOT + 1e-13 * _k, _SL444, _ranks[_k], _k) for _k in range(4)]
+close('EXO-444: the tie-break takes k = 1 (J6 -1, J7 +1); without the rule it took k = 0',
+      [min(range(4), key=lambda _k: _keys[_k]),
+       min(range(4), key=lambda _k: sweepgen.axis_sign_key(6, _TOT, _SL444, 0, _k))], [1, 0], 0)
+close('EXO-444: it is only a TIE-break - one more link routed or a shorter line still wins',
+      [sweepgen.axis_sign_key(6, _TOT, _SL444, 1, 0) < sweepgen.axis_sign_key(5, _TOT, _SL444, 0, 1),
+       sweepgen.axis_sign_key(6, _TOT - 0.01, _SL444, 1, 0) < sweepgen.axis_sign_key(6, _TOT, _SL444, 0, 1)],
+      [True, True], 0)
+
+
+def _reach444(cb):
+    _fr, _l, _t = sweepgen.seed_frames(_SP444, joints, by_child, _SH444, signs=cb, slides=_SL444)
+    _st = sweepgen.joint_stops(_SP444, joints, _L444, sweepgen.axis_signs_of(_SP444, cb, _T444))
+    _f2, _sp = sweepgen.solve_spins(_fr, _L444, stops=_st)
+    _rt = {}
+    for _n, _a, _b, _pr, _w in _L444:
+        if _n in _RULE['reach_links']:
+            _Rab, _tab = armgen.relative_frame(_f2[_a][0], _f2[_a][1], _f2[_b][0], _f2[_b][1])
+            _rt[_n] = (_a, sweepgen.sweep_route(_Rab, _tab, _pr, _w, **dict(_st.get(_a, {}))))
+    return _f2, _rt
+
+
+_FB, _RB = _reach444({'J6': -1, 'J7': 1})
+_FA, _RA = _reach444({'J6': 1, 'J7': 1})
+_rowsB, _lineB = sweepgen.wrist_outer_check(_RULE, _FB, _RB)
+_rB = dict(_rowsB)
+close('EXO-444: the chosen wrist passes the check: farthest link_67 29.59, J5 27.02, link_56 27.02, '
+      'J7 27.00 mm, J6 on the inner side',
+      [_rB['link_67'], _rB['J5 module'], _rB['link_56'], _rB['J7 module'], _rB['J6 module'] < 0],
+      [29.592, 27.022, 27.016, 27.001, True], 0.01)
+close('EXO-444: outer = J7 module -X on the spun frames (EXO-443)',
+      [armgen.dot(_RULE['outer'], [_FB['J7'][0][i][k] for i in range(3)]) for k in range(3)],
+      [-1.0, 0.0, 0.0], 1e-3)
+_rA = dict(sweepgen.wrist_outer_reach(_RULE, _FA, _RA))
+close('EXO-444: the old wrist (J6 +1) reaches J6 XL330 66.42, link_56 62.42, link_67 37.92 (EXO-443 '
+      '66.4 / 62.4 / 37.9)', [_rA['J6 module'], _rA['link_56'], _rA['link_67']],
+      [66.420, 62.422, 37.918], 0.01)
+try:
+    sweepgen.wrist_outer_check(_RULE, _FA, _RA)
+    _why444 = ''
+except ValueError as _e:
+    _why444 = str(_e)
+close('EXO-444: and the check REFUSES it, naming the J6 module and link_56 with their numbers',
+      ['FAILED' in _why444, 'J6 module 66.420 mm' in _why444, 'link_56 62.422 mm' in _why444],
+      [True, True, True], 0)
+try:
+    sweepgen.wrist_outer_check(_RULE, _FB, {'link_56': _RB['link_56']})
+    _miss = False
+except ValueError as _e:
+    _miss = 'link_67 not sized' in str(_e)
+close('EXO-444: a link the check cannot size is a failure too, not a pass', _miss, True, 0)
+# the module support function against the boxes it is made of
+_I3 = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+close('EXO-444: module reach - radial = the r 27.001 shell, down the axis = the XL330 back -36.5, '
+      'along +Y = the stator (27.001 > the XL330 24.5)',
+      [armgen.module_support(_I3, [0.0, 0.0, 0.0], [1.0, 0.0, 0.0]),
+       armgen.module_support(_I3, [0.0, 0.0, 0.0], [0.0, 0.0, -1.0]),
+       armgen.module_support(_I3, [0.0, 0.0, 0.0], [0.0, 1.0, 0.0]),
+       armgen.module_support(_I3, [0.0, 0.0, 0.0], [0.0, 0.0, 1.0])],
+      [27.001, 36.5, 27.001, 0.0], 1e-9)
+print('EXO-444 checks took %.1f s' % (_time.time() - _t444))
+
 print()
 if fails:
     print('FAILED:', fails)

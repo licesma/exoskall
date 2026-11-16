@@ -4170,3 +4170,84 @@ def classify_interference(name_a, name_b, bbox, module_internal=False):
         if depth <= INTERFERENCE_DEPTH_TOL:
             return 'sliver'
     return 'FAIL'
+
+
+# ---------------- EXO-444: the wrist side rule (G1 right arm, this wrist only) ----------------
+# Esteban, 2026-11-16: the operator hugs the exoskeleton from OUTSIDE (its shoulders are
+# narrower than a human's), so the wrist cuff must hang on the OUTER side of the arm, away from
+# the torso. On the G1 right arm all four (J6, J7) axis-sign combinations tie on every number the
+# solve reads (6/6 links, 410.016 mm of centre line, J6 slide -29.906 mm, EXO-441/443), and the
+# last tie-break (lowest combination) put the J6 module OUTSIDE the J7 axis (J7 module frame
+# x -29.9, its XL330 to x -66.4): exactly where the cuff and the operator's forearm go.
+#
+# The rule, SPECIFIC TO THIS ARM AND THIS WRIST (it is a constraint, not a model of the human):
+#   1. tie-break: among combinations that tie on links routed, centre line and total slide,
+#      keep the one whose `module` (J6) sits on the INNER side of the `joint` (J7) axis; the
+#      lowest combination still decides what is left (here J7 +1). Result on G1: J6 -1, J7 +1,
+#      J6 slide -29.906, the J7 frame unchanged.
+#   2. check: no module or link from J5 to J7 may reach more than WRIST_OUTER_MAX_MM (40) to
+#      the outer side of the J7 axis; the build refuses, by name and number, otherwise.
+# "Outer" is DERIVED, not a hard-coded sign: the URDF base frame's XZ plane is the robot's
+# sagittal midplane (G1: pelvis frame, the arms at y +-0.149 at the wrist), so the lateral
+# direction away from the torso is world +Y or -Y by the sign of the joint's own world y,
+# projected square to the joint axis at the URDF zero pose. For the G1 right arm that is world
+# -Y = J7 module -X (EXO-443). A left arm gets +Y from the same code.
+# The general problem (an operator-aware generator: free volume along the whole arm, human
+# ranges, left and right, sizes) is NOT solved here; see .knuth/docs/exo-human-fit.md.
+WRIST_OUTER_MAX_MM = 40.0
+# The module as a CONVEX envelope for the reach check (support function, exact for each piece):
+# the stator shell and the rotor face as cylinders (MODULE_PROFILE bands 2 and 3) and the XL330
+# as its real box (CUTOUT_X x CUTOUT_Y x ACT_Z, EXO-201), not MODULE_PROFILE's r 26.1 band,
+# because the reach is measured along a direction, and the box's back at z -36.5 is the
+# farthest point when the axis points outward (the generated J6 at sign +1: -66.4).
+MODULE_REACH_CYLINDERS = ((MODULE_PROFILE[1][0], MODULE_PROFILE[1][1], MODULE_PROFILE[1][2]),
+                          (MODULE_PROFILE[2][0], MODULE_PROFILE[2][1], MODULE_PROFILE[2][2]))
+
+
+def outer_direction(t_world, axis_world):
+    """Unit world vector pointing to the arm's OUTER side (away from the torso), square to
+    `axis_world`, at the joint whose URDF-zero world position is `t_world` (m). The URDF base
+    frame's XZ plane is the sagittal midplane, so outward is the sign of the joint's world y.
+    Raises ValueError for a joint on the midplane or an axis along the lateral direction."""
+    if abs(t_world[1]) < 1e-6:
+        raise ValueError('joint at world y %.6f m: on the midplane, no outer side' % t_world[1])
+    lat = [0.0, 1.0 if t_world[1] > 0 else -1.0, 0.0]
+    a = unit(axis_world)
+    d = [lat[i] - dot(lat, a) * a[i] for i in range(3)]
+    if math.sqrt(dot(d, d)) < 0.5:
+        raise ValueError('the joint axis %r is within 60 deg of the lateral direction: '
+                         '"outer side of the axis" is not defined' % (list(axis_world),))
+    return unit(d)
+
+
+def outer_offset(p_mm, t_axis_mm, outer):
+    """How far the point p (mm) lies to the outer side of the axis through t_axis (mm)."""
+    return dot([p_mm[i] - t_axis_mm[i] for i in range(3)], outer)
+
+
+def module_support(R, t_mm, d):
+    """Farthest the module envelope (stator shell, rotor face, XL330 box) reaches along the
+    world unit direction d, as a coordinate along d: max over the module of p . d (mm).
+    R: module frame columns in world; t_mm: module origin (mm)."""
+    dl = [R[0][k] * d[0] + R[1][k] * d[1] + R[2][k] * d[2] for k in range(3)]
+    best = -1e18
+    rho = math.hypot(dl[0], dl[1])
+    for z0, z1, r in MODULE_REACH_CYLINDERS:
+        best = max(best, r * rho + max(dl[2] * z0, dl[2] * z1))
+    box = (CUTOUT_X, CUTOUT_Y, ACT_Z)
+    best = max(best, sum(max(dl[k] * box[k][0], dl[k] * box[k][1]) for k in range(3)))
+    return dot(t_mm, d) + best
+
+
+def wrist_side_rank(rule, frames):
+    """EXO-444 tie-break term: 0 if the rule's `module` sits on the rule's side ('inner') of the
+    `joint` axis at these frames, 1 if not. `rule` is the spec's 'wrist_side' dict carrying
+    'outer' (world unit vector, from `outer_direction`); `frames` {label: (R, t m)}. Returns
+    (rank, offset_mm) with offset_mm the module origin's distance to the outer side."""
+    Rj, tj = frames[rule['joint']]
+    _Rm, tm = frames[rule['module']]
+    off = outer_offset([v * 1000.0 for v in tm], [v * 1000.0 for v in tj], rule['outer'])
+    inner = off < 0.0
+    want_inner = rule.get('side', 'inner') == 'inner'
+    return (0 if inner == want_inner else 1), off
+

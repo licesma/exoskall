@@ -1,5 +1,41 @@
 # parts/: print files
 
+## Wrist side rule: link_56 and link_67 regenerated, plate joints67 rebuilt (EXO-444, 2026-11-16)
+
+The operator hugs the exo from outside, so the wrist cuff goes on the OUTER side of the arm. The
+generator had put the J6 module on the outer side of the J7 axis (J7 module x -29.9, its XL330 to
+-66.4), where the cuff and the forearm go. New generator rule, for this arm and wrist only
+(`armgen.WRIST_OUTER_MAX_MM`, `G1_SPEC['wrist_side']`): where the axis-sign combinations tie (all
+four do: 6/6 links, 410.016 mm, slide -29.906), keep J6 on the inner side of the J7 axis (J6 -1,
+J7 +1); and nothing from J5 to J7 may reach more than 40 mm to the outer side (outer derived from
+the wrist's world y: world -Y = J7 module -X). Measured on the solids: link_67 29.59, J5 27.02,
+link_56 27.02, J7 27.00, J6 on the inner side (was J6 66.42, link_56 62.42).
+
+`exo generated` v36 (0 FAIL, race clamp 127.822 x 6, bracket J1..J6 PASS, as v35). link_12 to
+link_45 are unchanged in Fusion (volume, area, faces, bounding box, centre of mass identical to v35)
+and not re-exported; `stator.3mf`, `bottom.3mf` and every other file are byte-identical. link_56 and
+link_67 are their mirror images (same lengths, landings and webs; link_67's tongue -54.378 deg
+instead of +54.378), numbers re-placed by the EXO-421 rule. **The link_56 and link_67 printed from
+the EXO-425 files are superseded: reprint them.**
+
+| File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
+|---|---|---|---|---|---|
+| `link_56.3mf` | `g_link_56` (J5 rotor to J6 stator), J6 on the inner side; numbers "5" J5 rim 90 deg, "6" J6 outer face 30 deg | 72.993 x 89.419 x 54.005 | 43475.335 | 43480.825 | 9 |
+| `link_67.3mf` | `g_link_67` (J6 rotor to J7 stator), mirrored; numbers "6" J6 rim 270 deg, "7" J7 outer face 30 deg | 102.590 x 67.494 x 59.502 | 43433.865 | 43438.326 | 9 |
+| `joints67.bambu.3mf` | Bambu plate as EXO-425: link_56 back left (x 43.7..97.7, y 116.3..205.7, 73.00 tall), link_67 back right (x 109.7..212.3, y 131.3..190.8, 67.50 tall), both **rotor side down** (joint face 410.2 mm2 on the bed; link_67's rotor axis is now arm +Y, so its bed axis is +Y), outer-only 6 mm brim each; 2 stators in front; gaps >= 11.99, margins >= 43.7; standard settings; `--plate joints67` | - | - | - | - |
+
+On the meshes: opening 20.200 x 34.200 at 8 depths x 3 lines (37.2 in y only through the EXO-341
+mark groove at z -24.6); rotor end as every link (journal r 15.05, disk r 18.00, recess r 8.00,
+centre hole r 6.90, joint face -8.000, socket top -5.900 and O3.30, counterbore O6.19 x 2.0); the
+four numbers read correctly from outside (depth raster). Orientation re-checked: rotor side up is
+still impossible (no flat face at the far end: 0.0 / 10.1 mm2), rotor side down 410.2 mm2, 73.00 /
+67.50 tall, supported 2494.7 / 2224.7 mm2 (EXO-425: 2494.5 / 2224.5), CoM 9.9 / 7.9 outside the
+r 15.05 foot, so the 6 mm brim stays.
+
+J7 clearance with the manual 01 + clamp 07 + hand base + enclosure 10 as stand-ins on the real
+links (EXO-441 method, 2 mm): J7 -55..+80 at J6 0, -50..+80 for |J6| <= 30, -35..+80 over the full
+J6 range; the same as the study. Not sliced, not printed.
+
 ## Six stators, plate stators6 (EXO-435, 2026-11-16)
 
 | File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
@@ -48,6 +84,9 @@ Rough estimate (slices, solid shells ignored): standard 60 g, with the modifiers
 whole part at 4 walls / 30% 113 g (+53 g), whole part at 4 / 40% 134 g (+74 g).
 
 ## Links 56 and 67, plate joints67 (EXO-425, 2026-11-14)
+
+Superseded by EXO-444 (top of this file): both links regenerated with J6 on the inner side; the
+numbers below are the EXO-425 files.
 
 First export of the last two right arm links, from `exo generated` v35 (the EXO-421 build: opening
 20.2 x 34.2, joint numbers), High refinement, arm coordinates, export only (document unmodified,
