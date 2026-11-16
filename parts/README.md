@@ -1,5 +1,11 @@
 # parts/: print files
 
+## Six stators, plate stators6 (EXO-435, 2026-11-16)
+
+| File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
+|---|---|---|---|---|---|
+| `stators6.bambu.3mf` | Bambu plate: six copies of the current `stator.3mf` (seat 42.1, unchanged), stator_1..6, as exported (underside on the bed, as on joints34 / joints67), rows of 3 + 3 at 64.5 pitch: x 36.5..219.5, y 68.75..187.25, 24.1 tall; gaps 10.50, margins >= 36.5, exclude zone clear; each mesh block md5 = the one generated from `stator.3mf` (25680.834 mm3); standard settings (PLA-CF Matcha Green, normal supports 30 / 0.15 / 3 / 0.2, global brim off, `different_settings_to_system`); `--plate stators6` | - | - | - | - |
+
 ## Chest mount with hooks, plate chest_mount (EXO-429, 2026-11-14)
 
 The chest mount to print. It is the NEWER version (EXO-427 version B): component `chest mount`

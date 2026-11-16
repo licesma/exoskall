@@ -15,6 +15,7 @@
     python3 -I tools/bambu_plate_exo343.py --plate links345     # links345.bambu.3mf (EXO-422): link_23, link_34, link_45
     python3 -I tools/bambu_plate_exo343.py --plate joints67     # joints67.bambu.3mf (EXO-425): link_56, link_67, 2x stator
     python3 -I tools/bambu_plate_exo343.py --plate chest_mount  # chest_mount.bambu.3mf (EXO-429): the hooked chest mount, dense J1 pads (modifiers)
+    python3 -I tools/bambu_plate_exo343.py --plate stators6     # stators6.bambu.3mf (EXO-435): 6x stator
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -221,8 +222,19 @@ JOINTS67_LAYOUT = [
 CHEST_MOUNT_LAYOUT = [
     ('chest_mount', 'chest_mount', ('bed', (-1, 0, 0)), (128.0, 128.0)),
 ]
+# stators6 (EXO-435): six copies of the current stator.3mf (seat 42.1), as exported (underside on the bed,
+# as on joints34 / joints67), 54 x 54 each, rows of 3 + 3 at 64.5 pitch (gap 10.5), centred on 128/128
+# (x 36.5..219.5, y 68.75..187.25), clear of the exclude zone.
+STATORS6_LAYOUT = [
+    ('stator_1', 'stator', None, (63.5, 160.25)),
+    ('stator_2', 'stator', None, (128.0, 160.25)),
+    ('stator_3', 'stator', None, (192.5, 160.25)),
+    ('stator_4', 'stator', None, (63.5, 95.75)),
+    ('stator_5', 'stator', None, (128.0, 95.75)),
+    ('stator_6', 'stator', None, (192.5, 95.75)),
+]
 PLATES = {
-    'link': (os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
+    'link':(os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
     'all': (os.path.join(PARTS, 'all.bambu.3mf'), 'all', ALL_LAYOUT),
     'joints2': (os.path.join(PARTS, 'joints2.bambu.3mf'), 'joints2', J2_LAYOUT),
@@ -235,6 +247,7 @@ PLATES = {
     'links345': (os.path.join(PARTS, 'links345.bambu.3mf'), 'links345', LINKS345_LAYOUT),
     'joints67': (os.path.join(PARTS, 'joints67.bambu.3mf'), 'joints67', JOINTS67_LAYOUT),
     'chest_mount': (os.path.join(PARTS, 'chest_mount.bambu.3mf'), 'chest_mount', CHEST_MOUNT_LAYOUT),
+    'stators6': (os.path.join(PARTS, 'stators6.bambu.3mf'), 'stators6', STATORS6_LAYOUT),
 }
 # EXO-364: top / link_12 / link_23 re-exported with the rotor key (was 5786.178 / 40392.766 / 45818.953)
 SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom': 3865.634,
@@ -270,6 +283,7 @@ PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
 PLATE_MARGIN.update({'links345': 10.0})   # EXO-422
 PLATE_MARGIN.update({'joints67': 10.0})   # EXO-425
 PLATE_MARGIN.update({'chest_mount': 10.0})   # EXO-429
+PLATE_MARGIN.update({'stators6': 10.0})   # EXO-435
 # EXO-406: default filament for plates built from now on: Bambu PLA-CF, Matcha Green. Values =
 # preset "Bambu PLA-CF @BBL X1C" (GFSA50_01; lists P1S 0.4 nozzle as compatible) with inheritance
 # resolved (-> @base -> fdm_filament_pla -> fdm_filament_common, include
