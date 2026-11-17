@@ -18,6 +18,7 @@
     python3 -I tools/bambu_plate_exo343.py --plate stators6     # stators6.bambu.3mf (EXO-435): 6x stator
     python3 -I tools/bambu_plate_exo343.py --plate link7h       # link7h.bambu.3mf (EXO-445): end link link_7h + 1 bottom
     python3 -I tools/bambu_plate_exo343.py --plate clamp07      # clamp07.bambu.3mf (EXO-445): wrist clamp 07, 6 pieces
+    python3 -I tools/bambu_plate_exo343.py --plate camera_support  # camera_support.bambu.3mf (EXO-451): the neck, lying on its back
     python3 -I tools/bambu_plate_exo343.py [--plate P] --check [file]   # read back only
 
 Plates are specs in PLATES (output, title, layout); add one there instead of copying the script.
@@ -273,6 +274,21 @@ CLAMP07_LAYOUT = [
     ('button', 'clamp07_button', ('bed', (0.0, 0.542712, -0.839919)), (169.625, 75.515)),
     ('spring', 'clamp07_spring', ('bed', (1, 0, 0)), (203.13, 75.515)),
 ]
+# camera_support (EXO-451): the neck from the chest mount to the camera (`Camera support` of `arm complete`
+# v35, arm frame). LYING ON ITS BACK: the x -45 back face of the vertical strip (4905.2 mm2, flush with the
+# chest mount's x -45 face, the two M4 nut pockets open on it) on the bed (R maps -X onto -Z); 180.91 x 60.00,
+# 108.49 tall. Every layer is a y-z plane, so the strip and the foot, where the bending moment of the
+# cantilevered camera is largest, bend along their layers; only the top of the bend and the camera plate run
+# across layers (short lever). Standing up (as assembled) would put the layers across the bending direction
+# at the foot (250 mm2 foot, 181 tall); on a side face it rests on the camera plate's 110 mm2 edge with the
+# whole neck side 5 mm up on supports. Supported (threshold 30): the start of the bend's outer (back) face
+# 1832.5 mm2, 0..9.4 above the bed; the roofs of the four strap receiver channels 4 x 59.6 mm2 at 12.3..13.2;
+# the O4.2 hole ceilings over the two nut pockets 2 x 33.6 mm2 at 4.0. Clean: the tongue's three mating faces
+# (vertical walls and the top face at 5.0) and the camera face (sloped up, 47.5 deg from vertical). CoM 13 mm
+# past the foot's end, over the bend's supports. No brim (large foot).
+CAMERA_SUPPORT_LAYOUT = [
+    ('camera_support', 'camera_support', ('bed', (-1, 0, 0)), (128.0, 128.0)),
+]
 PLATES = {
     'link':(os.path.join(PARTS, 'link.bambu.3mf'), 'link', LINK_LAYOUT),
     'joints4': (os.path.join(PARTS, 'joints4.bambu.3mf'), 'joints4', J4_LAYOUT),
@@ -290,6 +306,7 @@ PLATES = {
     'stators6': (os.path.join(PARTS, 'stators6.bambu.3mf'), 'stators6', STATORS6_LAYOUT),
     'link7h': (os.path.join(PARTS, 'link7h.bambu.3mf'), 'link7h', LINK7H_LAYOUT),
     'clamp07': (os.path.join(PARTS, 'clamp07.bambu.3mf'), 'clamp07', CLAMP07_LAYOUT),
+    'camera_support': (os.path.join(PARTS, 'camera_support.bambu.3mf'), 'camera_support', CAMERA_SUPPORT_LAYOUT),
 }
 # EXO-364: top / link_12 / link_23 re-exported with the rotor key (was 5786.178 / 40392.766 / 45818.953)
 SOURCE_V = {'stator': 25680.834, 'link_12': 40406.203, 'top': 5772.270, 'bottom': 3865.634,
@@ -326,6 +343,7 @@ SOURCE_V.update({'chest_mount': 212133.928})
 SOURCE_V.update({'link_7h': 48556.443, 'clamp07_side0_nuts': 37079.175, 'clamp07_side0_heads': 37045.736,
                  'clamp07_button': 942.198, 'clamp07_lock': 3302.047, 'clamp07_spring': 674.682,
                  'clamp07_hook': 30737.186})
+SOURCE_V.update({'camera_support': 87394.074})   # EXO-451 (Fusion 87389.842)
 MARGIN = 8.0   # min distance of every object to the bed edge (brim)
 PLATE_MARGIN = {'joints2': 10.0, 'links2': 10.0}   # stricter per-plate margins (EXO-369)
 PLATE_MARGIN.update({'links34': 10.0, 'joints34': 10.0})   # EXO-402
@@ -334,6 +352,7 @@ PLATE_MARGIN.update({'joints67': 10.0})   # EXO-425
 PLATE_MARGIN.update({'chest_mount': 10.0})   # EXO-429
 PLATE_MARGIN.update({'stators6': 10.0})   # EXO-435
 PLATE_MARGIN.update({'link7h': 10.0, 'clamp07': 10.0})   # EXO-445
+PLATE_MARGIN.update({'camera_support': 10.0})   # EXO-451
 # EXO-406: default filament for plates built from now on: Bambu PLA-CF, Matcha Green. Values =
 # preset "Bambu PLA-CF @BBL X1C" (GFSA50_01; lists P1S 0.4 nozzle as compatible) with inheritance
 # resolved (-> @base -> fdm_filament_pla -> fdm_filament_common, include

@@ -1,5 +1,53 @@
 # parts/: print files
 
+## Camera support (neck), plate camera_support (EXO-451, 2026-11-16)
+
+The neck from the chest mount up to the camera. Source: component `Camera support` (Body1) of `arm complete`
+v35 (2026-05-28), identity occurrence, arm frame (same frame as `chest_mount.3mf`); the same body (V
+87389.842, 206 faces) is in `arm complete BACKUP 2026-08-08`, `arm test` and, hidden, `arm complete luna`.
+It is the newest of three: the April neck (root Body31 of `arm` v41 / `arm 2`, hidden; no strap receivers,
+O5.2 holes, no hex nut pockets) and the standalone doc `/body mount/arm complete_Camera support` (05-24,
+87885.828; fixed side ears instead of the four receivers) are older. Copied (B-rep, arm frame) with the two
+strap clips into the new Fusion doc `/body mount/camera support (from arm complete)` (saved, confirmed);
+nothing else touched (`tools/bridge_scripts/export_exo451.py`).
+
+Shape: a 50 wide, 5 thick strip standing at the back (x -45..-40) from z 17.2, an R70 bend forward over the
+top, and a camera plate at the front end tilted 47.6 deg down (normal (0.675, 0, -0.738)); 108.5 x 60 x 180.9.
+At the foot a 50 x 15 x 5 tongue drops into the chest mount's top notch and a 50 x 5 cap sits on the notch's
+back wall (z 32.211). Four knuckle receivers on the inner face (z 73.6..112.7) take strap clips.
+
+| File | Part | bbox (mm) | Mesh V (mm3) | Fusion V (mm3) | genus |
+|---|---|---|---|---|---|
+| `camera_support.3mf` | `Camera support` of `arm complete` v35, arm frame | 108.494 x 60.000 x 180.906 | 87394.074 | 87389.842 | 4 |
+| `camera_support.bambu.3mf` | Bambu plate: **lying on its back** (x -45 face, 4905.2 mm2, on the bed), 180.91 x 60.00, 108.49 tall, centred (x 37.55..218.45, y 98..158); standard settings (PLA-CF Matcha Green, normal supports 30 / 0.15 / 3 / 0.2, brim off); `--plate camera_support` | - | - | - | - |
+
+Orientation: every layer is a y-z plane, so the strip and foot (largest bending moment from the
+cantilevered camera) bend along their layers; only the top of the bend and the camera plate run across
+layers, on a short lever. Standing as assembled would stack layers across the bending direction at a
+250 mm2 foot (181 tall); on a side it rests on the camera plate's 110 mm2 edge with the whole neck side
+5 mm up on supports. Supports: the start of the bend's back face (1832.5 mm2, 0..9.4 above the bed), the
+roofs of the four receiver channels (4 x 59.6 mm2 at 12.3..13.2: clean them out), the O4.2 ceilings over
+the nut pockets (2 x 33.6 at 4.0). Clean: the tongue's mating faces and the camera face. CoM 13 mm past
+the foot's end, over the bend's supports; no brim.
+
+Fit on `chest_mount.3mf` (meshes, same frame): no overlap; the tongue sits on all five notch faces at
+0.000 (bottom z 17.211, sides y -125.22 / -75.22, back wall x -40); the M4 holes line up exactly (O4.2 at y
+-87.72 / -112.72, z 24.711, axis X, in both). **Zero clearance on the 50.0 tongue width**: narrow it to
+49.8 (0.1 a side, as the links' 20.2 / 34.2) or sand it; not changed here. J1 seats, stators, link_12 and
+hooks: along each J1 axis the neck starts 13.6 inboard of the seat origin (link_12 reaches 8.0 inboard),
+and over the pad and stator zone (0..35 inboard) it is >= 155 mm from the axis (link_12 r <= 52.2,
+stator r <= 38.2); the hooks are >= 70 mm away in y. No body of the manual arms in `arm complete` comes
+near it. Camera: 2x O3.2 at 45.0 apart with O6 counterbores on the upper side, the
+pattern of an Intel RealSense D400 (D415 / D435) back; no camera is modelled, so which one is unconfirmed.
+
+**Hardware.** Neck to chest mount: 2x M4 hex nuts (ISO 4032, 7.0 AF) in the neck's hex pockets (7.40 AF,
+4.0 deep, open on the back face), 2x M4 SHCS from inside the chest mount, heads in its O8.0 x 3.0
+counterbores: M4x6 (3.0 of the nut engaged, tip 1 mm inside the back face) or M4x8 (tip 1 mm proud of the
+back face). Camera: 2x M3 from the counterbore side, 5.0 of plate below the head, so M3x8 leaves 3 mm in
+the camera (check its thread depth). Strap clips (root Body55 / Body57 in `arm complete`, same body as
+Body58 / Body59 on the chest mount hooks) are not exported: as modelled they overlap the receivers by
+15.9 mm3 each. Not sliced, not printed, not loaded in the Bambu GUI.
+
 ## End link link_7h on J7 with clamp 07, plates link7h and clamp07 (EXO-445, 2026-11-16)
 
 A new last link on the generated arm so the wrist cuff attaches on the OUTER side (the operator hugs
