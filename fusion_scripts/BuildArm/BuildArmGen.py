@@ -63,9 +63,40 @@ NEW_JOINTS = [
     {'label': 'J7', 'name': 'right_wrist_yaw_joint'},
 ]
 NEW_LINKS = [
+    # 'width' is the MANUAL value (EXO-456: used only when WIDTH_MODE is 'manual'); 25 has no
+    # recorded reason (EXO-454).
     {'a': 'J5', 'b': 'J6', 'name': 'link_56', 'width': 25.0, 'pad_r': 27.0},
     {'a': 'J6', 'b': 'J7', 'name': 'link_67', 'width': 25.0, 'pad_r': 27.0},
 ]
+
+# EXO-456: where every link's ribbon WIDTH comes from, for both arms. ONE switch:
+#   'manual'   the per-link table, unchanged: `BuildArm.LINKS` + NEW_LINKS for G1, and Luna
+#              by link index (LUNA_DEFAULT_WIDTHS). The backup.
+#   'derived'  one width for every link of every arm, from the actuator module:
+#              `sweepgen.RIBBON_W_DERIVED` = 2 x armgen.ROTOR_PAD_R = 52 mm. A link the router
+#              refuses at that width is REFUSED by name in the report, never built at its
+#              manual width; on Luna a precomputed solve that no longer fits raises.
+# Stays 'manual' until the Fusion rebuild that flips it (EXO-456 keeps the printing arm as is).
+WIDTH_MODE = 'manual'
+WIDTH_MODES = ('manual', 'derived')
+
+
+def link_widths(links, mode=None):
+    """Copies of `links` with 'width' set by `mode` (default WIDTH_MODE). EXO-456."""
+    mode = WIDTH_MODE if mode is None else mode
+    if mode == 'manual':
+        return [dict(L) for L in links]
+    if mode == 'derived':
+        return [dict(L, width=sweepgen.RIBBON_W_DERIVED,
+                     width_why='DERIVED (EXO-456) - 2 x the module rotor pad r %.1f; manual '
+                               'table %.0f' % (armgen.ROTOR_PAD_R, L['width']))
+                for L in links]
+    raise ValueError('WIDTH_MODE %r: must be one of %s' % (mode, ', '.join(WIDTH_MODES)))
+
+
+def g1_links(mode=None):
+    """The G1 link table at `mode` (EXO-456)."""
+    return link_widths(list(BuildArm.LINKS) + NEW_LINKS, mode)
 
 # EXO-204: which joints get a GENERATED link stop - a block sized and placed from that
 # joint's own URDF <limit> by `armgen.limited_joint`, so that the rotor meets the module's
@@ -106,7 +137,7 @@ G1_SPEC = {
     'offset': (0.0, 0.0, 0.0),
     'fixed': BuildArm.JOINTS,
     'derived': NEW_JOINTS,
-    'links': [dict(L) for L in list(BuildArm.LINKS) + NEW_LINKS],
+    'links': g1_links(),
     'limited': LIMITED_JOINTS,
     'report': REPORT_PATH,
     # EXO-444: the wrist side rule, THIS ARM ONLY (see armgen `WRIST_OUTER_MAX_MM` for the why;
@@ -131,10 +162,11 @@ LUNA_ARM_NAME = 'generated_R_arm_luna'
 LUNA_REPORT_PATH = os.path.join(BuildArm.REPO_DIR, 'gento_luna', 'exo', 'exports',
                                 'buildarm_luna_report.txt')
 LUNA_JOINTS = [{'label': 'R%d' % k, 'name': 'Arm_R%d_Joint' % k} for k in range(1, 8)]
-# WIDTH is Esteban's one input per link (EXO-96) and there is no hand-made Luna link to take
-# it from, so each link DEFAULTS to the width the G1 arm's link of the same index carries -
-# 52 / 25 / 52 / 44 / 25 / 25 - and the same for the rotor pad radius, 26 / 27 / 26 / 27 /
-# 27 / 27. Both are reported as defaults at every run. There is no per-joint override.
+# MANUAL mode (EXO-456 WIDTH_MODE 'manual'): WIDTH is Esteban's one input per link (EXO-96)
+# and there is no hand-made Luna link to take it from, so each link DEFAULTS to the width the
+# G1 arm's link of the same index carries - 52 / 25 / 52 / 44 / 25 / 25 - and the same for the
+# rotor pad radius, 26 / 27 / 26 / 27 / 27 / 27. Both are reported as defaults at every run.
+# There is no per-joint override. In 'derived' mode the width is the module's (WIDTH_MODE).
 LUNA_DEFAULT_WIDTHS = tuple(L['width'] for L in list(BuildArm.LINKS) + NEW_LINKS)
 LUNA_DEFAULT_PAD_R = tuple(L['pad_r'] for L in list(BuildArm.LINKS) + NEW_LINKS)
 LUNA_LINKS = [{'a': 'R%d' % (k + 1), 'b': 'R%d' % (k + 2),
@@ -142,6 +174,12 @@ LUNA_LINKS = [{'a': 'R%d' % (k + 1), 'b': 'R%d' % (k + 2),
                'width': LUNA_DEFAULT_WIDTHS[k], 'pad_r': LUNA_DEFAULT_PAD_R[k],
                'width_why': 'DEFAULT - the G1 arm\'s link %d width' % (k + 1)}
               for k in range(6)]
+
+
+def luna_links(mode=None):
+    """The Gento Luna link table at `mode` (EXO-456)."""
+    return link_widths(LUNA_LINKS, mode)
+
 # The free axis signs and the slides, SOLVED by `sweepgen.solve_axis_signs` - the same
 # function the builder would call - run outside Fusion by `tools/luna_solve.py` and checked
 # here at every build by `sweepgen.verify_solved`. It is precomputed because the solve is
@@ -150,6 +188,8 @@ LUNA_LINKS = [{'a': 'R%d' % (k + 1), 'b': 'R%d' % (k + 2),
 # inside a Fusion session holding an unsaved document. Nothing about the RULE changes - the
 # build re-checks that every pair fits at these numbers, that no module pair is under
 # MIN_CLEARANCE, and that every non-zero slide is minimal.
+# EXO-456: solved at the MANUAL widths. In 'derived' mode the same check runs at the derived
+# width and raises, by name, if the answer no longer fits; it is not re-solved.
 LUNA_SOLVED = {
     'signs': {'R1': -1, 'R2': 1, 'R4': -1, 'R6': 1, 'R7': 1},
     'slides': {'R1': -38.0, 'R2': 29.500977, 'R3': -37.000977, 'R4': 0.0,
@@ -169,7 +209,7 @@ LUNA_SPEC = {
     'offset': (0.0, 0.6, 0.0),
     'fixed': [],
     'derived': LUNA_JOINTS,
-    'links': LUNA_LINKS,
+    'links': luna_links(),
     'limited': tuple(j['label'] for j in LUNA_JOINTS),
     'report': LUNA_REPORT_PATH,
     'solved': LUNA_SOLVED,

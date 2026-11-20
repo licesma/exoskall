@@ -102,9 +102,12 @@ JOINTS = [
 ]
 
 # Links to generate. a = rotor-pad joint, b = stator-pad joint.
-#   width:  the ribbon's width in mm - ESTEBAN'S INPUT PER LINK, never derived (EXO-96).
+#   width:  the ribbon's width in mm - ESTEBAN'S INPUT PER LINK (EXO-96), the MANUAL table.
 #           52 for the shoulder (the most loaded and shortest link, the full rotor-pad
 #           diameter of the hand-built Link 1 R) and 25 for the bar (Link 2 R).
+#           EXO-456: the general builder can derive it instead, one width from the module
+#           for every link (`BuildArmGen.WIDTH_MODE` 'derived'); this table is the 'manual'
+#           mode, kept as the backup. The legacy `generated_R_arm` here always reads it.
 #   expect: the route `armgen.route` is expected to compute ('bar' / 'L'). The router works
 #           it out from the two joint frames alone (EXO-81/EXO-96); this is an assertion,
 #           not a switch, so a pair that silently changes route stops the build.

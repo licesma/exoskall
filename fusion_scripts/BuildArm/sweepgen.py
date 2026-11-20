@@ -33,6 +33,14 @@ import armgen as g
 # ribbon are the same 8 mm plate. That is what makes the rotor pad's two seating faces flat
 # out to the rim by construction.
 RIBBON_T = g.PAD_T              # 8.0 mm
+# EXO-456: the ribbon WIDTH the derived mode gives every link (BuildArmGen.WIDTH_MODE). Every
+# joint is the same actuator module and every link leaves it through the same rotor pad, the
+# fused rotor top since EXO-370, so the width is that pad's diameter: the two ribbon walls run
+# tangent to the rim (Link 1 R's construction) and the ribbon is the widest the `sweep_route`
+# check `width / 2 <= pad_r` lets leave a pad of the module's radius. 2 x 26.0 = 52.0 mm.
+# Note: ROTOR_PAD_R's 26 was itself measured off Link 1 R, and the PER-LINK pad_r (26 / 27) is
+# still a manual input (EXO-455 item 1); 2 x MODULE_R (54) is refused by the r 26 pads.
+RIBBON_W_DERIVED = 2.0 * g.ROTOR_PAD_R
 BEND_R = 15.0                   # default centre-line radius of every bend
 WALL_R_MIN = 5.0                # the tightest radius any boundary of a bend may be left at
 LAND_WEB = 3.0                  # slab left between the actuator cutout and the ribbon
